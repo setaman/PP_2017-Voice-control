@@ -20,6 +20,7 @@
     "ejs": "~2.5.7",
     "express": "~4.15.5",
     "express-watcher": "^1.0.3",
+    "fuse.js": "^3.2.0",
     "helmet": "^3.9.0",
     "jquery": "^3.2.1",
     "jquery-ui": "^1.12.1",
