@@ -26,14 +26,12 @@ import {
     executeFocus,
     executeCheck, executeAction
 } from './actions';
-import {buildMultipleWrapper, splitUserCommand, getTypeOfElement} from "./helper";
+import {buildMultipleWrapper, splitUserCommand, getTypeOfElement, collectElementsLabel} from "./helper";
+import {fuzzySearch} from "./fuzzy_search";
 
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 //import '../css/vocs_styles.css'
-//import 'chosen-js'
-
-
 import speechRecognition from './visualizer';
 
 let currentElements = [];
@@ -67,6 +65,8 @@ window.onload = function () {
         let t0 = performance.now();
 
         let userCommand = input.toString().toLowerCase().trim();
+        console.log('FUZZY:' + userCommand);
+        console.log(fuzzySearch(collectElementsLabel(CLICK_SELECTORS), userCommand));
 
         let result;
 

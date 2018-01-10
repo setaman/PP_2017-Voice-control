@@ -80,9 +80,9 @@ export function searchForCheckboxesAndRadios(selector, userInput) {
         for (let i = 0; i < selectedElements.length; i++) {
 
             elem = selectedElements[i];
-            let id = $(elem).attr('id');
+            let label = getLabel($(elem).attr('id'));
 
-            if (isVisible(getLabel(id)) && getLabel(id).textContent.toLowerCase().trim().startsWith(userInput)) {
+            if (isVisible(label) && label.textContent.toLowerCase().trim().startsWith(userInput)) {
                 foundedElements.push(elem);
             }
         }
@@ -121,14 +121,14 @@ export function searchForSelect(selector, userInput) {
  */
 
 /**
- * FIXME: why unfeasible(in flow) element always selected?
+ * FIXME: why invisible(in flow) element always selected?
  */
-function isVisible(elem) {
+export function isVisible(elem) {
     let top_of_element = $(elem).offset().top;
     let bottom_of_element = $(elem).offset().top + $(elem).outerHeight();
     let bottom_of_screen = $(window).scrollTop() + $(window).height();
     let top_of_screen = $(window).scrollTop();
-    return (bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element);
+    return (bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element) && !$(elem).is(':hidden');
 }
 
 function hasValueAttribute(element, userInput) {

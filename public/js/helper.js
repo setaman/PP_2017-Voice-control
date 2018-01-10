@@ -1,4 +1,5 @@
 import {CLICK_SELECTORS, GO_TO_SELECTORS, CHECK_SELECTORS, SELECT_SELECTORS, SEARCH_SELECTORS, TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_CLICKABLE} from "./const";
+import {isVisible} from './search_for_elements';
 
 export function generateId(i) {
     return 'vocs_multiple_select_wrapper_' + i;
@@ -39,4 +40,19 @@ export function getTypeOfElement(element) {
     } else if ($(element).is(selectable)){
         return typeS;
     }
+}
+
+function ElementLabel(label) {
+    this.label = label;
+}
+
+export function collectElementsLabel(selector) {
+    let elements = [];
+    $(selector).each(function () {
+        if (isVisible(this) && !($(this).is('li') && $(this).has('a'))){
+            elements.push({label: $(this).text().trim().toLowerCase()});
+        }
+    });
+
+    return elements;
 }

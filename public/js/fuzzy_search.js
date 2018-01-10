@@ -7,13 +7,18 @@ let options = {
     distance: 100,
     maxPatternLength: 32,
     minMatchCharLength: 1,
-    keys: [
-        "title",
-        "author.firstName"
-    ]
+    keys: 'label',
+    label: 'label'
 };
 
-export function fuseSearch(list) {
-    let fuse = new Fuse(list, options); // "list" is the item array
-    return fuse.search("fallen");
+let e = [
+    {label: 'home'},
+    {label: 'ho'},
+    {label: 'me'},
+    {label: 'he'}
+];
+
+export function fuzzySearch(list, searchString) {
+    let fuse = new Fuse(e, options);
+    return fuse.search(searchString);
 }

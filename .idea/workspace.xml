@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/public/js/fuzzy_search.js" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/dist/bundle.js" afterPath="$PROJECT_DIR$/dist/bundle.js" />
       <change beforePath="$PROJECT_DIR$/dist/bundle.js.map" afterPath="$PROJECT_DIR$/dist/bundle.js.map" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change beforePath="$PROJECT_DIR$/public/js/controller.js" afterPath="$PROJECT_DIR$/public/js/controller.js" />
+      <change beforePath="$PROJECT_DIR$/public/js/fuzzy_search.js" afterPath="$PROJECT_DIR$/public/js/fuzzy_search.js" />
+      <change beforePath="$PROJECT_DIR$/public/js/helper.js" afterPath="$PROJECT_DIR$/public/js/helper.js" />
+      <change beforePath="$PROJECT_DIR$/public/js/search_for_elements.js" afterPath="$PROJECT_DIR$/public/js/search_for_elements.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,31 +22,56 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="fuzzy_search.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/js/fuzzy_search.js">
+      <file leaf-file-name="search_for_elements.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/search_for_elements.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="39" lean-forward="false" selection-start-line="0" selection-start-column="39" selection-end-line="0" selection-end-column="39" />
+              <caret line="0" column="3" lean-forward="true" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controller.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="fuzzy_search.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/fuzzy_search.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="controller.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1826">
-              <caret line="212" column="0" lean-forward="false" selection-start-line="212" selection-start-column="0" selection-end-line="212" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="483">
+              <caret line="67" column="42" lean-forward="false" selection-start-line="67" selection-start-column="42" selection-end-line="67" selection-end-column="42" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#44#660#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/fuse.js/src/index.js">
+      <file leaf-file-name="helper.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/helper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2112">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="608">
+              <caret line="51" column="59" lean-forward="false" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
+              <folding>
+                <element signature="e#0#159#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/index.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="190" column="40" lean-forward="false" selection-start-line="190" selection-start-column="40" selection-end-line="190" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -65,7 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>che</find>
       <find>chek</find>
       <find>orange</find>
       <find>check</find>
@@ -95,6 +119,7 @@
       <find>subsc</find>
       <find>country</find>
       <find>mysi</find>
+      <find>first list gro</find>
     </findStrings>
     <dirStrings>
       <dir>G:\Projects\PP_2017-Voice-control</dir>
@@ -141,7 +166,6 @@
         <option value="$PROJECT_DIR$/public/stylesheets/style_controller.css" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/public/stylesheets/vocs_styles.css" />
-        <option value="$PROJECT_DIR$/public/js/helper.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/style_index.css" />
         <option value="$PROJECT_DIR$/public/components/jquery-ui-dist/jquery-ui.min.css" />
         <option value="$PROJECT_DIR$/public/stylesheets/materialize.css" />
@@ -152,14 +176,15 @@
         <option value="$PROJECT_DIR$/public/css/index_css/semantic/bootstrap.css" />
         <option value="$PROJECT_DIR$/public/css/index_css/style_index.css" />
         <option value="$PROJECT_DIR$/views/index.ejs" />
-        <option value="$PROJECT_DIR$/public/js/search_for_elements.js" />
         <option value="$PROJECT_DIR$/public/js/const.js" />
         <option value="$PROJECT_DIR$/public/js/actions.js" />
         <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
         <option value="$PROJECT_DIR$/views/semanticui.ejs" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/public/js/fuzzy_search.js" />
+        <option value="$PROJECT_DIR$/public/js/search_for_elements.js" />
+        <option value="$PROJECT_DIR$/public/js/helper.js" />
         <option value="$PROJECT_DIR$/public/js/controller.js" />
+        <option value="$PROJECT_DIR$/public/js/fuzzy_search.js" />
       </list>
     </option>
   </component>
@@ -173,9 +198,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1114" />
+    <option name="x" value="-7" />
+    <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectView">
@@ -227,6 +251,11 @@
               <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -330,7 +359,7 @@
       <workItem from="1515149228147" duration="24907000" />
       <workItem from="1515481741542" duration="549000" />
       <workItem from="1515578630021" duration="334000" />
-      <workItem from="1515582158859" duration="5728000" />
+      <workItem from="1515582158859" duration="12934000" />
     </task>
     <task id="LOCAL-00001" summary="init server">
       <created>1509280352016</created>
@@ -605,11 +634,18 @@
       <option name="project" value="LOCAL" />
       <updated>1515578907622</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="fuse.js added">
+      <created>1515617805511</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1515617805511</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="389866000" />
+    <option name="totallyTimeSpent" value="397072000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -622,13 +658,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17702845" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18545838" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32717392" sideWeight="0.50421494" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32717392" sideWeight="0.49578503" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32717392" sideWeight="0.49578503" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973656" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32826087" sideWeight="0.49789253" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -702,7 +739,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="search function optimized for long element names" />
     <MESSAGE value="implement search for placeholder, search optimized" />
     <MESSAGE value="implement search only for elements visible in viewport" />
     <MESSAGE value="implement check for checkboxes" />
@@ -727,7 +763,8 @@
     <MESSAGE value="made control panel sticky" />
     <MESSAGE value="add .vocs_clickable for customizing clickable elements, some bug fixes" />
     <MESSAGE value="migrate project to private repository" />
-    <option name="LAST_COMMIT_MESSAGE" value="migrate project to private repository" />
+    <MESSAGE value="fuse.js added" />
+    <option name="LAST_COMMIT_MESSAGE" value="fuse.js added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -898,26 +935,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/search_for_elements.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3960">
-          <caret line="180" column="0" lean-forward="false" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/const.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1034">
           <caret line="47" column="20" lean-forward="false" selection-start-line="47" selection-start-column="11" selection-end-line="47" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6380">
-          <caret line="290" column="62" lean-forward="false" selection-start-line="290" selection-start-column="62" selection-end-line="290" selection-end-column="62" />
           <folding />
         </state>
       </provider>
@@ -988,22 +1009,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/helper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="19" column="1" lean-forward="false" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/fuse.js/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2112">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/fuse.js/runner.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1012,19 +1017,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/controller.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/fuse.js/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1826">
-          <caret line="212" column="0" lean-forward="false" selection-start-line="212" selection-start-column="0" selection-end-line="212" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/helper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="51" column="59" lean-forward="false" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#159#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="190" column="40" lean-forward="false" selection-start-line="190" selection-start-column="40" selection-end-line="190" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/fuzzy_search.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="39" lean-forward="false" selection-start-line="0" selection-start-column="39" selection-end-line="0" selection-end-column="39" />
+        <state relative-caret-position="374">
+          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/search_for_elements.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="3" lean-forward="true" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="67" column="42" lean-forward="false" selection-start-line="67" selection-start-column="42" selection-end-line="67" selection-end-column="42" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#44#660#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
