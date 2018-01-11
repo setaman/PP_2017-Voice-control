@@ -12,7 +12,7 @@ const SEARCH_SELECTORS = 'input[type="search"]';
  */
 const CLICK = 'click';
 const CHECK = 'check';
-const GO_TO = 'go to';
+const FOCUS = 'focus';
 const OFF = 'off';
 const SELECT = 'select';
 const SCROLL_UP = 'scroll up';
@@ -22,10 +22,18 @@ const SCROLL_TO_TOP = 'scroll to top';
 const SEARCH = 'search';
 const STOP = 'stop';
 /**
+ * Keywords object needed for fuzzy search
+ */
+const KEYWORDS_OBJECT = [
+    {keyword: CLICK},
+    {keyword: CHECK},
+    {keyword: FOCUS}
+];
+/**
  * RegExp
  */
 let REG_EXP_CLICK = /(click)\s[[a-zA-Z0-9\.]/;
-let REG_EXP_GO_TO = /(go to)\s[[a-zA-Z0-9\.]/;
+let REG_EXP_GO_TO = /(focus)\s[[a-zA-Z0-9\.]/;
 let REG_EXP_OFF = /^(off)$/;
 let REG_EXP_SEARCH = /^(search)$/;
 let REG_EXP_CHECK = /(check)\s[[a-zA-Z0-9\.]/;
@@ -62,9 +70,9 @@ const STATE_INACTIVE = false;
  * Export consts
  */
 export {SELECT_SELECTORS, CHECK_SELECTORS, CLICK_SELECTORS, SEARCH_SELECTORS, GO_TO_SELECTORS,
-        CLICK, GO_TO, OFF, SELECT,SCROLL_DOWN, SCROLL_UP, SCROLL_TO_BOTTOM, SCROLL_TO_TOP, SEARCH, CHECK, STOP,
+        CLICK, FOCUS, OFF, SELECT,SCROLL_DOWN, SCROLL_UP, SCROLL_TO_BOTTOM, SCROLL_TO_TOP, SEARCH, CHECK, STOP,
         REG_EXP_CLICK, REG_EXP_GO_TO, REG_EXP_OFF, REG_EXP_SEARCH, REG_EXP_CHECK, REG_EXP_SELECT, REG_EXP_SCROLL_DOWN,
         STATE_MULTIPLE_MATCH, REG_EXP_SCROLL_TO_TOP, REG_EXP_SCROLL_TO_BOTTOM,REG_EXP_STOP, REG_EXP_SCROLL_UP,
         MODE_TYPE, MODE_SELECT, MODE_NO_MODE, MODE_MULTIPLE, STATE_LISTENING, STATE_ERROR, STATE_YOU_SAY, STATE_NO_MATCH
-        ,STATE_ACTIVE, STATE_INACTIVE, TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE};
+        ,STATE_ACTIVE, STATE_INACTIVE, TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE, KEYWORDS_OBJECT};
 

@@ -3,11 +3,11 @@
  */
 import {
     SELECT_SELECTORS, CHECK_SELECTORS, CLICK_SELECTORS, SEARCH_SELECTORS, GO_TO_SELECTORS,
-    CLICK, GO_TO, OFF, SELECT, CHECK, SCROLL_DOWN, SCROLL_UP, SCROLL_TO_BOTTOM, SCROLL_TO_TOP, SEARCH, STOP,
+    CLICK, FOCUS, OFF, SELECT, CHECK, SCROLL_DOWN, SCROLL_UP, SCROLL_TO_BOTTOM, SCROLL_TO_TOP, SEARCH, STOP,
     REG_EXP_CLICK, REG_EXP_GO_TO, REG_EXP_OFF, REG_EXP_SEARCH, REG_EXP_CHECK, REG_EXP_SELECT, REG_EXP_SCROLL_DOWN,
     REG_EXP_SCROLL_TO_TOP, REG_EXP_SCROLL_TO_BOTTOM, REG_EXP_STOP, REG_EXP_SCROLL_UP,
     MODE_TYPE, MODE_SELECT, MODE_NO_MODE, STATE_LISTENING, STATE_ERROR, STATE_YOU_SAY, STATE_NO_MATCH, STATE_ACTIVE,
-    STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE
+    STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE, KEYWORDS_OBJECT
 } from './const';
 import {
     searchForButtons,
@@ -27,7 +27,7 @@ import {
     executeCheck, executeAction
 } from './actions';
 import {buildMultipleWrapper, splitUserCommand, getTypeOfElement, collectElementsLabel} from "./helper";
-import {fuzzySearch} from "./fuzzy_search";
+import {fuzzySearchForElements, fuzzySearchForKeywords} from "./fuzzy_search";
 
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
@@ -65,8 +65,14 @@ window.onload = function () {
         let t0 = performance.now();
 
         let userCommand = input.toString().toLowerCase().trim();
+        console.log('Keyword was used:' + keywordIsUsed(userCommand));
+
+
         console.log('FUZZY:' + userCommand);
-        console.log(fuzzySearch(collectElementsLabel(CLICK_SELECTORS), userCommand));
+        console.log(fuzzySearchForElements(collectElementsLabel(CLICK_SELECTORS), userCommand));
+        let fuzzy_result = fuzzySearchForElements(collectElementsLabel(CLICK_SELECTORS), userCommand);
+        userCommand = fuzzy_result[0];
+        console.log(userCommand);
 
         let result;
 
@@ -132,7 +138,7 @@ window.onload = function () {
                     break;
                 case REG_EXP_GO_TO.test(userCommand):
 
-                    result = splitUserCommand(userCommand, GO_TO);
+                    result = splitUserCommand(userCommand, FOCUS);
 
                     if (result) {
                         currentElements.push(...searchForInputFields(GO_TO_SELECTORS, result));
@@ -313,6 +319,24 @@ window.onload = function () {
             console.log('Reset UI');
         }, 5000);
 
+    }
+
+    function keywordIsUsed(userCommand) {
+        let splited = userCommand.split(/[ ,]+/);
+        try {
+            for (let i = 0; i < splited.length; i++){
+                let keyword = fuzzySearchForKeywords(KEYWORDS_OBJECT, splited[i]);
+                if(keyword.length > 0 && keyword !== undefined){
+                    splited[i] = keyword[0];
+                    return splited[i];
+                }
+            }
+            return '';
+        }catch (e)
+        {
+            console.log(e);
+            return 'error';
+        }
     }
 };
 
