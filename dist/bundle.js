@@ -11691,15 +11691,15 @@ if (typeof Object.create === 'function') {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.KEYWORDS_OBJECT = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_GO_TO = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.GO_TO_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
+exports.KEYWORDS_OBJECT = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
 
 /**
  * Selectors
  */
 var CLICK_SELECTORS = 'a, li, :button, :submit, :reset, .vocs_clickable';
 exports.CLICK_SELECTORS = CLICK_SELECTORS;
-var GO_TO_SELECTORS = 'input[type=""], input[type="email"], input[type="text"], input[type="password"], input[type="number"],' + 'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea, .vocs_focusable';
-exports.GO_TO_SELECTORS = GO_TO_SELECTORS;
+var FOCUS_SELECTORS = 'input[type=""], input[type="email"], input[type="text"], input[type="password"], input[type="number"],' + 'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea, .vocs_focusable';
+exports.FOCUS_SELECTORS = FOCUS_SELECTORS;
 var CHECK_SELECTORS = ':radio, :checkbox';
 exports.CHECK_SELECTORS = CHECK_SELECTORS;
 var SELECT_SELECTORS = 'select';
@@ -11750,8 +11750,8 @@ var KEYWORDS_OBJECT = [{
 exports.KEYWORDS_OBJECT = KEYWORDS_OBJECT;
 var REG_EXP_CLICK = /(click)\s[[a-zA-Z0-9\.]/;
 exports.REG_EXP_CLICK = REG_EXP_CLICK;
-var REG_EXP_GO_TO = /(focus)\s[[a-zA-Z0-9\.]/;
-exports.REG_EXP_GO_TO = REG_EXP_GO_TO;
+var REG_EXP_FOCUS = /^(focus)$/;
+exports.REG_EXP_FOCUS = REG_EXP_FOCUS;
 var REG_EXP_OFF = /^(off)$/;
 exports.REG_EXP_OFF = REG_EXP_OFF;
 var REG_EXP_SEARCH = /^(search)$/;
@@ -13095,7 +13095,7 @@ function splitUserCommand(userCommand, command) {
 
 function getTypeOfElement(element) {
   var clickable = _const.CLICK_SELECTORS + ',' + _const.CHECK_SELECTORS;
-  var focusable = _const.GO_TO_SELECTORS + ',' + _const.SEARCH_SELECTORS;
+  var focusable = _const.FOCUS_SELECTORS + ',' + _const.SEARCH_SELECTORS;
   var selectable = _const.SELECT_SELECTORS;
   var typeC = _const.TYPE_CLICKABLE;
   var typeF = _const.TYPE_FOCUSABLE;
@@ -14631,6 +14631,7 @@ var currentInputfield;
 var currentSelect;
 var currentMode = _const.MODE_NO_MODE;
 var systemRecognitionState = false;
+var currentKeyword;
 
 window.onload = function () {
   (0, _visualizer.default)();
@@ -14650,15 +14651,16 @@ window.onload = function () {
   function performUserAction(input) {
     var t0 = performance.now();
     var userCommand = input.toString().toLowerCase().trim();
-    console.log('Keyword was used:' + keywordIsUsed(userCommand));
-    console.log('FUZZY:' + userCommand);
-    console.log((0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.CLICK_SELECTORS), userCommand));
-    var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.CLICK_SELECTORS), userCommand);
+    console.log('Keyword was used:' + keywordIsUsed(userCommand) + ' ' + currentKeyword);
+    /*console.log('FUZZY:' + userCommand);
+    console.log(fuzzySearchForElements(collectElementsLabel(CLICK_SELECTORS), userCommand));
+    let fuzzy_result = fuzzySearchForElements(collectElementsLabel(CLICK_SELECTORS), userCommand);
     userCommand = fuzzy_result[0];
-    console.log(userCommand);
+    console.log(userCommand);*/
+
     var result;
 
-    if (_const.REG_EXP_STOP.test(userCommand)) {
+    if (keywordIsUsed(userCommand) && _const.REG_EXP_STOP.test(currentKeyword)) {
       changeInputMode(_const.MODE_NO_MODE);
       return;
     }
@@ -14692,96 +14694,112 @@ window.onload = function () {
     }
 
     if (currentMode === _const.MODE_NO_MODE) {
-      switch (true) {
-        case _const.REG_EXP_CLICK.test(userCommand):
-          result = (0, _helper.splitUserCommand)(userCommand, _const.CLICK);
+      if (keywordIsUsed(userCommand)) {
+        switch (true) {
+          case _const.REG_EXP_CLICK.test(userCommand):
+            result = (0, _helper.splitUserCommand)(currentKeyword, _const.CLICK);
 
-          if (result) {
-            var _currentElements;
+            if (result) {
+              var _currentElements;
 
-            console.log('Search string for CLICKS: ' + result);
+              console.log('Search string for CLICKS: ' + result);
 
-            (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, result)));
+              (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, result)));
 
-            if (currentElements.length === 1) {
-              (0, _actions.executeClick)(currentElements[0]);
+              if (currentElements.length === 1) {
+                (0, _actions.executeClick)(currentElements[0]);
+              }
             }
-          }
 
-          break;
+            break;
 
-        case _const.REG_EXP_SCROLL_DOWN.test(userCommand):
-          (0, _actions.scrollDown)();
-          break;
+          case _const.REG_EXP_SCROLL_DOWN.test(userCommand):
+            (0, _actions.scrollDown)();
+            break;
 
-        case _const.REG_EXP_SCROLL_UP.test(userCommand):
-          (0, _actions.scrollUp)();
-          break;
+          case _const.REG_EXP_SCROLL_UP.test(userCommand):
+            (0, _actions.scrollUp)();
+            break;
 
-        case _const.REG_EXP_SCROLL_TO_TOP.test(userCommand):
-          (0, _actions.scrollToTop)();
-          break;
+          case _const.REG_EXP_SCROLL_TO_TOP.test(userCommand):
+            (0, _actions.scrollToTop)();
+            break;
 
-        case _const.REG_EXP_SCROLL_TO_BOTTOM.test(userCommand):
-          (0, _actions.scrollToBottom)();
-          break;
+          case _const.REG_EXP_SCROLL_TO_BOTTOM.test(userCommand):
+            (0, _actions.scrollToBottom)();
+            break;
 
-        case _const.REG_EXP_GO_TO.test(userCommand):
-          result = (0, _helper.splitUserCommand)(userCommand, _const.FOCUS);
+          case _const.REG_EXP_FOCUS.test(currentKeyword):
+            result = (0, _helper.splitUserCommand)(userCommand, _const.FOCUS);
 
-          if (result) {
-            var _currentElements2;
+            if (result) {
+              var _currentElements2;
 
-            (_currentElements2 = currentElements).push.apply(_currentElements2, _toConsumableArray((0, _search_for_elements.searchForInputFields)(_const.GO_TO_SELECTORS, result)));
+              (_currentElements2 = currentElements).push.apply(_currentElements2, _toConsumableArray((0, _search_for_elements.searchForInputFields)(_const.FOCUS_SELECTORS, result)));
 
-            if (currentElements.length === 1) {
-              (0, _actions.executeFocus)(currentElements[0]);
-              currentInputfield = $(currentElements[0]);
-              changeInputMode(_const.MODE_TYPE);
+              if (currentElements.length === 1) {
+                (0, _actions.executeFocus)(currentElements[0]);
+                currentInputfield = $(currentElements[0]);
+                changeInputMode(_const.MODE_TYPE);
+              }
             }
-          }
 
-          break;
+            break;
 
-        case _const.REG_EXP_SELECT.test(userCommand):
-          result = (0, _helper.splitUserCommand)(userCommand, _const.SELECT);
+          case _const.REG_EXP_SELECT.test(userCommand):
+            result = (0, _helper.splitUserCommand)(userCommand, _const.SELECT);
 
-          if (result) {
-            var _currentElements3;
+            if (result) {
+              var _currentElements3;
 
-            (_currentElements3 = currentElements).push.apply(_currentElements3, _toConsumableArray((0, _search_for_elements.searchForSelect)(_const.SELECT_SELECTORS, result)));
-          }
-
-          break;
-
-        case _const.REG_EXP_SEARCH.test(userCommand):
-          break;
-
-        case _const.REG_EXP_CHECK.test(userCommand):
-          changeInputMode(_const.MODE_NO_MODE);
-          result = (0, _helper.splitUserCommand)(userCommand, _const.CHECK);
-
-          if (result) {
-            var _currentElements4;
-
-            (_currentElements4 = currentElements).push.apply(_currentElements4, _toConsumableArray((0, _search_for_elements.searchForCheckboxesAndRadios)(_const.CHECK_SELECTORS, result)));
-
-            if (currentElements.length === 1) {
-              (0, _actions.executeCheck)(currentElements[0]);
+              (_currentElements3 = currentElements).push.apply(_currentElements3, _toConsumableArray((0, _search_for_elements.searchForSelect)(_const.SELECT_SELECTORS, result)));
             }
-          }
 
-          break;
+            break;
 
-        case _const.REG_EXP_OFF.test(userCommand):
-          break;
+          case _const.REG_EXP_SEARCH.test(userCommand):
+            break;
 
-        default:
+          case _const.REG_EXP_CHECK.test(userCommand):
+            changeInputMode(_const.MODE_NO_MODE);
+            result = (0, _helper.splitUserCommand)(userCommand, _const.CHECK);
+
+            if (result) {
+              var _currentElements4;
+
+              (_currentElements4 = currentElements).push.apply(_currentElements4, _toConsumableArray((0, _search_for_elements.searchForCheckboxesAndRadios)(_const.CHECK_SELECTORS, result)));
+
+              if (currentElements.length === 1) {
+                (0, _actions.executeCheck)(currentElements[0]);
+              }
+            }
+
+            break;
+
+          case _const.REG_EXP_OFF.test(userCommand):
+            break;
+
+          default:
+        }
+      } else {
+        var _currentElements5, _currentElements6;
+
+        /**
+         * TODO: search for all elements without specific keyword and execute action
+         */
+        (_currentElements5 = currentElements).push.apply(_currentElements5, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, userCommand)));
+
+        (_currentElements6 = currentElements).push.apply(_currentElements6, _toConsumableArray((0, _search_for_elements.searchForCheckboxesAndRadios)(_const.CHECK_SELECTORS, userCommand)));
+
+        if (currentElements.length === 1) {
+          (0, _actions.executeAction)(currentElements[0]);
+          currentElements = [];
+          return;
+        }
       }
     } else if (currentMode === _const.MODE_TYPE && currentInputfield) {
       (0, _actions.executeSetText)(currentInputfield, userCommand);
     } else if (currentMode === _const.MODE_SELECT && currentSelect) {
-      console.log('//////INPUT////////: ' + input.toLowerCase().trim());
       $(currentSelect).find('option').each(function () {
         console.log('//////FOUND option////////: ' + $(this).text().toLowerCase().trim());
 
@@ -14794,12 +14812,14 @@ window.onload = function () {
     }
 
     if (currentElements.length === 0) {
+      /**
+       * TODO: do second round search
+       */
       provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
       console.error('-------------No element found------------------');
     }
 
     console.log(currentElements);
-    console.log(currentElements.length);
 
     if (currentElements.length > 1) {
       multipleElementsSelected();
@@ -14921,15 +14941,15 @@ window.onload = function () {
         var keyword = (0, _fuzzy_search.fuzzySearchForKeywords)(_const.KEYWORDS_OBJECT, splited[i]);
 
         if (keyword.length > 0 && keyword !== undefined) {
-          splited[i] = keyword[0];
-          return splited[i];
+          currentKeyword = keyword[0].trim();
+          return true;
         }
       }
 
-      return '';
+      return false;
     } catch (e) {
       console.log(e);
-      return 'error';
+      return false;
     }
   }
 };

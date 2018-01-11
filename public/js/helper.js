@@ -1,4 +1,4 @@
-import {CLICK_SELECTORS, GO_TO_SELECTORS, CHECK_SELECTORS, SELECT_SELECTORS, SEARCH_SELECTORS, TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_CLICKABLE} from "./const";
+import {CLICK_SELECTORS, FOCUS_SELECTORS, CHECK_SELECTORS, SELECT_SELECTORS, SEARCH_SELECTORS, TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_CLICKABLE} from "./const";
 import {isVisible} from './search_for_elements';
 
 export function generateId(i) {
@@ -26,7 +26,7 @@ export function splitUserCommand(userCommand, command) {
 
 export function getTypeOfElement(element) {
     let clickable = CLICK_SELECTORS + ',' + CHECK_SELECTORS;
-    let focusable = GO_TO_SELECTORS + ',' + SEARCH_SELECTORS;
+    let focusable = FOCUS_SELECTORS + ',' + SEARCH_SELECTORS;
     let selectable = SELECT_SELECTORS;
 
     let typeC = TYPE_CLICKABLE;

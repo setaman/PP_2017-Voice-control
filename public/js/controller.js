@@ -2,9 +2,9 @@
  * Created by Pastuh on 19.10.2017.
  */
 import {
-    SELECT_SELECTORS, CHECK_SELECTORS, CLICK_SELECTORS, SEARCH_SELECTORS, GO_TO_SELECTORS,
+    SELECT_SELECTORS, CHECK_SELECTORS, CLICK_SELECTORS, SEARCH_SELECTORS, FOCUS_SELECTORS,
     CLICK, FOCUS, OFF, SELECT, CHECK, SCROLL_DOWN, SCROLL_UP, SCROLL_TO_BOTTOM, SCROLL_TO_TOP, SEARCH, STOP,
-    REG_EXP_CLICK, REG_EXP_GO_TO, REG_EXP_OFF, REG_EXP_SEARCH, REG_EXP_CHECK, REG_EXP_SELECT, REG_EXP_SCROLL_DOWN,
+    REG_EXP_CLICK, REG_EXP_FOCUS, REG_EXP_OFF, REG_EXP_SEARCH, REG_EXP_CHECK, REG_EXP_SELECT, REG_EXP_SCROLL_DOWN,
     REG_EXP_SCROLL_TO_TOP, REG_EXP_SCROLL_TO_BOTTOM, REG_EXP_STOP, REG_EXP_SCROLL_UP,
     MODE_TYPE, MODE_SELECT, MODE_NO_MODE, STATE_LISTENING, STATE_ERROR, STATE_YOU_SAY, STATE_NO_MATCH, STATE_ACTIVE,
     STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE, KEYWORDS_OBJECT
@@ -40,6 +40,7 @@ let currentInputfield;
 let currentSelect;
 let currentMode = MODE_NO_MODE;
 let systemRecognitionState = false;
+let currentKeyword;
 
 window.onload = function () {
 
@@ -65,18 +66,18 @@ window.onload = function () {
         let t0 = performance.now();
 
         let userCommand = input.toString().toLowerCase().trim();
-        console.log('Keyword was used:' + keywordIsUsed(userCommand));
+        console.log('Keyword was used:' + keywordIsUsed(userCommand) + ' ' + currentKeyword);
 
 
-        console.log('FUZZY:' + userCommand);
+        /*console.log('FUZZY:' + userCommand);
         console.log(fuzzySearchForElements(collectElementsLabel(CLICK_SELECTORS), userCommand));
         let fuzzy_result = fuzzySearchForElements(collectElementsLabel(CLICK_SELECTORS), userCommand);
         userCommand = fuzzy_result[0];
-        console.log(userCommand);
+        console.log(userCommand);*/
 
         let result;
 
-        if (REG_EXP_STOP.test(userCommand)) {
+        if (keywordIsUsed(userCommand) && REG_EXP_STOP.test(currentKeyword)) {
             changeInputMode(MODE_NO_MODE);
             return;
         }
@@ -94,7 +95,7 @@ window.onload = function () {
                 executeAction(elem);
                 changeInputMode(MODE_NO_MODE);
 
-                if(getTypeOfElement(elem) === TYPE_FOCUSABLE){
+                if (getTypeOfElement(elem) === TYPE_FOCUSABLE) {
                     currentInputfield = elem;
                     changeInputMode(MODE_TYPE);
                 }
@@ -111,101 +112,111 @@ window.onload = function () {
         }
 
         if (currentMode === MODE_NO_MODE) {
-            switch (true) {
-                case REG_EXP_CLICK.test(userCommand):
+            if (keywordIsUsed(userCommand)) {
+                switch (true) {
+                    case REG_EXP_CLICK.test(userCommand):
 
-                    result = splitUserCommand(userCommand, CLICK);
+                        result = splitUserCommand(currentKeyword, CLICK);
 
-                    if (result) {
-                        console.log('Search string for CLICKS: ' + result);
-                        currentElements.push(...searchForButtons(CLICK_SELECTORS, result));
-                        if (currentElements.length === 1) {
-                            executeClick(currentElements[0]);
+                        if (result) {
+                            console.log('Search string for CLICKS: ' + result);
+                            currentElements.push(...searchForButtons(CLICK_SELECTORS, result));
+                            if (currentElements.length === 1) {
+                                executeClick(currentElements[0]);
+                            }
                         }
-                    }
-                    break;
-                case REG_EXP_SCROLL_DOWN.test(userCommand):
-                    scrollDown();
-                    break;
-                case REG_EXP_SCROLL_UP.test(userCommand):
-                    scrollUp();
-                    break;
-                case REG_EXP_SCROLL_TO_TOP.test(userCommand):
-                    scrollToTop();
-                    break;
-                case REG_EXP_SCROLL_TO_BOTTOM.test(userCommand):
-                    scrollToBottom();
-                    break;
-                case REG_EXP_GO_TO.test(userCommand):
+                        break;
+                    case REG_EXP_SCROLL_DOWN.test(userCommand):
+                        scrollDown();
+                        break;
+                    case REG_EXP_SCROLL_UP.test(userCommand):
+                        scrollUp();
+                        break;
+                    case REG_EXP_SCROLL_TO_TOP.test(userCommand):
+                        scrollToTop();
+                        break;
+                    case REG_EXP_SCROLL_TO_BOTTOM.test(userCommand):
+                        scrollToBottom();
+                        break;
+                    case REG_EXP_FOCUS.test(currentKeyword):
 
-                    result = splitUserCommand(userCommand, FOCUS);
+                        result = splitUserCommand(userCommand, FOCUS);
 
-                    if (result) {
-                        currentElements.push(...searchForInputFields(GO_TO_SELECTORS, result));
-                        if (currentElements.length === 1) {
-                            executeFocus(currentElements[0]);
-                            currentInputfield = $(currentElements[0]);
-                            changeInputMode(MODE_TYPE);
+                        if (result) {
+                            currentElements.push(...searchForInputFields(FOCUS_SELECTORS, result));
+                            if (currentElements.length === 1) {
+                                executeFocus(currentElements[0]);
+                                currentInputfield = $(currentElements[0]);
+                                changeInputMode(MODE_TYPE);
+                            }
+
                         }
+                        break;
+                    case REG_EXP_SELECT.test(userCommand):
 
-                    }
-                    break;
-                case REG_EXP_SELECT.test(userCommand):
+                        result = splitUserCommand(userCommand, SELECT);
 
-                    result = splitUserCommand(userCommand, SELECT);
-
-                    if (result) {
-                        currentElements.push(...searchForSelect(SELECT_SELECTORS, result));
-                    }
-                    break;
-                case REG_EXP_SEARCH.test(userCommand):
-
-                    break;
-                case REG_EXP_CHECK.test(userCommand):
-
-                    changeInputMode(MODE_NO_MODE);
-
-                    result = splitUserCommand(userCommand, CHECK);
-
-                    if (result) {
-                        currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, result));
-                        if (currentElements.length === 1) {
-                            executeCheck(currentElements[0]);
+                        if (result) {
+                            currentElements.push(...searchForSelect(SELECT_SELECTORS, result));
                         }
-                    }
-                    break;
-                case REG_EXP_OFF.test(userCommand):
+                        break;
+                    case REG_EXP_SEARCH.test(userCommand):
 
-                    break;
-                default:
+                        break;
+                    case REG_EXP_CHECK.test(userCommand):
+
+                        changeInputMode(MODE_NO_MODE);
+
+                        result = splitUserCommand(userCommand, CHECK);
+
+                        if (result) {
+                            currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, result));
+                            if (currentElements.length === 1) {
+                                executeCheck(currentElements[0]);
+                            }
+                        }
+                        break;
+                    case REG_EXP_OFF.test(userCommand):
+
+                        break;
+                    default:
+                }
+            }else {
+                /**
+                 * TODO: search for all elements without specific keyword and execute action
+                 */
+                currentElements.push(...searchForButtons(CLICK_SELECTORS, userCommand));
+                currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
+
+                if (currentElements.length === 1){
+                    executeAction(currentElements[0]);
+                    currentElements = [];
+                    return;
+                }
             }
         } else if (currentMode === MODE_TYPE && currentInputfield) {
             executeSetText(currentInputfield, userCommand);
 
         } else if (currentMode === MODE_SELECT && currentSelect) {
 
-            console.log('//////INPUT////////: ' + input.toLowerCase().trim());
-
             $(currentSelect).find('option').each(function () {
-
                 console.log('//////FOUND option////////: ' + $(this).text().toLowerCase().trim());
-
                 if ($(this).text().toLowerCase().trim().startsWith(input.toLowerCase().trim())) {
-
                     $(this).prop('selected', true);
                     $(currentSelect).selectmenu("refresh");
                     changeInputMode(MODE_NO_MODE);
                 }
             });
-
         }
 
         if (currentElements.length === 0) {
+            /**
+             * TODO: do second round search
+             */
             provideSystemStatus(STATE_NO_MATCH, 'Please try again');
             console.error('-------------No element found------------------');
         }
         console.log(currentElements);
-        console.log(currentElements.length);
 
         if (currentElements.length > 1) {
             multipleElementsSelected();
@@ -324,18 +335,17 @@ window.onload = function () {
     function keywordIsUsed(userCommand) {
         let splited = userCommand.split(/[ ,]+/);
         try {
-            for (let i = 0; i < splited.length; i++){
+            for (let i = 0; i < splited.length; i++) {
                 let keyword = fuzzySearchForKeywords(KEYWORDS_OBJECT, splited[i]);
-                if(keyword.length > 0 && keyword !== undefined){
-                    splited[i] = keyword[0];
-                    return splited[i];
+                if (keyword.length > 0 && keyword !== undefined) {
+                    currentKeyword = keyword[0].trim();
+                    return true;
                 }
             }
-            return '';
-        }catch (e)
-        {
+            return false;
+        } catch (e) {
             console.log(e);
-            return 'error';
+            return false;
         }
     }
 };
