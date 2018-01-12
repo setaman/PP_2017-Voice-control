@@ -26,7 +26,10 @@ import {
     executeFocus,
     executeCheck, executeAction
 } from './actions';
-import {buildMultipleWrapper, splitUserCommand, getTypeOfElement, collectElementsLabel} from "./helper";
+import {
+    buildMultipleWrapper, splitUserCommand, getTypeOfElement, collectElementsLabel, extractKeyword,
+    extractSearchString
+} from "./helper";
 import {fuzzySearchForElements, fuzzySearchForKeywords} from "./fuzzy_search";
 
 import 'jquery-ui-dist/jquery-ui.min'
@@ -41,6 +44,7 @@ let currentSelect;
 let currentMode = MODE_NO_MODE;
 let systemRecognitionState = false;
 let currentKeyword;
+let currentSearchString;
 
 window.onload = function () {
 
@@ -66,9 +70,8 @@ window.onload = function () {
         let t0 = performance.now();
 
         let userCommand = input.toString().toLowerCase().trim();
-        console.log('Keyword was used:' + keywordRecognized(userCommand) + ' ' + currentKeyword);
 
-        if (keywordRecognized(userCommand) && REG_EXP_STOP.test(currentKeyword)) {
+        if (REG_EXP_STOP.test(userCommand) || REG_EXP_STOP.test(keywordRecognized(userCommand))) {
             changeInputMode(MODE_NO_MODE);
             return;
         }
@@ -103,90 +106,12 @@ window.onload = function () {
         }
 
         if (currentMode === MODE_NO_MODE) {
-            if (keywordRecognized(userCommand)) {
 
-                let result = recognizeElementLable(userCommand);
+            currentKeyword = extractKeyword(userCommand);
+            currentSearchString = extractSearchString(userCommand);
+            console.log('Keyword :' + currentKeyword + ' || Search String: ' + currentSearchString);
+            chooseAction(currentKeyword, currentSearchString);
 
-                switch (true) {
-                    case REG_EXP_CLICK.test(currentKeyword):
-                        if (result) {
-                            console.log('Search string for CLICKS: ' + result);
-                            currentElements.push(...searchForButtons(CLICK_SELECTORS, result));
-                            if (currentElements.length === 1) {
-                                executeClick(currentElements[0]);
-                            }
-                        }
-                        break;
-                    case REG_EXP_SCROLL_DOWN.test(userCommand):
-                        scrollDown();
-                        break;
-                    case REG_EXP_SCROLL_UP.test(userCommand):
-                        scrollUp();
-                        break;
-                    case REG_EXP_SCROLL_TO_TOP.test(userCommand):
-                        scrollToTop();
-                        break;
-                    case REG_EXP_SCROLL_TO_BOTTOM.test(userCommand):
-                        scrollToBottom();
-                        break;
-                    case REG_EXP_FOCUS.test(currentKeyword):
-
-                        result = splitUserCommand(userCommand, FOCUS);
-
-                        if (result) {
-                            currentElements.push(...searchForInputFields(FOCUS_SELECTORS, result));
-                            if (currentElements.length === 1) {
-                                executeFocus(currentElements[0]);
-                                currentInputfield = $(currentElements[0]);
-                                changeInputMode(MODE_TYPE);
-                            }
-
-                        }
-                        break;
-                    case REG_EXP_SELECT.test(userCommand):
-
-                        result = splitUserCommand(userCommand, SELECT);
-
-                        if (result) {
-                            currentElements.push(...searchForSelect(SELECT_SELECTORS, result));
-                        }
-                        break;
-                    case REG_EXP_SEARCH.test(userCommand):
-
-                        break;
-                    case REG_EXP_CHECK.test(userCommand):
-
-                        changeInputMode(MODE_NO_MODE);
-
-                        result = splitUserCommand(userCommand, CHECK);
-
-                        if (result) {
-                            currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, result));
-                            if (currentElements.length === 1) {
-                                executeCheck(currentElements[0]);
-                            }
-                        }
-                        break;
-                    case REG_EXP_OFF.test(userCommand):
-
-                        break;
-                    default:
-                }
-            }else {
-                /**
-                 * TODO: search for all elements without specific keyword and execute action
-                 */
-                currentElements.push(...searchForButtons(CLICK_SELECTORS, userCommand));
-                currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
-                currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
-
-
-                if (currentElements.length === 1){
-                    executeAction(currentElements[0]);
-                    clearCurrentElements();
-                    return;
-                }
-            }
         } else if (currentMode === MODE_TYPE && currentInputfield) {
             executeSetText(currentInputfield, userCommand);
 
@@ -355,11 +280,52 @@ window.onload = function () {
         console.log(fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), result[0]));
         let fuzzy_result = fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), result[0]);
 
-        if (fuzzy_result !== undefined && fuzzy_result.length > 0){
+        if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
             console.log('Recognized label: ' + fuzzy_result[0]);
             return fuzzy_result[0];
         }
         return '';
+    }
+
+    function chooseAction(keyword, userCommand) {
+        switch (true) {
+            case REG_EXP_CLICK.test(keyword):
+                console.log('Search string for CLICKS: ' + userCommand);
+                currentElements.push(...searchForButtons(CLICK_SELECTORS, userCommand));
+                if (currentElements.length === 1) {
+                    executeAction(currentElements[0]);
+
+                    if (getTypeOfElement(currentElements[0]) === TYPE_FOCUSABLE) {
+                        currentInputfield = $(currentElements[0]);
+                        changeInputMode(MODE_TYPE);
+                    }
+                }
+
+                break;
+            case REG_EXP_SCROLL_DOWN.test(keyword):
+                scrollDown();
+                break;
+            case REG_EXP_SCROLL_UP.test(keyword):
+                scrollUp();
+                break;
+            case REG_EXP_SCROLL_TO_TOP.test(keyword):
+                scrollToTop();
+                break;
+            case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
+                scrollToBottom();
+                break;
+            case REG_EXP_SEARCH.test(keyword):
+                /**
+                 * TODO: implement this
+                 */
+                break;
+            case REG_EXP_OFF.test(keyword):
+                /**
+                 * TODO: implement this
+                 */
+                break;
+            default:
+        }
     }
 };
 

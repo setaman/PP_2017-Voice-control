@@ -24,6 +24,16 @@ export function splitUserCommand(userCommand, command) {
     return userCommand.slice((userCommand.indexOf(command) + command.length)).trim();
 }
 
+export function extractKeyword(userCommand) {
+    let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+    return (result.length > 1) ? result[0] : false;
+}
+
+export function extractSearchString(userCommand) {
+    let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+    return (result.length > 1) ? result[1] : false;
+}
+
 export function getTypeOfElement(element) {
     let clickable = CLICK_SELECTORS + ',' + CHECK_SELECTORS;
     let focusable = FOCUS_SELECTORS + ',' + SEARCH_SELECTORS;

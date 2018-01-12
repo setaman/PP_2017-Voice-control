@@ -13083,6 +13083,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.generateId = generateId;
 exports.buildMultipleWrapper = buildMultipleWrapper;
 exports.splitUserCommand = splitUserCommand;
+exports.extractKeyword = extractKeyword;
+exports.extractSearchString = extractSearchString;
 exports.getTypeOfElement = getTypeOfElement;
 exports.collectElementsLabel = collectElementsLabel;
 
@@ -13111,6 +13113,16 @@ function buildMultipleWrapper(i, currentElement) {
 
 function splitUserCommand(userCommand, command) {
   return userCommand.slice(userCommand.indexOf(command) + command.length).trim();
+}
+
+function extractKeyword(userCommand) {
+  var result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+  return result.length > 1 ? result[0] : false;
+}
+
+function extractSearchString(userCommand) {
+  var result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+  return result.length > 1 ? result[1] : false;
 }
 
 function getTypeOfElement(element) {
@@ -14648,6 +14660,7 @@ var currentSelect;
 var currentMode = _const.MODE_NO_MODE;
 var systemRecognitionState = false;
 var currentKeyword;
+var currentSearchString;
 
 window.onload = function () {
   (0, _visualizer.default)();
@@ -14667,9 +14680,8 @@ window.onload = function () {
   function performUserAction(input) {
     var t0 = performance.now();
     var userCommand = input.toString().toLowerCase().trim();
-    console.log('Keyword was used:' + keywordRecognized(userCommand) + ' ' + currentKeyword);
 
-    if (keywordRecognized(userCommand) && _const.REG_EXP_STOP.test(currentKeyword)) {
+    if (_const.REG_EXP_STOP.test(userCommand) || _const.REG_EXP_STOP.test(keywordRecognized(userCommand))) {
       changeInputMode(_const.MODE_NO_MODE);
       return;
     }
@@ -14703,111 +14715,10 @@ window.onload = function () {
     }
 
     if (currentMode === _const.MODE_NO_MODE) {
-      if (keywordRecognized(userCommand)) {
-        var result = recognizeElementLable(userCommand);
-
-        switch (true) {
-          case _const.REG_EXP_CLICK.test(currentKeyword):
-            if (result) {
-              var _currentElements;
-
-              console.log('Search string for CLICKS: ' + result);
-
-              (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, result)));
-
-              if (currentElements.length === 1) {
-                (0, _actions.executeClick)(currentElements[0]);
-              }
-            }
-
-            break;
-
-          case _const.REG_EXP_SCROLL_DOWN.test(userCommand):
-            (0, _actions.scrollDown)();
-            break;
-
-          case _const.REG_EXP_SCROLL_UP.test(userCommand):
-            (0, _actions.scrollUp)();
-            break;
-
-          case _const.REG_EXP_SCROLL_TO_TOP.test(userCommand):
-            (0, _actions.scrollToTop)();
-            break;
-
-          case _const.REG_EXP_SCROLL_TO_BOTTOM.test(userCommand):
-            (0, _actions.scrollToBottom)();
-            break;
-
-          case _const.REG_EXP_FOCUS.test(currentKeyword):
-            result = (0, _helper.splitUserCommand)(userCommand, _const.FOCUS);
-
-            if (result) {
-              var _currentElements2;
-
-              (_currentElements2 = currentElements).push.apply(_currentElements2, _toConsumableArray((0, _search_for_elements.searchForInputFields)(_const.FOCUS_SELECTORS, result)));
-
-              if (currentElements.length === 1) {
-                (0, _actions.executeFocus)(currentElements[0]);
-                currentInputfield = $(currentElements[0]);
-                changeInputMode(_const.MODE_TYPE);
-              }
-            }
-
-            break;
-
-          case _const.REG_EXP_SELECT.test(userCommand):
-            result = (0, _helper.splitUserCommand)(userCommand, _const.SELECT);
-
-            if (result) {
-              var _currentElements3;
-
-              (_currentElements3 = currentElements).push.apply(_currentElements3, _toConsumableArray((0, _search_for_elements.searchForSelect)(_const.SELECT_SELECTORS, result)));
-            }
-
-            break;
-
-          case _const.REG_EXP_SEARCH.test(userCommand):
-            break;
-
-          case _const.REG_EXP_CHECK.test(userCommand):
-            changeInputMode(_const.MODE_NO_MODE);
-            result = (0, _helper.splitUserCommand)(userCommand, _const.CHECK);
-
-            if (result) {
-              var _currentElements4;
-
-              (_currentElements4 = currentElements).push.apply(_currentElements4, _toConsumableArray((0, _search_for_elements.searchForCheckboxesAndRadios)(_const.CHECK_SELECTORS, result)));
-
-              if (currentElements.length === 1) {
-                (0, _actions.executeCheck)(currentElements[0]);
-              }
-            }
-
-            break;
-
-          case _const.REG_EXP_OFF.test(userCommand):
-            break;
-
-          default:
-        }
-      } else {
-        var _currentElements5, _currentElements6, _currentElements7;
-
-        /**
-         * TODO: search for all elements without specific keyword and execute action
-         */
-        (_currentElements5 = currentElements).push.apply(_currentElements5, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, userCommand)));
-
-        (_currentElements6 = currentElements).push.apply(_currentElements6, _toConsumableArray((0, _search_for_elements.searchForCheckboxesAndRadios)(_const.CHECK_SELECTORS, userCommand)));
-
-        (_currentElements7 = currentElements).push.apply(_currentElements7, _toConsumableArray((0, _search_for_elements.searchForInputFields)(_const.FOCUS_SELECTORS, userCommand)));
-
-        if (currentElements.length === 1) {
-          (0, _actions.executeAction)(currentElements[0]);
-          clearCurrentElements();
-          return;
-        }
-      }
+      currentKeyword = (0, _helper.extractKeyword)(userCommand);
+      currentSearchString = (0, _helper.extractSearchString)(userCommand);
+      console.log('Keyword :' + currentKeyword + ' || Search String: ' + currentSearchString);
+      chooseAction(currentKeyword, currentSearchString);
     } else if (currentMode === _const.MODE_TYPE && currentInputfield) {
       (0, _actions.executeSetText)(currentInputfield, userCommand);
     } else if (currentMode === _const.MODE_SELECT && currentSelect) {
@@ -14981,6 +14892,58 @@ window.onload = function () {
     }
 
     return '';
+  }
+
+  function chooseAction(keyword, userCommand) {
+    var _currentElements;
+
+    switch (true) {
+      case _const.REG_EXP_CLICK.test(keyword):
+        console.log('Search string for CLICKS: ' + userCommand);
+
+        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, userCommand)));
+
+        if (currentElements.length === 1) {
+          (0, _actions.executeAction)(currentElements[0]);
+
+          if ((0, _helper.getTypeOfElement)(currentElements[0]) === _const.TYPE_FOCUSABLE) {
+            currentInputfield = $(currentElements[0]);
+            changeInputMode(_const.MODE_TYPE);
+          }
+        }
+
+        break;
+
+      case _const.REG_EXP_SCROLL_DOWN.test(keyword):
+        (0, _actions.scrollDown)();
+        break;
+
+      case _const.REG_EXP_SCROLL_UP.test(keyword):
+        (0, _actions.scrollUp)();
+        break;
+
+      case _const.REG_EXP_SCROLL_TO_TOP.test(keyword):
+        (0, _actions.scrollToTop)();
+        break;
+
+      case _const.REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
+        (0, _actions.scrollToBottom)();
+        break;
+
+      case _const.REG_EXP_SEARCH.test(keyword):
+        /**
+         * TODO: implement this
+         */
+        break;
+
+      case _const.REG_EXP_OFF.test(keyword):
+        /**
+         * TODO: implement this
+         */
+        break;
+
+      default:
+    }
   }
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
