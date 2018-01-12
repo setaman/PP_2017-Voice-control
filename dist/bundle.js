@@ -11722,13 +11722,13 @@ var OFF = 'off';
 exports.OFF = OFF;
 var SELECT = 'select';
 exports.SELECT = SELECT;
-var SCROLL_UP = 'scroll up';
+var SCROLL_UP = 'up';
 exports.SCROLL_UP = SCROLL_UP;
-var SCROLL_DOWN = 'scroll down';
+var SCROLL_DOWN = 'down';
 exports.SCROLL_DOWN = SCROLL_DOWN;
-var SCROLL_TO_BOTTOM = 'scroll to bottom';
+var SCROLL_TO_BOTTOM = 'bottom';
 exports.SCROLL_TO_BOTTOM = SCROLL_TO_BOTTOM;
-var SCROLL_TO_TOP = 'scroll to top';
+var SCROLL_TO_TOP = 'top';
 exports.SCROLL_TO_TOP = SCROLL_TO_TOP;
 var SEARCH = 'search';
 exports.SEARCH = SEARCH;
@@ -11772,13 +11772,13 @@ var REG_EXP_CHECK = /(check)\s[[a-zA-Z0-9\.]/;
 exports.REG_EXP_CHECK = REG_EXP_CHECK;
 var REG_EXP_SELECT = /(select)\s[[a-zA-Z0-9\.]/;
 exports.REG_EXP_SELECT = REG_EXP_SELECT;
-var REG_EXP_SCROLL_UP = /(scroll up)(\s[[a-zA-Z0-9\.])?/;
+var REG_EXP_SCROLL_UP = /^(up)$/;
 exports.REG_EXP_SCROLL_UP = REG_EXP_SCROLL_UP;
-var REG_EXP_SCROLL_DOWN = /(scroll down)(\s[[a-zA-Z0-9\.])?/;
+var REG_EXP_SCROLL_DOWN = /^(down)$/;
 exports.REG_EXP_SCROLL_DOWN = REG_EXP_SCROLL_DOWN;
-var REG_EXP_SCROLL_TO_TOP = /(scroll)\s(to\s)?(top)(\s[[a-zA-Z0-9\.])?/;
+var REG_EXP_SCROLL_TO_TOP = /^(top)$/;
 exports.REG_EXP_SCROLL_TO_TOP = REG_EXP_SCROLL_TO_TOP;
-var REG_EXP_SCROLL_TO_BOTTOM = /(scroll)\s(to\s)?(bottom)(\s[[a-zA-Z0-9\.])?/;
+var REG_EXP_SCROLL_TO_BOTTOM = /^(bottom)$/;
 exports.REG_EXP_SCROLL_TO_BOTTOM = REG_EXP_SCROLL_TO_BOTTOM;
 var REG_EXP_STOP = /^(stop)$/;
 /**
@@ -13116,13 +13116,25 @@ function splitUserCommand(userCommand, command) {
 }
 
 function extractKeyword(userCommand) {
-  var result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-  return result.length > 1 ? result[0] : false;
+  var result = userCommand.split(/[ ,]+/);
+
+  if (result.length > 1) {
+    result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+    return result.length > 1 ? result[0] : false;
+  }
+
+  return userCommand;
 }
 
 function extractSearchString(userCommand) {
-  var result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-  return result.length > 1 ? result[1] : false;
+  var result = userCommand.split(/[ ,]+/);
+
+  if (result.length > 1) {
+    result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+    return result.length > 1 ? result[1] : '';
+  }
+
+  return '';
 }
 
 function getTypeOfElement(element) {

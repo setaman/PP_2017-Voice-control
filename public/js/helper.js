@@ -25,13 +25,21 @@ export function splitUserCommand(userCommand, command) {
 }
 
 export function extractKeyword(userCommand) {
-    let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-    return (result.length > 1) ? result[0] : false;
+    let result = userCommand.split(/[ ,]+/);
+    if (result.length > 1){
+        result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+        return (result.length > 1) ? result[0] : false;
+    }
+    return userCommand;
 }
 
 export function extractSearchString(userCommand) {
-    let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-    return (result.length > 1) ? result[1] : false;
+    let result = userCommand.split(/[ ,]+/);
+    if (result.length > 1){
+        result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+        return (result.length > 1) ? result[1] : '';
+    }
+    return '';
 }
 
 export function getTypeOfElement(element) {

@@ -16,10 +16,10 @@ const CHECK = 'check';
 const FOCUS = 'focus';
 const OFF = 'off';
 const SELECT = 'select';
-const SCROLL_UP = 'scroll up';
-const SCROLL_DOWN = 'scroll down';
-const SCROLL_TO_BOTTOM = 'scroll to bottom';
-const SCROLL_TO_TOP = 'scroll to top';
+const SCROLL_UP = 'up';
+const SCROLL_DOWN = 'down';
+const SCROLL_TO_BOTTOM = 'bottom';
+const SCROLL_TO_TOP = 'top';
 const SEARCH = 'search';
 const STOP = 'stop';
 /**
@@ -44,10 +44,10 @@ let REG_EXP_OFF = /^(off)$/;
 let REG_EXP_SEARCH = /^(search)$/;
 let REG_EXP_CHECK = /(check)\s[[a-zA-Z0-9\.]/;
 let REG_EXP_SELECT = /(select)\s[[a-zA-Z0-9\.]/;
-let REG_EXP_SCROLL_UP = /(scroll up)(\s[[a-zA-Z0-9\.])?/;
-let REG_EXP_SCROLL_DOWN = /(scroll down)(\s[[a-zA-Z0-9\.])?/;
-let REG_EXP_SCROLL_TO_TOP = /(scroll)\s(to\s)?(top)(\s[[a-zA-Z0-9\.])?/;
-let REG_EXP_SCROLL_TO_BOTTOM = /(scroll)\s(to\s)?(bottom)(\s[[a-zA-Z0-9\.])?/;
+let REG_EXP_SCROLL_UP = /^(up)$/;
+let REG_EXP_SCROLL_DOWN = /^(down)$/;
+let REG_EXP_SCROLL_TO_TOP = /^(top)$/;
+let REG_EXP_SCROLL_TO_BOTTOM = /^(bottom)$/;
 let REG_EXP_STOP = /^(stop)$/;
 /**
  * Input Modes
