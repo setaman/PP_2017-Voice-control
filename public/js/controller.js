@@ -71,7 +71,11 @@ window.onload = function () {
 
         let userCommand = input.toString().toLowerCase().trim();
 
-        if (REG_EXP_STOP.test(userCommand) || REG_EXP_STOP.test(keywordRecognized(userCommand))) {
+        currentKeyword = extractKeyword(userCommand);
+        currentSearchString = extractSearchString(userCommand);
+        console.log('Keyword :' + currentKeyword + ' || Search String: ' + currentSearchString);
+
+        if (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(keywordRecognized(currentKeyword))) {
             changeInputMode(MODE_NO_MODE);
             return;
         }
@@ -107,9 +111,6 @@ window.onload = function () {
 
         if (currentMode === MODE_NO_MODE) {
 
-            currentKeyword = extractKeyword(userCommand);
-            currentSearchString = extractSearchString(userCommand);
-            console.log('Keyword :' + currentKeyword + ' || Search String: ' + currentSearchString);
             chooseAction(currentKeyword, currentSearchString);
 
         } else if (currentMode === MODE_TYPE && currentInputfield) {
@@ -255,15 +256,11 @@ window.onload = function () {
         currentKeyword = '';
     }
 
-    function keywordRecognized(userCommand) {
-        let splited = userCommand.split(/[ ,]+/);
+    function keywordRecognized(keyword) {
         try {
-            for (let i = 0; i < splited.length; i++) {
-                let keyword = fuzzySearchForKeywords(KEYWORDS_OBJECT, splited[i]);
-                if (keyword.length > 0 && keyword !== undefined) {
-                    currentKeyword = keyword[0].trim();
-                    return true;
-                }
+            let result = fuzzySearchForKeywords(KEYWORDS_OBJECT, keyword);
+            if (result.length > 0 && result !== undefined) {
+                return currentKeyword = result[0];
             }
             return false;
         } catch (e) {
@@ -292,6 +289,8 @@ window.onload = function () {
             case REG_EXP_CLICK.test(keyword):
                 console.log('Search string for CLICKS: ' + userCommand);
                 currentElements.push(...searchForButtons(CLICK_SELECTORS, userCommand));
+                currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
+                currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
                 if (currentElements.length === 1) {
                     executeAction(currentElements[0]);
 

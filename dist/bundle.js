@@ -14692,8 +14692,11 @@ window.onload = function () {
   function performUserAction(input) {
     var t0 = performance.now();
     var userCommand = input.toString().toLowerCase().trim();
+    currentKeyword = (0, _helper.extractKeyword)(userCommand);
+    currentSearchString = (0, _helper.extractSearchString)(userCommand);
+    console.log('Keyword :' + currentKeyword + ' || Search String: ' + currentSearchString);
 
-    if (_const.REG_EXP_STOP.test(userCommand) || _const.REG_EXP_STOP.test(keywordRecognized(userCommand))) {
+    if (_const.REG_EXP_STOP.test(currentKeyword) || _const.REG_EXP_STOP.test(keywordRecognized(currentKeyword))) {
       changeInputMode(_const.MODE_NO_MODE);
       return;
     }
@@ -14727,9 +14730,6 @@ window.onload = function () {
     }
 
     if (currentMode === _const.MODE_NO_MODE) {
-      currentKeyword = (0, _helper.extractKeyword)(userCommand);
-      currentSearchString = (0, _helper.extractSearchString)(userCommand);
-      console.log('Keyword :' + currentKeyword + ' || Search String: ' + currentSearchString);
       chooseAction(currentKeyword, currentSearchString);
     } else if (currentMode === _const.MODE_TYPE && currentInputfield) {
       (0, _actions.executeSetText)(currentInputfield, userCommand);
@@ -14872,17 +14872,12 @@ window.onload = function () {
     currentKeyword = '';
   }
 
-  function keywordRecognized(userCommand) {
-    var splited = userCommand.split(/[ ,]+/);
-
+  function keywordRecognized(keyword) {
     try {
-      for (var i = 0; i < splited.length; i++) {
-        var keyword = (0, _fuzzy_search.fuzzySearchForKeywords)(_const.KEYWORDS_OBJECT, splited[i]);
+      var result = (0, _fuzzy_search.fuzzySearchForKeywords)(_const.KEYWORDS_OBJECT, keyword);
 
-        if (keyword.length > 0 && keyword !== undefined) {
-          currentKeyword = keyword[0].trim();
-          return true;
-        }
+      if (result.length > 0 && result !== undefined) {
+        return currentKeyword = result[0];
       }
 
       return false;
@@ -14907,13 +14902,17 @@ window.onload = function () {
   }
 
   function chooseAction(keyword, userCommand) {
-    var _currentElements;
+    var _currentElements, _currentElements2, _currentElements3;
 
     switch (true) {
       case _const.REG_EXP_CLICK.test(keyword):
         console.log('Search string for CLICKS: ' + userCommand);
 
         (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, userCommand)));
+
+        (_currentElements2 = currentElements).push.apply(_currentElements2, _toConsumableArray((0, _search_for_elements.searchForInputFields)(_const.FOCUS_SELECTORS, userCommand)));
+
+        (_currentElements3 = currentElements).push.apply(_currentElements3, _toConsumableArray((0, _search_for_elements.searchForCheckboxesAndRadios)(_const.CHECK_SELECTORS, userCommand)));
 
         if (currentElements.length === 1) {
           (0, _actions.executeAction)(currentElements[0]);
