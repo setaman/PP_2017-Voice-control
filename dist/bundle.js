@@ -11691,7 +11691,7 @@ if (typeof Object.create === 'function') {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.KEYWORDS_OBJECT = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
+exports.KEYWORDS_OBJECT = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTORS = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
 
 /**
  * Selectors
@@ -11705,11 +11705,13 @@ exports.CHECK_SELECTORS = CHECK_SELECTORS;
 var SELECT_SELECTORS = 'select';
 exports.SELECT_SELECTORS = SELECT_SELECTORS;
 var SEARCH_SELECTORS = 'input[type="search"]';
+exports.SEARCH_SELECTORS = SEARCH_SELECTORS;
+var ALL_SELECTORS = "".concat(CLICK_SELECTORS, ", ").concat(FOCUS_SELECTORS, ", ").concat(CHECK_SELECTORS, ", ").concat(SELECT_SELECTORS, ", ").concat(SEARCH_SELECTORS);
 /**
  * Keywords
  */
 
-exports.SEARCH_SELECTORS = SEARCH_SELECTORS;
+exports.ALL_SELECTORS = ALL_SELECTORS;
 var CLICK = 'click';
 exports.CLICK = CLICK;
 var CHECK = 'check';
@@ -11742,13 +11744,23 @@ var KEYWORDS_OBJECT = [{
   keyword: CHECK
 }, {
   keyword: FOCUS
+}, {
+  keyword: STOP
+}, {
+  keyword: SCROLL_UP
+}, {
+  keyword: SCROLL_DOWN
+}, {
+  keyword: SCROLL_TO_BOTTOM
+}, {
+  keyword: SCROLL_TO_TOP
 }];
 /**
  * RegExp
  */
 
 exports.KEYWORDS_OBJECT = KEYWORDS_OBJECT;
-var REG_EXP_CLICK = /(click)\s[[a-zA-Z0-9\.]/;
+var REG_EXP_CLICK = /^(click)$/;
 exports.REG_EXP_CLICK = REG_EXP_CLICK;
 var REG_EXP_FOCUS = /^(focus)$/;
 exports.REG_EXP_FOCUS = REG_EXP_FOCUS;
@@ -13029,13 +13041,21 @@ function hasLabel(element_id, userInput) {
 
   return false;
 }
+/**
+ * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
+ * verknüpft werden, falls ein Input mehrere Labels hat, wird nur Label mit dem Textinhalt berücksichtigt
+ * @param element_id - id des zu dem Label zugehörigen Input elements
+ * @returns {*} ein Label oder oder false, falls mit dem Input kein Label verknüpft ist
+ */
+
 
 function getLabel(element_id) {
-  var selectedLabels = $('[for=' + element_id + ']');
+  var selectedLabels = $('[for=' + element_id + ']'); //Label gefunden
 
   if (selectedLabels.length === 1) {
     return selectedLabels[0];
   } else if (selectedLabels.length > 1) {
+    //Element hat mehrere Labels
     for (var i = 0; i < selectedLabels.length; i++) {
       if (selectedLabels[i].textContent.trim().length > 0) {
         return selectedLabels[i];
@@ -13047,7 +13067,7 @@ function getLabel(element_id) {
 }
 /**
  * Helper methods
- * **********************************************************************************************************************/
+ * ********************************************************************************************************************/
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
@@ -13108,10 +13128,6 @@ function getTypeOfElement(element) {
   } else if ($(element).is(selectable)) {
     return typeS;
   }
-}
-
-function ElementLabel(label) {
-  this.label = label;
 }
 
 function collectElementsLabel(selector) {
@@ -14651,16 +14667,9 @@ window.onload = function () {
   function performUserAction(input) {
     var t0 = performance.now();
     var userCommand = input.toString().toLowerCase().trim();
-    console.log('Keyword was used:' + keywordIsUsed(userCommand) + ' ' + currentKeyword);
-    /*console.log('FUZZY:' + userCommand);
-    console.log(fuzzySearchForElements(collectElementsLabel(CLICK_SELECTORS), userCommand));
-    let fuzzy_result = fuzzySearchForElements(collectElementsLabel(CLICK_SELECTORS), userCommand);
-    userCommand = fuzzy_result[0];
-    console.log(userCommand);*/
+    console.log('Keyword was used:' + keywordRecognized(userCommand) + ' ' + currentKeyword);
 
-    var result;
-
-    if (keywordIsUsed(userCommand) && _const.REG_EXP_STOP.test(currentKeyword)) {
+    if (keywordRecognized(userCommand) && _const.REG_EXP_STOP.test(currentKeyword)) {
       changeInputMode(_const.MODE_NO_MODE);
       return;
     }
@@ -14694,11 +14703,11 @@ window.onload = function () {
     }
 
     if (currentMode === _const.MODE_NO_MODE) {
-      if (keywordIsUsed(userCommand)) {
-        switch (true) {
-          case _const.REG_EXP_CLICK.test(userCommand):
-            result = (0, _helper.splitUserCommand)(currentKeyword, _const.CLICK);
+      if (keywordRecognized(userCommand)) {
+        var result = recognizeElementLable(userCommand);
 
+        switch (true) {
+          case _const.REG_EXP_CLICK.test(currentKeyword):
             if (result) {
               var _currentElements;
 
@@ -14782,7 +14791,7 @@ window.onload = function () {
           default:
         }
       } else {
-        var _currentElements5, _currentElements6;
+        var _currentElements5, _currentElements6, _currentElements7;
 
         /**
          * TODO: search for all elements without specific keyword and execute action
@@ -14791,9 +14800,11 @@ window.onload = function () {
 
         (_currentElements6 = currentElements).push.apply(_currentElements6, _toConsumableArray((0, _search_for_elements.searchForCheckboxesAndRadios)(_const.CHECK_SELECTORS, userCommand)));
 
+        (_currentElements7 = currentElements).push.apply(_currentElements7, _toConsumableArray((0, _search_for_elements.searchForInputFields)(_const.FOCUS_SELECTORS, userCommand)));
+
         if (currentElements.length === 1) {
           (0, _actions.executeAction)(currentElements[0]);
-          currentElements = [];
+          clearCurrentElements();
           return;
         }
       }
@@ -14826,7 +14837,7 @@ window.onload = function () {
       provideSystemStatus(_const.STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
     }
 
-    currentElements = [];
+    clearCurrentElements();
     var t1 = performance.now();
     console.log('Execution time: ' + (t1 - t0) + ' mil');
   }
@@ -14933,7 +14944,12 @@ window.onload = function () {
     }, 5000);
   }
 
-  function keywordIsUsed(userCommand) {
+  function clearCurrentElements() {
+    currentElements = [];
+    currentKeyword = '';
+  }
+
+  function keywordRecognized(userCommand) {
     var splited = userCommand.split(/[ ,]+/);
 
     try {
@@ -14951,6 +14967,20 @@ window.onload = function () {
       console.log(e);
       return false;
     }
+  }
+
+  function recognizeElementLable(userCommand) {
+    var result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+    console.log('FUZZY:' + userCommand);
+    console.log((0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), result[0]));
+    var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), result[0]);
+
+    if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
+      console.log('Recognized label: ' + fuzzy_result[0]);
+      return fuzzy_result[0];
+    }
+
+    return '';
   }
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))

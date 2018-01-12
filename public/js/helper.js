@@ -42,10 +42,6 @@ export function getTypeOfElement(element) {
     }
 }
 
-function ElementLabel(label) {
-    this.label = label;
-}
-
 export function collectElementsLabel(selector) {
     let elements = [];
     $(selector).each(function () {

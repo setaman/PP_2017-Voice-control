@@ -169,13 +169,20 @@ function hasLabel(element_id, userInput) {
     return false;
 }
 
+/**
+ * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
+ * verknüpft werden, falls ein Input mehrere Labels hat, wird nur Label mit dem Textinhalt berücksichtigt
+ * @param element_id - id des zu dem Label zugehörigen Input elements
+ * @returns {*} ein Label oder oder false, falls mit dem Input kein Label verknüpft ist
+ */
 export function getLabel(element_id) {
 
     let selectedLabels = $('[for=' + element_id + ']');
-
+    //Label gefunden
     if (selectedLabels.length === 1){
         return selectedLabels[0];
     } else if (selectedLabels.length > 1){
+        //Element hat mehrere Labels
         for (let i = 0; i < selectedLabels.length; i++) {
             if (selectedLabels[i].textContent.trim().length > 0) {
                 return selectedLabels[i];
@@ -187,4 +194,4 @@ export function getLabel(element_id) {
 
 /**
  * Helper methods
- * **********************************************************************************************************************/
+ * ********************************************************************************************************************/

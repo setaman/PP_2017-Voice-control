@@ -7,7 +7,7 @@ import {
     REG_EXP_CLICK, REG_EXP_FOCUS, REG_EXP_OFF, REG_EXP_SEARCH, REG_EXP_CHECK, REG_EXP_SELECT, REG_EXP_SCROLL_DOWN,
     REG_EXP_SCROLL_TO_TOP, REG_EXP_SCROLL_TO_BOTTOM, REG_EXP_STOP, REG_EXP_SCROLL_UP,
     MODE_TYPE, MODE_SELECT, MODE_NO_MODE, STATE_LISTENING, STATE_ERROR, STATE_YOU_SAY, STATE_NO_MATCH, STATE_ACTIVE,
-    STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE, KEYWORDS_OBJECT
+    STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE, KEYWORDS_OBJECT, ALL_SELECTORS
 } from './const';
 import {
     searchForButtons,
@@ -66,18 +66,9 @@ window.onload = function () {
         let t0 = performance.now();
 
         let userCommand = input.toString().toLowerCase().trim();
-        console.log('Keyword was used:' + keywordIsUsed(userCommand) + ' ' + currentKeyword);
+        console.log('Keyword was used:' + keywordRecognized(userCommand) + ' ' + currentKeyword);
 
-
-        /*console.log('FUZZY:' + userCommand);
-        console.log(fuzzySearchForElements(collectElementsLabel(CLICK_SELECTORS), userCommand));
-        let fuzzy_result = fuzzySearchForElements(collectElementsLabel(CLICK_SELECTORS), userCommand);
-        userCommand = fuzzy_result[0];
-        console.log(userCommand);*/
-
-        let result;
-
-        if (keywordIsUsed(userCommand) && REG_EXP_STOP.test(currentKeyword)) {
+        if (keywordRecognized(userCommand) && REG_EXP_STOP.test(currentKeyword)) {
             changeInputMode(MODE_NO_MODE);
             return;
         }
@@ -112,12 +103,12 @@ window.onload = function () {
         }
 
         if (currentMode === MODE_NO_MODE) {
-            if (keywordIsUsed(userCommand)) {
+            if (keywordRecognized(userCommand)) {
+
+                let result = recognizeElementLable(userCommand);
+
                 switch (true) {
-                    case REG_EXP_CLICK.test(userCommand):
-
-                        result = splitUserCommand(currentKeyword, CLICK);
-
+                    case REG_EXP_CLICK.test(currentKeyword):
                         if (result) {
                             console.log('Search string for CLICKS: ' + result);
                             currentElements.push(...searchForButtons(CLICK_SELECTORS, result));
@@ -187,10 +178,12 @@ window.onload = function () {
                  */
                 currentElements.push(...searchForButtons(CLICK_SELECTORS, userCommand));
                 currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
+                currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
+
 
                 if (currentElements.length === 1){
                     executeAction(currentElements[0]);
-                    currentElements = [];
+                    clearCurrentElements();
                     return;
                 }
             }
@@ -223,7 +216,7 @@ window.onload = function () {
             provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
         }
 
-        currentElements = [];
+        clearCurrentElements();
         let t1 = performance.now();
         console.log('Execution time: ' + (t1 - t0) + ' mil');
     }
@@ -332,7 +325,12 @@ window.onload = function () {
 
     }
 
-    function keywordIsUsed(userCommand) {
+    function clearCurrentElements() {
+        currentElements = [];
+        currentKeyword = '';
+    }
+
+    function keywordRecognized(userCommand) {
         let splited = userCommand.split(/[ ,]+/);
         try {
             for (let i = 0; i < splited.length; i++) {
@@ -347,6 +345,21 @@ window.onload = function () {
             console.log(e);
             return false;
         }
+    }
+
+    function recognizeElementLable(userCommand) {
+
+        let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+
+        console.log('FUZZY:' + userCommand);
+        console.log(fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), result[0]));
+        let fuzzy_result = fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), result[0]);
+
+        if (fuzzy_result !== undefined && fuzzy_result.length > 0){
+            console.log('Recognized label: ' + fuzzy_result[0]);
+            return fuzzy_result[0];
+        }
+        return '';
     }
 };
 

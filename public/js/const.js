@@ -7,6 +7,7 @@ const FOCUS_SELECTORS = 'input[type=""], input[type="email"], input[type="text"]
 const CHECK_SELECTORS = ':radio, :checkbox';
 const SELECT_SELECTORS = 'select';
 const SEARCH_SELECTORS = 'input[type="search"]';
+const ALL_SELECTORS = `${CLICK_SELECTORS}, ${FOCUS_SELECTORS}, ${CHECK_SELECTORS}, ${SELECT_SELECTORS}, ${SEARCH_SELECTORS}`;
 /**
  * Keywords
  */
@@ -27,12 +28,17 @@ const STOP = 'stop';
 const KEYWORDS_OBJECT = [
     {keyword: CLICK},
     {keyword: CHECK},
-    {keyword: FOCUS}
+    {keyword: FOCUS},
+    {keyword: STOP},
+    {keyword: SCROLL_UP},
+    {keyword: SCROLL_DOWN},
+    {keyword: SCROLL_TO_BOTTOM},
+    {keyword: SCROLL_TO_TOP}
 ];
 /**
  * RegExp
  */
-let REG_EXP_CLICK = /(click)\s[[a-zA-Z0-9\.]/;
+let REG_EXP_CLICK = /^(click)$/;
 let REG_EXP_FOCUS = /^(focus)$/;
 let REG_EXP_OFF = /^(off)$/;
 let REG_EXP_SEARCH = /^(search)$/;
@@ -69,7 +75,7 @@ const STATE_INACTIVE = false;
 /**
  * Export consts
  */
-export {SELECT_SELECTORS, CHECK_SELECTORS, CLICK_SELECTORS, SEARCH_SELECTORS, FOCUS_SELECTORS,
+export {SELECT_SELECTORS, CHECK_SELECTORS, CLICK_SELECTORS, SEARCH_SELECTORS, FOCUS_SELECTORS, ALL_SELECTORS,
         CLICK, FOCUS, OFF, SELECT,SCROLL_DOWN, SCROLL_UP, SCROLL_TO_BOTTOM, SCROLL_TO_TOP, SEARCH, CHECK, STOP,
         REG_EXP_CLICK, REG_EXP_FOCUS, REG_EXP_OFF, REG_EXP_SEARCH, REG_EXP_CHECK, REG_EXP_SELECT, REG_EXP_SCROLL_DOWN,
         STATE_MULTIPLE_MATCH, REG_EXP_SCROLL_TO_TOP, REG_EXP_SCROLL_TO_BOTTOM,REG_EXP_STOP, REG_EXP_SCROLL_UP,
