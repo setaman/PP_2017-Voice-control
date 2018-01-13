@@ -7,7 +7,7 @@ import {
     REG_EXP_CLICK, REG_EXP_FOCUS, REG_EXP_OFF, REG_EXP_SEARCH, REG_EXP_CHECK, REG_EXP_SELECT, REG_EXP_SCROLL_DOWN,
     REG_EXP_SCROLL_TO_TOP, REG_EXP_SCROLL_TO_BOTTOM, REG_EXP_STOP, REG_EXP_SCROLL_UP,
     MODE_TYPE, MODE_SELECT, MODE_NO_MODE, STATE_LISTENING, STATE_ERROR, STATE_YOU_SAY, STATE_NO_MATCH, STATE_ACTIVE,
-    STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE, KEYWORDS_OBJECT, ALL_SELECTORS
+    STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE, KEYWORDS_OBJECTS, ALL_SELECTORS
 } from './const';
 import {
     searchForButtons,
@@ -71,12 +71,12 @@ window.onload = function () {
 
         let userCommand = input.toString().toLowerCase().trim();
 
-        currentKeyword = extractKeyword(userCommand);
+        currentKeyword = getRecognizedKeyword(extractKeyword(userCommand));
         currentSearchString = extractSearchString(userCommand);
-        currentSearchString = recognizeElementLabel(extractSearchString(userCommand));
-        console.log('Keyword :' + currentKeyword + ' || Search String: ' + currentSearchString);
+        //currentSearchString = getRecognizedLabel(extractSearchString(userCommand));
+        console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentSearchString !== '') ? currentSearchString : 'no search string'));
 
-        if (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(keywordRecognized(currentKeyword))) {
+        if (currentKeyword && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
             changeInputMode(MODE_NO_MODE);
             return;
         }
@@ -110,9 +110,13 @@ window.onload = function () {
             return;
         }
 
-        if (currentMode === MODE_NO_MODE) {
+        if (currentMode === MODE_NO_MODE && currentKeyword) {
 
             choiceAction(currentKeyword, currentSearchString);
+            //Second Round mit Fuzzy
+            if (currentElements.length === 0 && currentSearchString !== ''){
+                choiceAction(currentKeyword, getRecognizedLabel(currentSearchString));
+            }
 
         } else if (currentMode === MODE_TYPE && currentInputfield) {
             executeSetText(currentInputfield, userCommand);
@@ -211,7 +215,8 @@ window.onload = function () {
         };
         recognition.addEventListener('end', recognition.start);
         recognition.onerror = function (e) {
-            console.error('Error on recognition: ' + e);
+            console.error('Error on recognition: ');
+            console.error(e);
         };
 
         $('#startRecord').click(function () {
@@ -257,9 +262,16 @@ window.onload = function () {
         currentKeyword = '';
     }
 
-    function keywordRecognized(keyword) {
+    function getRecognizedKeyword(keyword) {
+        $.each(KEYWORDS_OBJECTS, (index, value)=> {
+            if(value.regExp.test(keyword)){
+                //Keyword von der SP Software richtig erkannt
+                return keyword;
+            }
+        });
+        //Sonst Keyword vermuten
         try {
-            let result = fuzzySearchForKeywords(KEYWORDS_OBJECT, keyword);
+            let result = fuzzySearchForKeywords(KEYWORDS_OBJECTS, keyword);
             if (result.length > 0 && result !== undefined) {
                 return currentKeyword = result[0];
             }
@@ -270,7 +282,7 @@ window.onload = function () {
         }
     }
 
-    function recognizeElementLabel(userCommand) {
+    function getRecognizedLabel(userCommand) {
 
 /*        let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
 
