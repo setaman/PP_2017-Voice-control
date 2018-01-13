@@ -73,6 +73,7 @@ window.onload = function () {
 
         currentKeyword = extractKeyword(userCommand);
         currentSearchString = extractSearchString(userCommand);
+        currentSearchString = recognizeElementLabel(extractSearchString(userCommand));
         console.log('Keyword :' + currentKeyword + ' || Search String: ' + currentSearchString);
 
         if (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(keywordRecognized(currentKeyword))) {
@@ -111,7 +112,7 @@ window.onload = function () {
 
         if (currentMode === MODE_NO_MODE) {
 
-            chooseAction(currentKeyword, currentSearchString);
+            choiceAction(currentKeyword, currentSearchString);
 
         } else if (currentMode === MODE_TYPE && currentInputfield) {
             executeSetText(currentInputfield, userCommand);
@@ -269,13 +270,13 @@ window.onload = function () {
         }
     }
 
-    function recognizeElementLable(userCommand) {
+    function recognizeElementLabel(userCommand) {
 
-        let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+/*        let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
 
         console.log('FUZZY:' + userCommand);
-        console.log(fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), result[0]));
-        let fuzzy_result = fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), result[0]);
+        console.log(fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), userCommand));
+        let fuzzy_result = fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), userCommand);
 
         if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
             console.log('Recognized label: ' + fuzzy_result[0]);
@@ -284,7 +285,7 @@ window.onload = function () {
         return '';
     }
 
-    function chooseAction(keyword, userCommand) {
+    function choiceAction(keyword, userCommand) {
         switch (true) {
             case REG_EXP_CLICK.test(keyword):
                 console.log('Search string for CLICKS: ' + userCommand);

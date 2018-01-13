@@ -14694,6 +14694,7 @@ window.onload = function () {
     var userCommand = input.toString().toLowerCase().trim();
     currentKeyword = (0, _helper.extractKeyword)(userCommand);
     currentSearchString = (0, _helper.extractSearchString)(userCommand);
+    currentSearchString = recognizeElementLabel((0, _helper.extractSearchString)(userCommand));
     console.log('Keyword :' + currentKeyword + ' || Search String: ' + currentSearchString);
 
     if (_const.REG_EXP_STOP.test(currentKeyword) || _const.REG_EXP_STOP.test(keywordRecognized(currentKeyword))) {
@@ -14730,7 +14731,7 @@ window.onload = function () {
     }
 
     if (currentMode === _const.MODE_NO_MODE) {
-      chooseAction(currentKeyword, currentSearchString);
+      choiceAction(currentKeyword, currentSearchString);
     } else if (currentMode === _const.MODE_TYPE && currentInputfield) {
       (0, _actions.executeSetText)(currentInputfield, userCommand);
     } else if (currentMode === _const.MODE_SELECT && currentSelect) {
@@ -14887,11 +14888,11 @@ window.onload = function () {
     }
   }
 
-  function recognizeElementLable(userCommand) {
-    var result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+  function recognizeElementLabel(userCommand) {
+    /*        let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
     console.log('FUZZY:' + userCommand);
-    console.log((0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), result[0]));
-    var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), result[0]);
+    console.log((0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), userCommand));
+    var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), userCommand);
 
     if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
       console.log('Recognized label: ' + fuzzy_result[0]);
@@ -14901,7 +14902,7 @@ window.onload = function () {
     return '';
   }
 
-  function chooseAction(keyword, userCommand) {
+  function choiceAction(keyword, userCommand) {
     var _currentElements, _currentElements2, _currentElements3;
 
     switch (true) {
