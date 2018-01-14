@@ -115,12 +115,17 @@ window.onload = function () {
             choiceAction(currentKeyword, currentSearchString);
             //Second Round mit Fuzzy
             if (currentElements.length === 0 && currentSearchString !== '') {
+
+                /**
+                 * FIXME: falls kein element gefunden, werd multiplElementsSelected() aufgerufen
+                 */
+
                 choiceAction(currentKeyword, getRecognizedLabel(currentSearchString));
                 console.error('-------------Second Round------------------');
 
             }
 
-            if (currentElements.length === 0 && currentSearchString !== '') {
+            if (currentElements.length === 0) {
                 provideSystemStatus(STATE_NO_MATCH, 'Please try again');
                 console.error('-------------No element found------------------');
 

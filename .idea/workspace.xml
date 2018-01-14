@@ -6,12 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/dist/bundle.js" afterPath="$PROJECT_DIR$/dist/bundle.js" />
-      <change beforePath="$PROJECT_DIR$/dist/bundle.js.map" afterPath="$PROJECT_DIR$/dist/bundle.js.map" />
       <change beforePath="$PROJECT_DIR$/public/js/controller.js" afterPath="$PROJECT_DIR$/public/js/controller.js" />
-      <change beforePath="$PROJECT_DIR$/public/js/fuzzy_search.js" afterPath="$PROJECT_DIR$/public/js/fuzzy_search.js" />
-      <change beforePath="$PROJECT_DIR$/public/js/helper.js" afterPath="$PROJECT_DIR$/public/js/helper.js" />
-      <change beforePath="$PROJECT_DIR$/public/js/search_for_elements.js" afterPath="$PROJECT_DIR$/public/js/search_for_elements.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,7 +20,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="search_for_elements.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="search_for_elements.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/search_for_elements.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2940">
@@ -55,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controller.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="controller.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="586">
-              <caret line="297" column="0" lean-forward="true" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
+            <state relative-caret-position="154">
+              <caret line="119" column="96" lean-forward="false" selection-start-line="119" selection-start-column="96" selection-end-line="119" selection-end-column="96" />
               <folding>
                 <element signature="e#2851#3733#0" expanded="false" />
               </folding>
@@ -205,8 +200,8 @@
         <option value="$PROJECT_DIR$/public/js/const.js" />
         <option value="$PROJECT_DIR$/public/js/helper.js" />
         <option value="$PROJECT_DIR$/public/js/fuzzy_search.js" />
-        <option value="$PROJECT_DIR$/public/js/controller.js" />
         <option value="$PROJECT_DIR$/public/js/search_for_elements.js" />
+        <option value="$PROJECT_DIR$/public/js/controller.js" />
       </list>
     </option>
   </component>
@@ -387,14 +382,7 @@
       <workItem from="1515785964666" duration="12216000" />
       <workItem from="1515864802352" duration="1637000" />
       <workItem from="1515870004920" duration="7133000" />
-      <workItem from="1515928166971" duration="1292000" />
-    </task>
-    <task id="LOCAL-00001" summary="init server">
-      <created>1509280352016</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1509280352016</updated>
+      <workItem from="1515928166971" duration="1418000" />
     </task>
     <task id="LOCAL-00002" summary="cleanup project structure">
       <created>1509537799629</created>
@@ -732,11 +720,18 @@
       <option name="project" value="LOCAL" />
       <updated>1515879498021</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="more search optimization">
+      <created>1515930739197</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1515930739201</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="430123000" />
+    <option name="totallyTimeSpent" value="430249000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -830,7 +825,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="fix issue with multiple selected elements" />
     <MESSAGE value="implement simple ui that shows system states" />
     <MESSAGE value="reoginize code, add element hilighting bei multiple selected elements" />
     <MESSAGE value="implement perfect overlay for multiple select" />
@@ -855,7 +849,8 @@
     <MESSAGE value="fuzzy search for keyword optimized" />
     <MESSAGE value="integrate fuzzy search in search for Elements (test)" />
     <MESSAGE value="keywords recognition with fuzzy optimized, testing fuzzy for searching elements with 2 rounds" />
-    <option name="LAST_COMMIT_MESSAGE" value="keywords recognition with fuzzy optimized, testing fuzzy for searching elements with 2 rounds" />
+    <MESSAGE value="more search optimization" />
+    <option name="LAST_COMMIT_MESSAGE" value="more search optimization" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1123,16 +1118,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="586">
-          <caret line="297" column="0" lean-forward="true" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
-          <folding>
-            <element signature="e#2851#3733#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/fuzzy_search.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -1146,6 +1131,16 @@
         <state relative-caret-position="2940">
           <caret line="204" column="17" lean-forward="false" selection-start-line="204" selection-start-column="17" selection-end-line="204" selection-end-column="17" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="119" column="96" lean-forward="false" selection-start-line="119" selection-start-column="96" selection-end-line="119" selection-end-column="96" />
+          <folding>
+            <element signature="e#2851#3733#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
