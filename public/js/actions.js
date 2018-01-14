@@ -4,16 +4,17 @@ import {TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_CLICKABLE} from "./const";
 
 export function executeAction(element) {
 
+    console.log($(element));
     let typeC = TYPE_CLICKABLE;
     let typeF = TYPE_FOCUSABLE;
     let typeS = TYPE_SELECTABLE;
 
     if (getTypeOfElement(element) === typeC){
-        executeClick(element);
+        executeClick($(element));
     } else if (getTypeOfElement(element) === typeF){
-        executeFocus(element);
+        executeFocus($(element));
     } else if (getTypeOfElement(element) === typeS){
-        executeSelect(element);
+        executeSelect($(element));
     }
 }
 
@@ -21,17 +22,19 @@ export function executeAction(element) {
  * TODO: wrap actions with "try catch"
  */
 export function executeClick(element) {
-    element.click();
+    element.trigger('click');
     element.focus();
+
 }
 
 export function executeCheck(element) {
-    $(element).click().focus();
+    element.click();
+    element.focus();
 }
 
 export function executeFocus(element) {
-    element.click();
     element.focus();
+    element.click();
 }
 
 export function executeSetText(element, text) {

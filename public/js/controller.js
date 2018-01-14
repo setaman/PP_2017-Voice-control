@@ -47,11 +47,11 @@ let systemRecognitionState = false;
 let currentKeyword;
 let currentSearchString;
 
-let elements = [];
-elementssss.push(...elementBuilder(ALL_SELECTORS));
-for (let i = 0; i < elementssss.length; i++){
-    console.log('Count i:' + i);
-}
+/*let elements = [];
+elements.push(...elementBuilder(ALL_SELECTORS));
+for (let i = 0; i < elements.length; i++){
+    console.log(elements[i]);
+}*/
 
 
 window.onload = function () {
@@ -319,7 +319,7 @@ window.onload = function () {
                 //currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
                 //currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
                 if (currentElements.length === 1) {
-                    executeAction(currentElements[0]);
+                    executeAction(currentElements[0].elem);
 
                     if (getTypeOfElement(currentElements[0]) === TYPE_FOCUSABLE) {
                         currentInputfield = $(currentElements[0]);

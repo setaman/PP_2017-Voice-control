@@ -1,30 +1,23 @@
+import {elementBuilder} from './element';
+import {ALL_SELECTORS} from './const';
+
+let elements = [];
+elements.push(...elementBuilder(ALL_SELECTORS,));
+
+
 /**
  * Buttons
  * */
 export function searchForButtons(selector, userInput, round) {
 
-    /**
-     * TODO: implement search for elements with span, <i>...
-     */
-
     let foundedElements = [];
 
-    let elem;
+    if (elements.length > 0) {
+        for (let i = 0; i < elements.length; i++) {
+            if (compareStrings(elements[i].text, userInput, round) || (elements[i].value ? compareStrings(elements[i].value, userInput, round) : false)
+            || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput, round) : false)) {
 
-    let selectedElements = $(selector);
-
-    if (selectedElements.length > 0) {
-        for (let i = 0; i < selectedElements.length; i++) {
-
-            elem = selectedElements[i];
-
-            if (isVisible(elem) && (compareStrings(elem.textContent, userInput, round) || compareStrings(hasValueAttribute(elem), userInput, round))) {
-
-                if ($(elem).is('li') && $(elem).has('a')) {
-                    /*Special logic needed for Tabs*/
-                } else {
-                    foundedElements.push(elem);
-                }
+                foundedElements.push(elements[i]);
             }
         }
     }
@@ -123,19 +116,22 @@ export function searchForSelect(selector, userInput) {
  * FIXME: why invisible(in flow) element always selected?
  */
 export function isVisible(elem) {
-    let top_of_element = $(elem).offset().top;
-    let bottom_of_element = $(elem).offset().top + $(elem).outerHeight();
-    let bottom_of_screen = $(window).scrollTop() + $(window).height();
-    let top_of_screen = $(window).scrollTop();
-    return (bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element) && !$(elem).is(':hidden');
+    if(elem){
+        let top_of_element = $(elem).offset().top;
+        let bottom_of_element = $(elem).offset().top + $(elem).outerHeight();
+        let bottom_of_screen = $(window).scrollTop() + $(window).height();
+        let top_of_screen = $(window).scrollTop();
+        return (bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element) && !$(elem).is(':hidden')
+    }
+    return false;
 }
 
 function hasValueAttribute(element) {
-    return((element.value !== undefined || element.value !== '' || element.value !== null )) ? element.value : false;
+    return ((element.value !== undefined || element.value !== '' || element.value !== null)) ? element.value : false;
 }
 
 function hasPlaceholderAttribute(element) {
-    return (element.placeholder !== undefined || element.placeholder !== '' || element.placeholder !== null ) ? element.placeholder : false;
+    return (element.placeholder !== undefined || element.placeholder !== '' || element.placeholder !== null) ? element.placeholder : false;
 }
 
 function hasOption(element, userInput) {
@@ -168,9 +164,9 @@ export function getLabel(element_id) {
 
     let selectedLabels = $('[for=' + element_id + ']');
     //Label gefunden
-    if (selectedLabels.length === 1){
+    if (selectedLabels.length === 1) {
         return selectedLabels[0];
-    } else if (selectedLabels.length > 1){
+    } else if (selectedLabels.length > 1) {
         //Element hat mehrere Labels
         for (let i = 0; i < selectedLabels.length; i++) {
             if (selectedLabels[i].textContent.trim().length > 0) {
@@ -181,10 +177,12 @@ export function getLabel(element_id) {
     return false;
 }
 
-function compareStrings(textContent, searchString, round){
-    if (!textContent || (searchString === '' || !searchString) || !round){return false;}
+function compareStrings(textContent, searchString, round) {
+    if (!textContent || (searchString === '' || !searchString) || !round) {
+        return false;
+    }
 
-    switch (round){
+    switch (round) {
         case 1:
             return textContent.toString().toLowerCase().trim() === searchString;
         case 2:

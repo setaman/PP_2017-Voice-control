@@ -4,7 +4,7 @@ import {isVisible} from "./search_for_elements";
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
-        if (isVisible(this)){
+        if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && !($(this).is('li') && $(this).has('a'))){
             elements.push(buildElement($(this)));
         }
     });
@@ -14,8 +14,9 @@ export function elementBuilder(selector) {
 function buildElement(elem) {
     let currentLabel = getLabel(elem.attr('id'));
     return {
+        elem: elem,
         text: (elem.text()) ? elem.text().trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined,
-        label: $(currentLabel).text().trim().toLowerCase().replace(/\s/g,' '),
+        label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g,' '),
         value: hasValueAttribute(elem),
         placeholder: hasPlaceholderAttribute(elem),
         position: getPosition(currentLabel ? currentLabel : elem),
@@ -40,16 +41,22 @@ function getPosition(elem, label) {
 function getDimensions(elem, label) {
     if (label){
         return {
-            posLeft: $(label).outerWidth(true),
-            posTop: $(label).outerHeight(true)
+            width: $(label).outerWidth(true),
+            width: $(label).outerHeight(true)
         }
     }
     return {
-        posLeft: $(elem).outerWidth(true),
-        posTop: $(elem).outerHeight(true)
+        width: $(elem).outerWidth(true),
+        width: $(elem).outerHeight(true)
     };
 }
 
+/**
+ * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
+ * verknüpft werden, falls ein Input mehrere Labels hat, wird nur Label mit dem Textinhalt berücksichtigt
+ * @param element_id - id des zu dem Label zugehörigen Input elements
+ * @returns {*} ein Label oder oder false, falls mit dem Input kein Label verknüpft ist
+ */
 export function getLabel(element_id) {
 
     let selectedLabels = $('[for=' + element_id + ']');
@@ -68,11 +75,11 @@ export function getLabel(element_id) {
 }
 
 function hasValueAttribute(element) {
-    return((element.val() !== undefined && element.val() !== '' && element.val() !== null )) ? element.val().toString().trim().toLowerCase().replace(/\s\s/g,' ') : undefined;
+    return((element.val() !== undefined && element.val() !== '' && element.val() !== null )) ? element.val().toString().trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined;
 }
 
 function hasPlaceholderAttribute(element) {
-    return (element.attr('placeholder') !== undefined && element.attr('placeholder') !== '' && element.attr('placeholder') !== null ) ? element.attr('placeholder').trim().toLowerCase().replace(/\s\s/g,' ') : undefined;
+    return (element.attr('placeholder') !== undefined && element.attr('placeholder') !== '' && element.attr('placeholder') !== null ) ? element.attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined;
 }
 
 export function getTypeOfElement(element) {
