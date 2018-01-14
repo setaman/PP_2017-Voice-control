@@ -11691,7 +11691,7 @@ if (typeof Object.create === 'function') {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.KEYWORDS_OBJECTS = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTORS = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
+exports.ROUND3 = exports.ROUND2 = exports.ROUND1 = exports.KEYWORDS_OBJECTS = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTORS = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
 
 /**
  * Selectors
@@ -11830,10 +11830,20 @@ var STATE_ACTIVE = true;
 exports.STATE_ACTIVE = STATE_ACTIVE;
 var STATE_INACTIVE = false;
 /**
- * Export consts
+ * search rounds
  */
 
 exports.STATE_INACTIVE = STATE_INACTIVE;
+var ROUND1 = 1;
+exports.ROUND1 = ROUND1;
+var ROUND2 = 2;
+exports.ROUND2 = ROUND2;
+var ROUND3 = 3;
+/**
+ * Export consts
+ */
+
+exports.ROUND3 = ROUND3;
 
 /***/ }),
 /* 13 */
@@ -12891,7 +12901,7 @@ exports.getLabel = getLabel;
 /**
  * Buttons
  * */
-function searchForButtons(selector, userInput) {
+function searchForButtons(selector, userInput, round) {
   /**
    * TODO: implement search for elements with span, <i>...
    */
@@ -12903,7 +12913,7 @@ function searchForButtons(selector, userInput) {
     for (var i = 0; i < selectedElements.length; i++) {
       elem = selectedElements[i];
 
-      if (isVisible(elem) && (elem.textContent.toLowerCase().trim().startsWith(userInput) || hasValueAttribute(elem, userInput))) {
+      if (isVisible(elem) && (compareStrings(elem.textContent, userInput, round) || compareStrings(hasValueAttribute(elem, userInput, round)))) {
         if ($(elem).is('li') && $(elem).has('a')) {
           /*Special logic needed for Tabs*/
         } else {
@@ -12933,7 +12943,9 @@ function searchForInputFields(selector, userInput) {
       elem = selectedElements[i];
       var id = $(elem).attr('id');
 
-      if (isVisible(elem) && (hasLabel(id, userInput) || hasValueAttribute(elem, userInput) || hasPlaceholderAttribute(elem, userInput))) {
+      if (isVisible(elem) && (
+      /*hasLabel(id, userInput)*/
+      hasValueAttribute(elem, userInput) || hasPlaceholderAttribute(elem, userInput))) {
         foundedElements.push(elem);
       }
     }
@@ -13006,24 +13018,12 @@ function isVisible(elem) {
   return bottom_of_screen > top_of_element && top_of_screen < bottom_of_element && !$(elem).is(':hidden');
 }
 
-function hasValueAttribute(element, userInput) {
-  if (element.value !== undefined) {
-    if (element.value.toString().toLowerCase().trim().startsWith(userInput)) {
-      return true;
-    }
-  }
-
-  return false;
+function hasValueAttribute(element) {
+  return element.value !== undefined || element.value !== '' || element.value !== null ? element.value : false;
 }
 
-function hasPlaceholderAttribute(element, userInput) {
-  if (element.placeholder !== undefined) {
-    if (element.placeholder.toString().toLowerCase().trim().startsWith(userInput)) {
-      return true;
-    }
-  }
-
-  return false;
+function hasPlaceholderAttribute(element) {
+  return element.placeholder !== undefined || element.placeholder !== '' || element.placeholder !== null ? element.placeholder : false;
 }
 
 function hasOption(element, userInput) {
@@ -13037,18 +13037,16 @@ function hasOption(element, userInput) {
 
   return false;
 }
+/*function hasLabel(element_id, userInput) {
+    if(element_id === undefined){
+        return false;
+    }
+    if (getLabel(element_id)){
+        return getLabel(element_id).textContent.toLowerCase().trim().startsWith(userInput);
+    }
+    return (element_id === undefined element.placeholder !== undefined || element.placeholder !== '' || element.placeholder !== null );
+}*/
 
-function hasLabel(element_id, userInput) {
-  if (element_id === undefined) {
-    return false;
-  }
-
-  if (getLabel(element_id)) {
-    return getLabel(element_id).textContent.toLowerCase().trim().startsWith(userInput);
-  }
-
-  return false;
-}
 /**
  * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
  * verknüpft werden, falls ein Input mehrere Labels hat, wird nur Label mit dem Textinhalt berücksichtigt
@@ -13074,21 +13072,24 @@ function getLabel(element_id) {
   return false;
 }
 
-function compareStrings(searchString, textContent, round) {
-  switch (round) {
-    case 1:
-      break;
-
-    case 2:
-      break;
-
-    case 3:
-      break;
-
-    default:
+function compareStrings(textContent, searchString, round) {
+  if (!textContent || searchString === '' || !searchString || !round) {
+    return false;
   }
 
-  return false;
+  switch (round) {
+    case 1:
+      return textContent.toString().toLowerCase().trim() === searchString;
+
+    case 2:
+      return textContent.toString().toLowerCase().trim().startsWith(searchString);
+
+    case 3:
+      return textContent.toString().toLowerCase().trim().search(searchString) >= 0;
+
+    default:
+      return false;
+  }
 }
 /**
  * Helper methods
@@ -14759,14 +14760,21 @@ window.onload = function () {
     }
 
     if (currentMode === _const.MODE_NO_MODE && currentKeyword) {
-      choiceAction(currentKeyword, currentSearchString); //Second Round mit Fuzzy
+      choiceAction(currentKeyword, currentSearchString, _const.ROUND1); //Second Round Search
 
-      if (currentElements.length === 0 && currentSearchString !== '') {
-        choiceAction(currentKeyword, getRecognizedLabel(currentSearchString));
-        console.error('-------------Second Round------------------');
+      if (currentElements.length === 0) {
+        /**
+         * FIXME: falls kein element gefunden, werd multiplElementsSelected() aufgerufen
+         */
+        choiceAction(currentKeyword, currentSearchString, _const.ROUND2);
+
+        if (currentSearchString.length === 0) {
+          //Third Round Search
+          choiceAction(currentKeyword, currentSearchString, _const.ROUND3);
+        }
       }
 
-      if (currentElements.length === 0 && currentSearchString !== '') {
+      if (currentElements.length === 0) {
         provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
         console.error('-------------No element found------------------');
       } else if (currentElements.length > 1) {
@@ -14938,18 +14946,18 @@ window.onload = function () {
     return null;
   }
 
-  function choiceAction(keyword, userCommand) {
-    var _currentElements, _currentElements2, _currentElements3;
+  function choiceAction(keyword, userCommand, round) {
+    var _currentElements;
+
+    console.error('Search ROUND: ' + round);
 
     switch (true) {
       case _const.REG_EXP_CLICK.test(keyword):
         console.log('Search string for CLICKS: ' + userCommand);
 
-        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, userCommand)));
+        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, userCommand, round))); //currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
+        //currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
 
-        (_currentElements2 = currentElements).push.apply(_currentElements2, _toConsumableArray((0, _search_for_elements.searchForInputFields)(_const.FOCUS_SELECTORS, userCommand)));
-
-        (_currentElements3 = currentElements).push.apply(_currentElements3, _toConsumableArray((0, _search_for_elements.searchForCheckboxesAndRadios)(_const.CHECK_SELECTORS, userCommand)));
 
         if (currentElements.length === 1) {
           (0, _actions.executeAction)(currentElements[0]);
@@ -15128,7 +15136,7 @@ var optionsForKeywords = {
   location: 0,
   distance: 100,
   maxPatternLength: 32,
-  minMatchCharLength: 1,
+  minMatchCharLength: 2,
   keys: ['keyword'],
   id: 'keyword'
 };

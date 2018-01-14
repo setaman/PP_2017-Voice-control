@@ -1,7 +1,7 @@
 /**
  * Buttons
  * */
-export function searchForButtons(selector, userInput) {
+export function searchForButtons(selector, userInput, round) {
 
     /**
      * TODO: implement search for elements with span, <i>...
@@ -18,8 +18,7 @@ export function searchForButtons(selector, userInput) {
 
             elem = selectedElements[i];
 
-            if (isVisible(elem) && (elem.textContent.toLowerCase().trim().startsWith(userInput)
-                    || hasValueAttribute(elem, userInput))) {
+            if (isVisible(elem) && (compareStrings(elem.textContent, userInput, round) || compareStrings(hasValueAttribute(elem, userInput, round)))) {
 
                 if ($(elem).is('li') && $(elem).has('a')) {
                     /*Special logic needed for Tabs*/
@@ -55,7 +54,7 @@ export function searchForInputFields(selector, userInput) {
             elem = selectedElements[i];
             let id = $(elem).attr('id');
 
-            if (isVisible(elem) && (hasLabel(id, userInput) || hasValueAttribute(elem, userInput)
+            if (isVisible(elem) && (/*hasLabel(id, userInput)*/ hasValueAttribute(elem, userInput)
                     || hasPlaceholderAttribute(elem, userInput))) {
                 foundedElements.push(elem);
             }
@@ -131,22 +130,12 @@ export function isVisible(elem) {
     return (bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element) && !$(elem).is(':hidden');
 }
 
-function hasValueAttribute(element, userInput) {
-    if (element.value !== undefined) {
-        if (element.value.toString().toLowerCase().trim().startsWith(userInput)) {
-            return true;
-        }
-    }
-    return false;
+function hasValueAttribute(element) {
+    return((element.value !== undefined || element.value !== '' || element.value !== null )) ? element.value : false;
 }
 
-function hasPlaceholderAttribute(element, userInput) {
-    if (element.placeholder !== undefined) {
-        if (element.placeholder.toString().toLowerCase().trim().startsWith(userInput)) {
-            return true;
-        }
-    }
-    return false;
+function hasPlaceholderAttribute(element) {
+    return (element.placeholder !== undefined || element.placeholder !== '' || element.placeholder !== null ) ? element.placeholder : false;
 }
 
 function hasOption(element, userInput) {
@@ -159,15 +148,15 @@ function hasOption(element, userInput) {
     return false;
 }
 
-function hasLabel(element_id, userInput) {
+/*function hasLabel(element_id, userInput) {
     if(element_id === undefined){
         return false;
     }
     if (getLabel(element_id)){
         return getLabel(element_id).textContent.toLowerCase().trim().startsWith(userInput);
     }
-    return false;
-}
+    return (element_id === undefined element.placeholder !== undefined || element.placeholder !== '' || element.placeholder !== null );
+}*/
 
 /**
  * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
@@ -192,17 +181,19 @@ export function getLabel(element_id) {
     return false;
 }
 
-function compareStrings(searchString, textContent, round){
+function compareStrings(textContent, searchString, round){
+    if (!textContent || (searchString === '' || !searchString) || !round){return false;}
+
     switch (round){
         case 1:
-            break;
+            return textContent.toString().toLowerCase().trim() === searchString;
         case 2:
-            break;
+            return textContent.toString().toLowerCase().trim().startsWith(searchString);
         case 3:
-            break;
+            return (textContent.toString().toLowerCase().trim().search(searchString) >= 0);
         default:
+            return false;
     }
-    return false;
 }
 
 /**

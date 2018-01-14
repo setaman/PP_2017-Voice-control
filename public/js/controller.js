@@ -7,7 +7,7 @@ import {
     REG_EXP_CLICK, REG_EXP_FOCUS, REG_EXP_OFF, REG_EXP_SEARCH, REG_EXP_CHECK, REG_EXP_SELECT, REG_EXP_SCROLL_DOWN,
     REG_EXP_SCROLL_TO_TOP, REG_EXP_SCROLL_TO_BOTTOM, REG_EXP_STOP, REG_EXP_SCROLL_UP,
     MODE_TYPE, MODE_SELECT, MODE_NO_MODE, STATE_LISTENING, STATE_ERROR, STATE_YOU_SAY, STATE_NO_MATCH, STATE_ACTIVE,
-    STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE, KEYWORDS_OBJECTS, ALL_SELECTORS
+    STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE, KEYWORDS_OBJECTS, ALL_SELECTORS, ROUND1,ROUND2, ROUND3
 } from './const';
 import {
     searchForButtons,
@@ -112,17 +112,17 @@ window.onload = function () {
 
         if (currentMode === MODE_NO_MODE && currentKeyword) {
 
-            choiceAction(currentKeyword, currentSearchString);
-            //Second Round mit Fuzzy
-            if (currentElements.length === 0 && currentSearchString !== '') {
-
+            choiceAction(currentKeyword, currentSearchString, ROUND1);
+            //Second Round Search
+            if (currentElements.length === 0) {
                 /**
                  * FIXME: falls kein element gefunden, werd multiplElementsSelected() aufgerufen
                  */
-
-                choiceAction(currentKeyword, getRecognizedLabel(currentSearchString));
-                console.error('-------------Second Round------------------');
-
+                choiceAction(currentKeyword, currentSearchString, ROUND2);
+                if (currentSearchString.length === 0){
+                    //Third Round Search
+                    choiceAction(currentKeyword, currentSearchString, ROUND3);
+                }
             }
 
             if (currentElements.length === 0) {
@@ -301,13 +301,15 @@ window.onload = function () {
         return null;
     }
 
-    function choiceAction(keyword, userCommand) {
+    function choiceAction(keyword, userCommand, round) {
+        console.error('Search ROUND: ' + round);
+
         switch (true) {
             case REG_EXP_CLICK.test(keyword):
                 console.log('Search string for CLICKS: ' + userCommand);
-                currentElements.push(...searchForButtons(CLICK_SELECTORS, userCommand));
-                currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
-                currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
+                currentElements.push(...searchForButtons(CLICK_SELECTORS, userCommand, round));
+                //currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
+                //currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
                 if (currentElements.length === 1) {
                     executeAction(currentElements[0]);
 
