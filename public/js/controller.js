@@ -36,6 +36,7 @@ import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 //import '../css/vocs_styles.css'
 import speechRecognition from './visualizer';
+import {elementBuilder} from "./element";
 
 let currentElements = [];
 let currentMultipleElements = [];
@@ -46,7 +47,9 @@ let systemRecognitionState = false;
 let currentKeyword;
 let currentSearchString;
 
-window.onload = function () {
+console.log(elementBuilder(ALL_SELECTORS));
+
+/*window.onload = function () {
 
     speechRecognition();
 
@@ -57,13 +60,13 @@ window.onload = function () {
         performUserAction($('#search-input').val());
     });
 
-    /*$('#hide').click(function () {
+    /!*$('#hide').click(function () {
         currentSelect.hide().blur();
-    });*/
+    });*!/
 
-    /*$('html, body').click(function () {
+    /!*$('html, body').click(function () {
         changeInputMode(MODE_NO_MODE);
-    });*/
+    });*!/
 
     function performUserAction(input) {
 
@@ -84,9 +87,9 @@ window.onload = function () {
         if (currentMode === MODE_MULTIPLE) {
             try {
 
-                /**
+                /!**
                  * TODO: fix words to number
-                 */
+                 *!/
                 userCommand = wordsToNumbers(userCommand, {fuzzy: true});
                 console.log('NUmbER after convert: ' + userCommand);
                 let elem = currentMultipleElements[parseInt(userCommand) - 1];
@@ -115,9 +118,9 @@ window.onload = function () {
             choiceAction(currentKeyword, currentSearchString, ROUND1);
             //Second Round Search
             if (currentElements.length === 0) {
-                /**
+                /!**
                  * FIXME: falls kein element gefunden, werd multiplElementsSelected() aufgerufen
-                 */
+                 *!/
                 choiceAction(currentKeyword, currentSearchString, ROUND2);
                 if (currentSearchString.length === 0){
                     //Third Round Search
@@ -184,9 +187,9 @@ window.onload = function () {
         console.log('------Current MODE------: ' + currentMode);
     }
 
-    /**
+    /!**
      *Setup Google Speech Recognition
-     */
+     *!/
     try {
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
@@ -230,11 +233,11 @@ window.onload = function () {
                 systemRecognitionState = STATE_ACTIVE;
                 console.log('+++++STOP Recognition++++++');
             }
-            /*else {
+            /!*else {
                            recognition.start();
                            systemRecognitionState = STATE_ACTIVE;
                            console.log('+++++START Recognition++++++');
-                       }*/
+                       }*!/
 
         });
     }
@@ -288,7 +291,7 @@ window.onload = function () {
 
     function getRecognizedLabel(userCommand) {
 
-        /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
+        /!*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*!/
 
         console.log('FUZZY:' + userCommand);
         console.log(fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), userCommand));
@@ -333,18 +336,18 @@ window.onload = function () {
                 scrollToBottom();
                 break;
             case REG_EXP_SEARCH.test(keyword):
-                /**
+                /!**
                  * TODO: implement this
-                 */
+                 *!/
                 break;
             case REG_EXP_OFF.test(keyword):
-                /**
+                /!**
                  * TODO: implement this
-                 */
+                 *!/
                 break;
             default:
         }
     }
-};
+};*/
 
 

@@ -18,7 +18,7 @@ export function searchForButtons(selector, userInput, round) {
 
             elem = selectedElements[i];
 
-            if (isVisible(elem) && (compareStrings(elem.textContent, userInput, round) || compareStrings(hasValueAttribute(elem, userInput, round)))) {
+            if (isVisible(elem) && (compareStrings(elem.textContent, userInput, round) || compareStrings(hasValueAttribute(elem), userInput, round))) {
 
                 if ($(elem).is('li') && $(elem).has('a')) {
                     /*Special logic needed for Tabs*/

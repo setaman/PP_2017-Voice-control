@@ -1,20 +1,22 @@
-import {CHECK_SELECTORS, CLICK_SELECTORS, FOCUS_SELECTORS, SEARCH_SELECTORS, SELECT_SELECTORS} from "./const";
+import {CHECK_SELECTORS, CLICK_SELECTORS, FOCUS_SELECTORS, SEARCH_SELECTORS, SELECT_SELECTORS, TYPE_CLICKABLE, TYPE_SELECTABLE, TYPE_FOCUSABLE} from "./const";
 
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
-        elements.push(buildElement(this));
+        console.log($(this).text());
+        elements.push(buildElement($(this)));
     });
 }
 
 function buildElement(elem) {
+    let currentLabel = getLabel(elem.attr('id'));
     return {
-        text: elem.text().trim().toLowerCase(),
-        label: getLabel(elem.attr('id')),
-        value: hasValueAttribute(elem).trim().toLowerCase(),
-        placeholder: hasPlaceholderAttribute(elem).trim().toLowerCase(),
-        position: getPosition((label) ? label : elem),
-        dimensions: getDimensions((label) ? label : elem),
+        text: (elem.text()) ? elem.text().trim().toLowerCase() : undefined,
+        label: currentLabel,
+        value: hasValueAttribute(elem),
+        placeholder: hasPlaceholderAttribute(elem),
+        position: getPosition(currentLabel ? currentLabel : elem),
+        dimensions: getDimensions(currentLabel ? currentLabel : elem),
         type: getTypeOfElement(elem),
     };
 }
@@ -22,26 +24,26 @@ function buildElement(elem) {
 function getPosition(elem, label) {
     if (label){
         return {
-            posLeft: label.offset().left,
-            posTop: label.offset().top
+            posLeft: $(label).offset().left,
+            posTop: $(label).offset().top
         }
     }
     return {
-        posLeft: elem.offset().left,
-        posTop: elem.offset().top
+        posLeft: $(elem).offset().left,
+        posTop: $(elem).offset().top
     };
 }
 
 function getDimensions(elem, label) {
     if (label){
         return {
-            posLeft: label.outerWidth(true),
-            posTop: label.outerHeight(true)
+            posLeft: $(label).outerWidth(true),
+            posTop: $(label).outerHeight(true)
         }
     }
     return {
-        posLeft: elem.outerWidth(true),
-        posTop: elem.outerHeight(true)
+        posLeft: $(elem).outerWidth(true),
+        posTop: $(elem).outerHeight(true)
     };
 }
 
@@ -59,15 +61,15 @@ export function getLabel(element_id) {
             }
         }
     }
-    return false;
+    return undefined;
 }
 
 function hasValueAttribute(element) {
-    return((element.value !== undefined || element.value !== '' || element.value !== null )) ? element.value : false;
+    return((element.val() !== undefined && element.val() !== '' && element.val() !== null )) ? element.val().toString().trim().toLowerCase() : undefined;
 }
 
 function hasPlaceholderAttribute(element) {
-    return (element.placeholder !== undefined || element.placeholder !== '' || element.placeholder !== null ) ? element.placeholder : false;
+    return (element.attr('placeholder') !== undefined && element.attr('placeholder') !== '' && element.attr('placeholder') !== null ) ? element.attr('placeholder').trim().toLowerCase() : undefined;
 }
 
 export function getTypeOfElement(element) {

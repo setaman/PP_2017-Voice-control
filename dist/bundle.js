@@ -12913,7 +12913,7 @@ function searchForButtons(selector, userInput, round) {
     for (var i = 0; i < selectedElements.length; i++) {
       elem = selectedElements[i];
 
-      if (isVisible(elem) && (compareStrings(elem.textContent, userInput, round) || compareStrings(hasValueAttribute(elem, userInput, round)))) {
+      if (isVisible(elem) && (compareStrings(elem.textContent, userInput, round) || compareStrings(hasValueAttribute(elem), userInput, round))) {
         if ($(elem).is('li') && $(elem).has('a')) {
           /*Special logic needed for Tabs*/
         } else {
@@ -14672,7 +14672,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 var _const = __webpack_require__(12);
 
@@ -14690,10 +14690,14 @@ var _wordsToNumbers = _interopRequireDefault(__webpack_require__(49));
 
 var _visualizer = _interopRequireDefault(__webpack_require__(173));
 
+var _element = __webpack_require__(174);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
+/**
+ * Created by Pastuh on 19.10.2017.
+ */
+//import '../css/vocs_styles.css'
 var currentElements = [];
 var currentMultipleElements = [];
 var currentInputfield;
@@ -14702,307 +14706,307 @@ var currentMode = _const.MODE_NO_MODE;
 var systemRecognitionState = false;
 var currentKeyword;
 var currentSearchString;
+console.log((0, _element.elementBuilder)(_const.ALL_SELECTORS));
+/*window.onload = function () {
 
-window.onload = function () {
-  (0, _visualizer.default)();
-  var systemState = $('#vocs_text_status');
-  var OnRecognition = $('#vocs_text_onrecognition');
-  $('#search').click(function () {
-    performUserAction($('#search-input').val());
-  });
-  /*$('#hide').click(function () {
-      currentSelect.hide().blur();
-  });*/
+    speechRecognition();
 
-  /*$('html, body').click(function () {
-      changeInputMode(MODE_NO_MODE);
-  });*/
+    let systemState = $('#vocs_text_status');
+    let OnRecognition = $('#vocs_text_onrecognition');
 
-  function performUserAction(input) {
-    var t0 = performance.now();
-    var userCommand = input.toString().toLowerCase().trim();
-    currentKeyword = getRecognizedKeyword((0, _helper.extractKeyword)(userCommand));
-    currentSearchString = (0, _helper.extractSearchString)(userCommand); //currentSearchString = getRecognizedLabel(extractSearchString(userCommand));
-
-    console.log('Keyword: ' + currentKeyword + ' || Search String: ' + (currentSearchString !== '' ? currentSearchString : 'no search string'));
-
-    if (currentKeyword && (_const.REG_EXP_STOP.test(currentKeyword) || _const.REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
-      changeInputMode(_const.MODE_NO_MODE);
-      return;
-    }
-
-    if (currentMode === _const.MODE_MULTIPLE) {
-      try {
-        /**
-         * TODO: fix words to number
-         */
-        userCommand = (0, _wordsToNumbers.default)(userCommand, {
-          fuzzy: true
-        });
-        console.log('NUmbER after convert: ' + userCommand);
-        var elem = currentMultipleElements[parseInt(userCommand) - 1];
-        (0, _actions.executeAction)(elem);
-        changeInputMode(_const.MODE_NO_MODE);
-
-        if ((0, _helper.getTypeOfElement)(elem) === _const.TYPE_FOCUSABLE) {
-          currentInputfield = elem;
-          changeInputMode(_const.MODE_TYPE);
-        }
-
-        currentMultipleElements = [];
-        $('.vocs_overlay').remove();
-        provideSystemStatus('You choose:', userCommand);
-      } catch (e) {
-        console.error('Error im MULTIPLE mode: ' + e);
-      }
-
-      return;
-    }
-
-    if (currentMode === _const.MODE_NO_MODE && currentKeyword) {
-      choiceAction(currentKeyword, currentSearchString, _const.ROUND1); //Second Round Search
-
-      if (currentElements.length === 0) {
-        /**
-         * FIXME: falls kein element gefunden, werd multiplElementsSelected() aufgerufen
-         */
-        choiceAction(currentKeyword, currentSearchString, _const.ROUND2);
-
-        if (currentSearchString.length === 0) {
-          //Third Round Search
-          choiceAction(currentKeyword, currentSearchString, _const.ROUND3);
-        }
-      }
-
-      if (currentElements.length === 0) {
-        provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
-        console.error('-------------No element found------------------');
-      } else if (currentElements.length > 1) {
-        multipleElementsSelected();
-        provideSystemStatus(_const.STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
-      }
-
-      console.log(currentElements);
-    } else if (currentMode === _const.MODE_TYPE && currentInputfield) {
-      (0, _actions.executeSetText)(currentInputfield, userCommand);
-    } else if (currentMode === _const.MODE_SELECT && currentSelect) {
-      $(currentSelect).find('option').each(function () {
-        console.log('//////FOUND option////////: ' + $(this).text().toLowerCase().trim());
-
-        if ($(this).text().toLowerCase().trim().startsWith(input.toLowerCase().trim())) {
-          $(this).prop('selected', true);
-          $(currentSelect).selectmenu("refresh");
-          changeInputMode(_const.MODE_NO_MODE);
-        }
-      });
-    }
-
-    clearCurrentElements();
-    var t1 = performance.now();
-    console.log('Execution time: ' + (t1 - t0) + ' mil');
-  }
-
-  function multipleElementsSelected() {
-    $('body').prepend('<div class="vocs_overlay"></div>');
-
-    for (var i = 0; i < currentElements.length; i++) {
-      if ($(currentElements[i]).is('input') && (0, _search_for_elements.getLabel)($(currentElements[i]).attr('id'))) {
-        var label = (0, _search_for_elements.getLabel)($(currentElements[i]).attr('id'));
-        (0, _helper.buildMultipleWrapper)(i, label);
-      } else {
-        (0, _helper.buildMultipleWrapper)(i, currentElements[i]);
-      }
-
-      changeInputMode(_const.MODE_MULTIPLE);
-      currentMultipleElements.push(currentElements[i]);
-    }
-  }
-
-  function changeInputMode(newInputMode) {
-    currentMode = newInputMode;
-
-    if (currentMode === _const.MODE_NO_MODE) {
-      $('.vocs_overlay').remove();
-      $(currentInputfield).blur();
-      $(currentSelect).selectmenu('close');
-      currentInputfield = null;
-      currentSelect = null;
-    }
-
-    console.log('------Current MODE------: ' + currentMode);
-  }
-  /**
-   *Setup Google Speech Recognition
-   */
-
-
-  try {
-    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    var recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.interimResults = true;
-    recognition.continuous = false; //recognition.start();
-
-    recognition.onresult = function (event) {
-      var recognitionResult = event.results[0][0].transcript;
-      var transcript = Array.from(event.results).map(function (result) {
-        return result[0];
-      }).map(function (result) {
-        return result.transcript;
-      }).join('');
-      provideSystemStatus(_const.STATE_LISTENING, transcript);
-
-      if (recognitionResult) {
-        if (event.results[0].isFinal) {
-          provideSystemStatus(_const.STATE_YOU_SAY, recognitionResult);
-          performUserAction(recognitionResult);
-          clearUI();
-        }
-      }
-    };
-
-    recognition.addEventListener('end', recognition.start);
-
-    recognition.onerror = function (e) {
-      console.error('Error on recognition: ');
-      console.error(e);
-    };
-
-    $('#startRecord').click(function () {
-      if (!systemRecognitionState) {
-        provideSystemStatus('Say something', '');
-        recognition.start();
-        systemRecognitionState = _const.STATE_ACTIVE;
-        console.log('+++++STOP Recognition++++++');
-      }
-      /*else {
-                     recognition.start();
-                     systemRecognitionState = STATE_ACTIVE;
-                     console.log('+++++START Recognition++++++');
-                 }*/
-
+    $('#search').click(function () {
+        performUserAction($('#search-input').val());
     });
-  } catch (e) {
-    console.error('Web Speech error: ' + e);
-  }
 
-  function provideSystemStatus(state, textOnRecognition) {
-    if (textOnRecognition.length > 35) {
-      var limitedRecognitionText = textOnRecognition.slice(textOnRecognition.length - 35, textOnRecognition.length);
-      $(OnRecognition).text(limitedRecognitionText);
-    } else {
-      $(OnRecognition).text(textOnRecognition);
-    }
+    /!*$('#hide').click(function () {
+        currentSelect.hide().blur();
+    });*!/
 
-    $(systemState).text(state);
-  }
+    /!*$('html, body').click(function () {
+        changeInputMode(MODE_NO_MODE);
+    });*!/
 
-  function clearUI() {
-    setTimeout(function () {
-      $(OnRecognition).text('');
-      $(systemState).text('Say something');
-      console.log('Reset UI');
-    }, 5000);
-  }
+    function performUserAction(input) {
 
-  function clearCurrentElements() {
-    currentElements = [];
-    currentKeyword = '';
-  }
+        let t0 = performance.now();
 
-  function getRecognizedKeyword(keyword) {
-    $.each(_const.KEYWORDS_OBJECTS, function (index, value) {
-      if (value.regExp.test(keyword)) {
-        //Keyword von der SP Software richtig erkannt
-        return keyword;
-      }
-    }); //Sonst Keyword vermuten
+        let userCommand = input.toString().toLowerCase().trim();
 
-    try {
-      var result = (0, _fuzzy_search.fuzzySearchForKeywords)(_const.KEYWORDS_OBJECTS, keyword);
+        currentKeyword = getRecognizedKeyword(extractKeyword(userCommand));
+        currentSearchString = extractSearchString(userCommand);
+        //currentSearchString = getRecognizedLabel(extractSearchString(userCommand));
+        console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentSearchString !== '') ? currentSearchString : 'no search string'));
 
-      if (result.length > 0 && result !== undefined) {
-        return currentKeyword = result[0];
-      }
-
-      return false;
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
-  }
-
-  function getRecognizedLabel(userCommand) {
-    /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
-    console.log('FUZZY:' + userCommand);
-    console.log((0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), userCommand));
-    var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), userCommand);
-
-    if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
-      console.log('Recognized label: ' + fuzzy_result[0]);
-      return fuzzy_result[0];
-    }
-
-    return null;
-  }
-
-  function choiceAction(keyword, userCommand, round) {
-    var _currentElements;
-
-    console.error('Search ROUND: ' + round);
-
-    switch (true) {
-      case _const.REG_EXP_CLICK.test(keyword):
-        console.log('Search string for CLICKS: ' + userCommand);
-
-        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, userCommand, round))); //currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
-        //currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
-
-
-        if (currentElements.length === 1) {
-          (0, _actions.executeAction)(currentElements[0]);
-
-          if ((0, _helper.getTypeOfElement)(currentElements[0]) === _const.TYPE_FOCUSABLE) {
-            currentInputfield = $(currentElements[0]);
-            changeInputMode(_const.MODE_TYPE);
-          }
+        if (currentKeyword && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
+            changeInputMode(MODE_NO_MODE);
+            return;
         }
 
-        break;
+        if (currentMode === MODE_MULTIPLE) {
+            try {
 
-      case _const.REG_EXP_SCROLL_DOWN.test(keyword):
-        (0, _actions.scrollDown)();
-        break;
+                /!**
+                 * TODO: fix words to number
+                 *!/
+                userCommand = wordsToNumbers(userCommand, {fuzzy: true});
+                console.log('NUmbER after convert: ' + userCommand);
+                let elem = currentMultipleElements[parseInt(userCommand) - 1];
 
-      case _const.REG_EXP_SCROLL_UP.test(keyword):
-        (0, _actions.scrollUp)();
-        break;
+                executeAction(elem);
+                changeInputMode(MODE_NO_MODE);
 
-      case _const.REG_EXP_SCROLL_TO_TOP.test(keyword):
-        (0, _actions.scrollToTop)();
-        break;
+                if (getTypeOfElement(elem) === TYPE_FOCUSABLE) {
+                    currentInputfield = elem;
+                    changeInputMode(MODE_TYPE);
+                }
+                currentMultipleElements = [];
 
-      case _const.REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
-        (0, _actions.scrollToBottom)();
-        break;
+                $('.vocs_overlay').remove();
 
-      case _const.REG_EXP_SEARCH.test(keyword):
-        /**
-         * TODO: implement this
-         */
-        break;
+                provideSystemStatus('You choose:', userCommand);
 
-      case _const.REG_EXP_OFF.test(keyword):
-        /**
-         * TODO: implement this
-         */
-        break;
+            } catch (e) {
+                console.error('Error im MULTIPLE mode: ' + e);
+            }
+            return;
+        }
 
-      default:
+        if (currentMode === MODE_NO_MODE && currentKeyword) {
+
+            choiceAction(currentKeyword, currentSearchString, ROUND1);
+            //Second Round Search
+            if (currentElements.length === 0) {
+                /!**
+                 * FIXME: falls kein element gefunden, werd multiplElementsSelected() aufgerufen
+                 *!/
+                choiceAction(currentKeyword, currentSearchString, ROUND2);
+                if (currentSearchString.length === 0){
+                    //Third Round Search
+                    choiceAction(currentKeyword, currentSearchString, ROUND3);
+                }
+            }
+
+            if (currentElements.length === 0) {
+                provideSystemStatus(STATE_NO_MATCH, 'Please try again');
+                console.error('-------------No element found------------------');
+
+            } else if (currentElements.length > 1) {
+                multipleElementsSelected();
+                provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
+            }
+            console.log(currentElements);
+
+
+        } else if (currentMode === MODE_TYPE && currentInputfield) {
+            executeSetText(currentInputfield, userCommand);
+
+        } else if (currentMode === MODE_SELECT && currentSelect) {
+
+            $(currentSelect).find('option').each(function () {
+                console.log('//////FOUND option////////: ' + $(this).text().toLowerCase().trim());
+                if ($(this).text().toLowerCase().trim().startsWith(input.toLowerCase().trim())) {
+                    $(this).prop('selected', true);
+                    $(currentSelect).selectmenu("refresh");
+                    changeInputMode(MODE_NO_MODE);
+                }
+            });
+        }
+
+        clearCurrentElements();
+        let t1 = performance.now();
+        console.log('Execution time: ' + (t1 - t0) + ' mil');
     }
-  }
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+    function multipleElementsSelected() {
+        $('body').prepend('<div class="vocs_overlay"></div>');
+
+        for (let i = 0; i < currentElements.length; i++) {
+
+            if ($(currentElements[i]).is('input') && getLabel($(currentElements[i]).attr('id'))) {
+                let label = getLabel($(currentElements[i]).attr('id'));
+                buildMultipleWrapper(i, label);
+            } else {
+                buildMultipleWrapper(i, currentElements[i]);
+            }
+            changeInputMode(MODE_MULTIPLE);
+            currentMultipleElements.push(currentElements[i]);
+        }
+    }
+
+    function changeInputMode(newInputMode) {
+        currentMode = newInputMode;
+        if (currentMode === MODE_NO_MODE) {
+            $('.vocs_overlay').remove();
+            $(currentInputfield).blur();
+            $(currentSelect).selectmenu('close');
+            currentInputfield = null;
+            currentSelect = null;
+        }
+        console.log('------Current MODE------: ' + currentMode);
+    }
+
+    /!**
+     *Setup Google Speech Recognition
+     *!/
+    try {
+        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+
+        recognition.lang = 'en-US';
+        recognition.interimResults = true;
+        recognition.continuous = false;
+        //recognition.start();
+
+        recognition.onresult = function (event) {
+
+            let recognitionResult = event.results[0][0].transcript;
+
+            const transcript = Array.from(event.results)
+                .map(result => result[0])
+                .map(result => result.transcript)
+                .join('');
+
+            provideSystemStatus(STATE_LISTENING, transcript);
+
+            if (recognitionResult) {
+
+                if (event.results[0].isFinal) {
+                    provideSystemStatus(STATE_YOU_SAY, recognitionResult);
+                    performUserAction(recognitionResult);
+                    clearUI();
+                }
+            }
+
+        };
+        recognition.addEventListener('end', recognition.start);
+        recognition.onerror = function (e) {
+            console.error('Error on recognition: ');
+            console.error(e);
+        };
+
+        $('#startRecord').click(function () {
+            if (!systemRecognitionState) {
+                provideSystemStatus('Say something', '');
+                recognition.start();
+                systemRecognitionState = STATE_ACTIVE;
+                console.log('+++++STOP Recognition++++++');
+            }
+            /!*else {
+                           recognition.start();
+                           systemRecognitionState = STATE_ACTIVE;
+                           console.log('+++++START Recognition++++++');
+                       }*!/
+
+        });
+    }
+    catch (e) {
+        console.error('Web Speech error: ' + e);
+    }
+
+    function provideSystemStatus(state, textOnRecognition) {
+        if (textOnRecognition.length > 35) {
+            let limitedRecognitionText = textOnRecognition.slice(textOnRecognition.length - 35, textOnRecognition.length);
+            $(OnRecognition).text(limitedRecognitionText);
+        } else {
+            $(OnRecognition).text(textOnRecognition);
+        }
+        $(systemState).text(state);
+    }
+
+    function clearUI() {
+        setTimeout(function () {
+            $(OnRecognition).text('');
+            $(systemState).text('Say something');
+            console.log('Reset UI');
+        }, 5000);
+
+    }
+
+    function clearCurrentElements() {
+        currentElements = [];
+        currentKeyword = '';
+    }
+
+    function getRecognizedKeyword(keyword) {
+        $.each(KEYWORDS_OBJECTS, (index, value) => {
+            if (value.regExp.test(keyword)) {
+                //Keyword von der SP Software richtig erkannt
+                return keyword;
+            }
+        });
+        //Sonst Keyword vermuten
+        try {
+            let result = fuzzySearchForKeywords(KEYWORDS_OBJECTS, keyword);
+            if (result.length > 0 && result !== undefined) {
+                return currentKeyword = result[0];
+            }
+            return false;
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    function getRecognizedLabel(userCommand) {
+
+        /!*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*!/
+
+        console.log('FUZZY:' + userCommand);
+        console.log(fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), userCommand));
+        let fuzzy_result = fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), userCommand);
+
+        if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
+            console.log('Recognized label: ' + fuzzy_result[0]);
+            return fuzzy_result[0];
+        }
+        return null;
+    }
+
+    function choiceAction(keyword, userCommand, round) {
+        console.error('Search ROUND: ' + round);
+
+        switch (true) {
+            case REG_EXP_CLICK.test(keyword):
+                console.log('Search string for CLICKS: ' + userCommand);
+                currentElements.push(...searchForButtons(CLICK_SELECTORS, userCommand, round));
+                //currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
+                //currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
+                if (currentElements.length === 1) {
+                    executeAction(currentElements[0]);
+
+                    if (getTypeOfElement(currentElements[0]) === TYPE_FOCUSABLE) {
+                        currentInputfield = $(currentElements[0]);
+                        changeInputMode(MODE_TYPE);
+                    }
+                }
+
+                break;
+            case REG_EXP_SCROLL_DOWN.test(keyword):
+                scrollDown();
+                break;
+            case REG_EXP_SCROLL_UP.test(keyword):
+                scrollUp();
+                break;
+            case REG_EXP_SCROLL_TO_TOP.test(keyword):
+                scrollToTop();
+                break;
+            case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
+                scrollToBottom();
+                break;
+            case REG_EXP_SEARCH.test(keyword):
+                /!**
+                 * TODO: implement this
+                 *!/
+                break;
+            case REG_EXP_OFF.test(keyword):
+                /!**
+                 * TODO: implement this
+                 *!/
+                break;
+            default:
+        }
+    }
+};*/
 
 /***/ }),
 /* 45 */
@@ -21137,6 +21141,114 @@ function speechRecognition() {
       sendRequest();
       console.log('...Stopping recorder');
     }, 1500);
+  }
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 174 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.elementBuilder = elementBuilder;
+exports.getLabel = getLabel;
+exports.getTypeOfElement = getTypeOfElement;
+
+var _const = __webpack_require__(12);
+
+function elementBuilder(selector) {
+  var elements = [];
+  $(selector).each(function () {
+    console.log($(this).text());
+    elements.push(buildElement($(this)));
+  });
+}
+
+function buildElement(elem) {
+  var currentLabel = getLabel(elem.attr('id'));
+  return {
+    text: elem.text() ? elem.text().trim().toLowerCase() : undefined,
+    label: currentLabel,
+    value: hasValueAttribute(elem),
+    placeholder: hasPlaceholderAttribute(elem),
+    position: getPosition(currentLabel ? currentLabel : elem),
+    dimensions: getDimensions(currentLabel ? currentLabel : elem),
+    type: getTypeOfElement(elem)
+  };
+}
+
+function getPosition(elem, label) {
+  if (label) {
+    return {
+      posLeft: $(label).offset().left,
+      posTop: $(label).offset().top
+    };
+  }
+
+  return {
+    posLeft: $(elem).offset().left,
+    posTop: $(elem).offset().top
+  };
+}
+
+function getDimensions(elem, label) {
+  if (label) {
+    return {
+      posLeft: $(label).outerWidth(true),
+      posTop: $(label).outerHeight(true)
+    };
+  }
+
+  return {
+    posLeft: $(elem).outerWidth(true),
+    posTop: $(elem).outerHeight(true)
+  };
+}
+
+function getLabel(element_id) {
+  var selectedLabels = $('[for=' + element_id + ']'); //Label gefunden
+
+  if (selectedLabels.length === 1) {
+    return selectedLabels[0];
+  } else if (selectedLabels.length > 1) {
+    //Element hat mehrere Labels
+    for (var i = 0; i < selectedLabels.length; i++) {
+      if (selectedLabels[i].textContent.trim().length > 0) {
+        return selectedLabels[i];
+      }
+    }
+  }
+
+  return undefined;
+}
+
+function hasValueAttribute(element) {
+  return element.val() !== undefined && element.val() !== '' && element.val() !== null ? element.val().toString().trim().toLowerCase() : undefined;
+}
+
+function hasPlaceholderAttribute(element) {
+  return element.attr('placeholder') !== undefined && element.attr('placeholder') !== '' && element.attr('placeholder') !== null ? element.attr('placeholder').trim().toLowerCase() : undefined;
+}
+
+function getTypeOfElement(element) {
+  var clickable = _const.CLICK_SELECTORS + ',' + _const.CHECK_SELECTORS;
+  var focusable = _const.FOCUS_SELECTORS + ',' + _const.SEARCH_SELECTORS;
+  var selectable = _const.SELECT_SELECTORS;
+  var typeC = _const.TYPE_CLICKABLE;
+  var typeF = _const.TYPE_FOCUSABLE;
+  var typeS = _const.TYPE_SELECTABLE;
+
+  if ($(element).is(clickable)) {
+    return typeC;
+  } else if ($(element).is(focusable)) {
+    return typeF;
+  } else if ($(element).is(selectable)) {
+    return typeS;
   }
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
