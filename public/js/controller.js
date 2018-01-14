@@ -114,9 +114,22 @@ window.onload = function () {
 
             choiceAction(currentKeyword, currentSearchString);
             //Second Round mit Fuzzy
-            if (currentElements.length === 0 && currentSearchString !== ''){
+            if (currentElements.length === 0 && currentSearchString !== '') {
                 choiceAction(currentKeyword, getRecognizedLabel(currentSearchString));
+                console.error('-------------Second Round------------------');
+
             }
+
+            if (currentElements.length === 0 && currentSearchString !== '') {
+                provideSystemStatus(STATE_NO_MATCH, 'Please try again');
+                console.error('-------------No element found------------------');
+
+            } else if (currentElements.length > 1) {
+                multipleElementsSelected();
+                provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
+            }
+            console.log(currentElements);
+
 
         } else if (currentMode === MODE_TYPE && currentInputfield) {
             executeSetText(currentInputfield, userCommand);
@@ -131,20 +144,6 @@ window.onload = function () {
                     changeInputMode(MODE_NO_MODE);
                 }
             });
-        }
-
-        if (currentElements.length === 0) {
-            /**
-             * TODO: do second round search
-             */
-            provideSystemStatus(STATE_NO_MATCH, 'Please try again');
-            console.error('-------------No element found------------------');
-        }
-        console.log(currentElements);
-
-        if (currentElements.length > 1) {
-            multipleElementsSelected();
-            provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
         }
 
         clearCurrentElements();
@@ -263,8 +262,8 @@ window.onload = function () {
     }
 
     function getRecognizedKeyword(keyword) {
-        $.each(KEYWORDS_OBJECTS, (index, value)=> {
-            if(value.regExp.test(keyword)){
+        $.each(KEYWORDS_OBJECTS, (index, value) => {
+            if (value.regExp.test(keyword)) {
                 //Keyword von der SP Software richtig erkannt
                 return keyword;
             }
@@ -284,7 +283,7 @@ window.onload = function () {
 
     function getRecognizedLabel(userCommand) {
 
-/*        let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
+        /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
 
         console.log('FUZZY:' + userCommand);
         console.log(fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), userCommand));
@@ -294,7 +293,7 @@ window.onload = function () {
             console.log('Recognized label: ' + fuzzy_result[0]);
             return fuzzy_result[0];
         }
-        return '';
+        return null;
     }
 
     function choiceAction(keyword, userCommand) {

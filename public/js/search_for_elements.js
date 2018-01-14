@@ -192,6 +192,19 @@ export function getLabel(element_id) {
     return false;
 }
 
+function compareStrings(searchString, textContent, round){
+    switch (round){
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        default:
+    }
+    return false;
+}
+
 /**
  * Helper methods
  * ********************************************************************************************************************/

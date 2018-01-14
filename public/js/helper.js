@@ -26,11 +26,14 @@ export function splitUserCommand(userCommand, command) {
 
 export function extractKeyword(userCommand) {
     let result = userCommand.split(/[ ,]+/);
-    if (result.length > 1){
+    /*if (result.length > 1){
         result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
         return (result.length > 1) ? result[0] : false;
+    }*/
+    if (result[0] === 'delete'){
+        return 'click';
     }
-    return userCommand;
+    return result[0];
 }
 
 export function extractSearchString(userCommand) {

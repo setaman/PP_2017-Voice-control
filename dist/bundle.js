@@ -13073,6 +13073,23 @@ function getLabel(element_id) {
 
   return false;
 }
+
+function compareStrings(searchString, textContent, round) {
+  switch (round) {
+    case 1:
+      break;
+
+    case 2:
+      break;
+
+    case 3:
+      break;
+
+    default:
+  }
+
+  return false;
+}
 /**
  * Helper methods
  * ********************************************************************************************************************/
@@ -13125,13 +13142,16 @@ function splitUserCommand(userCommand, command) {
 
 function extractKeyword(userCommand) {
   var result = userCommand.split(/[ ,]+/);
+  /*if (result.length > 1){
+      result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+      return (result.length > 1) ? result[0] : false;
+  }*/
 
-  if (result.length > 1) {
-    result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-    return result.length > 1 ? result[0] : false;
+  if (result[0] === 'delete') {
+    return 'click';
   }
 
-  return userCommand;
+  return result[0];
 }
 
 function extractSearchString(userCommand) {
@@ -14743,7 +14763,18 @@ window.onload = function () {
 
       if (currentElements.length === 0 && currentSearchString !== '') {
         choiceAction(currentKeyword, getRecognizedLabel(currentSearchString));
+        console.error('-------------Second Round------------------');
       }
+
+      if (currentElements.length === 0 && currentSearchString !== '') {
+        provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
+        console.error('-------------No element found------------------');
+      } else if (currentElements.length > 1) {
+        multipleElementsSelected();
+        provideSystemStatus(_const.STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
+      }
+
+      console.log(currentElements);
     } else if (currentMode === _const.MODE_TYPE && currentInputfield) {
       (0, _actions.executeSetText)(currentInputfield, userCommand);
     } else if (currentMode === _const.MODE_SELECT && currentSelect) {
@@ -14756,21 +14787,6 @@ window.onload = function () {
           changeInputMode(_const.MODE_NO_MODE);
         }
       });
-    }
-
-    if (currentElements.length === 0) {
-      /**
-       * TODO: do second round search
-       */
-      provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
-      console.error('-------------No element found------------------');
-    }
-
-    console.log(currentElements);
-
-    if (currentElements.length > 1) {
-      multipleElementsSelected();
-      provideSystemStatus(_const.STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
     }
 
     clearCurrentElements();
@@ -14909,7 +14925,7 @@ window.onload = function () {
   }
 
   function getRecognizedLabel(userCommand) {
-    /*        let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
+    /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
     console.log('FUZZY:' + userCommand);
     console.log((0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), userCommand));
     var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), userCommand);
@@ -14919,7 +14935,7 @@ window.onload = function () {
       return fuzzy_result[0];
     }
 
-    return '';
+    return null;
   }
 
   function choiceAction(keyword, userCommand) {
@@ -15098,7 +15114,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var optionsForElements = {
   shouldSort: true,
-  threshold: 0.6,
+  threshold: 0.1,
   location: 0,
   distance: 100,
   maxPatternLength: 32,
