@@ -14694,10 +14694,8 @@ var _element = __webpack_require__(174);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Created by Pastuh on 19.10.2017.
- */
-//import '../css/vocs_styles.css'
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var currentElements = [];
 var currentMultipleElements = [];
 var currentInputfield;
@@ -14706,7 +14704,12 @@ var currentMode = _const.MODE_NO_MODE;
 var systemRecognitionState = false;
 var currentKeyword;
 var currentSearchString;
-console.log((0, _element.elementBuilder)(_const.ALL_SELECTORS));
+var elementssss = [];
+elementssss.push.apply(elementssss, _toConsumableArray((0, _element.elementBuilder)(_const.ALL_SELECTORS)));
+
+for (var i = 0; i < elementssss.length; i++) {
+  console.log('Count i:' + i);
+}
 /*window.onload = function () {
 
     speechRecognition();
@@ -21161,19 +21164,23 @@ exports.getTypeOfElement = getTypeOfElement;
 
 var _const = __webpack_require__(12);
 
+var _search_for_elements = __webpack_require__(27);
+
 function elementBuilder(selector) {
   var elements = [];
   $(selector).each(function () {
-    console.log($(this).text());
-    elements.push(buildElement($(this)));
+    if ((0, _search_for_elements.isVisible)(this)) {
+      elements.push(buildElement($(this)));
+    }
   });
+  return elements;
 }
 
 function buildElement(elem) {
   var currentLabel = getLabel(elem.attr('id'));
   return {
-    text: elem.text() ? elem.text().trim().toLowerCase() : undefined,
-    label: currentLabel,
+    text: elem.text() ? elem.text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined,
+    label: $(currentLabel).text().trim().toLowerCase().replace(/\s/g, ' '),
     value: hasValueAttribute(elem),
     placeholder: hasPlaceholderAttribute(elem),
     position: getPosition(currentLabel ? currentLabel : elem),
@@ -21228,11 +21235,11 @@ function getLabel(element_id) {
 }
 
 function hasValueAttribute(element) {
-  return element.val() !== undefined && element.val() !== '' && element.val() !== null ? element.val().toString().trim().toLowerCase() : undefined;
+  return element.val() !== undefined && element.val() !== '' && element.val() !== null ? element.val().toString().trim().toLowerCase().replace(/\s\s/g, ' ') : undefined;
 }
 
 function hasPlaceholderAttribute(element) {
-  return element.attr('placeholder') !== undefined && element.attr('placeholder') !== '' && element.attr('placeholder') !== null ? element.attr('placeholder').trim().toLowerCase() : undefined;
+  return element.attr('placeholder') !== undefined && element.attr('placeholder') !== '' && element.attr('placeholder') !== null ? element.attr('placeholder').trim().toLowerCase().replace(/\s\s/g, ' ') : undefined;
 }
 
 function getTypeOfElement(element) {

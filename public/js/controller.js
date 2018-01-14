@@ -47,7 +47,12 @@ let systemRecognitionState = false;
 let currentKeyword;
 let currentSearchString;
 
-console.log(elementBuilder(ALL_SELECTORS));
+let elementssss = [];
+elementssss.push(...elementBuilder(ALL_SELECTORS));
+for (let i = 0; i < elementssss.length; i++){
+    console.log('Count i:' + i);
+}
+
 
 /*window.onload = function () {
 
