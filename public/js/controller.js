@@ -14,7 +14,7 @@ import {
     searchForInputFields,
     searchForCheckboxesAndRadios,
     searchForSelect,
-    getLabel, collectElements
+    getLabel, collectElements, searchForElements
 } from './search_for_elements';
 import {
     scrollUp,
@@ -77,7 +77,7 @@ window.onload = function () {
 
         currentKeyword = getRecognizedKeyword(extractKeyword(userCommand));
         currentSearchString = extractSearchString(userCommand);
-        //currentSearchString = getRecognizedLabel(extractSearchString(userCommand));
+        //currentSearchString = getRecognizedElements(extractSearchString(userCommand));
         console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentSearchString !== '') ? currentSearchString : 'no search string'));
 
         if (currentKeyword && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
@@ -116,7 +116,7 @@ window.onload = function () {
 
         if (currentMode === MODE_NO_MODE && currentKeyword) {
 
-            choiceAction(currentKeyword, currentSearchString, ROUND1);
+            choiceAction(currentKeyword, currentSearchString);
 
             if(currentSearchString){
                 //Second Round Search
@@ -286,13 +286,12 @@ window.onload = function () {
         }
     }
 
-    function choiceAction(keyword, userCommand, round) {
-        console.error('Search ROUND: ' + round);
+    function choiceAction(keyword, userCommand) {
 
         switch (true) {
             case REG_EXP_CLICK.test(keyword):
                 console.log('Search string for CLICKS: ' + userCommand);
-                currentElements.push(...search(userCommand, round));
+                currentElements.push(...searchForElements(userCommand));
                 if (currentElements.length === 1) {
                     executeAction(currentElements[0].elem);
 

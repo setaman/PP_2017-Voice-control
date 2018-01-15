@@ -1,5 +1,8 @@
 import {CHECK_SELECTORS, CLICK_SELECTORS, FOCUS_SELECTORS, SEARCH_SELECTORS, SELECT_SELECTORS, TYPE_CLICKABLE, TYPE_SELECTABLE, TYPE_FOCUSABLE} from "./const";
 
+/**
+ * FIXME: build elements every time when user trigger action, because drop downs not selected
+ */
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {

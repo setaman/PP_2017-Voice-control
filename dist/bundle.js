@@ -11858,9 +11858,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.collectElements = collectElements;
 exports.searchForElements = searchForElements;
 exports.search = search;
-exports.searchForInputFields = searchForInputFields;
-exports.searchForCheckboxesAndRadios = searchForCheckboxesAndRadios;
-exports.searchForSelect = searchForSelect;
 
 var _element = __webpack_require__(28);
 
@@ -11886,7 +11883,7 @@ function searchForElements(userInput) {
   var result = search(userInput);
 
   if (result.length === 0) {
-    return (0, _helper.getRecognizedLabel)(elements, userInput);
+    return (0, _helper.getRecognizedElements)(elements, userInput);
   }
 
   return result;
@@ -11896,89 +11893,13 @@ function searchForElements(userInput) {
  * */
 
 
-function search(userInput, round) {
+function search(userInput) {
   var foundedElements = [];
 
   if (elements.length > 0) {
     for (var i = 0; i < elements.length; i++) {
-      if (compareStrings(elements[i].text, userInput, round) || (elements[i].value ? compareStrings(elements[i].value, userInput, round) : false) || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput, round) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput, round) : false)) {
+      if (compareStrings(elements[i].text, userInput) || (elements[i].value ? compareStrings(elements[i].value, userInput) : false) || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput) : false)) {
         foundedElements.push(elements[i]);
-      }
-    }
-  }
-
-  return foundedElements;
-}
-/**
- * INPUTS
- * */
-
-
-function searchForInputFields(selector, userInput) {
-  /**
-   * TODO: find input with text, but without label
-   */
-  var foundedElements = [];
-  var selectedElements = $(selector);
-  var elem;
-
-  if (selectedElements.length > 0) {
-    for (var i = 0; i < selectedElements.length; i++) {
-      elem = selectedElements[i];
-      var id = $(elem).attr('id');
-
-      if (isVisible(elem) && (
-      /*hasLabel(id, userInput)*/
-      hasValueAttribute(elem, userInput) || hasPlaceholderAttribute(elem, userInput))) {
-        foundedElements.push(elem);
-      }
-    }
-  }
-
-  return foundedElements;
-}
-/**
- * CHECKS
- * */
-
-
-function searchForCheckboxesAndRadios(selector, userInput) {
-  var foundedElements = [];
-  var elem;
-  var selectedElements = $(selector);
-
-  if (selectedElements.length > 0) {
-    for (var i = 0; i < selectedElements.length; i++) {
-      elem = selectedElements[i];
-      var label = getLabel($(elem).attr('id'));
-
-      if (isVisible(label) && label.textContent.toLowerCase().trim().startsWith(userInput)) {
-        foundedElements.push(elem);
-      }
-    }
-  }
-
-  return foundedElements;
-}
-/**
- * SELECT
- * */
-
-
-function searchForSelect(selector, userInput) {
-  var foundedElements = [];
-  var elem;
-  var selectedElements = $(selector);
-
-  if (selectedElements.length > 0) {
-    for (var i = 0; i < selectedElements.length; i++) {
-      elem = selectedElements[i];
-
-      if (
-      /*isVisible(elem) && */
-      elem.textContent.toLowerCase().trim().startsWith(userInput) || hasOption(elem, userInput)) {
-        console.log('Select found: ' + elem.textContent);
-        foundedElements.push(elem);
       }
     }
   }
@@ -12002,24 +11923,12 @@ function hasOption(element, userInput) {
   return false;
 }
 
-function compareStrings(textContent, searchString, round) {
-  if (!textContent || searchString === '' || !searchString || !round) {
+function compareStrings(textContent, searchString) {
+  if (!textContent || searchString === '' || !searchString) {
     return false;
   }
 
-  switch (3) {
-    case 1:
-      return textContent.toString().toLowerCase().trim() === searchString;
-
-    case 2:
-      return textContent.toString().toLowerCase().trim().startsWith(searchString);
-
-    case 3:
-      return textContent.toString().toLowerCase().trim().search(searchString) >= 0;
-
-    default:
-      return false;
-  }
+  return textContent.toString().toLowerCase().trim().search(searchString) >= 0;
 }
 /**
  * Helper methods
@@ -13078,6 +12987,9 @@ exports.getTypeOfElement = getTypeOfElement;
 
 var _const = __webpack_require__(4);
 
+/**
+ * FIXME: build elements every time when user trigger action, because drop downs not selected
+ */
 function elementBuilder(selector) {
   var elements = [];
   $(selector).each(function () {
@@ -13232,7 +13144,7 @@ exports.extractKeyword = extractKeyword;
 exports.extractSearchString = extractSearchString;
 exports.getTypeOfElement = getTypeOfElement;
 exports.collectElementsLabel = collectElementsLabel;
-exports.getRecognizedLabel = getRecognizedLabel;
+exports.getRecognizedElements = getRecognizedElements;
 
 var _const = __webpack_require__(4);
 
@@ -13247,7 +13159,7 @@ function generateId(i) {
 function buildMultipleWrapper(i, currentElement) {
   var id = generateId(i);
   var wrapperTemplate = "<div class=\"vocs_multiple_select_wrapper_container\" id=\"".concat(id, "\"><div id=\"vocs_wrapper_").concat(i, "\" data-number=\"").concat(i + 1, "\" class=\"vocs_multiple_select_wrapper\"></div></div>");
-  $('.vocs_overlay').prepend(wrapperTemplate);
+  $('.vocs_overlay').append(wrapperTemplate);
   $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 100 ? currentElement.dimensions.width + 40 : currentElement.dimensions.width);
   $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
   $('#' + id).offset({
@@ -13267,7 +13179,7 @@ function extractKeyword(userCommand) {
       return (result.length > 1) ? result[0] : false;
   }*/
 
-  if (result[0] === 'delete' || result[0] === 'sleep') {
+  if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please') {
     return 'click';
   }
 
@@ -13314,7 +13226,7 @@ function collectElementsLabel(selector) {
   return elements;
 }
 
-function getRecognizedLabel(elements, userCommand) {
+function getRecognizedElements(elements, userCommand) {
   /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
   var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)(elements, userCommand);
 
@@ -14857,7 +14769,7 @@ window.onload = function () {
     var t0 = performance.now();
     var userCommand = input.toString().toLowerCase().trim();
     currentKeyword = getRecognizedKeyword((0, _helper.extractKeyword)(userCommand));
-    currentSearchString = (0, _helper.extractSearchString)(userCommand); //currentSearchString = getRecognizedLabel(extractSearchString(userCommand));
+    currentSearchString = (0, _helper.extractSearchString)(userCommand); //currentSearchString = getRecognizedElements(extractSearchString(userCommand));
 
     console.log('Keyword: ' + currentKeyword + ' || Search String: ' + (currentSearchString !== '' ? currentSearchString : 'no search string'));
 
@@ -14895,7 +14807,7 @@ window.onload = function () {
     }
 
     if (currentMode === _const.MODE_NO_MODE && currentKeyword) {
-      choiceAction(currentKeyword, currentSearchString, _const.ROUND1);
+      choiceAction(currentKeyword, currentSearchString);
 
       if (currentSearchString) {
         //Second Round Search
@@ -15066,16 +14978,14 @@ window.onload = function () {
     }
   }
 
-  function choiceAction(keyword, userCommand, round) {
+  function choiceAction(keyword, userCommand) {
     var _currentElements;
-
-    console.error('Search ROUND: ' + round);
 
     switch (true) {
       case _const.REG_EXP_CLICK.test(keyword):
         console.log('Search string for CLICKS: ' + userCommand);
 
-        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.search)(userCommand, round)));
+        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForElements)(userCommand)));
 
         if (currentElements.length === 1) {
           (0, _actions.executeAction)(currentElements[0].elem);

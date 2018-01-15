@@ -12,7 +12,7 @@ export function generateId(i) {
 export function buildMultipleWrapper(i, currentElement){
     const id = generateId(i);
     const wrapperTemplate = `<div class="vocs_multiple_select_wrapper_container" id="${id}"><div id="vocs_wrapper_${i}" data-number="${i + 1}" class="vocs_multiple_select_wrapper"></div></div>`;
-    $('.vocs_overlay').prepend(wrapperTemplate);
+    $('.vocs_overlay').append(wrapperTemplate);
     $('#vocs_wrapper_' + i).width((currentElement.dimensions.width <= 100) ? currentElement.dimensions.width + 40 : currentElement.dimensions.width);
     $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
     $('#' + id).offset({ top: currentElement.position.posTop - 5, left: currentElement.position.posLeft - 5});
@@ -29,7 +29,7 @@ export function extractKeyword(userCommand) {
         result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
         return (result.length > 1) ? result[0] : false;
     }*/
-    if (result[0] === 'delete' || result[0] === 'sleep'){
+    if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please'){
         return 'click';
     }
     return result[0];
@@ -73,7 +73,7 @@ export function collectElementsLabel(selector) {
     return elements;
 }
 
-export function getRecognizedLabel(elements, userCommand) {
+export function getRecognizedElements(elements, userCommand) {
 
     /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
 
