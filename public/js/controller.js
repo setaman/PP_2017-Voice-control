@@ -14,7 +14,7 @@ import {
     searchForInputFields,
     searchForCheckboxesAndRadios,
     searchForSelect,
-    getLabel
+    getLabel, collectElements
 } from './search_for_elements';
 import {
     scrollUp,
@@ -47,11 +47,7 @@ let systemRecognitionState = false;
 let currentKeyword;
 let currentSearchString;
 
-/*let elements = [];
-elements.push(...elementBuilder(ALL_SELECTORS));
-for (let i = 0; i < elements.length; i++){
-    console.log(elements[i]);
-}*/
+collectElements();
 
 
 window.onload = function () {
@@ -158,7 +154,7 @@ window.onload = function () {
                 }
             });
         }
-
+        collectElements();
         clearCurrentElements();
         let t1 = performance.now();
         console.log('Execution time: ' + (t1 - t0) + ' mil');
@@ -315,7 +311,7 @@ window.onload = function () {
         switch (true) {
             case REG_EXP_CLICK.test(keyword):
                 console.log('Search string for CLICKS: ' + userCommand);
-                currentElements.push(...searchForButtons(CLICK_SELECTORS, userCommand, round));
+                currentElements.push(...searchForButtons(userCommand, round));
                 //currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
                 //currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
                 if (currentElements.length === 1) {
@@ -330,15 +326,19 @@ window.onload = function () {
                 break;
             case REG_EXP_SCROLL_DOWN.test(keyword):
                 scrollDown();
+                collectElements();
                 break;
             case REG_EXP_SCROLL_UP.test(keyword):
                 scrollUp();
+                collectElements();
                 break;
             case REG_EXP_SCROLL_TO_TOP.test(keyword):
                 scrollToTop();
+                collectElements();
                 break;
             case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
                 scrollToBottom();
+                collectElements();
                 break;
             case REG_EXP_SEARCH.test(keyword):
                 /**

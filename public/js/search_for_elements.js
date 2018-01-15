@@ -2,20 +2,27 @@ import {elementBuilder} from './element';
 import {ALL_SELECTORS} from './const';
 
 let elements = [];
-elements.push(...elementBuilder(ALL_SELECTORS,));
+export function collectElements(){
+    elements.push(...elementBuilder(ALL_SELECTORS,));
+    /*for (let i = 0; i < elements.length; i++) {
+        console.log(elements[i]);
+    }   */
+}
+
 
 
 /**
  * Buttons
  * */
-export function searchForButtons(selector, userInput, round) {
+export function searchForButtons(userInput, round) {
 
     let foundedElements = [];
 
     if (elements.length > 0) {
         for (let i = 0; i < elements.length; i++) {
             if (compareStrings(elements[i].text, userInput, round) || (elements[i].value ? compareStrings(elements[i].value, userInput, round) : false)
-            || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput, round) : false)) {
+                || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput, round) : false)
+                ||  (elements[i].label ? compareStrings(elements[i].label, userInput, round) : false)) {
 
                 foundedElements.push(elements[i]);
             }

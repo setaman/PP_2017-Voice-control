@@ -12891,6 +12891,7 @@ module.exports = function (val) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.collectElements = collectElements;
 exports.searchForButtons = searchForButtons;
 exports.searchForInputFields = searchForInputFields;
 exports.searchForCheckboxesAndRadios = searchForCheckboxesAndRadios;
@@ -12905,17 +12906,24 @@ var _const = __webpack_require__(12);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var elements = [];
-elements.push.apply(elements, _toConsumableArray((0, _element.elementBuilder)(_const.ALL_SELECTORS)));
+
+function collectElements() {
+  elements.push.apply(elements, _toConsumableArray((0, _element.elementBuilder)(_const.ALL_SELECTORS)));
+  /*for (let i = 0; i < elements.length; i++) {
+      console.log(elements[i]);
+  }   */
+}
 /**
  * Buttons
  * */
 
-function searchForButtons(selector, userInput, round) {
+
+function searchForButtons(userInput, round) {
   var foundedElements = [];
 
   if (elements.length > 0) {
     for (var i = 0; i < elements.length; i++) {
-      if (compareStrings(elements[i].text, userInput, round) || (elements[i].value ? compareStrings(elements[i].value, userInput, round) : false) || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput, round) : false)) {
+      if (compareStrings(elements[i].text, userInput, round) || (elements[i].value ? compareStrings(elements[i].value, userInput, round) : false) || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput, round) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput, round) : false)) {
         foundedElements.push(elements[i]);
       }
     }
@@ -14703,11 +14711,7 @@ var currentMode = _const.MODE_NO_MODE;
 var systemRecognitionState = false;
 var currentKeyword;
 var currentSearchString;
-/*let elements = [];
-elements.push(...elementBuilder(ALL_SELECTORS));
-for (let i = 0; i < elements.length; i++){
-    console.log(elements[i]);
-}*/
+(0, _search_for_elements.collectElements)();
 
 window.onload = function () {
   (0, _visualizer.default)();
@@ -14803,6 +14807,7 @@ window.onload = function () {
       });
     }
 
+    (0, _search_for_elements.collectElements)();
     clearCurrentElements();
     var t1 = performance.now();
     console.log('Execution time: ' + (t1 - t0) + ' mil');
@@ -14961,7 +14966,7 @@ window.onload = function () {
       case _const.REG_EXP_CLICK.test(keyword):
         console.log('Search string for CLICKS: ' + userCommand);
 
-        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(_const.CLICK_SELECTORS, userCommand, round))); //currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
+        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(userCommand, round))); //currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
         //currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
 
 
@@ -14978,18 +14983,22 @@ window.onload = function () {
 
       case _const.REG_EXP_SCROLL_DOWN.test(keyword):
         (0, _actions.scrollDown)();
+        (0, _search_for_elements.collectElements)();
         break;
 
       case _const.REG_EXP_SCROLL_UP.test(keyword):
         (0, _actions.scrollUp)();
+        (0, _search_for_elements.collectElements)();
         break;
 
       case _const.REG_EXP_SCROLL_TO_TOP.test(keyword):
         (0, _actions.scrollToTop)();
+        (0, _search_for_elements.collectElements)();
         break;
 
       case _const.REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
         (0, _actions.scrollToBottom)();
+        (0, _search_for_elements.collectElements)();
         break;
 
       case _const.REG_EXP_SEARCH.test(keyword):
@@ -15036,17 +15045,17 @@ var _helper = __webpack_require__(28);
 var _const = __webpack_require__(12);
 
 function executeAction(element) {
-  console.log($(element));
+  console.log(element);
   var typeC = _const.TYPE_CLICKABLE;
   var typeF = _const.TYPE_FOCUSABLE;
   var typeS = _const.TYPE_SELECTABLE;
 
   if ((0, _helper.getTypeOfElement)(element) === typeC) {
-    executeClick($(element));
+    executeClick(element);
   } else if ((0, _helper.getTypeOfElement)(element) === typeF) {
-    executeFocus($(element));
+    executeFocus(element);
   } else if ((0, _helper.getTypeOfElement)(element) === typeS) {
-    executeSelect($(element));
+    executeSelect(element);
   }
 }
 /**
@@ -15055,18 +15064,17 @@ function executeAction(element) {
 
 
 function executeClick(element) {
-  element.trigger('click');
+  element.click();
   element.focus();
 }
 
 function executeCheck(element) {
-  element.click();
-  element.focus();
+  $(element).click().focus();
 }
 
 function executeFocus(element) {
-  element.focus();
   element.click();
+  element.focus();
 }
 
 function executeSetText(element, text) {
@@ -21167,23 +21175,21 @@ var _const = __webpack_require__(12);
 
 var _search_for_elements = __webpack_require__(27);
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function elementBuilder(selector) {
   var elements = [];
   $(selector).each(function () {
     if (((0, _search_for_elements.isVisible)(this) || (0, _search_for_elements.isVisible)(getLabel($(this).attr('id')))) && !($(this).is('li') && $(this).has('a'))) {
-      elements.push(buildElement($(this)));
+      elements.push(buildElement(this));
     }
   });
   return elements;
 }
 
 function buildElement(elem) {
-  var currentLabel = getLabel(elem.attr('id'));
+  var currentLabel = getLabel($(elem).attr('id'));
   return {
     elem: elem,
-    text: elem.text() ? elem.text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined,
+    text: $(elem).text() ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined,
     label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '),
     value: hasValueAttribute(elem),
     placeholder: hasPlaceholderAttribute(elem),
@@ -21209,14 +21215,16 @@ function getPosition(elem, label) {
 
 function getDimensions(elem, label) {
   if (label) {
-    return _defineProperty({
-      width: $(label).outerWidth(true)
-    }, "width", $(label).outerHeight(true));
+    return {
+      width: $(label).outerWidth(true),
+      height: $(label).outerHeight(true)
+    };
   }
 
-  return _defineProperty({
-    width: $(elem).outerWidth(true)
-  }, "width", $(elem).outerHeight(true));
+  return {
+    width: $(elem).outerWidth(true),
+    height: $(elem).outerHeight(true)
+  };
 }
 /**
  * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
@@ -21243,12 +21251,12 @@ function getLabel(element_id) {
   return undefined;
 }
 
-function hasValueAttribute(element) {
-  return element.val() !== undefined && element.val() !== '' && element.val() !== null ? element.val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
+function hasValueAttribute(elem) {
+  return $(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
-function hasPlaceholderAttribute(element) {
-  return element.attr('placeholder') !== undefined && element.attr('placeholder') !== '' && element.attr('placeholder') !== null ? element.attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
+function hasPlaceholderAttribute(elem) {
+  return $(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getTypeOfElement(element) {

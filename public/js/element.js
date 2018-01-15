@@ -5,17 +5,17 @@ export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
         if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && !($(this).is('li') && $(this).has('a'))){
-            elements.push(buildElement($(this)));
+            elements.push(buildElement(this));
         }
     });
     return elements;
 }
 
 function buildElement(elem) {
-    let currentLabel = getLabel(elem.attr('id'));
+    let currentLabel = getLabel($(elem).attr('id'));
     return {
         elem: elem,
-        text: (elem.text()) ? elem.text().trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined,
+        text: ($(elem).text()) ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined,
         label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g,' '),
         value: hasValueAttribute(elem),
         placeholder: hasPlaceholderAttribute(elem),
@@ -42,12 +42,12 @@ function getDimensions(elem, label) {
     if (label){
         return {
             width: $(label).outerWidth(true),
-            width: $(label).outerHeight(true)
+            height: $(label).outerHeight(true)
         }
     }
     return {
         width: $(elem).outerWidth(true),
-        width: $(elem).outerHeight(true)
+        height: $(elem).outerHeight(true)
     };
 }
 
@@ -74,12 +74,12 @@ export function getLabel(element_id) {
     return undefined;
 }
 
-function hasValueAttribute(element) {
-    return((element.val() !== undefined && element.val() !== '' && element.val() !== null )) ? element.val().toString().trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined;
+function hasValueAttribute(elem) {
+    return(($(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null )) ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined;
 }
 
-function hasPlaceholderAttribute(element) {
-    return (element.attr('placeholder') !== undefined && element.attr('placeholder') !== '' && element.attr('placeholder') !== null ) ? element.attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined;
+function hasPlaceholderAttribute(elem) {
+    return ($(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null ) ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined;
 }
 
 export function getTypeOfElement(element) {
