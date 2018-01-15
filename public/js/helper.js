@@ -1,5 +1,9 @@
-import {CLICK_SELECTORS, FOCUS_SELECTORS, CHECK_SELECTORS, SELECT_SELECTORS, SEARCH_SELECTORS, TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_CLICKABLE} from "./const";
+import {
+    CLICK_SELECTORS, FOCUS_SELECTORS, CHECK_SELECTORS, SELECT_SELECTORS, SEARCH_SELECTORS, TYPE_FOCUSABLE,
+    TYPE_SELECTABLE, TYPE_CLICKABLE, ALL_SELECTORS
+} from "./const";
 import {isVisible} from './search_for_elements';
+import {fuzzySearchForElements} from "./fuzzy_search";
 
 export function generateId(i) {
     return 'vocs_multiple_select_wrapper_' + i;
@@ -25,7 +29,7 @@ export function extractKeyword(userCommand) {
         result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
         return (result.length > 1) ? result[0] : false;
     }*/
-    if (result[0] === 'delete'){
+    if (result[0] === 'delete' || result[0] === 'sleep'){
         return 'click';
     }
     return result[0];
@@ -35,9 +39,9 @@ export function extractSearchString(userCommand) {
     let result = userCommand.split(/[ ,]+/);
     if (result.length > 1){
         result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-        return (result.length > 1) ? result[1] : '';
+        return (result.length > 1) ? result[1] : undefined;
     }
-    return '';
+    return undefined;
 }
 
 export function getTypeOfElement(element) {
@@ -67,4 +71,17 @@ export function collectElementsLabel(selector) {
     });
 
     return elements;
+}
+
+export function getRecognizedLabel(elements, userCommand) {
+
+    /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
+
+    let fuzzy_result = fuzzySearchForElements(elements, userCommand);
+    if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
+        console.log('FUZZY found:');
+        console.log(fuzzy_result);
+        return fuzzy_result;
+    }
+    return [];
 }

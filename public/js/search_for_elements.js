@@ -1,31 +1,39 @@
 import {elementBuilder} from './element';
 import {ALL_SELECTORS} from './const';
+import {getRecognizedLabel} from './helper';
 
 let elements = [];
-export function collectElements(){
+
+export function collectElements() {
     elements = [];
     elements.push(...elementBuilder(ALL_SELECTORS,));
     console.log(elements);
 }
 
+export function searchForElements(userInput) {
+    let result = search(userInput);
+    if (result.length === 0) {
+        return getRecognizedLabel(elements, userInput);
+    }
+    return result;
+}
+
 /**
  * Buttons
  * */
-export function searchForButtons(userInput, round) {
-
+export function search(userInput, round) {
     let foundedElements = [];
 
     if (elements.length > 0) {
         for (let i = 0; i < elements.length; i++) {
             if (compareStrings(elements[i].text, userInput, round) || (elements[i].value ? compareStrings(elements[i].value, userInput, round) : false)
                 || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput, round) : false)
-                ||  (elements[i].label ? compareStrings(elements[i].label, userInput, round) : false)) {
+                || (elements[i].label ? compareStrings(elements[i].label, userInput, round) : false)) {
 
                 foundedElements.push(elements[i]);
             }
         }
     }
-
     return foundedElements
 }
 
@@ -130,7 +138,7 @@ function compareStrings(textContent, searchString, round) {
         return false;
     }
 
-    switch (round) {
+    switch (3) {
         case 1:
             return textContent.toString().toLowerCase().trim() === searchString;
         case 2:

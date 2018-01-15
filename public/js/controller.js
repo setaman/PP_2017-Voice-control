@@ -10,7 +10,7 @@ import {
     STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE, KEYWORDS_OBJECTS, ALL_SELECTORS, ROUND1,ROUND2, ROUND3
 } from './const';
 import {
-    searchForButtons,
+    search,
     searchForInputFields,
     searchForCheckboxesAndRadios,
     searchForSelect,
@@ -95,11 +95,11 @@ window.onload = function () {
                 console.log('NUmbER after convert: ' + userCommand);
                 let elem = currentMultipleElements[parseInt(userCommand) - 1];
 
-                executeAction(elem);
+                executeAction(elem.elem);
                 changeInputMode(MODE_NO_MODE);
 
-                if (getTypeOfElement(elem) === TYPE_FOCUSABLE) {
-                    currentInputfield = elem;
+                if (elem.type === TYPE_FOCUSABLE) {
+                    currentInputfield = elem.elem;
                     changeInputMode(MODE_TYPE);
                 }
                 currentMultipleElements = [];
@@ -117,29 +117,26 @@ window.onload = function () {
         if (currentMode === MODE_NO_MODE && currentKeyword) {
 
             choiceAction(currentKeyword, currentSearchString, ROUND1);
-            //Second Round Search
-            if (currentElements.length === 0) {
-                /**
-                 * FIXME: falls kein element gefunden, werd multiplElementsSelected() aufgerufen
-                 */
-                choiceAction(currentKeyword, currentSearchString, ROUND2);
-                if (currentSearchString.length === 0){
-                    //Third Round Search
-                    choiceAction(currentKeyword, currentSearchString, ROUND3);
+
+            if(currentSearchString){
+                //Second Round Search
+                /*if (currentElements.length === 0) {
+                    choiceAction(currentKeyword, currentSearchString, ROUND2);
+                    if (currentSearchString.length === 0){
+                        //Third Round Search
+                        choiceAction(currentKeyword, currentSearchString, ROUND3);
+                    }
+                }*/
+                if (currentElements.length === 0) {
+                    provideSystemStatus(STATE_NO_MATCH, 'Please try again');
+                    console.error('-------------No element found------------------');
+
+                } else if (currentElements.length > 1) {
+                    multipleElementsSelected();
+                    provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
                 }
+                console.log(currentElements);
             }
-
-            if (currentElements.length === 0) {
-                provideSystemStatus(STATE_NO_MATCH, 'Please try again');
-                console.error('-------------No element found------------------');
-
-            } else if (currentElements.length > 1) {
-                multipleElementsSelected();
-                provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
-            }
-            console.log(currentElements);
-
-
         } else if (currentMode === MODE_TYPE && currentInputfield) {
             executeSetText(currentInputfield, userCommand);
 
@@ -165,9 +162,8 @@ window.onload = function () {
 
         for (let i = 0; i < currentElements.length; i++) {
 
-            if ($(currentElements[i]).is('input') && getLabel($(currentElements[i]).attr('id'))) {
-                let label = getLabel($(currentElements[i]).attr('id'));
-                buildMultipleWrapper(i, label);
+            if ($(currentElements[i].elem).is('input') && currentElements[i].label) {
+                buildMultipleWrapper(i, currentElements[i]);
             } else {
                 buildMultipleWrapper(i, currentElements[i]);
             }
@@ -280,29 +276,14 @@ window.onload = function () {
         //Sonst Keyword vermuten
         try {
             let result = fuzzySearchForKeywords(KEYWORDS_OBJECTS, keyword);
-            if (result.length > 0 && result !== undefined) {
-                return currentKeyword = result[0];
+            if (result && result.length > 0) {
+                return result[0];
             }
-            return false;
+            return undefined;
         } catch (e) {
             console.log(e);
-            return false;
+            return undefined;
         }
-    }
-
-    function getRecognizedLabel(userCommand) {
-
-        /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
-
-        console.log('FUZZY:' + userCommand);
-        console.log(fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), userCommand));
-        let fuzzy_result = fuzzySearchForElements(collectElementsLabel(ALL_SELECTORS), userCommand);
-
-        if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
-            console.log('Recognized label: ' + fuzzy_result[0]);
-            return fuzzy_result[0];
-        }
-        return null;
     }
 
     function choiceAction(keyword, userCommand, round) {
@@ -311,14 +292,12 @@ window.onload = function () {
         switch (true) {
             case REG_EXP_CLICK.test(keyword):
                 console.log('Search string for CLICKS: ' + userCommand);
-                currentElements.push(...searchForButtons(userCommand, round));
-                //currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
-                //currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
+                currentElements.push(...search(userCommand, round));
                 if (currentElements.length === 1) {
                     executeAction(currentElements[0].elem);
 
-                    if (getTypeOfElement(currentElements[0]) === TYPE_FOCUSABLE) {
-                        currentInputfield = $(currentElements[0]);
+                    if (currentElements[0].type === TYPE_FOCUSABLE) {
+                        currentInputfield = currentElements[0].elem;
                         changeInputMode(MODE_TYPE);
                     }
                 }

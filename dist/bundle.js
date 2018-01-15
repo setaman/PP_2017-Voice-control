@@ -11856,7 +11856,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.collectElements = collectElements;
-exports.searchForButtons = searchForButtons;
+exports.searchForElements = searchForElements;
+exports.search = search;
 exports.searchForInputFields = searchForInputFields;
 exports.searchForCheckboxesAndRadios = searchForCheckboxesAndRadios;
 exports.searchForSelect = searchForSelect;
@@ -11864,6 +11865,8 @@ exports.searchForSelect = searchForSelect;
 var _element = __webpack_require__(28);
 
 var _const = __webpack_require__(4);
+
+var _helper = __webpack_require__(29);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -11878,12 +11881,22 @@ function collectElements() {
 
   console.log(elements);
 }
+
+function searchForElements(userInput) {
+  var result = search(userInput);
+
+  if (result.length === 0) {
+    return (0, _helper.getRecognizedLabel)(elements, userInput);
+  }
+
+  return result;
+}
 /**
  * Buttons
  * */
 
 
-function searchForButtons(userInput, round) {
+function search(userInput, round) {
   var foundedElements = [];
 
   if (elements.length > 0) {
@@ -11994,7 +12007,7 @@ function compareStrings(textContent, searchString, round) {
     return false;
   }
 
-  switch (round) {
+  switch (3) {
     case 1:
       return textContent.toString().toLowerCase().trim() === searchString;
 
@@ -13219,10 +13232,13 @@ exports.extractKeyword = extractKeyword;
 exports.extractSearchString = extractSearchString;
 exports.getTypeOfElement = getTypeOfElement;
 exports.collectElementsLabel = collectElementsLabel;
+exports.getRecognizedLabel = getRecognizedLabel;
 
 var _const = __webpack_require__(4);
 
 var _search_for_elements = __webpack_require__(13);
+
+var _fuzzy_search = __webpack_require__(47);
 
 function generateId(i) {
   return 'vocs_multiple_select_wrapper_' + i;
@@ -13251,7 +13267,7 @@ function extractKeyword(userCommand) {
       return (result.length > 1) ? result[0] : false;
   }*/
 
-  if (result[0] === 'delete') {
+  if (result[0] === 'delete' || result[0] === 'sleep') {
     return 'click';
   }
 
@@ -13263,10 +13279,10 @@ function extractSearchString(userCommand) {
 
   if (result.length > 1) {
     result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-    return result.length > 1 ? result[1] : '';
+    return result.length > 1 ? result[1] : undefined;
   }
 
-  return '';
+  return undefined;
 }
 
 function getTypeOfElement(element) {
@@ -13296,6 +13312,19 @@ function collectElementsLabel(selector) {
     }
   });
   return elements;
+}
+
+function getRecognizedLabel(elements, userCommand) {
+  /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
+  var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)(elements, userCommand);
+
+  if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
+    console.log('FUZZY found:');
+    console.log(fuzzy_result);
+    return fuzzy_result;
+  }
+
+  return [];
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
@@ -14847,11 +14876,11 @@ window.onload = function () {
         });
         console.log('NUmbER after convert: ' + userCommand);
         var elem = currentMultipleElements[parseInt(userCommand) - 1];
-        (0, _actions.executeAction)(elem);
+        (0, _actions.executeAction)(elem.elem);
         changeInputMode(_const.MODE_NO_MODE);
 
-        if ((0, _helper.getTypeOfElement)(elem) === _const.TYPE_FOCUSABLE) {
-          currentInputfield = elem;
+        if (elem.type === _const.TYPE_FOCUSABLE) {
+          currentInputfield = elem.elem;
           changeInputMode(_const.MODE_TYPE);
         }
 
@@ -14866,29 +14895,28 @@ window.onload = function () {
     }
 
     if (currentMode === _const.MODE_NO_MODE && currentKeyword) {
-      choiceAction(currentKeyword, currentSearchString, _const.ROUND1); //Second Round Search
+      choiceAction(currentKeyword, currentSearchString, _const.ROUND1);
 
-      if (currentElements.length === 0) {
-        /**
-         * FIXME: falls kein element gefunden, werd multiplElementsSelected() aufgerufen
-         */
-        choiceAction(currentKeyword, currentSearchString, _const.ROUND2);
+      if (currentSearchString) {
+        //Second Round Search
 
-        if (currentSearchString.length === 0) {
-          //Third Round Search
-          choiceAction(currentKeyword, currentSearchString, _const.ROUND3);
+        /*if (currentElements.length === 0) {
+            choiceAction(currentKeyword, currentSearchString, ROUND2);
+            if (currentSearchString.length === 0){
+                //Third Round Search
+                choiceAction(currentKeyword, currentSearchString, ROUND3);
+            }
+        }*/
+        if (currentElements.length === 0) {
+          provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
+          console.error('-------------No element found------------------');
+        } else if (currentElements.length > 1) {
+          multipleElementsSelected();
+          provideSystemStatus(_const.STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
         }
-      }
 
-      if (currentElements.length === 0) {
-        provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
-        console.error('-------------No element found------------------');
-      } else if (currentElements.length > 1) {
-        multipleElementsSelected();
-        provideSystemStatus(_const.STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
+        console.log(currentElements);
       }
-
-      console.log(currentElements);
     } else if (currentMode === _const.MODE_TYPE && currentInputfield) {
       (0, _actions.executeSetText)(currentInputfield, userCommand);
     } else if (currentMode === _const.MODE_SELECT && currentSelect) {
@@ -14913,9 +14941,8 @@ window.onload = function () {
     $('body').prepend('<div class="vocs_overlay"></div>');
 
     for (var i = 0; i < currentElements.length; i++) {
-      if ($(currentElements[i]).is('input') && (0, _search_for_elements.getLabel)($(currentElements[i]).attr('id'))) {
-        var label = (0, _search_for_elements.getLabel)($(currentElements[i]).attr('id'));
-        (0, _helper.buildMultipleWrapper)(i, label);
+      if ($(currentElements[i].elem).is('input') && currentElements[i].label) {
+        (0, _helper.buildMultipleWrapper)(i, currentElements[i]);
       } else {
         (0, _helper.buildMultipleWrapper)(i, currentElements[i]);
       }
@@ -15028,29 +15055,15 @@ window.onload = function () {
     try {
       var result = (0, _fuzzy_search.fuzzySearchForKeywords)(_const.KEYWORDS_OBJECTS, keyword);
 
-      if (result.length > 0 && result !== undefined) {
-        return currentKeyword = result[0];
+      if (result && result.length > 0) {
+        return result[0];
       }
 
-      return false;
+      return undefined;
     } catch (e) {
       console.log(e);
-      return false;
+      return undefined;
     }
-  }
-
-  function getRecognizedLabel(userCommand) {
-    /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
-    console.log('FUZZY:' + userCommand);
-    console.log((0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), userCommand));
-    var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)((0, _helper.collectElementsLabel)(_const.ALL_SELECTORS), userCommand);
-
-    if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
-      console.log('Recognized label: ' + fuzzy_result[0]);
-      return fuzzy_result[0];
-    }
-
-    return null;
   }
 
   function choiceAction(keyword, userCommand, round) {
@@ -15062,15 +15075,13 @@ window.onload = function () {
       case _const.REG_EXP_CLICK.test(keyword):
         console.log('Search string for CLICKS: ' + userCommand);
 
-        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForButtons)(userCommand, round))); //currentElements.push(...searchForInputFields(FOCUS_SELECTORS, userCommand));
-        //currentElements.push(...searchForCheckboxesAndRadios(CHECK_SELECTORS, userCommand));
-
+        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.search)(userCommand, round)));
 
         if (currentElements.length === 1) {
           (0, _actions.executeAction)(currentElements[0].elem);
 
-          if ((0, _helper.getTypeOfElement)(currentElements[0]) === _const.TYPE_FOCUSABLE) {
-            currentInputfield = $(currentElements[0]);
+          if (currentElements[0].type === _const.TYPE_FOCUSABLE) {
+            currentInputfield = currentElements[0].elem;
             changeInputMode(_const.MODE_TYPE);
           }
         }
@@ -15234,13 +15245,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var optionsForElements = {
   shouldSort: true,
-  threshold: 0.1,
+  threshold: 0.6,
   location: 0,
   distance: 100,
   maxPatternLength: 32,
   minMatchCharLength: 1,
-  keys: ['label'],
-  id: 'label'
+  keys: ['text', 'label', 'value', 'placeholder']
 };
 var optionsForKeywords = {
   shouldSort: true,
