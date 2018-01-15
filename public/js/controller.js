@@ -36,7 +36,6 @@ import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 //import '../css/vocs_styles.css'
 import speechRecognition from './visualizer';
-import {elementBuilder} from "./element";
 
 let currentElements = [];
 let currentMultipleElements = [];
@@ -47,10 +46,11 @@ let systemRecognitionState = false;
 let currentKeyword;
 let currentSearchString;
 
-collectElements();
-
 
 window.onload = function () {
+
+    setTimeout(function(){ collectElements(); }, 500);
+
 
     speechRecognition();
 

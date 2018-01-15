@@ -3,13 +3,10 @@ import {ALL_SELECTORS} from './const';
 
 let elements = [];
 export function collectElements(){
+    elements = [];
     elements.push(...elementBuilder(ALL_SELECTORS,));
-    /*for (let i = 0; i < elements.length; i++) {
-        console.log(elements[i]);
-    }   */
+    console.log(elements);
 }
-
-
 
 /**
  * Buttons
@@ -118,67 +115,11 @@ export function searchForSelect(selector, userInput) {
 /************************************************************************************************************************
  * Helper methods
  */
-
-/**
- * FIXME: why invisible(in flow) element always selected?
- */
-export function isVisible(elem) {
-    if(elem){
-        let top_of_element = $(elem).offset().top;
-        let bottom_of_element = $(elem).offset().top + $(elem).outerHeight();
-        let bottom_of_screen = $(window).scrollTop() + $(window).height();
-        let top_of_screen = $(window).scrollTop();
-        return (bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element) && !$(elem).is(':hidden')
-    }
-    return false;
-}
-
-function hasValueAttribute(element) {
-    return ((element.value !== undefined || element.value !== '' || element.value !== null)) ? element.value : false;
-}
-
-function hasPlaceholderAttribute(element) {
-    return (element.placeholder !== undefined || element.placeholder !== '' || element.placeholder !== null) ? element.placeholder : false;
-}
-
 function hasOption(element, userInput) {
     if ($(element).is('select')) {
         console.log('********Selects content: ' + element.textContent.toString().toLowerCase());
         if (element.textContent.toString().toLowerCase().indexOf(userInput) > 0) {
             return true;
-        }
-    }
-    return false;
-}
-
-/*function hasLabel(element_id, userInput) {
-    if(element_id === undefined){
-        return false;
-    }
-    if (getLabel(element_id)){
-        return getLabel(element_id).textContent.toLowerCase().trim().startsWith(userInput);
-    }
-    return (element_id === undefined element.placeholder !== undefined || element.placeholder !== '' || element.placeholder !== null );
-}*/
-
-/**
- * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
- * verknüpft werden, falls ein Input mehrere Labels hat, wird nur Label mit dem Textinhalt berücksichtigt
- * @param element_id - id des zu dem Label zugehörigen Input elements
- * @returns {*} ein Label oder oder false, falls mit dem Input kein Label verknüpft ist
- */
-export function getLabel(element_id) {
-
-    let selectedLabels = $('[for=' + element_id + ']');
-    //Label gefunden
-    if (selectedLabels.length === 1) {
-        return selectedLabels[0];
-    } else if (selectedLabels.length > 1) {
-        //Element hat mehrere Labels
-        for (let i = 0; i < selectedLabels.length; i++) {
-            if (selectedLabels[i].textContent.trim().length > 0) {
-                return selectedLabels[i];
-            }
         }
     }
     return false;
