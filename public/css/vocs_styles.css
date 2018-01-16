@@ -28,10 +28,8 @@
     border: 2px solid white;
     border-radius:50%;
     box-shadow:0 0 1px #333;
-    z-index: 1001
+    z-index: 2001
 }
-
-.vocs_multiple_select_label{}
 
 .vocs_overlay {
     width: 100%; /* Full width (cover the whole page) */

@@ -11885,7 +11885,7 @@ function buildMultipleWrapper(i, currentElement) {
   var id = generateId(i);
   var wrapperTemplate = "<div class=\"vocs_multiple_select_wrapper_container\" id=\"".concat(id, "\"><div id=\"vocs_wrapper_").concat(i, "\" data-number=\"").concat(i + 1, "\" class=\"vocs_multiple_select_wrapper\"></div></div>");
   $('.vocs_overlay').append(wrapperTemplate);
-  $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 30 ? currentElement.dimensions.width + 30 : currentElement.dimensions.width);
+  $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 30 ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
   $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
   $('#' + id).offset({
     top: currentElement.position.posTop - 5,
