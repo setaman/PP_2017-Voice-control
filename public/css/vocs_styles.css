@@ -28,7 +28,8 @@
     border: 2px solid white;
     border-radius:50%;
     box-shadow:0 0 1px #333;
-    z-index: 2001
+    z-index: 1001;
+    opacity: 0.6;
 }
 
 .vocs_overlay {
