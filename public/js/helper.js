@@ -58,18 +58,11 @@ export function getTypeOfElement(element) {
     }
 }
 
-export function collectElementsLabel(selector) {
-    let elements = [];
-    $(selector).each(function () {
-        if (isVisible(this) && !($(this).is('li') && $(this).has('a'))){
-            elements.push({label: $(this).text().trim().toLowerCase()});
-        }
-    });
-
-    return elements;
-}
-
 export function getRecognizedElements(elements, userCommand) {
+
+    /**
+     * TODO: optimize search for long strings
+     */
 
     /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
 
