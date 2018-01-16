@@ -2,35 +2,40 @@
  * Created by Pastuh on 19.10.2017.
  */
 import {
-    SELECT_SELECTORS, CHECK_SELECTORS, CLICK_SELECTORS, SEARCH_SELECTORS, FOCUS_SELECTORS,
-    CLICK, FOCUS, OFF, SELECT, CHECK, SCROLL_DOWN, SCROLL_UP, SCROLL_TO_BOTTOM, SCROLL_TO_TOP, SEARCH, STOP,
-    REG_EXP_CLICK, REG_EXP_FOCUS, REG_EXP_OFF, REG_EXP_SEARCH, REG_EXP_CHECK, REG_EXP_SELECT, REG_EXP_SCROLL_DOWN,
-    REG_EXP_SCROLL_TO_TOP, REG_EXP_SCROLL_TO_BOTTOM, REG_EXP_STOP, REG_EXP_SCROLL_UP,
-    MODE_TYPE, MODE_SELECT, MODE_NO_MODE, STATE_LISTENING, STATE_ERROR, STATE_YOU_SAY, STATE_NO_MATCH, STATE_ACTIVE,
-    STATE_INACTIVE, STATE_MULTIPLE_MATCH, MODE_MULTIPLE, TYPE_FOCUSABLE, KEYWORDS_OBJECTS, ALL_SELECTORS, ROUND1,ROUND2, ROUND3
+    REG_EXP_CLICK,
+    REG_EXP_OFF,
+    REG_EXP_SEARCH,
+    REG_EXP_SCROLL_DOWN,
+    REG_EXP_SCROLL_TO_TOP,
+    REG_EXP_SCROLL_TO_BOTTOM,
+    REG_EXP_STOP,
+    REG_EXP_SCROLL_UP,
+    MODE_TYPE,
+    MODE_SELECT,
+    MODE_NO_MODE,
+    STATE_LISTENING,
+    STATE_ERROR,
+    STATE_YOU_SAY,
+    STATE_NO_MATCH,
+    STATE_ACTIVE,
+    STATE_INACTIVE,
+    STATE_MULTIPLE_MATCH,
+    MODE_MULTIPLE,
+    TYPE_FOCUSABLE,
+    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW,
 } from './const';
-import {
-    search,
-    searchForInputFields,
-    searchForCheckboxesAndRadios,
-    searchForSelect,
-    getLabel, collectElements, searchForElements
-} from './search_for_elements';
+import {getElements, searchForElements} from './search_for_elements';
 import {
     scrollUp,
     scrollDown,
     scrollToBottom,
     scrollToTop,
-    executeClick,
-    executeSetText,
-    executeFocus,
-    executeCheck, executeAction
+    executeSetText, executeAction
 } from './actions';
 import {
-    buildMultipleWrapper, splitUserCommand, getTypeOfElement, collectElementsLabel, extractKeyword,
-    extractSearchString
+    buildMultipleWrapper, extractKeyword, extractSearchString
 } from "./helper";
-import {fuzzySearchForElements, fuzzySearchForKeywords} from "./fuzzy_search";
+import {fuzzySearchForKeywords} from "./fuzzy_search";
 
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
@@ -48,9 +53,6 @@ let currentSearchString;
 
 
 window.onload = function () {
-
-    setTimeout(function(){ collectElements(); }, 500);
-
 
     speechRecognition();
 
@@ -77,7 +79,6 @@ window.onload = function () {
 
         currentKeyword = getRecognizedKeyword(extractKeyword(userCommand));
         currentSearchString = extractSearchString(userCommand);
-        //currentSearchString = getRecognizedElements(extractSearchString(userCommand));
         console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentSearchString !== '') ? currentSearchString : 'no search string'));
 
         if (currentKeyword && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
@@ -118,15 +119,7 @@ window.onload = function () {
 
             choiceAction(currentKeyword, currentSearchString);
 
-            if(currentSearchString){
-                //Second Round Search
-                /*if (currentElements.length === 0) {
-                    choiceAction(currentKeyword, currentSearchString, ROUND2);
-                    if (currentSearchString.length === 0){
-                        //Third Round Search
-                        choiceAction(currentKeyword, currentSearchString, ROUND3);
-                    }
-                }*/
+            if (currentSearchString || currentKeyword === SHOW) {
                 if (currentElements.length === 0) {
                     provideSystemStatus(STATE_NO_MATCH, 'Please try again');
                     console.error('-------------No element found------------------');
@@ -151,7 +144,6 @@ window.onload = function () {
                 }
             });
         }
-        collectElements();
         clearCurrentElements();
         let t1 = performance.now();
         console.log('Execution time: ' + (t1 - t0) + ' mil');
@@ -304,19 +296,18 @@ window.onload = function () {
                 break;
             case REG_EXP_SCROLL_DOWN.test(keyword):
                 scrollDown();
-                collectElements();
                 break;
             case REG_EXP_SCROLL_UP.test(keyword):
                 scrollUp();
-                collectElements();
                 break;
             case REG_EXP_SCROLL_TO_TOP.test(keyword):
                 scrollToTop();
-                collectElements();
                 break;
             case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
                 scrollToBottom();
-                collectElements();
+                break;
+            case REG_EXP_SHOW.test(keyword):
+                currentElements.push(...getElements());
                 break;
             case REG_EXP_SEARCH.test(keyword):
                 /**

@@ -11007,7 +11007,7 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ROUND3 = exports.ROUND2 = exports.ROUND1 = exports.KEYWORDS_OBJECTS = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTORS = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
+exports.ROUND3 = exports.ROUND2 = exports.ROUND1 = exports.KEYWORDS_OBJECTS = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTORS = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
 
 /**
  * Selectors
@@ -11049,11 +11049,13 @@ exports.SCROLL_TO_TOP = SCROLL_TO_TOP;
 var SEARCH = 'search';
 exports.SEARCH = SEARCH;
 var STOP = 'stop';
+exports.STOP = STOP;
+var SHOW = 'show';
 /**
  * RegExp
  */
 
-exports.STOP = STOP;
+exports.SHOW = SHOW;
 var REG_EXP_CLICK = /^(click)$/;
 exports.REG_EXP_CLICK = REG_EXP_CLICK;
 var REG_EXP_FOCUS = /^(focus)$/;
@@ -11075,11 +11077,13 @@ exports.REG_EXP_SCROLL_TO_TOP = REG_EXP_SCROLL_TO_TOP;
 var REG_EXP_SCROLL_TO_BOTTOM = /^(bottom)$/;
 exports.REG_EXP_SCROLL_TO_BOTTOM = REG_EXP_SCROLL_TO_BOTTOM;
 var REG_EXP_STOP = /^(stop)$/;
+exports.REG_EXP_STOP = REG_EXP_STOP;
+var REG_EXP_SHOW = /^(show)$/;
 /**
  * Keywords object needed for fuzzy search
  */
 
-exports.REG_EXP_STOP = REG_EXP_STOP;
+exports.REG_EXP_SHOW = REG_EXP_SHOW;
 var KEYWORDS_OBJECTS = [{
   keyword: CLICK,
   regExp: REG_EXP_CLICK
@@ -11101,6 +11105,9 @@ var KEYWORDS_OBJECTS = [{
 }, {
   keyword: SCROLL_TO_BOTTOM,
   regExp: REG_EXP_SCROLL_TO_BOTTOM
+}, {
+  keyword: SHOW,
+  regExp: REG_EXP_SHOW
 }, {
   keyword: SCROLL_TO_TOP,
   regExp: REG_EXP_SCROLL_TO_TOP
@@ -11855,84 +11862,103 @@ if (typeof Object.create === 'function') {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.collectElements = collectElements;
-exports.searchForElements = searchForElements;
-exports.search = search;
-
-var _element = __webpack_require__(28);
+exports.generateId = generateId;
+exports.buildMultipleWrapper = buildMultipleWrapper;
+exports.splitUserCommand = splitUserCommand;
+exports.extractKeyword = extractKeyword;
+exports.extractSearchString = extractSearchString;
+exports.getTypeOfElement = getTypeOfElement;
+exports.collectElementsLabel = collectElementsLabel;
+exports.getRecognizedElements = getRecognizedElements;
 
 var _const = __webpack_require__(4);
 
-var _helper = __webpack_require__(29);
+var _search_for_elements = __webpack_require__(28);
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+var _fuzzy_search = __webpack_require__(29);
 
-var elements = [];
-
-function collectElements() {
-  var _elements;
-
-  elements = [];
-
-  (_elements = elements).push.apply(_elements, _toConsumableArray((0, _element.elementBuilder)(_const.ALL_SELECTORS)));
-
-  console.log(elements);
+function generateId(i) {
+  return 'vocs_multiple_select_wrapper_' + i;
 }
 
-function searchForElements(userInput) {
-  var result = search(userInput);
+function buildMultipleWrapper(i, currentElement) {
+  var id = generateId(i);
+  var wrapperTemplate = "<div class=\"vocs_multiple_select_wrapper_container\" id=\"".concat(id, "\"><div id=\"vocs_wrapper_").concat(i, "\" data-number=\"").concat(i + 1, "\" class=\"vocs_multiple_select_wrapper\"></div></div>");
+  $('.vocs_overlay').append(wrapperTemplate);
+  $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 30 ? currentElement.dimensions.width + 30 : currentElement.dimensions.width);
+  $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
+  $('#' + id).offset({
+    top: currentElement.position.posTop - 5,
+    left: currentElement.position.posLeft - 5
+  });
+}
 
-  if (result.length === 0) {
-    return (0, _helper.getRecognizedElements)(elements, userInput);
+function splitUserCommand(userCommand, command) {
+  return userCommand.slice(userCommand.indexOf(command) + command.length).trim();
+}
+
+function extractKeyword(userCommand) {
+  var result = userCommand.split(/[ ,]+/);
+
+  if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need') {
+    return 'click';
   }
 
-  return result;
+  return result[0];
 }
-/**
- * Buttons
- * */
 
+function extractSearchString(userCommand) {
+  var result = userCommand.split(/[ ,]+/);
 
-function search(userInput) {
-  var foundedElements = [];
+  if (result.length > 1) {
+    result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+    return result.length > 1 ? result[1] : undefined;
+  }
 
-  if (elements.length > 0) {
-    for (var i = 0; i < elements.length; i++) {
-      if (compareStrings(elements[i].text, userInput) || (elements[i].value ? compareStrings(elements[i].value, userInput) : false) || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput) : false)) {
-        foundedElements.push(elements[i]);
-      }
+  return undefined;
+}
+
+function getTypeOfElement(element) {
+  var clickable = _const.CLICK_SELECTORS + ',' + _const.CHECK_SELECTORS;
+  var focusable = _const.FOCUS_SELECTORS + ',' + _const.SEARCH_SELECTORS;
+  var selectable = _const.SELECT_SELECTORS;
+  var typeC = _const.TYPE_CLICKABLE;
+  var typeF = _const.TYPE_FOCUSABLE;
+  var typeS = _const.TYPE_SELECTABLE;
+
+  if ($(element).is(clickable)) {
+    return typeC;
+  } else if ($(element).is(focusable)) {
+    return typeF;
+  } else if ($(element).is(selectable)) {
+    return typeS;
+  }
+}
+
+function collectElementsLabel(selector) {
+  var elements = [];
+  $(selector).each(function () {
+    if ((0, _search_for_elements.isVisible)(this) && !($(this).is('li') && $(this).has('a'))) {
+      elements.push({
+        label: $(this).text().trim().toLowerCase()
+      });
     }
-  }
-
-  return foundedElements;
-}
-/************************************************************************************************************************
- * Helper methods
- */
-
-
-function hasOption(element, userInput) {
-  if ($(element).is('select')) {
-    console.log('********Selects content: ' + element.textContent.toString().toLowerCase());
-
-    if (element.textContent.toString().toLowerCase().indexOf(userInput) > 0) {
-      return true;
-    }
-  }
-
-  return false;
+  });
+  return elements;
 }
 
-function compareStrings(textContent, searchString) {
-  if (!textContent || searchString === '' || !searchString) {
-    return false;
+function getRecognizedElements(elements, userCommand) {
+  /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
+  var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)(elements, userCommand);
+
+  if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
+    console.log('FUZZY found:');
+    console.log(fuzzy_result);
+    return fuzzy_result;
   }
 
-  return textContent.toString().toLowerCase().trim().search(searchString) >= 0;
+  return [];
 }
-/**
- * Helper methods
- * ********************************************************************************************************************/
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
@@ -12981,150 +13007,91 @@ module.exports = function (val) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.elementBuilder = elementBuilder;
-exports.getLabel = getLabel;
-exports.getTypeOfElement = getTypeOfElement;
+exports.collectElements = collectElements;
+exports.getElements = getElements;
+exports.searchForElements = searchForElements;
+exports.search = search;
+
+var _element = __webpack_require__(46);
 
 var _const = __webpack_require__(4);
 
-/**
- * FIXME: build elements every time when user trigger action, because drop downs not selected
- */
-function elementBuilder(selector) {
-  var elements = [];
-  $(selector).each(function () {
-    if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && !($(this).is('li') && $(this).has('a'))) {
-      elements.push(buildElement(this));
-    }
-  });
+var _helper = __webpack_require__(13);
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var elements = [];
+
+function collectElements() {
+  var _elements;
+
+  elements = [];
+
+  (_elements = elements).push.apply(_elements, _toConsumableArray((0, _element.elementBuilder)(_const.ALL_SELECTORS)));
+
+  console.log(elements);
+}
+
+function getElements() {
+  collectElements();
   return elements;
 }
 
-function buildElement(elem) {
-  var currentLabel = getLabel($(elem).attr('id'));
-  return {
-    elem: elem,
-    text: $(elem).text() ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined,
-    label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '),
-    value: hasValueAttribute(elem),
-    placeholder: hasPlaceholderAttribute(elem),
-    position: getPosition(currentLabel ? currentLabel : elem),
-    dimensions: getDimensions(currentLabel ? currentLabel : elem),
-    type: getTypeOfElement(elem)
-  };
-}
+function searchForElements(userInput) {
+  collectElements();
+  var result = search(userInput);
 
-function getPosition(elem, label) {
-  if (label) {
-    return {
-      posLeft: $(label).offset().left,
-      posTop: $(label).offset().top
-    };
+  if (result.length === 0) {
+    return (0, _helper.getRecognizedElements)(elements, userInput);
   }
 
-  return {
-    posLeft: $(elem).offset().left,
-    posTop: $(elem).offset().top
-  };
-}
-
-function getDimensions(elem, label) {
-  if (label) {
-    return {
-      width: $(label).outerWidth(true),
-      height: $(label).outerHeight(true)
-    };
-  }
-
-  return {
-    width: $(elem).outerWidth(true),
-    height: $(elem).outerHeight(true)
-  };
+  return result;
 }
 /**
- * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
- * verknüpft werden, falls ein Input mehrere Labels hat, wird nur Label mit dem Textinhalt berücksichtigt
- * @param element_id - id des zu dem Label zugehörigen Input elements
- * @returns {*} ein Label oder oder false, falls mit dem Input kein Label verknüpft ist
- */
+ * Buttons
+ * */
 
 
-function getLabel(element_id) {
-  var selectedLabels = $('[for=' + element_id + ']'); //Label gefunden
+function search(userInput) {
+  var foundedElements = [];
 
-  if (selectedLabels.length === 1) {
-    return selectedLabels[0];
-  } else if (selectedLabels.length > 1) {
-    //Element hat mehrere Labels
-    for (var i = 0; i < selectedLabels.length; i++) {
-      if (selectedLabels[i].textContent.trim().length > 0) {
-        return selectedLabels[i];
+  if (elements.length > 0) {
+    for (var i = 0; i < elements.length; i++) {
+      if (compareStrings(elements[i].text, userInput) || (elements[i].value ? compareStrings(elements[i].value, userInput) : false) || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput) : false)) {
+        foundedElements.push(elements[i]);
       }
     }
   }
 
-  return undefined;
+  return foundedElements;
 }
+/************************************************************************************************************************
+ * Helper methods
+ */
 
-function hasValueAttribute(elem) {
-  return $(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
-}
 
-function hasPlaceholderAttribute(elem) {
-  return $(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
-}
+function hasOption(element, userInput) {
+  if ($(element).is('select')) {
+    console.log('********Selects content: ' + element.textContent.toString().toLowerCase());
 
-function getTypeOfElement(element) {
-  var clickable = _const.CLICK_SELECTORS + ',' + _const.CHECK_SELECTORS;
-  var focusable = _const.FOCUS_SELECTORS + ',' + _const.SEARCH_SELECTORS;
-  var selectable = _const.SELECT_SELECTORS;
-  var typeC = _const.TYPE_CLICKABLE;
-  var typeF = _const.TYPE_FOCUSABLE;
-  var typeS = _const.TYPE_SELECTABLE;
-
-  if ($(element).is(clickable)) {
-    return typeC;
-  } else if ($(element).is(focusable)) {
-    return typeF;
-  } else if ($(element).is(selectable)) {
-    return typeS;
-  }
-}
-
-function isVisible(elem) {
-  if (!(elem instanceof Element)) {
-    return false;
-  }
-
-  try {
-    var style = getComputedStyle(elem);
-    if (style.display === 'none') return false;
-    if (style.visibility !== 'visible') return false;
-    if (style.opacity < 0.1) return false;
-
-    if (elem.offsetWidth + elem.offsetHeight + elem.getBoundingClientRect().height + elem.getBoundingClientRect().width === 0) {
-      return false;
+    if (element.textContent.toString().toLowerCase().indexOf(userInput) > 0) {
+      return true;
     }
-
-    var elemCenter = {
-      x: elem.getBoundingClientRect().left + elem.offsetWidth / 2,
-      y: elem.getBoundingClientRect().top + elem.offsetHeight / 2
-    };
-    if (elemCenter.x < 0) return false;
-    if (elemCenter.x > (document.documentElement.clientWidth || window.innerWidth)) return false;
-    if (elemCenter.y < 0) return false;
-    if (elemCenter.y > (document.documentElement.clientHeight || window.innerHeight)) return false;
-    var pointContainer = document.elementFromPoint(elemCenter.x, elemCenter.y);
-
-    do {
-      if (pointContainer === elem) return true;
-    } while (pointContainer = pointContainer.parentNode);
-
-    return false;
-  } catch (e) {
-    console.log(e);
   }
+
+  return false;
 }
+
+function compareStrings(textContent, searchString) {
+  if (!textContent || searchString === '' || !searchString) {
+    return false;
+  }
+
+  return textContent.toString().toLowerCase().trim().search(searchString) >= 0;
+}
+/**
+ * Helper methods
+ * ********************************************************************************************************************/
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
@@ -13132,113 +13099,47 @@ function isVisible(elem) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.generateId = generateId;
-exports.buildMultipleWrapper = buildMultipleWrapper;
-exports.splitUserCommand = splitUserCommand;
-exports.extractKeyword = extractKeyword;
-exports.extractSearchString = extractSearchString;
-exports.getTypeOfElement = getTypeOfElement;
-exports.collectElementsLabel = collectElementsLabel;
-exports.getRecognizedElements = getRecognizedElements;
+exports.fuzzySearchForElements = fuzzySearchForElements;
+exports.fuzzySearchForKeywords = fuzzySearchForKeywords;
 
-var _const = __webpack_require__(4);
+var _fuse = _interopRequireDefault(__webpack_require__(47));
 
-var _search_for_elements = __webpack_require__(13);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _fuzzy_search = __webpack_require__(47);
+var optionsForElements = {
+  shouldSort: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  keys: ['text', 'label', 'value', 'placeholder']
+};
+var optionsForKeywords = {
+  shouldSort: true,
+  threshold: 0.5,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 2,
+  keys: ['keyword'],
+  id: 'keyword'
+};
 
-function generateId(i) {
-  return 'vocs_multiple_select_wrapper_' + i;
+function fuzzySearchForElements(list, searchString) {
+  var fuse = new _fuse.default(list, optionsForElements);
+  return fuse.search(searchString);
 }
 
-function buildMultipleWrapper(i, currentElement) {
-  var id = generateId(i);
-  var wrapperTemplate = "<div class=\"vocs_multiple_select_wrapper_container\" id=\"".concat(id, "\"><div id=\"vocs_wrapper_").concat(i, "\" data-number=\"").concat(i + 1, "\" class=\"vocs_multiple_select_wrapper\"></div></div>");
-  $('.vocs_overlay').append(wrapperTemplate);
-  $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 100 ? currentElement.dimensions.width + 40 : currentElement.dimensions.width);
-  $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
-  $('#' + id).offset({
-    top: currentElement.position.posTop - 5,
-    left: currentElement.position.posLeft - 5
-  });
+function fuzzySearchForKeywords(list, searchString) {
+  var fuse = new _fuse.default(list, optionsForKeywords);
+  return fuse.search(searchString);
 }
-
-function splitUserCommand(userCommand, command) {
-  return userCommand.slice(userCommand.indexOf(command) + command.length).trim();
-}
-
-function extractKeyword(userCommand) {
-  var result = userCommand.split(/[ ,]+/);
-  /*if (result.length > 1){
-      result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-      return (result.length > 1) ? result[0] : false;
-  }*/
-
-  if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please') {
-    return 'click';
-  }
-
-  return result[0];
-}
-
-function extractSearchString(userCommand) {
-  var result = userCommand.split(/[ ,]+/);
-
-  if (result.length > 1) {
-    result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-    return result.length > 1 ? result[1] : undefined;
-  }
-
-  return undefined;
-}
-
-function getTypeOfElement(element) {
-  var clickable = _const.CLICK_SELECTORS + ',' + _const.CHECK_SELECTORS;
-  var focusable = _const.FOCUS_SELECTORS + ',' + _const.SEARCH_SELECTORS;
-  var selectable = _const.SELECT_SELECTORS;
-  var typeC = _const.TYPE_CLICKABLE;
-  var typeF = _const.TYPE_FOCUSABLE;
-  var typeS = _const.TYPE_SELECTABLE;
-
-  if ($(element).is(clickable)) {
-    return typeC;
-  } else if ($(element).is(focusable)) {
-    return typeF;
-  } else if ($(element).is(selectable)) {
-    return typeS;
-  }
-}
-
-function collectElementsLabel(selector) {
-  var elements = [];
-  $(selector).each(function () {
-    if ((0, _search_for_elements.isVisible)(this) && !($(this).is('li') && $(this).has('a'))) {
-      elements.push({
-        label: $(this).text().trim().toLowerCase()
-      });
-    }
-  });
-  return elements;
-}
-
-function getRecognizedElements(elements, userCommand) {
-  /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
-  var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)(elements, userCommand);
-
-  if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
-    console.log('FUZZY found:');
-    console.log(fuzzy_result);
-    return fuzzy_result;
-  }
-
-  return [];
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 30 */
@@ -14720,13 +14621,13 @@ module.exports = {
 
 var _const = __webpack_require__(4);
 
-var _search_for_elements = __webpack_require__(13);
+var _search_for_elements = __webpack_require__(28);
 
-var _actions = __webpack_require__(46);
+var _actions = __webpack_require__(48);
 
-var _helper = __webpack_require__(29);
+var _helper = __webpack_require__(13);
 
-var _fuzzy_search = __webpack_require__(47);
+var _fuzzy_search = __webpack_require__(29);
 
 __webpack_require__(49);
 
@@ -14748,9 +14649,6 @@ var currentKeyword;
 var currentSearchString;
 
 window.onload = function () {
-  setTimeout(function () {
-    (0, _search_for_elements.collectElements)();
-  }, 500);
   (0, _visualizer.default)();
   var systemState = $('#vocs_text_status');
   var OnRecognition = $('#vocs_text_onrecognition');
@@ -14769,8 +14667,7 @@ window.onload = function () {
     var t0 = performance.now();
     var userCommand = input.toString().toLowerCase().trim();
     currentKeyword = getRecognizedKeyword((0, _helper.extractKeyword)(userCommand));
-    currentSearchString = (0, _helper.extractSearchString)(userCommand); //currentSearchString = getRecognizedElements(extractSearchString(userCommand));
-
+    currentSearchString = (0, _helper.extractSearchString)(userCommand);
     console.log('Keyword: ' + currentKeyword + ' || Search String: ' + (currentSearchString !== '' ? currentSearchString : 'no search string'));
 
     if (currentKeyword && (_const.REG_EXP_STOP.test(currentKeyword) || _const.REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
@@ -14809,16 +14706,7 @@ window.onload = function () {
     if (currentMode === _const.MODE_NO_MODE && currentKeyword) {
       choiceAction(currentKeyword, currentSearchString);
 
-      if (currentSearchString) {
-        //Second Round Search
-
-        /*if (currentElements.length === 0) {
-            choiceAction(currentKeyword, currentSearchString, ROUND2);
-            if (currentSearchString.length === 0){
-                //Third Round Search
-                choiceAction(currentKeyword, currentSearchString, ROUND3);
-            }
-        }*/
+      if (currentSearchString || currentKeyword === _const.SHOW) {
         if (currentElements.length === 0) {
           provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
           console.error('-------------No element found------------------');
@@ -14843,7 +14731,6 @@ window.onload = function () {
       });
     }
 
-    (0, _search_for_elements.collectElements)();
     clearCurrentElements();
     var t1 = performance.now();
     console.log('Execution time: ' + (t1 - t0) + ' mil');
@@ -14979,7 +14866,7 @@ window.onload = function () {
   }
 
   function choiceAction(keyword, userCommand) {
-    var _currentElements;
+    var _currentElements, _currentElements2;
 
     switch (true) {
       case _const.REG_EXP_CLICK.test(keyword):
@@ -15000,22 +14887,23 @@ window.onload = function () {
 
       case _const.REG_EXP_SCROLL_DOWN.test(keyword):
         (0, _actions.scrollDown)();
-        (0, _search_for_elements.collectElements)();
         break;
 
       case _const.REG_EXP_SCROLL_UP.test(keyword):
         (0, _actions.scrollUp)();
-        (0, _search_for_elements.collectElements)();
         break;
 
       case _const.REG_EXP_SCROLL_TO_TOP.test(keyword):
         (0, _actions.scrollToTop)();
-        (0, _search_for_elements.collectElements)();
         break;
 
       case _const.REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
         (0, _actions.scrollToBottom)();
-        (0, _search_for_elements.collectElements)();
+        break;
+
+      case _const.REG_EXP_SHOW.test(keyword):
+        (_currentElements2 = currentElements).push.apply(_currentElements2, _toConsumableArray((0, _search_for_elements.getElements)()));
+
         break;
 
       case _const.REG_EXP_SEARCH.test(keyword):
@@ -15046,6 +14934,176 @@ window.onload = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.elementBuilder = elementBuilder;
+exports.getLabel = getLabel;
+exports.getTypeOfElement = getTypeOfElement;
+
+var _const = __webpack_require__(4);
+
+/**
+ * FIXME: build elements every time when user trigger action, because drop downs not selected
+ */
+function elementBuilder(selector) {
+  var elements = [];
+  $(selector).each(function () {
+    if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && !($(this).is('li') && $(this).has('a'))) {
+      elements.push(buildElement(this));
+    }
+  });
+  return elements;
+}
+
+function buildElement(elem) {
+  var currentLabel = getLabel($(elem).attr('id'));
+  return {
+    elem: elem,
+    text: $(elem).text() ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined,
+    label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '),
+    value: hasValueAttribute(elem),
+    placeholder: hasPlaceholderAttribute(elem),
+    position: getPosition(currentLabel ? currentLabel : elem),
+    dimensions: getDimensions(currentLabel ? currentLabel : elem),
+    type: getTypeOfElement(elem)
+  };
+}
+
+function getPosition(elem, label) {
+  if (label) {
+    return {
+      posLeft: $(label).offset().left,
+      posTop: $(label).offset().top
+    };
+  }
+
+  return {
+    posLeft: $(elem).offset().left,
+    posTop: $(elem).offset().top
+  };
+}
+
+function getDimensions(elem, label) {
+  if (label) {
+    return {
+      width: $(label).outerWidth(true),
+      height: $(label).outerHeight(true)
+    };
+  }
+
+  return {
+    width: $(elem).outerWidth(true),
+    height: $(elem).outerHeight(true)
+  };
+}
+/**
+ * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
+ * verknüpft werden, falls ein Input mehrere Labels hat, wird nur Label mit dem Textinhalt berücksichtigt
+ * @param element_id - id des zu dem Label zugehörigen Input elements
+ * @returns {*} ein Label oder oder false, falls mit dem Input kein Label verknüpft ist
+ */
+
+
+function getLabel(element_id) {
+  var selectedLabels = $('[for=' + element_id + ']'); //Label gefunden
+
+  if (selectedLabels.length === 1) {
+    return selectedLabels[0];
+  } else if (selectedLabels.length > 1) {
+    //Element hat mehrere Labels
+    for (var i = 0; i < selectedLabels.length; i++) {
+      if (selectedLabels[i].textContent.trim().length > 0) {
+        return selectedLabels[i];
+      }
+    }
+  }
+
+  return undefined;
+}
+
+function hasValueAttribute(elem) {
+  return $(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
+}
+
+function hasPlaceholderAttribute(elem) {
+  return $(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
+}
+
+function getTypeOfElement(element) {
+  var clickable = _const.CLICK_SELECTORS + ',' + _const.CHECK_SELECTORS;
+  var focusable = _const.FOCUS_SELECTORS + ',' + _const.SEARCH_SELECTORS;
+  var selectable = _const.SELECT_SELECTORS;
+  var typeC = _const.TYPE_CLICKABLE;
+  var typeF = _const.TYPE_FOCUSABLE;
+  var typeS = _const.TYPE_SELECTABLE;
+
+  if ($(element).is(clickable)) {
+    return typeC;
+  } else if ($(element).is(focusable)) {
+    return typeF;
+  } else if ($(element).is(selectable)) {
+    return typeS;
+  }
+}
+
+function isVisible(elem) {
+  if (!(elem instanceof Element)) {
+    return false;
+  }
+
+  try {
+    var style = getComputedStyle(elem);
+    if (style.display === 'none') return false;
+    if (style.visibility !== 'visible') return false;
+    if (style.opacity < 0.1) return false;
+
+    if (elem.offsetWidth + elem.offsetHeight + elem.getBoundingClientRect().height + elem.getBoundingClientRect().width === 0) {
+      return false;
+    }
+
+    var elemCenter = {
+      x: elem.getBoundingClientRect().left + elem.offsetWidth / 2,
+      y: elem.getBoundingClientRect().top + elem.offsetHeight / 2
+    };
+    if (elemCenter.x < 0) return false;
+    if (elemCenter.x > (document.documentElement.clientWidth || window.innerWidth)) return false;
+    if (elemCenter.y < 0) return false;
+    if (elemCenter.y > (document.documentElement.clientHeight || window.innerHeight)) return false;
+    var pointContainer = document.elementFromPoint(elemCenter.x, elemCenter.y);
+
+    do {
+      if (pointContainer === elem) return true;
+    } while (pointContainer = pointContainer.parentNode);
+
+    return false;
+  } catch (e) {
+    console.log(e);
+  }
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*!
+ * Fuse.js v3.2.0 - Lightweight fuzzy-search (http://fusejs.io)
+ * 
+ * Copyright (c) 2012-2017 Kirollos Risk (http://kiro.me)
+ * All Rights Reserved. Apache Software License 2.0
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define("Fuse",[],t):"object"==typeof exports?exports.Fuse=t():e.Fuse=t()}(this,function(){return function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,t),o.l=!0,o.exports}var r={};return t.m=e,t.c=r,t.i=function(e){return e},t.d=function(e,r,n){t.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:n})},t.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(r,"a",r),r},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=8)}([function(e,t,r){"use strict";e.exports=function(e){return"[object Array]"===Object.prototype.toString.call(e)}},function(e,t,r){"use strict";function n(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var o=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),i=r(5),a=r(7),s=r(4),c=function(){function e(t,r){var o=r.location,i=void 0===o?0:o,a=r.distance,c=void 0===a?100:a,h=r.threshold,l=void 0===h?.6:h,u=r.maxPatternLength,f=void 0===u?32:u,d=r.isCaseSensitive,v=void 0!==d&&d,p=r.tokenSeparator,g=void 0===p?/ +/g:p,y=r.findAllMatches,m=void 0!==y&&y,k=r.minMatchCharLength,x=void 0===k?1:k;n(this,e),this.options={location:i,distance:c,threshold:l,maxPatternLength:f,isCaseSensitive:v,tokenSeparator:g,findAllMatches:m,minMatchCharLength:x},this.pattern=this.options.isCaseSensitive?t:t.toLowerCase(),this.pattern.length<=f&&(this.patternAlphabet=s(this.pattern))}return o(e,[{key:"search",value:function(e){if(this.options.isCaseSensitive||(e=e.toLowerCase()),this.pattern===e)return{isMatch:!0,score:0,matchedIndices:[[0,e.length-1]]};var t=this.options,r=t.maxPatternLength,n=t.tokenSeparator;if(this.pattern.length>r)return i(e,this.pattern,n);var o=this.options,s=o.location,c=o.distance,h=o.threshold,l=o.findAllMatches,u=o.minMatchCharLength;return a(e,this.pattern,this.patternAlphabet,{location:s,distance:c,threshold:h,findAllMatches:l,minMatchCharLength:u})}}]),e}();e.exports=c},function(e,t,r){"use strict";var n=r(0),o=function e(t,r,o){if(r){var i=r.indexOf("."),a=r,s=null;-1!==i&&(a=r.slice(0,i),s=r.slice(i+1));var c=t[a];if(null!==c&&void 0!==c)if(s||"string"!=typeof c&&"number"!=typeof c)if(n(c))for(var h=0,l=c.length;h<l;h+=1)e(c[h],s,o);else s&&e(c,s,o);else o.push(c.toString())}else o.push(t);return o};e.exports=function(e,t){return o(e,t,[])}},function(e,t,r){"use strict";e.exports=function(){for(var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:1,r=[],n=-1,o=-1,i=0,a=e.length;i<a;i+=1){var s=e[i];s&&-1===n?n=i:s||-1===n||(o=i-1,o-n+1>=t&&r.push([n,o]),n=-1)}return e[i-1]&&i-n>=t&&r.push([n,i-1]),r}},function(e,t,r){"use strict";e.exports=function(e){for(var t={},r=e.length,n=0;n<r;n+=1)t[e.charAt(n)]=0;for(var o=0;o<r;o+=1)t[e.charAt(o)]|=1<<r-o-1;return t}},function(e,t,r){"use strict";e.exports=function(e,t){var r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:/ +/g,n=new RegExp(t.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,"\\$&").replace(r,"|")),o=e.match(n),i=!!o,a=[];if(i)for(var s=0,c=o.length;s<c;s+=1){var h=o[s];a.push([e.indexOf(h),h.length-1])}return{score:i?.5:1,isMatch:i,matchedIndices:a}}},function(e,t,r){"use strict";e.exports=function(e,t){var r=t.errors,n=void 0===r?0:r,o=t.currentLocation,i=void 0===o?0:o,a=t.expectedLocation,s=void 0===a?0:a,c=t.distance,h=void 0===c?100:c,l=n/e.length,u=Math.abs(s-i);return h?l+u/h:u?1:l}},function(e,t,r){"use strict";var n=r(6),o=r(3);e.exports=function(e,t,r,i){for(var a=i.location,s=void 0===a?0:a,c=i.distance,h=void 0===c?100:c,l=i.threshold,u=void 0===l?.6:l,f=i.findAllMatches,d=void 0!==f&&f,v=i.minMatchCharLength,p=void 0===v?1:v,g=s,y=e.length,m=u,k=e.indexOf(t,g),x=t.length,S=[],M=0;M<y;M+=1)S[M]=0;if(-1!==k){var b=n(t,{errors:0,currentLocation:k,expectedLocation:g,distance:h});if(m=Math.min(b,m),-1!==(k=e.lastIndexOf(t,g+x))){var _=n(t,{errors:0,currentLocation:k,expectedLocation:g,distance:h});m=Math.min(_,m)}}k=-1;for(var L=[],w=1,C=x+y,A=1<<x-1,I=0;I<x;I+=1){for(var O=0,F=C;O<F;){n(t,{errors:I,currentLocation:g+F,expectedLocation:g,distance:h})<=m?O=F:C=F,F=Math.floor((C-O)/2+O)}C=F;var P=Math.max(1,g-F+1),j=d?y:Math.min(g+F,y)+x,z=Array(j+2);z[j+1]=(1<<I)-1;for(var T=j;T>=P;T-=1){var E=T-1,K=r[e.charAt(E)];if(K&&(S[E]=1),z[T]=(z[T+1]<<1|1)&K,0!==I&&(z[T]|=(L[T+1]|L[T])<<1|1|L[T+1]),z[T]&A&&(w=n(t,{errors:I,currentLocation:E,expectedLocation:g,distance:h}))<=m){if(m=w,(k=E)<=g)break;P=Math.max(1,2*g-k)}}if(n(t,{errors:I+1,currentLocation:g,expectedLocation:g,distance:h})>m)break;L=z}return{isMatch:k>=0,score:0===w?.001:w,matchedIndices:o(S,p)}}},function(e,t,r){"use strict";function n(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var o=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),i=r(1),a=r(2),s=r(0),c=function(){function e(t,r){var o=r.location,i=void 0===o?0:o,s=r.distance,c=void 0===s?100:s,h=r.threshold,l=void 0===h?.6:h,u=r.maxPatternLength,f=void 0===u?32:u,d=r.caseSensitive,v=void 0!==d&&d,p=r.tokenSeparator,g=void 0===p?/ +/g:p,y=r.findAllMatches,m=void 0!==y&&y,k=r.minMatchCharLength,x=void 0===k?1:k,S=r.id,M=void 0===S?null:S,b=r.keys,_=void 0===b?[]:b,L=r.shouldSort,w=void 0===L||L,C=r.getFn,A=void 0===C?a:C,I=r.sortFn,O=void 0===I?function(e,t){return e.score-t.score}:I,F=r.tokenize,P=void 0!==F&&F,j=r.matchAllTokens,z=void 0!==j&&j,T=r.includeMatches,E=void 0!==T&&T,K=r.includeScore,$=void 0!==K&&K,J=r.verbose,N=void 0!==J&&J;n(this,e),this.options={location:i,distance:c,threshold:l,maxPatternLength:f,isCaseSensitive:v,tokenSeparator:g,findAllMatches:m,minMatchCharLength:x,id:M,keys:_,includeMatches:E,includeScore:$,shouldSort:w,getFn:A,sortFn:O,verbose:N,tokenize:P,matchAllTokens:z},this.setCollection(t)}return o(e,[{key:"setCollection",value:function(e){return this.list=e,e}},{key:"search",value:function(e){this._log('---------\nSearch pattern: "'+e+'"');var t=this._prepareSearchers(e),r=t.tokenSearchers,n=t.fullSearcher,o=this._search(r,n),i=o.weights,a=o.results;return this._computeScore(i,a),this.options.shouldSort&&this._sort(a),this._format(a)}},{key:"_prepareSearchers",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=[];if(this.options.tokenize)for(var r=e.split(this.options.tokenSeparator),n=0,o=r.length;n<o;n+=1)t.push(new i(r[n],this.options));return{tokenSearchers:t,fullSearcher:new i(e,this.options)}}},{key:"_search",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments[1],r=this.list,n={},o=[];if("string"==typeof r[0]){for(var i=0,a=r.length;i<a;i+=1)this._analyze({key:"",value:r[i],record:i,index:i},{resultMap:n,results:o,tokenSearchers:e,fullSearcher:t});return{weights:null,results:o}}for(var s={},c=0,h=r.length;c<h;c+=1)for(var l=r[c],u=0,f=this.options.keys.length;u<f;u+=1){var d=this.options.keys[u];if("string"!=typeof d){if(s[d.name]={weight:1-d.weight||1},d.weight<=0||d.weight>1)throw new Error("Key weight has to be > 0 and <= 1");d=d.name}else s[d]={weight:1};this._analyze({key:d,value:this.options.getFn(l,d),record:l,index:c},{resultMap:n,results:o,tokenSearchers:e,fullSearcher:t})}return{weights:s,results:o}}},{key:"_analyze",value:function(e,t){var r=e.key,n=e.arrayIndex,o=void 0===n?-1:n,i=e.value,a=e.record,c=e.index,h=t.tokenSearchers,l=void 0===h?[]:h,u=t.fullSearcher,f=void 0===u?[]:u,d=t.resultMap,v=void 0===d?{}:d,p=t.results,g=void 0===p?[]:p;if(void 0!==i&&null!==i){var y=!1,m=-1,k=0;if("string"==typeof i){this._log("\nKey: "+(""===r?"-":r));var x=f.search(i);if(this._log('Full text: "'+i+'", score: '+x.score),this.options.tokenize){for(var S=i.split(this.options.tokenSeparator),M=[],b=0;b<l.length;b+=1){var _=l[b];this._log('\nPattern: "'+_.pattern+'"');for(var L=!1,w=0;w<S.length;w+=1){var C=S[w],A=_.search(C),I={};A.isMatch?(I[C]=A.score,y=!0,L=!0,M.push(A.score)):(I[C]=1,this.options.matchAllTokens||M.push(1)),this._log('Token: "'+C+'", score: '+I[C])}L&&(k+=1)}m=M[0];for(var O=M.length,F=1;F<O;F+=1)m+=M[F];m/=O,this._log("Token score average:",m)}var P=x.score;m>-1&&(P=(P+m)/2),this._log("Score average:",P);var j=!this.options.tokenize||!this.options.matchAllTokens||k>=l.length;if(this._log("\nCheck Matches: "+j),(y||x.isMatch)&&j){var z=v[c];z?z.output.push({key:r,arrayIndex:o,value:i,score:P,matchedIndices:x.matchedIndices}):(v[c]={item:a,output:[{key:r,arrayIndex:o,value:i,score:P,matchedIndices:x.matchedIndices}]},g.push(v[c]))}}else if(s(i))for(var T=0,E=i.length;T<E;T+=1)this._analyze({key:r,arrayIndex:T,value:i[T],record:a,index:c},{resultMap:v,results:g,tokenSearchers:l,fullSearcher:f})}}},{key:"_computeScore",value:function(e,t){this._log("\n\nComputing score:\n");for(var r=0,n=t.length;r<n;r+=1){for(var o=t[r].output,i=o.length,a=0,s=1,c=0;c<i;c+=1){var h=e?e[o[c].key].weight:1,l=1===h?o[c].score:o[c].score||.001,u=l*h;1!==h?s=Math.min(s,u):(o[c].nScore=u,a+=u)}t[r].score=1===s?a/i:s,this._log(t[r])}}},{key:"_sort",value:function(e){this._log("\n\nSorting...."),e.sort(this.options.sortFn)}},{key:"_format",value:function(e){var t=[];this._log("\n\nOutput:\n\n",JSON.stringify(e));var r=[];this.options.includeMatches&&r.push(function(e,t){var r=e.output;t.matches=[];for(var n=0,o=r.length;n<o;n+=1){var i=r[n];if(0!==i.matchedIndices.length){var a={indices:i.matchedIndices,value:i.value};i.key&&(a.key=i.key),i.hasOwnProperty("arrayIndex")&&i.arrayIndex>-1&&(a.arrayIndex=i.arrayIndex),t.matches.push(a)}}}),this.options.includeScore&&r.push(function(e,t){t.score=e.score});for(var n=0,o=e.length;n<o;n+=1){var i=e[n];if(this.options.id&&(i.item=this.options.getFn(i.item,this.options.id)[0]),r.length){for(var a={item:i.item},s=0,c=r.length;s<c;s+=1)r[s](i,a);t.push(a)}else t.push(i.item)}return t}},{key:"_log",value:function(){if(this.options.verbose){var e;(e=console).log.apply(e,arguments)}}}]),e}();e.exports=c}])});
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.executeAction = executeAction;
 exports.executeClick = executeClick;
 exports.executeCheck = executeCheck;
@@ -15057,7 +15115,7 @@ exports.scrollUp = scrollUp;
 exports.scrollToTop = scrollToTop;
 exports.scrollToBottom = scrollToBottom;
 
-var _helper = __webpack_require__(29);
+var _helper = __webpack_require__(13);
 
 var _const = __webpack_require__(4);
 
@@ -15135,67 +15193,6 @@ function scrollToBottom() {
   }, 1000);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.fuzzySearchForElements = fuzzySearchForElements;
-exports.fuzzySearchForKeywords = fuzzySearchForKeywords;
-
-var _fuse = _interopRequireDefault(__webpack_require__(48));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var optionsForElements = {
-  shouldSort: true,
-  threshold: 0.6,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
-  minMatchCharLength: 1,
-  keys: ['text', 'label', 'value', 'placeholder']
-};
-var optionsForKeywords = {
-  shouldSort: true,
-  threshold: 0.6,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
-  minMatchCharLength: 2,
-  keys: ['keyword'],
-  id: 'keyword'
-};
-
-function fuzzySearchForElements(list, searchString) {
-  var fuse = new _fuse.default(list, optionsForElements);
-  return fuse.search(searchString);
-}
-
-function fuzzySearchForKeywords(list, searchString) {
-  var fuse = new _fuse.default(list, optionsForKeywords);
-  return fuse.search(searchString);
-}
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*!
- * Fuse.js v3.2.0 - Lightweight fuzzy-search (http://fusejs.io)
- * 
- * Copyright (c) 2012-2017 Kirollos Risk (http://kiro.me)
- * All Rights Reserved. Apache Software License 2.0
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- */
-!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define("Fuse",[],t):"object"==typeof exports?exports.Fuse=t():e.Fuse=t()}(this,function(){return function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,t),o.l=!0,o.exports}var r={};return t.m=e,t.c=r,t.i=function(e){return e},t.d=function(e,r,n){t.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:n})},t.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(r,"a",r),r},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=8)}([function(e,t,r){"use strict";e.exports=function(e){return"[object Array]"===Object.prototype.toString.call(e)}},function(e,t,r){"use strict";function n(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var o=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),i=r(5),a=r(7),s=r(4),c=function(){function e(t,r){var o=r.location,i=void 0===o?0:o,a=r.distance,c=void 0===a?100:a,h=r.threshold,l=void 0===h?.6:h,u=r.maxPatternLength,f=void 0===u?32:u,d=r.isCaseSensitive,v=void 0!==d&&d,p=r.tokenSeparator,g=void 0===p?/ +/g:p,y=r.findAllMatches,m=void 0!==y&&y,k=r.minMatchCharLength,x=void 0===k?1:k;n(this,e),this.options={location:i,distance:c,threshold:l,maxPatternLength:f,isCaseSensitive:v,tokenSeparator:g,findAllMatches:m,minMatchCharLength:x},this.pattern=this.options.isCaseSensitive?t:t.toLowerCase(),this.pattern.length<=f&&(this.patternAlphabet=s(this.pattern))}return o(e,[{key:"search",value:function(e){if(this.options.isCaseSensitive||(e=e.toLowerCase()),this.pattern===e)return{isMatch:!0,score:0,matchedIndices:[[0,e.length-1]]};var t=this.options,r=t.maxPatternLength,n=t.tokenSeparator;if(this.pattern.length>r)return i(e,this.pattern,n);var o=this.options,s=o.location,c=o.distance,h=o.threshold,l=o.findAllMatches,u=o.minMatchCharLength;return a(e,this.pattern,this.patternAlphabet,{location:s,distance:c,threshold:h,findAllMatches:l,minMatchCharLength:u})}}]),e}();e.exports=c},function(e,t,r){"use strict";var n=r(0),o=function e(t,r,o){if(r){var i=r.indexOf("."),a=r,s=null;-1!==i&&(a=r.slice(0,i),s=r.slice(i+1));var c=t[a];if(null!==c&&void 0!==c)if(s||"string"!=typeof c&&"number"!=typeof c)if(n(c))for(var h=0,l=c.length;h<l;h+=1)e(c[h],s,o);else s&&e(c,s,o);else o.push(c.toString())}else o.push(t);return o};e.exports=function(e,t){return o(e,t,[])}},function(e,t,r){"use strict";e.exports=function(){for(var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:1,r=[],n=-1,o=-1,i=0,a=e.length;i<a;i+=1){var s=e[i];s&&-1===n?n=i:s||-1===n||(o=i-1,o-n+1>=t&&r.push([n,o]),n=-1)}return e[i-1]&&i-n>=t&&r.push([n,i-1]),r}},function(e,t,r){"use strict";e.exports=function(e){for(var t={},r=e.length,n=0;n<r;n+=1)t[e.charAt(n)]=0;for(var o=0;o<r;o+=1)t[e.charAt(o)]|=1<<r-o-1;return t}},function(e,t,r){"use strict";e.exports=function(e,t){var r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:/ +/g,n=new RegExp(t.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,"\\$&").replace(r,"|")),o=e.match(n),i=!!o,a=[];if(i)for(var s=0,c=o.length;s<c;s+=1){var h=o[s];a.push([e.indexOf(h),h.length-1])}return{score:i?.5:1,isMatch:i,matchedIndices:a}}},function(e,t,r){"use strict";e.exports=function(e,t){var r=t.errors,n=void 0===r?0:r,o=t.currentLocation,i=void 0===o?0:o,a=t.expectedLocation,s=void 0===a?0:a,c=t.distance,h=void 0===c?100:c,l=n/e.length,u=Math.abs(s-i);return h?l+u/h:u?1:l}},function(e,t,r){"use strict";var n=r(6),o=r(3);e.exports=function(e,t,r,i){for(var a=i.location,s=void 0===a?0:a,c=i.distance,h=void 0===c?100:c,l=i.threshold,u=void 0===l?.6:l,f=i.findAllMatches,d=void 0!==f&&f,v=i.minMatchCharLength,p=void 0===v?1:v,g=s,y=e.length,m=u,k=e.indexOf(t,g),x=t.length,S=[],M=0;M<y;M+=1)S[M]=0;if(-1!==k){var b=n(t,{errors:0,currentLocation:k,expectedLocation:g,distance:h});if(m=Math.min(b,m),-1!==(k=e.lastIndexOf(t,g+x))){var _=n(t,{errors:0,currentLocation:k,expectedLocation:g,distance:h});m=Math.min(_,m)}}k=-1;for(var L=[],w=1,C=x+y,A=1<<x-1,I=0;I<x;I+=1){for(var O=0,F=C;O<F;){n(t,{errors:I,currentLocation:g+F,expectedLocation:g,distance:h})<=m?O=F:C=F,F=Math.floor((C-O)/2+O)}C=F;var P=Math.max(1,g-F+1),j=d?y:Math.min(g+F,y)+x,z=Array(j+2);z[j+1]=(1<<I)-1;for(var T=j;T>=P;T-=1){var E=T-1,K=r[e.charAt(E)];if(K&&(S[E]=1),z[T]=(z[T+1]<<1|1)&K,0!==I&&(z[T]|=(L[T+1]|L[T])<<1|1|L[T+1]),z[T]&A&&(w=n(t,{errors:I,currentLocation:E,expectedLocation:g,distance:h}))<=m){if(m=w,(k=E)<=g)break;P=Math.max(1,2*g-k)}}if(n(t,{errors:I+1,currentLocation:g,expectedLocation:g,distance:h})>m)break;L=z}return{isMatch:k>=0,score:0===w?.001:w,matchedIndices:o(S,p)}}},function(e,t,r){"use strict";function n(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var o=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),i=r(1),a=r(2),s=r(0),c=function(){function e(t,r){var o=r.location,i=void 0===o?0:o,s=r.distance,c=void 0===s?100:s,h=r.threshold,l=void 0===h?.6:h,u=r.maxPatternLength,f=void 0===u?32:u,d=r.caseSensitive,v=void 0!==d&&d,p=r.tokenSeparator,g=void 0===p?/ +/g:p,y=r.findAllMatches,m=void 0!==y&&y,k=r.minMatchCharLength,x=void 0===k?1:k,S=r.id,M=void 0===S?null:S,b=r.keys,_=void 0===b?[]:b,L=r.shouldSort,w=void 0===L||L,C=r.getFn,A=void 0===C?a:C,I=r.sortFn,O=void 0===I?function(e,t){return e.score-t.score}:I,F=r.tokenize,P=void 0!==F&&F,j=r.matchAllTokens,z=void 0!==j&&j,T=r.includeMatches,E=void 0!==T&&T,K=r.includeScore,$=void 0!==K&&K,J=r.verbose,N=void 0!==J&&J;n(this,e),this.options={location:i,distance:c,threshold:l,maxPatternLength:f,isCaseSensitive:v,tokenSeparator:g,findAllMatches:m,minMatchCharLength:x,id:M,keys:_,includeMatches:E,includeScore:$,shouldSort:w,getFn:A,sortFn:O,verbose:N,tokenize:P,matchAllTokens:z},this.setCollection(t)}return o(e,[{key:"setCollection",value:function(e){return this.list=e,e}},{key:"search",value:function(e){this._log('---------\nSearch pattern: "'+e+'"');var t=this._prepareSearchers(e),r=t.tokenSearchers,n=t.fullSearcher,o=this._search(r,n),i=o.weights,a=o.results;return this._computeScore(i,a),this.options.shouldSort&&this._sort(a),this._format(a)}},{key:"_prepareSearchers",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=[];if(this.options.tokenize)for(var r=e.split(this.options.tokenSeparator),n=0,o=r.length;n<o;n+=1)t.push(new i(r[n],this.options));return{tokenSearchers:t,fullSearcher:new i(e,this.options)}}},{key:"_search",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments[1],r=this.list,n={},o=[];if("string"==typeof r[0]){for(var i=0,a=r.length;i<a;i+=1)this._analyze({key:"",value:r[i],record:i,index:i},{resultMap:n,results:o,tokenSearchers:e,fullSearcher:t});return{weights:null,results:o}}for(var s={},c=0,h=r.length;c<h;c+=1)for(var l=r[c],u=0,f=this.options.keys.length;u<f;u+=1){var d=this.options.keys[u];if("string"!=typeof d){if(s[d.name]={weight:1-d.weight||1},d.weight<=0||d.weight>1)throw new Error("Key weight has to be > 0 and <= 1");d=d.name}else s[d]={weight:1};this._analyze({key:d,value:this.options.getFn(l,d),record:l,index:c},{resultMap:n,results:o,tokenSearchers:e,fullSearcher:t})}return{weights:s,results:o}}},{key:"_analyze",value:function(e,t){var r=e.key,n=e.arrayIndex,o=void 0===n?-1:n,i=e.value,a=e.record,c=e.index,h=t.tokenSearchers,l=void 0===h?[]:h,u=t.fullSearcher,f=void 0===u?[]:u,d=t.resultMap,v=void 0===d?{}:d,p=t.results,g=void 0===p?[]:p;if(void 0!==i&&null!==i){var y=!1,m=-1,k=0;if("string"==typeof i){this._log("\nKey: "+(""===r?"-":r));var x=f.search(i);if(this._log('Full text: "'+i+'", score: '+x.score),this.options.tokenize){for(var S=i.split(this.options.tokenSeparator),M=[],b=0;b<l.length;b+=1){var _=l[b];this._log('\nPattern: "'+_.pattern+'"');for(var L=!1,w=0;w<S.length;w+=1){var C=S[w],A=_.search(C),I={};A.isMatch?(I[C]=A.score,y=!0,L=!0,M.push(A.score)):(I[C]=1,this.options.matchAllTokens||M.push(1)),this._log('Token: "'+C+'", score: '+I[C])}L&&(k+=1)}m=M[0];for(var O=M.length,F=1;F<O;F+=1)m+=M[F];m/=O,this._log("Token score average:",m)}var P=x.score;m>-1&&(P=(P+m)/2),this._log("Score average:",P);var j=!this.options.tokenize||!this.options.matchAllTokens||k>=l.length;if(this._log("\nCheck Matches: "+j),(y||x.isMatch)&&j){var z=v[c];z?z.output.push({key:r,arrayIndex:o,value:i,score:P,matchedIndices:x.matchedIndices}):(v[c]={item:a,output:[{key:r,arrayIndex:o,value:i,score:P,matchedIndices:x.matchedIndices}]},g.push(v[c]))}}else if(s(i))for(var T=0,E=i.length;T<E;T+=1)this._analyze({key:r,arrayIndex:T,value:i[T],record:a,index:c},{resultMap:v,results:g,tokenSearchers:l,fullSearcher:f})}}},{key:"_computeScore",value:function(e,t){this._log("\n\nComputing score:\n");for(var r=0,n=t.length;r<n;r+=1){for(var o=t[r].output,i=o.length,a=0,s=1,c=0;c<i;c+=1){var h=e?e[o[c].key].weight:1,l=1===h?o[c].score:o[c].score||.001,u=l*h;1!==h?s=Math.min(s,u):(o[c].nScore=u,a+=u)}t[r].score=1===s?a/i:s,this._log(t[r])}}},{key:"_sort",value:function(e){this._log("\n\nSorting...."),e.sort(this.options.sortFn)}},{key:"_format",value:function(e){var t=[];this._log("\n\nOutput:\n\n",JSON.stringify(e));var r=[];this.options.includeMatches&&r.push(function(e,t){var r=e.output;t.matches=[];for(var n=0,o=r.length;n<o;n+=1){var i=r[n];if(0!==i.matchedIndices.length){var a={indices:i.matchedIndices,value:i.value};i.key&&(a.key=i.key),i.hasOwnProperty("arrayIndex")&&i.arrayIndex>-1&&(a.arrayIndex=i.arrayIndex),t.matches.push(a)}}}),this.options.includeScore&&r.push(function(e,t){t.score=e.score});for(var n=0,o=e.length;n<o;n+=1){var i=e[n];if(this.options.id&&(i.item=this.options.getFn(i.item,this.options.id)[0]),r.length){for(var a={item:i.item},s=0,c=r.length;s<c;s+=1)r[s](i,a);t.push(a)}else t.push(i.item)}return t}},{key:"_log",value:function(){if(this.options.verbose){var e;(e=console).log.apply(e,arguments)}}}]),e}();e.exports=c}])});
 
 /***/ }),
 /* 49 */

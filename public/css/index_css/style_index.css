@@ -47,7 +47,6 @@ html {
 #main-nav .ui-widget-header {
     background: transparent;
     border: none;
-    border-bottom: 1px solid #c0c0c0;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-radius: 0;
@@ -59,7 +58,6 @@ html {
 }
 
 #main-nav .ui-tabs-nav .ui-state-active {
-    background: transparent url(../../images/uiTabsArrow.png) no-repeat bottom center;
     border: none;
 }
 

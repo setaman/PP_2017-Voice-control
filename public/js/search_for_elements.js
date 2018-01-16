@@ -10,7 +10,13 @@ export function collectElements() {
     console.log(elements);
 }
 
+export function getElements() {
+    collectElements();
+    return elements;
+}
+
 export function searchForElements(userInput) {
+    collectElements();
     let result = search(userInput);
     if (result.length === 0) {
         return getRecognizedElements(elements, userInput);
