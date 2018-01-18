@@ -22,7 +22,7 @@ import {
     STATE_MULTIPLE_MATCH,
     MODE_MULTIPLE,
     TYPE_FOCUSABLE,
-    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW,
+    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER,
 } from './const';
 import {getElements, searchForElements} from './search_for_elements';
 import {
@@ -88,12 +88,10 @@ window.onload = function () {
 
         if (currentMode === MODE_MULTIPLE) {
             try {
-
-                /**
-                 * TODO: fix words to number
-                 */
-                userCommand = wordsToNumbers(userCommand, {fuzzy: true});
-                console.log('NUmbER after convert: ' + userCommand);
+                if (!REG_EXP_NUMBER.test(userCommand)){
+                    userCommand = wordsToNumbers(userCommand, {fuzzy: true});
+                    console.log('NUmbER after convert: ' + userCommand);
+                }
                 let elem = currentMultipleElements[parseInt(userCommand) - 1];
 
                 executeAction(elem.elem);

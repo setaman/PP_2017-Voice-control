@@ -1,4 +1,13 @@
-import {CHECK_SELECTORS, CLICK_SELECTORS, FOCUS_SELECTORS, SEARCH_SELECTORS, SELECT_SELECTORS, TYPE_CLICKABLE, TYPE_SELECTABLE, TYPE_FOCUSABLE} from "./const";
+import {
+    CHECK_SELECTORS,
+    CLICK_SELECTORS,
+    FOCUS_SELECTORS,
+    SEARCH_SELECTORS,
+    SELECT_SELECTORS,
+    TYPE_CLICKABLE,
+    TYPE_SELECTABLE,
+    TYPE_FOCUSABLE
+} from "./const";
 
 /**
  * FIXME: build elements every time when user trigger action, because drop downs not selected
@@ -6,7 +15,7 @@ import {CHECK_SELECTORS, CLICK_SELECTORS, FOCUS_SELECTORS, SEARCH_SELECTORS, SEL
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
-        if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && !($(this).is('li') && $(this).has('a'))){
+        if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && !($(this).is('li') && $(this).has('a'))) {
             elements.push(buildElement(this));
         }
     });
@@ -17,18 +26,22 @@ function buildElement(elem) {
     let currentLabel = getLabel($(elem).attr('id'));
     return {
         elem: elem,
-        text: ($(elem).text()) ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined,
-        label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g,' '),
-        value: hasValueAttribute(elem),
-        placeholder: hasPlaceholderAttribute(elem),
+        text: getText(elem),
+        label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '),
+        value: getValueAttribute(elem),
+        placeholder: getPlaceholderAttribute(elem),
         position: getPosition(currentLabel ? currentLabel : elem),
         dimensions: getDimensions(currentLabel ? currentLabel : elem),
         type: getTypeOfElement(elem),
+        select: [{
+            option: getOptions(elem),
+            value: getOptionValue(elem)
+        }]
     };
 }
 
 function getPosition(elem, label) {
-    if (label){
+    if (label) {
         return {
             posLeft: $(label).offset().left,
             posTop: $(label).offset().top
@@ -41,7 +54,7 @@ function getPosition(elem, label) {
 }
 
 function getDimensions(elem, label) {
-    if (label){
+    if (label) {
         return {
             width: $(label).outerWidth(true),
             height: $(label).outerHeight(true)
@@ -63,9 +76,9 @@ export function getLabel(element_id) {
 
     let selectedLabels = $('[for=' + element_id + ']');
     //Label gefunden
-    if (selectedLabels.length === 1){
+    if (selectedLabels.length === 1) {
         return selectedLabels[0];
-    } else if (selectedLabels.length > 1){
+    } else if (selectedLabels.length > 1) {
         //Element hat mehrere Labels
         for (let i = 0; i < selectedLabels.length; i++) {
             if (selectedLabels[i].textContent.trim().length > 0) {
@@ -76,12 +89,31 @@ export function getLabel(element_id) {
     return undefined;
 }
 
-function hasValueAttribute(elem) {
-    return(($(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null )) ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined;
+function getText(elem) {
+    return ($(elem).text()) ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
-function hasPlaceholderAttribute(elem) {
-    return ($(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null ) ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g,' ') : undefined;
+function getValueAttribute(elem) {
+    return (($(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null)) ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
+}
+
+function getPlaceholderAttribute(elem) {
+    return ($(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null) ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
+}
+
+function getOptions(elem) {
+    if ($(elem).is('select')){
+        let option = [];
+        $(elem + ' options').each(function () {
+            option.push($(this).text().trim().toLowerCase().replace(/\s{2,}/g, ' '));
+        });
+        return ((option.length >= 0) ? option : undefined);
+    }
+    return undefined;
+}
+
+function getOptionValue() {
+    return undefined;
 }
 
 export function getTypeOfElement(element) {
@@ -93,17 +125,19 @@ export function getTypeOfElement(element) {
     let typeF = TYPE_FOCUSABLE;
     let typeS = TYPE_SELECTABLE;
 
-    if ($(element).is(clickable)){
+    if ($(element).is(clickable)) {
         return typeC;
-    } else if ($(element).is(focusable)){
+    } else if ($(element).is(focusable)) {
         return typeF;
-    } else if ($(element).is(selectable)){
+    } else if ($(element).is(selectable)) {
         return typeS;
     }
 }
 
 function isVisible(elem) {
-    if (!(elem instanceof Element)) {return false}
+    if (!(elem instanceof Element)) {
+        return false
+    }
     try {
         const style = getComputedStyle(elem);
         if (style.display === 'none') return false;
@@ -113,7 +147,7 @@ function isVisible(elem) {
             elem.getBoundingClientRect().width === 0) {
             return false;
         }
-        const elemCenter   = {
+        const elemCenter = {
             x: elem.getBoundingClientRect().left + elem.offsetWidth / 2,
             y: elem.getBoundingClientRect().top + elem.offsetHeight / 2
         };
@@ -126,7 +160,7 @@ function isVisible(elem) {
             if (pointContainer === elem) return true;
         } while (pointContainer = pointContainer.parentNode);
         return false;
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
 

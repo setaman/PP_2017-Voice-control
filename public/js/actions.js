@@ -3,8 +3,6 @@ import {TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_CLICKABLE} from "./const";
 
 
 export function executeAction(element) {
-
-    console.log(element);
     let typeC = TYPE_CLICKABLE;
     let typeF = TYPE_FOCUSABLE;
     let typeS = TYPE_SELECTABLE;

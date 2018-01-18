@@ -11007,7 +11007,7 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ROUND3 = exports.ROUND2 = exports.ROUND1 = exports.KEYWORDS_OBJECTS = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTORS = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
+exports.ROUND3 = exports.ROUND2 = exports.ROUND1 = exports.KEYWORDS_OBJECTS = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTORS = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
 
 /**
  * Selectors
@@ -11079,11 +11079,13 @@ exports.REG_EXP_SCROLL_TO_BOTTOM = REG_EXP_SCROLL_TO_BOTTOM;
 var REG_EXP_STOP = /^(stop)$/;
 exports.REG_EXP_STOP = REG_EXP_STOP;
 var REG_EXP_SHOW = /^(show)$/;
+exports.REG_EXP_SHOW = REG_EXP_SHOW;
+var REG_EXP_NUMBER = /^[0-9]+$/;
 /**
  * Keywords object needed for fuzzy search
  */
 
-exports.REG_EXP_SHOW = REG_EXP_SHOW;
+exports.REG_EXP_NUMBER = REG_EXP_NUMBER;
 var KEYWORDS_OBJECTS = [{
   keyword: CLICK,
   regExp: REG_EXP_CLICK
@@ -11868,7 +11870,6 @@ exports.splitUserCommand = splitUserCommand;
 exports.extractKeyword = extractKeyword;
 exports.extractSearchString = extractSearchString;
 exports.getTypeOfElement = getTypeOfElement;
-exports.collectElementsLabel = collectElementsLabel;
 exports.getRecognizedElements = getRecognizedElements;
 
 var _const = __webpack_require__(4);
@@ -11935,19 +11936,11 @@ function getTypeOfElement(element) {
   }
 }
 
-function collectElementsLabel(selector) {
-  var elements = [];
-  $(selector).each(function () {
-    if ((0, _search_for_elements.isVisible)(this) && !($(this).is('li') && $(this).has('a'))) {
-      elements.push({
-        label: $(this).text().trim().toLowerCase()
-      });
-    }
-  });
-  return elements;
-}
-
 function getRecognizedElements(elements, userCommand) {
+  /**
+   * TODO: optimize search for long strings
+   */
+
   /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
   var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)(elements, userCommand);
 
@@ -14677,13 +14670,13 @@ window.onload = function () {
 
     if (currentMode === _const.MODE_MULTIPLE) {
       try {
-        /**
-         * TODO: fix words to number
-         */
-        userCommand = (0, _wordsToNumbers.default)(userCommand, {
-          fuzzy: true
-        });
-        console.log('NUmbER after convert: ' + userCommand);
+        if (!_const.REG_EXP_NUMBER.test(userCommand)) {
+          userCommand = (0, _wordsToNumbers.default)(userCommand, {
+            fuzzy: true
+          });
+          console.log('NUmbER after convert: ' + userCommand);
+        }
+
         var elem = currentMultipleElements[parseInt(userCommand) - 1];
         (0, _actions.executeAction)(elem.elem);
         changeInputMode(_const.MODE_NO_MODE);
@@ -14957,13 +14950,17 @@ function buildElement(elem) {
   var currentLabel = getLabel($(elem).attr('id'));
   return {
     elem: elem,
-    text: $(elem).text() ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined,
+    text: getText(elem),
     label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '),
-    value: hasValueAttribute(elem),
-    placeholder: hasPlaceholderAttribute(elem),
+    value: getValueAttribute(elem),
+    placeholder: getPlaceholderAttribute(elem),
     position: getPosition(currentLabel ? currentLabel : elem),
     dimensions: getDimensions(currentLabel ? currentLabel : elem),
-    type: getTypeOfElement(elem)
+    type: getTypeOfElement(elem),
+    select: [{
+      option: getOptions(elem),
+      value: getOptionValue(elem)
+    }]
   };
 }
 
@@ -15019,12 +15016,32 @@ function getLabel(element_id) {
   return undefined;
 }
 
-function hasValueAttribute(elem) {
+function getText(elem) {
+  return $(elem).text() ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
+}
+
+function getValueAttribute(elem) {
   return $(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
-function hasPlaceholderAttribute(elem) {
+function getPlaceholderAttribute(elem) {
   return $(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
+}
+
+function getOptions(elem) {
+  if ($(elem).is('select')) {
+    var option = [];
+    $(elem + ' options').each(function () {
+      option.push($(this).text().trim().toLowerCase().replace(/\s{2,}/g, ' '));
+    });
+    return option.length >= 0 ? option : undefined;
+  }
+
+  return undefined;
+}
+
+function getOptionValue() {
+  return undefined;
 }
 
 function getTypeOfElement(element) {
@@ -15120,7 +15137,6 @@ var _helper = __webpack_require__(13);
 var _const = __webpack_require__(4);
 
 function executeAction(element) {
-  console.log(element);
   var typeC = _const.TYPE_CLICKABLE;
   var typeF = _const.TYPE_FOCUSABLE;
   var typeS = _const.TYPE_SELECTABLE;
