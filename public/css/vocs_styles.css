@@ -50,7 +50,19 @@
    highlighting for many selected Elements
  */
 .vocs_select_options_container{
-
+    border: solid 2px gray;
+    border-radius: 3px;
+    max-width: 200px;
+    max-height: 200px;
+    overflow: scroll;
+}
+.vocs_select_options_container li{
+    padding: 10px;
+    list-style-type: none;
+    border-bottom: 1px solid gray;
+}
+.vocs_select_options_container li:nth-child(even){
+    background: gray;
 }
 /*****************************************
    highlighting for many selected Elements

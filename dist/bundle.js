@@ -11864,8 +11864,9 @@ if (typeof Object.create === 'function') {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.generateId = generateId;
+exports.generateIdForSelectWrapper = generateIdForSelectWrapper;
 exports.buildMultipleWrapper = buildMultipleWrapper;
+exports.buildSelectOptionsWrapper = buildSelectOptionsWrapper;
 exports.splitUserCommand = splitUserCommand;
 exports.extractKeyword = extractKeyword;
 exports.extractSearchString = extractSearchString;
@@ -11882,9 +11883,28 @@ function generateId(i) {
   return 'vocs_multiple_select_wrapper_' + i;
 }
 
+function generateIdForSelectWrapper(i) {
+  return 'vocs_select_options_container_' + i;
+}
+
 function buildMultipleWrapper(i, currentElement) {
   var id = generateId(i);
   var wrapperTemplate = "<div class=\"vocs_multiple_select_wrapper_container\" id=\"".concat(id, "\"><div id=\"vocs_wrapper_").concat(i, "\" data-number=\"").concat(i + 1, "\" class=\"vocs_multiple_select_wrapper\"></div></div>");
+  $('.vocs_overlay').append(wrapperTemplate);
+  $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 30 ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
+  $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
+  $('#' + id).offset({
+    top: currentElement.position.posTop - 5,
+    left: currentElement.position.posLeft - 5
+  });
+}
+
+function buildSelectOptionsWrapper(currentElement) {
+  var id = generateId(1);
+  var wrapperTemplate = "<div class=\"vocs_select_options_container\" id=\"".concat(id, "\"></div>");
+  $(wrapperTemplate).append(currentElement.select.option.map(function (option) {
+    return $("<li>").append($("<a>").text(option));
+  }));
   $('.vocs_overlay').append(wrapperTemplate);
   $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 30 ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
   $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);

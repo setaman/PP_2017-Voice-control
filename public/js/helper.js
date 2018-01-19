@@ -5,8 +5,12 @@ import {
 import {isVisible} from './search_for_elements';
 import {fuzzySearchForElements} from "./fuzzy_search";
 
-export function generateId(i) {
+function generateId(i) {
     return 'vocs_multiple_select_wrapper_' + i;
+}
+
+export function generateIdForSelectWrapper(i) {
+    return 'vocs_select_options_container_' + i;
 }
 
 export function buildMultipleWrapper(i, currentElement){
@@ -16,8 +20,21 @@ export function buildMultipleWrapper(i, currentElement){
     $('#vocs_wrapper_' + i).width((currentElement.dimensions.width <= 30) ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
     $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
     $('#' + id).offset({ top: currentElement.position.posTop - 5, left: currentElement.position.posLeft - 5});
-
 }
+
+export function buildSelectOptionsWrapper(currentElement){
+    const id = generateId(1);
+    const wrapperTemplate = `<div class="vocs_select_options_container" id="${id}"></div>`;
+    $(wrapperTemplate).append(
+        currentElement.select.option.map(option =>
+        $("<li>").append($("<a>").text(option))
+    ));
+    $('.vocs_overlay').append(wrapperTemplate);
+    $('#vocs_wrapper_' + i).width((currentElement.dimensions.width <= 30) ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
+    $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
+    $('#' + id).offset({ top: currentElement.position.posTop - 5, left: currentElement.position.posLeft - 5});
+}
+
 
 export function splitUserCommand(userCommand, command) {
     return userCommand.slice((userCommand.indexOf(command) + command.length)).trim();
