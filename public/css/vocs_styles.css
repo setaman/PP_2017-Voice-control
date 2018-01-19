@@ -50,19 +50,38 @@
    highlighting for many selected Elements
  */
 .vocs_select_options_container{
-    border: solid 2px gray;
+    position: absolute;
+    border: solid 2px #b8b8b8;
     border-radius: 3px;
-    max-width: 200px;
+    width: 200px;
     max-height: 200px;
     overflow: scroll;
+    z-index: 2000;
+    background-color: white;
 }
 .vocs_select_options_container li{
     padding: 10px;
     list-style-type: none;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #d5d5d5;
 }
+
+.vocs_select_options_container span {
+    position:absolute;
+    font-size: 1.1em;
+    background: #474747;
+    color:white;
+    width:30px;
+    height:30px;
+    text-align:center;
+    line-height: 26px;
+    border: 2px solid white;
+    border-radius:50%;
+    box-shadow:0 0 1px #333;
+    z-index: 2000;
+}
+
 .vocs_select_options_container li:nth-child(even){
-    background: gray;
+    background: #efefef;
 }
 /*****************************************
    highlighting for many selected Elements

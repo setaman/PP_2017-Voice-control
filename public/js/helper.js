@@ -13,26 +13,27 @@ export function generateIdForSelectWrapper(i) {
     return 'vocs_select_options_container_' + i;
 }
 
-export function buildMultipleWrapper(i, currentElement){
+export function buildMultipleWrapper(i, currentElement) {
     const id = generateId(i);
     const wrapperTemplate = `<div class="vocs_multiple_select_wrapper_container" id="${id}"><div id="vocs_wrapper_${i}" data-number="${i + 1}" class="vocs_multiple_select_wrapper"></div></div>`;
     $('.vocs_overlay').append(wrapperTemplate);
     $('#vocs_wrapper_' + i).width((currentElement.dimensions.width <= 30) ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
     $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
-    $('#' + id).offset({ top: currentElement.position.posTop - 5, left: currentElement.position.posLeft - 5});
+    $('#' + id).offset({top: currentElement.position.posTop - 5, left: currentElement.position.posLeft - 5});
 }
 
-export function buildSelectOptionsWrapper(currentElement){
-    const id = generateId(1);
-    const wrapperTemplate = `<div class="vocs_select_options_container" id="${id}"></div>`;
-    $(wrapperTemplate).append(
+export function buildSelectOptionsWrapper(currentElement) {
+    const id = generateIdForSelectWrapper(1);
+    const ul = $('<div>', {class: 'vocs_select_options_container'}).append(
         currentElement.select.option.map(option =>
-        $("<li>").append($("<a>").text(option))
-    ));
-    $('.vocs_overlay').append(wrapperTemplate);
-    $('#vocs_wrapper_' + i).width((currentElement.dimensions.width <= 30) ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
-    $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
-    $('#' + id).offset({ top: currentElement.position.posTop - 5, left: currentElement.position.posLeft - 5});
+            $('<li>', {class: 'vocs_select_options_container', id: generateId(option)}).text(option))
+    );
+
+    $('.vocs_overlay').append(ul);
+    $('#' + id).offset({
+        top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
+        left: currentElement.position.posLeft
+    });
 }
 
 
@@ -42,7 +43,7 @@ export function splitUserCommand(userCommand, command) {
 
 export function extractKeyword(userCommand) {
     let result = userCommand.split(/[ ,]+/);
-    if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need'){
+    if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need') {
         return 'click';
     }
     return result[0];
@@ -50,7 +51,7 @@ export function extractKeyword(userCommand) {
 
 export function extractSearchString(userCommand) {
     let result = userCommand.split(/[ ,]+/);
-    if (result.length > 1){
+    if (result.length > 1) {
         result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
         return (result.length > 1) ? result[1] : undefined;
     }
@@ -66,11 +67,11 @@ export function getTypeOfElement(element) {
     let typeF = TYPE_FOCUSABLE;
     let typeS = TYPE_SELECTABLE;
 
-    if ($(element).is(clickable)){
+    if ($(element).is(clickable)) {
         return typeC;
-    } else if ($(element).is(focusable)){
+    } else if ($(element).is(focusable)) {
         return typeF;
-    } else if ($(element).is(selectable)){
+    } else if ($(element).is(selectable)) {
         return typeS;
     }
 }

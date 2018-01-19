@@ -11900,17 +11900,19 @@ function buildMultipleWrapper(i, currentElement) {
 }
 
 function buildSelectOptionsWrapper(currentElement) {
-  var id = generateId(1);
-  var wrapperTemplate = "<div class=\"vocs_select_options_container\" id=\"".concat(id, "\"></div>");
-  $(wrapperTemplate).append(currentElement.select.option.map(function (option) {
-    return $("<li>").append($("<a>").text(option));
+  var id = generateIdForSelectWrapper(1);
+  var ul = $('<div>', {
+    class: 'vocs_select_options_container'
+  }).append(currentElement.select.option.map(function (option) {
+    return $('<li>', {
+      class: 'vocs_select_options_container',
+      id: generateId(option)
+    }).text(option);
   }));
-  $('.vocs_overlay').append(wrapperTemplate);
-  $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 30 ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
-  $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
+  $('.vocs_overlay').append(ul);
   $('#' + id).offset({
-    top: currentElement.position.posTop - 5,
-    left: currentElement.position.posLeft - 5
+    top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
+    left: currentElement.position.posLeft
   });
 }
 
@@ -13070,7 +13072,9 @@ function search(userInput) {
 
   if (elements.length > 0) {
     for (var i = 0; i < elements.length; i++) {
-      if (compareStrings(elements[i].text, userInput) || (elements[i].value ? compareStrings(elements[i].value, userInput) : false) || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput) : false)) {
+      if (compareStrings(elements[i].text, userInput)
+      /*|| (elements[i].value ? compareStrings(elements[i].value, userInput) : false)*/
+      || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput) : false)) {
         foundedElements.push(elements[i]);
       }
     }
@@ -13096,7 +13100,7 @@ function hasOption(element, userInput) {
 }
 
 function compareStrings(textContent, searchString) {
-  if (!textContent || searchString === '' || !searchString) {
+  if (!textContent || !searchString) {
     return false;
   }
 
@@ -14888,11 +14892,14 @@ window.onload = function () {
         (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForElements)(userCommand)));
 
         if (currentElements.length === 1) {
-          (0, _actions.executeAction)(currentElements[0].elem);
-
           if (currentElements[0].type === _const.TYPE_FOCUSABLE) {
             currentInputfield = currentElements[0].elem;
             changeInputMode(_const.MODE_TYPE);
+            (0, _actions.executeAction)(currentElements[0].elem);
+            return;
+          } else if (currentElements[0].type === _const.TYPE_SELECTABLE) {
+            $('body').prepend('<div class="vocs_overlay"></div>');
+            (0, _helper.buildSelectOptionsWrapper)(currentElements[0]);
           }
         }
 

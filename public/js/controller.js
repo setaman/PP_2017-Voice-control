@@ -22,7 +22,7 @@ import {
     STATE_MULTIPLE_MATCH,
     MODE_MULTIPLE,
     TYPE_FOCUSABLE,
-    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER,
+    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE,
 } from './const';
 import {getElements, searchForElements} from './search_for_elements';
 import {
@@ -33,7 +33,7 @@ import {
     executeSetText, executeAction
 } from './actions';
 import {
-    buildMultipleWrapper, extractKeyword, extractSearchString
+    buildMultipleWrapper, buildSelectOptionsWrapper, extractKeyword, extractSearchString
 } from "./helper";
 import {fuzzySearchForKeywords} from "./fuzzy_search";
 
@@ -283,11 +283,14 @@ window.onload = function () {
                 console.log('Search string for CLICKS: ' + userCommand);
                 currentElements.push(...searchForElements(userCommand));
                 if (currentElements.length === 1) {
-                    executeAction(currentElements[0].elem);
-
                     if (currentElements[0].type === TYPE_FOCUSABLE) {
                         currentInputfield = currentElements[0].elem;
                         changeInputMode(MODE_TYPE);
+                        executeAction(currentElements[0].elem);
+                        return;
+                    }else if (currentElements[0].type === TYPE_SELECTABLE) {
+                        $('body').prepend('<div class="vocs_overlay"></div>');
+                        buildSelectOptionsWrapper(currentElements[0]);
                     }
                 }
 

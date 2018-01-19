@@ -5,8 +5,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/dist/bundle.js" afterPath="$PROJECT_DIR$/dist/bundle.js" />
       <change beforePath="$PROJECT_DIR$/dist/bundle.js.map" afterPath="$PROJECT_DIR$/dist/bundle.js.map" />
+      <change beforePath="$PROJECT_DIR$/public/css/index_css/style_index.css" afterPath="$PROJECT_DIR$/public/css/index_css/style_index.css" />
       <change beforePath="$PROJECT_DIR$/public/css/vocs_styles.css" afterPath="$PROJECT_DIR$/public/css/vocs_styles.css" />
+      <change beforePath="$PROJECT_DIR$/public/js/controller.js" afterPath="$PROJECT_DIR$/public/js/controller.js" />
       <change beforePath="$PROJECT_DIR$/public/js/helper.js" afterPath="$PROJECT_DIR$/public/js/helper.js" />
+      <change beforePath="$PROJECT_DIR$/public/js/search_for_elements.js" afterPath="$PROJECT_DIR$/public/js/search_for_elements.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -23,8 +26,8 @@
       <file leaf-file-name="search_for_elements.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/search_for_elements.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="9" column="12" lean-forward="false" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+            <state relative-caret-position="476">
+              <caret line="34" column="139" lean-forward="false" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="141" />
               <folding />
             </state>
           </provider>
@@ -55,12 +58,12 @@
       <file leaf-file-name="controller.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="586">
-              <caret line="142" column="15" lean-forward="false" selection-start-line="135" selection-start-column="12" selection-end-line="142" selection-end-column="15" />
+            <state relative-caret-position="542">
+              <caret line="291" column="78" lean-forward="false" selection-start-line="291" selection-start-column="78" selection-end-line="291" selection-end-column="78" />
               <folding>
-                <element signature="e#5748#7473#0" expanded="false" />
-                <element signature="e#7488#7544#0" expanded="false" />
-                <marker date="1516223320300" expanded="true" signature="10042:10067" ph="..." />
+                <element signature="e#5792#7517#0" expanded="false" />
+                <element signature="e#7532#7588#0" expanded="false" />
+                <marker date="1516400204946" expanded="true" signature="10348:10373" ph="..." />
               </folding>
             </state>
           </provider>
@@ -69,11 +72,9 @@
       <file leaf-file-name="helper.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/helper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-              <folding>
-                <marker date="1516398834370" expanded="true" signature="1310:1316" ph="..." />
-              </folding>
+            <state relative-caret-position="418">
+              <caret line="27" column="32" lean-forward="false" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -101,8 +102,18 @@
       <file leaf-file-name="vocs_styles.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="51" column="30" lean-forward="false" selection-start-line="51" selection-start-column="1" selection-end-line="51" selection-end-column="30" />
+            <state relative-caret-position="432">
+              <caret line="67" column="37" lean-forward="false" selection-start-line="67" selection-start-column="37" selection-end-line="67" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style_index.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/css/index_css/style_index.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="6" column="3" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="6" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -219,14 +230,14 @@
         <option value="$PROJECT_DIR$/public/css/index_css/semantic/bootstrap.css" />
         <option value="$PROJECT_DIR$/views/semanticui.ejs" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/public/css/index_css/style_index.css" />
-        <option value="$PROJECT_DIR$/public/js/search_for_elements.js" />
         <option value="$PROJECT_DIR$/public/js/fuzzy_search.js" />
         <option value="$PROJECT_DIR$/views/index.ejs" />
         <option value="$PROJECT_DIR$/public/js/actions.js" />
         <option value="$PROJECT_DIR$/public/js/const.js" />
-        <option value="$PROJECT_DIR$/public/js/controller.js" />
         <option value="$PROJECT_DIR$/public/js/element.js" />
+        <option value="$PROJECT_DIR$/public/js/search_for_elements.js" />
+        <option value="$PROJECT_DIR$/public/js/controller.js" />
+        <option value="$PROJECT_DIR$/public/css/index_css/style_index.css" />
         <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
         <option value="$PROJECT_DIR$/public/js/helper.js" />
       </list>
@@ -278,6 +289,13 @@
               <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="index_css" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
@@ -418,14 +436,7 @@
       <workItem from="1516129573020" duration="7770000" />
       <workItem from="1516223026782" duration="917000" />
       <workItem from="1516310148679" duration="5394000" />
-      <workItem from="1516392842232" duration="4862000" />
-    </task>
-    <task id="LOCAL-00009" summary="implement start/stop record on voice recognition">
-      <created>1509639244233</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1509639244233</updated>
+      <workItem from="1516392842232" duration="9577000" />
     </task>
     <task id="LOCAL-00010" summary="test Web Speech API">
       <created>1509659054232</created>
@@ -763,11 +774,18 @@
       <option name="project" value="LOCAL" />
       <updated>1516396530582</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="custom select builder function">
+      <created>1516398866614</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1516398866614</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="463623000" />
+    <option name="totallyTimeSpent" value="468338000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -861,7 +879,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="more test elements added" />
     <MESSAGE value="semantic ui framwork added for testing" />
     <MESSAGE value="add floating button" />
     <MESSAGE value="merge elements" />
@@ -886,7 +903,8 @@
     <MESSAGE value="opacity for elements highlighting" />
     <MESSAGE value="function for get options of select" />
     <MESSAGE value="save option of select in array" />
-    <option name="LAST_COMMIT_MESSAGE" value="save option of select in array" />
+    <MESSAGE value="custom select builder function" />
+    <option name="LAST_COMMIT_MESSAGE" value="custom select builder function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1115,13 +1133,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/index_css/style_index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/const.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2200">
@@ -1148,34 +1159,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/search_for_elements.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" column="12" lean-forward="false" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="586">
-          <caret line="142" column="15" lean-forward="false" selection-start-line="135" selection-start-column="12" selection-end-line="142" selection-end-column="15" />
-          <folding>
-            <element signature="e#5748#7473#0" expanded="false" />
-            <element signature="e#7488#7544#0" expanded="false" />
-            <marker date="1516223320300" expanded="true" signature="10042:10067" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="51" column="30" lean-forward="false" selection-start-line="51" selection-start-column="1" selection-end-line="51" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/element.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
@@ -1184,13 +1167,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/search_for_elements.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="34" column="139" lean-forward="false" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="141" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/index_css/style_index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="3" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="6" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="67" column="37" lean-forward="false" selection-start-line="67" selection-start-column="37" selection-end-line="67" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="291" column="78" lean-forward="false" selection-start-line="291" selection-start-column="78" selection-end-line="291" selection-end-column="78" />
+          <folding>
+            <element signature="e#5792#7517#0" expanded="false" />
+            <element signature="e#7532#7588#0" expanded="false" />
+            <marker date="1516400204946" expanded="true" signature="10348:10373" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/helper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding>
-            <marker date="1516398834370" expanded="true" signature="1310:1316" ph="..." />
-          </folding>
+        <state relative-caret-position="418">
+          <caret line="27" column="32" lean-forward="false" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+          <folding />
         </state>
       </provider>
     </entry>
