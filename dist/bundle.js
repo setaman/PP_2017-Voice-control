@@ -14933,9 +14933,6 @@ exports.getTypeOfElement = getTypeOfElement;
 
 var _const = __webpack_require__(4);
 
-/**
- * FIXME: build elements every time when user trigger action, because drop downs not selected
- */
 function elementBuilder(selector) {
   var elements = [];
   $(selector).each(function () {
@@ -14957,10 +14954,10 @@ function buildElement(elem) {
     position: getPosition(currentLabel ? currentLabel : elem),
     dimensions: getDimensions(currentLabel ? currentLabel : elem),
     type: getTypeOfElement(elem),
-    select: [{
+    select: {
       option: getOptions(elem),
       value: getOptionValue(elem)
-    }]
+    }
   };
 }
 
@@ -15031,7 +15028,7 @@ function getPlaceholderAttribute(elem) {
 function getOptions(elem) {
   if ($(elem).is('select')) {
     var option = [];
-    $(elem + ' options').each(function () {
+    $(elem).find('option').each(function () {
       option.push($(this).text().trim().toLowerCase().replace(/\s{2,}/g, ' '));
     });
     return option.length >= 0 ? option : undefined;

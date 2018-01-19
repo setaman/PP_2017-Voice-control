@@ -6,12 +6,9 @@ import {
     SELECT_SELECTORS,
     TYPE_CLICKABLE,
     TYPE_SELECTABLE,
-    TYPE_FOCUSABLE
+    TYPE_FOCUSABLE, MODE_NO_MODE
 } from "./const";
 
-/**
- * FIXME: build elements every time when user trigger action, because drop downs not selected
- */
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
@@ -33,10 +30,10 @@ function buildElement(elem) {
         position: getPosition(currentLabel ? currentLabel : elem),
         dimensions: getDimensions(currentLabel ? currentLabel : elem),
         type: getTypeOfElement(elem),
-        select: [{
+        select: {
             option: getOptions(elem),
             value: getOptionValue(elem)
-        }]
+        }
     };
 }
 
@@ -104,7 +101,8 @@ function getPlaceholderAttribute(elem) {
 function getOptions(elem) {
     if ($(elem).is('select')){
         let option = [];
-        $(elem + ' options').each(function () {
+
+        $(elem).find('option').each(function () {
             option.push($(this).text().trim().toLowerCase().replace(/\s{2,}/g, ' '));
         });
         return ((option.length >= 0) ? option : undefined);

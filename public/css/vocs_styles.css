@@ -1,6 +1,17 @@
-.vocs_selected {
-    border: 2px #07dc64
+/*   Full screen transparent overlay container for highlighting*/
+.vocs_overlay {
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    cursor: pointer;
 }
+/*****************************************
+   highlighting for many selected Elements
+ */
 .vocs_multiple_select_wrapper_container{
     position: absolute;
 }
@@ -9,8 +20,9 @@
     position:relative; !important;
     box-shadow: 0 0 5px #2f2f2f; !important;
     min-width: 70px; !important;
-    z-index: 1000;
+    z-index: 2000;
     border: 3px solid #48b1ff;
+    opacity: 0.7;
 }
 
 .vocs_multiple_select_wrapper[data-number]:after {
@@ -28,24 +40,20 @@
     border: 2px solid white;
     border-radius:50%;
     box-shadow:0 0 1px #333;
-    z-index: 1001;
-    opacity: 0.6;
+    z-index: 2000;
 }
+/*
+   highlighting for many selected Elements
+ ***********************************************/
 
-.vocs_overlay {
-    width: 100%; /* Full width (cover the whole page) */
-    height: 100%; /* Full height (cover the whole page) */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: transparent;
-    z-index: 999;
-    cursor: pointer;
+/*****************************************
+   highlighting for many selected Elements
+ */
+.vocs_select_options_container{
+
 }
-
-/*Placeholder class for customizing clickable elements*/
-.vocs_clickable{}
-
+/*****************************************
+   highlighting for many selected Elements
+ */
 
 
