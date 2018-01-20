@@ -291,7 +291,9 @@ window.onload = function () {
                     }else if (currentElements[0].type === TYPE_SELECTABLE) {
                         $('body').prepend('<div class="vocs_overlay"></div>');
                         buildSelectOptionsWrapper(currentElements[0]);
+                        return;
                     }
+                    executeAction(currentElements[0].elem);
                 }
 
                 break;

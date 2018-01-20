@@ -11865,6 +11865,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.generateIdForSelectWrapper = generateIdForSelectWrapper;
+exports.generateIdForLiSpan = generateIdForLiSpan;
 exports.buildMultipleWrapper = buildMultipleWrapper;
 exports.buildSelectOptionsWrapper = buildSelectOptionsWrapper;
 exports.splitUserCommand = splitUserCommand;
@@ -11887,6 +11888,10 @@ function generateIdForSelectWrapper(i) {
   return 'vocs_select_options_container_' + i;
 }
 
+function generateIdForLiSpan(i) {
+  return 'vocs_select_li_span_' + i;
+}
+
 function buildMultipleWrapper(i, currentElement) {
   var id = generateId(i);
   var wrapperTemplate = "<div class=\"vocs_multiple_select_wrapper_container\" id=\"".concat(id, "\"><div id=\"vocs_wrapper_").concat(i, "\" data-number=\"").concat(i + 1, "\" class=\"vocs_multiple_select_wrapper\"></div></div>");
@@ -11902,18 +11907,30 @@ function buildMultipleWrapper(i, currentElement) {
 function buildSelectOptionsWrapper(currentElement) {
   var id = generateIdForSelectWrapper(1);
   var ul = $('<div>', {
-    class: 'vocs_select_options_container'
-  }).append(currentElement.select.option.map(function (option) {
-    return $('<li>', {
-      class: 'vocs_select_options_container',
-      id: generateId(option)
-    }).text(option);
-  }));
+    class: 'vocs_select_options_container',
+    id: id
+  }).append(currentElement.select.option.map(function (option, i) {
+    return buildLiForSelectOption(i, option);
+  }
+  /*$('<li>', {class: 'vocs_select_li'}).text(option)*/
+  ));
+  /*$('.vocs_select_li').each($(this).prepend(
+      console.log(this)
+      /!*$('<span>', {class: 'vocs_select_li_span' })*!/
+  ));
+  $('.vocs_select_li_span').each(function (i) {
+      $(this).text(i);
+  });*/
+
   $('.vocs_overlay').append(ul);
   $('#' + id).offset({
     top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
     left: currentElement.position.posLeft
   });
+}
+
+function buildLiForSelectOption(i, option) {
+  return "<li><span>".concat(i + 1, "</span>").concat(option, "</li>");
 }
 
 function splitUserCommand(userCommand, command) {
@@ -14900,7 +14917,10 @@ window.onload = function () {
           } else if (currentElements[0].type === _const.TYPE_SELECTABLE) {
             $('body').prepend('<div class="vocs_overlay"></div>');
             (0, _helper.buildSelectOptionsWrapper)(currentElements[0]);
+            return;
           }
+
+          (0, _actions.executeAction)(currentElements[0].elem);
         }
 
         break;

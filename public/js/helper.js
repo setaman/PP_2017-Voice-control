@@ -13,6 +13,10 @@ export function generateIdForSelectWrapper(i) {
     return 'vocs_select_options_container_' + i;
 }
 
+export function generateIdForLiSpan(i) {
+    return 'vocs_select_li_span_' + i;
+}
+
 export function buildMultipleWrapper(i, currentElement) {
     const id = generateId(i);
     const wrapperTemplate = `<div class="vocs_multiple_select_wrapper_container" id="${id}"><div id="vocs_wrapper_${i}" data-number="${i + 1}" class="vocs_multiple_select_wrapper"></div></div>`;
@@ -24,18 +28,30 @@ export function buildMultipleWrapper(i, currentElement) {
 
 export function buildSelectOptionsWrapper(currentElement) {
     const id = generateIdForSelectWrapper(1);
-    const ul = $('<div>', {class: 'vocs_select_options_container'}).append(
-        currentElement.select.option.map(option =>
-            $('<li>', {class: 'vocs_select_options_container', id: generateId(option)}).text(option))
-    );
+    const ul = $('<div>', {class: 'vocs_select_options_container', id: id}).append(
+        currentElement.select.option.map( (option, i) =>
+                buildLiForSelectOption(i, option)
+            /*$('<li>', {class: 'vocs_select_li'}).text(option)*/
+        ));
 
+    /*$('.vocs_select_li').each($(this).prepend(
+        console.log(this)
+        /!*$('<span>', {class: 'vocs_select_li_span' })*!/
+    ));
+    $('.vocs_select_li_span').each(function (i) {
+        $(this).text(i);
+    });*/
     $('.vocs_overlay').append(ul);
     $('#' + id).offset({
         top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
         left: currentElement.position.posLeft
     });
+
 }
 
+function buildLiForSelectOption(i, option) {
+    return`<li><span>${i + 1}</span>${option}</li>`;
+}
 
 export function splitUserCommand(userCommand, command) {
     return userCommand.slice((userCommand.indexOf(command) + command.length)).trim();
