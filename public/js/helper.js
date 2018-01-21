@@ -31,16 +31,7 @@ export function buildSelectOptionsWrapper(currentElement) {
     const ul = $('<div>', {class: 'vocs_select_options_container', id: id}).append(
         currentElement.select.option.map( (option, i) =>
                 buildLiForSelectOption(i, option)
-            /*$('<li>', {class: 'vocs_select_li'}).text(option)*/
         ));
-
-    /*$('.vocs_select_li').each($(this).prepend(
-        console.log(this)
-        /!*$('<span>', {class: 'vocs_select_li_span' })*!/
-    ));
-    $('.vocs_select_li_span').each(function (i) {
-        $(this).text(i);
-    });*/
     $('.vocs_overlay').append(ul);
     $('#' + id).offset({
         top: currentElement.position.posTop + (currentElement.dimensions.height + 10),

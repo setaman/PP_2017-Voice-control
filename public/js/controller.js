@@ -135,8 +135,9 @@ window.onload = function () {
                 userCommand = wordsToNumbers(userCommand, {fuzzy: true});
             }
             try {
-                executeSelect(currentSelect.elem, currentSelect.value[parseInt(userCommand) - 1]);
+                executeSelect(currentSelect.elem, currentSelect.select.value[parseInt(userCommand) - 1]);
                 changeInputMode(MODE_NO_MODE);
+                $('.vocs_overlay').remove();
             }catch (e){
                 console.log(e);
                 return;
@@ -206,7 +207,7 @@ window.onload = function () {
 
     function setInputField() {
         currentInputfield = currentElements[0].elem;
-        changeInputMode(MODE_SELECT);
+        changeInputMode(MODE_TYPE);
         executeAction(currentElements[0].elem);
     }
 
@@ -214,6 +215,7 @@ window.onload = function () {
         $('body').prepend('<div class="vocs_overlay"></div>');
         buildSelectOptionsWrapper(currentElements[0]);
         currentSelect = currentElements[0];
+        changeInputMode(MODE_SELECT);
     }
 
     function multipleElementsSelected() {

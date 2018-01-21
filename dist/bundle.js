@@ -11912,17 +11912,7 @@ function buildSelectOptionsWrapper(currentElement) {
     id: id
   }).append(currentElement.select.option.map(function (option, i) {
     return buildLiForSelectOption(i, option);
-  }
-  /*$('<li>', {class: 'vocs_select_li'}).text(option)*/
-  ));
-  /*$('.vocs_select_li').each($(this).prepend(
-      console.log(this)
-      /!*$('<span>', {class: 'vocs_select_li_span' })*!/
-  ));
-  $('.vocs_select_li_span').each(function (i) {
-      $(this).text(i);
-  });*/
-
+  }));
   $('.vocs_overlay').append(ul);
   $('#' + id).offset({
     top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
@@ -14768,8 +14758,9 @@ window.onload = function () {
       }
 
       try {
-        (0, _actions.executeSelect)(currentSelect.elem, currentSelect.value[parseInt(userCommand) - 1]);
+        (0, _actions.executeSelect)(currentSelect.elem, currentSelect.select.value[parseInt(userCommand) - 1]);
         changeInputMode(_const.MODE_NO_MODE);
+        $('.vocs_overlay').remove();
       } catch (e) {
         console.log(e);
         return;
@@ -14853,7 +14844,7 @@ window.onload = function () {
 
   function setInputField() {
     currentInputfield = currentElements[0].elem;
-    changeInputMode(_const.MODE_SELECT);
+    changeInputMode(_const.MODE_TYPE);
     (0, _actions.executeAction)(currentElements[0].elem);
   }
 
@@ -14861,6 +14852,7 @@ window.onload = function () {
     $('body').prepend('<div class="vocs_overlay"></div>');
     (0, _helper.buildSelectOptionsWrapper)(currentElements[0]);
     currentSelect = currentElements[0];
+    changeInputMode(_const.MODE_SELECT);
   }
 
   function multipleElementsSelected() {
@@ -15275,7 +15267,8 @@ function executeSetText(element, text) {
 }
 
 function executeSelect(element, value) {
-  $(element).find("option[value=".concat(value, "]")).prop('selected', true);
+  $(element).find("option[value=".concat(value, "]")).prop('selected', true); //document.getElementById('SBox0').selectedIndex = value;
+
   $(element).focus();
 }
 
