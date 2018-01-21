@@ -30,10 +30,10 @@ import {
     scrollDown,
     scrollToBottom,
     scrollToTop,
-    executeSetText, executeAction
+    executeSetText, executeAction, executeSelect
 } from './actions';
 import {
-    buildMultipleWrapper, buildSelectOptionsWrapper, extractKeyword, extractSearchString
+    buildMultipleWrapper, buildSelectOptionsWrapper, extractKeyword, extractSearchString, scrollSelectContainer
 } from "./helper";
 import {fuzzySearchForKeywords} from "./fuzzy_search";
 
@@ -63,14 +63,14 @@ window.onload = function () {
         performUserAction($('#search-input').val());
     });
 
-    /*$('#hide').click(function () {
-        currentSelect.hide().blur();
-    });*/
-
     /*$('html, body').click(function () {
         changeInputMode(MODE_NO_MODE);
     });*/
 
+    /*******************************************************************************************************************
+     * Main function
+     * @param input - recognized User command
+     */
     function performUserAction(input) {
 
         let t0 = performance.now();
@@ -88,9 +88,8 @@ window.onload = function () {
 
         if (currentMode === MODE_MULTIPLE) {
             try {
-                if (!REG_EXP_NUMBER.test(userCommand)){
+                if (!REG_EXP_NUMBER.test(userCommand)) {
                     userCommand = wordsToNumbers(userCommand, {fuzzy: true});
-                    console.log('NUmbER after convert: ' + userCommand);
                 }
                 let elem = currentMultipleElements[parseInt(userCommand) - 1];
 
@@ -132,19 +131,89 @@ window.onload = function () {
             executeSetText(currentInputfield, userCommand);
 
         } else if (currentMode === MODE_SELECT && currentSelect) {
+            if (!REG_EXP_NUMBER.test(userCommand)) {
+                userCommand = wordsToNumbers(userCommand, {fuzzy: true});
+            }
+            try {
+                executeSelect(currentSelect.elem, currentSelect.value[parseInt(userCommand) - 1]);
+                changeInputMode(MODE_NO_MODE);
+            }catch (e){
+                console.log(e);
+                return;
+            }
 
-            $(currentSelect).find('option').each(function () {
-                console.log('//////FOUND option////////: ' + $(this).text().toLowerCase().trim());
+            /*$(currentSelect).find('option').each(function () {
                 if ($(this).text().toLowerCase().trim().startsWith(input.toLowerCase().trim())) {
                     $(this).prop('selected', true);
                     $(currentSelect).selectmenu("refresh");
                     changeInputMode(MODE_NO_MODE);
                 }
-            });
+            });*/
         }
         clearCurrentElements();
         let t1 = performance.now();
         console.log('Execution time: ' + (t1 - t0) + ' mil');
+    }
+
+    /**
+     * Main function end
+     ******************************************************************************************************************/
+
+    function choiceAction(keyword, userCommand) {
+
+        switch (true) {
+            case REG_EXP_CLICK.test(keyword):
+                currentElements.push(...searchForElements(userCommand));
+                if (currentElements.length === 1) {
+                    if (currentElements[0].type === TYPE_FOCUSABLE) {
+                        setInputField();
+                        return;
+                    } else if (currentElements[0].type === TYPE_SELECTABLE) {
+                        setCustomSelectContainer();
+                        return;
+                    }
+                    executeAction(currentElements[0].elem);
+                }
+                break;
+            case REG_EXP_SCROLL_DOWN.test(keyword):
+                scrollDown();
+                break;
+            case REG_EXP_SCROLL_UP.test(keyword):
+                scrollUp();
+                break;
+            case REG_EXP_SCROLL_TO_TOP.test(keyword):
+                scrollToTop();
+                break;
+            case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
+                scrollToBottom();
+                break;
+            case REG_EXP_SHOW.test(keyword):
+                currentElements.push(...getElements());
+                break;
+            case REG_EXP_SEARCH.test(keyword):
+                /**
+                 * TODO: implement this
+                 */
+                break;
+            case REG_EXP_OFF.test(keyword):
+                /**
+                 * TODO: implement this
+                 */
+                break;
+            default:
+        }
+    }
+
+    function setInputField() {
+        currentInputfield = currentElements[0].elem;
+        changeInputMode(MODE_SELECT);
+        executeAction(currentElements[0].elem);
+    }
+
+    function setCustomSelectContainer() {
+        $('body').prepend('<div class="vocs_overlay"></div>');
+        buildSelectOptionsWrapper(currentElements[0]);
+        currentSelect = currentElements[0];
     }
 
     function multipleElementsSelected() {
@@ -160,18 +229,6 @@ window.onload = function () {
             changeInputMode(MODE_MULTIPLE);
             currentMultipleElements.push(currentElements[i]);
         }
-    }
-
-    function changeInputMode(newInputMode) {
-        currentMode = newInputMode;
-        if (currentMode === MODE_NO_MODE) {
-            $('.vocs_overlay').remove();
-            $(currentInputfield).blur();
-            $(currentSelect).selectmenu('close');
-            currentInputfield = null;
-            currentSelect = null;
-        }
-        console.log('------Current MODE------: ' + currentMode);
     }
 
     /**
@@ -253,7 +310,7 @@ window.onload = function () {
 
     function clearCurrentElements() {
         currentElements = [];
-        currentKeyword = '';
+        currentKeyword = undefined;
     }
 
     function getRecognizedKeyword(keyword) {
@@ -276,55 +333,19 @@ window.onload = function () {
         }
     }
 
-    function choiceAction(keyword, userCommand) {
 
-        switch (true) {
-            case REG_EXP_CLICK.test(keyword):
-                console.log('Search string for CLICKS: ' + userCommand);
-                currentElements.push(...searchForElements(userCommand));
-                if (currentElements.length === 1) {
-                    if (currentElements[0].type === TYPE_FOCUSABLE) {
-                        currentInputfield = currentElements[0].elem;
-                        changeInputMode(MODE_TYPE);
-                        executeAction(currentElements[0].elem);
-                        return;
-                    }else if (currentElements[0].type === TYPE_SELECTABLE) {
-                        $('body').prepend('<div class="vocs_overlay"></div>');
-                        buildSelectOptionsWrapper(currentElements[0]);
-                        return;
-                    }
-                    executeAction(currentElements[0].elem);
-                }
-
-                break;
-            case REG_EXP_SCROLL_DOWN.test(keyword):
-                scrollDown();
-                break;
-            case REG_EXP_SCROLL_UP.test(keyword):
-                scrollUp();
-                break;
-            case REG_EXP_SCROLL_TO_TOP.test(keyword):
-                scrollToTop();
-                break;
-            case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
-                scrollToBottom();
-                break;
-            case REG_EXP_SHOW.test(keyword):
-                currentElements.push(...getElements());
-                break;
-            case REG_EXP_SEARCH.test(keyword):
-                /**
-                 * TODO: implement this
-                 */
-                break;
-            case REG_EXP_OFF.test(keyword):
-                /**
-                 * TODO: implement this
-                 */
-                break;
-            default:
+    function changeInputMode(newInputMode) {
+        currentMode = newInputMode;
+        if (currentMode === MODE_NO_MODE) {
+            $('.vocs_overlay').remove();
+            $(currentInputfield).blur();
+            currentInputfield = null;
+            currentSelect = null;
         }
+        console.log('------Current MODE------: ' + currentMode);
     }
 };
+
+
 
 

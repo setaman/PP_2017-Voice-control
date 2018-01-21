@@ -54,15 +54,16 @@
     border: solid 2px #b8b8b8;
     border-radius: 3px;
     width: 200px;
-    max-height: 200px;
+    max-height: 250px;
     overflow: auto;
     z-index: 2000;
     background-color: white;
     -webkit-box-shadow: 0 0 49px 9px rgba(153,153,153,1);
-    -moz-box-shadow: 0px 0px 49px 9px rgba(153,153,153,1);
-    box-shadow: 0px 0px 49px 9px rgba(153,153,153,1);
+    -moz-box-shadow: 0 0 49px 9px rgba(153,153,153,1);
+    box-shadow: 0 0 49px 9px rgba(153,153,153,1);
 }
 .vocs_select_options_container li{
+    height: 50px;
     padding: 10px 0 10px 0;
     list-style-type: none;
     border-bottom: 1px solid #d5d5d5;

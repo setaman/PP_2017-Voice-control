@@ -87,14 +87,17 @@ export function getLabel(element_id) {
 }
 
 function getText(elem) {
+    if ($(elem).is('select')){return undefined;}
     return ($(elem).text()) ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getValueAttribute(elem) {
+    if ($(elem).is('select')){return undefined;}
     return (($(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null)) ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getPlaceholderAttribute(elem) {
+    if ($(elem).is('select')){return undefined;}
     return ($(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null) ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
@@ -110,7 +113,15 @@ function getOptions(elem) {
     return undefined;
 }
 
-function getOptionValue() {
+function getOptionValue(elem) {
+    if ($(elem).is('select')){
+        let values = [];
+
+        $(elem).find('option').each(function () {
+            values.push($(this).val().trim().toLowerCase().replace(/\s{2,}/g, ' '));
+        });
+        return ((values.length >= 0) ? values : undefined);
+    }
     return undefined;
 }
 

@@ -11873,6 +11873,7 @@ exports.extractKeyword = extractKeyword;
 exports.extractSearchString = extractSearchString;
 exports.getTypeOfElement = getTypeOfElement;
 exports.getRecognizedElements = getRecognizedElements;
+exports.scrollSelectContainer = scrollSelectContainer;
 
 var _const = __webpack_require__(4);
 
@@ -11977,7 +11978,7 @@ function getTypeOfElement(element) {
 
 function getRecognizedElements(elements, userCommand) {
   /**
-   * TODO: optimize search for long strings
+   * TODO: optimize search for long strings with fuzzy
    */
 
   /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
@@ -11990,6 +11991,12 @@ function getRecognizedElements(elements, userCommand) {
   }
 
   return [];
+}
+
+function scrollSelectContainer() {
+  $('.vocs_select_options_container').animate({
+    scrollTop: $('.vocs_select_options_container').scrollTop() + 250
+  }, 'slow');
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
@@ -14689,13 +14696,14 @@ window.onload = function () {
   $('#search').click(function () {
     performUserAction($('#search-input').val());
   });
-  /*$('#hide').click(function () {
-      currentSelect.hide().blur();
-  });*/
-
   /*$('html, body').click(function () {
       changeInputMode(MODE_NO_MODE);
   });*/
+
+  /*******************************************************************************************************************
+   * Main function
+   * @param input - recognized User command
+   */
 
   function performUserAction(input) {
     var t0 = performance.now();
@@ -14715,7 +14723,6 @@ window.onload = function () {
           userCommand = (0, _wordsToNumbers.default)(userCommand, {
             fuzzy: true
           });
-          console.log('NUmbER after convert: ' + userCommand);
         }
 
         var elem = currentMultipleElements[parseInt(userCommand) - 1];
@@ -14754,20 +14761,106 @@ window.onload = function () {
     } else if (currentMode === _const.MODE_TYPE && currentInputfield) {
       (0, _actions.executeSetText)(currentInputfield, userCommand);
     } else if (currentMode === _const.MODE_SELECT && currentSelect) {
-      $(currentSelect).find('option').each(function () {
-        console.log('//////FOUND option////////: ' + $(this).text().toLowerCase().trim());
+      if (!_const.REG_EXP_NUMBER.test(userCommand)) {
+        userCommand = (0, _wordsToNumbers.default)(userCommand, {
+          fuzzy: true
+        });
+      }
 
-        if ($(this).text().toLowerCase().trim().startsWith(input.toLowerCase().trim())) {
-          $(this).prop('selected', true);
-          $(currentSelect).selectmenu("refresh");
-          changeInputMode(_const.MODE_NO_MODE);
-        }
-      });
+      try {
+        (0, _actions.executeSelect)(currentSelect.elem, currentSelect.value[parseInt(userCommand) - 1]);
+        changeInputMode(_const.MODE_NO_MODE);
+      } catch (e) {
+        console.log(e);
+        return;
+      }
+      /*$(currentSelect).find('option').each(function () {
+          if ($(this).text().toLowerCase().trim().startsWith(input.toLowerCase().trim())) {
+              $(this).prop('selected', true);
+              $(currentSelect).selectmenu("refresh");
+              changeInputMode(MODE_NO_MODE);
+          }
+      });*/
+
     }
 
     clearCurrentElements();
     var t1 = performance.now();
     console.log('Execution time: ' + (t1 - t0) + ' mil');
+  }
+  /**
+   * Main function end
+   ******************************************************************************************************************/
+
+
+  function choiceAction(keyword, userCommand) {
+    var _currentElements, _currentElements2;
+
+    switch (true) {
+      case _const.REG_EXP_CLICK.test(keyword):
+        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForElements)(userCommand)));
+
+        if (currentElements.length === 1) {
+          if (currentElements[0].type === _const.TYPE_FOCUSABLE) {
+            setInputField();
+            return;
+          } else if (currentElements[0].type === _const.TYPE_SELECTABLE) {
+            setCustomSelectContainer();
+            return;
+          }
+
+          (0, _actions.executeAction)(currentElements[0].elem);
+        }
+
+        break;
+
+      case _const.REG_EXP_SCROLL_DOWN.test(keyword):
+        (0, _actions.scrollDown)();
+        break;
+
+      case _const.REG_EXP_SCROLL_UP.test(keyword):
+        (0, _actions.scrollUp)();
+        break;
+
+      case _const.REG_EXP_SCROLL_TO_TOP.test(keyword):
+        (0, _actions.scrollToTop)();
+        break;
+
+      case _const.REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
+        (0, _actions.scrollToBottom)();
+        break;
+
+      case _const.REG_EXP_SHOW.test(keyword):
+        (_currentElements2 = currentElements).push.apply(_currentElements2, _toConsumableArray((0, _search_for_elements.getElements)()));
+
+        break;
+
+      case _const.REG_EXP_SEARCH.test(keyword):
+        /**
+         * TODO: implement this
+         */
+        break;
+
+      case _const.REG_EXP_OFF.test(keyword):
+        /**
+         * TODO: implement this
+         */
+        break;
+
+      default:
+    }
+  }
+
+  function setInputField() {
+    currentInputfield = currentElements[0].elem;
+    changeInputMode(_const.MODE_SELECT);
+    (0, _actions.executeAction)(currentElements[0].elem);
+  }
+
+  function setCustomSelectContainer() {
+    $('body').prepend('<div class="vocs_overlay"></div>');
+    (0, _helper.buildSelectOptionsWrapper)(currentElements[0]);
+    currentSelect = currentElements[0];
   }
 
   function multipleElementsSelected() {
@@ -14783,20 +14876,6 @@ window.onload = function () {
       changeInputMode(_const.MODE_MULTIPLE);
       currentMultipleElements.push(currentElements[i]);
     }
-  }
-
-  function changeInputMode(newInputMode) {
-    currentMode = newInputMode;
-
-    if (currentMode === _const.MODE_NO_MODE) {
-      $('.vocs_overlay').remove();
-      $(currentInputfield).blur();
-      $(currentSelect).selectmenu('close');
-      currentInputfield = null;
-      currentSelect = null;
-    }
-
-    console.log('------Current MODE------: ' + currentMode);
   }
   /**
    *Setup Google Speech Recognition
@@ -14874,7 +14953,7 @@ window.onload = function () {
 
   function clearCurrentElements() {
     currentElements = [];
-    currentKeyword = '';
+    currentKeyword = undefined;
   }
 
   function getRecognizedKeyword(keyword) {
@@ -14899,67 +14978,17 @@ window.onload = function () {
     }
   }
 
-  function choiceAction(keyword, userCommand) {
-    var _currentElements, _currentElements2;
+  function changeInputMode(newInputMode) {
+    currentMode = newInputMode;
 
-    switch (true) {
-      case _const.REG_EXP_CLICK.test(keyword):
-        console.log('Search string for CLICKS: ' + userCommand);
-
-        (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForElements)(userCommand)));
-
-        if (currentElements.length === 1) {
-          if (currentElements[0].type === _const.TYPE_FOCUSABLE) {
-            currentInputfield = currentElements[0].elem;
-            changeInputMode(_const.MODE_TYPE);
-            (0, _actions.executeAction)(currentElements[0].elem);
-            return;
-          } else if (currentElements[0].type === _const.TYPE_SELECTABLE) {
-            $('body').prepend('<div class="vocs_overlay"></div>');
-            (0, _helper.buildSelectOptionsWrapper)(currentElements[0]);
-            return;
-          }
-
-          (0, _actions.executeAction)(currentElements[0].elem);
-        }
-
-        break;
-
-      case _const.REG_EXP_SCROLL_DOWN.test(keyword):
-        (0, _actions.scrollDown)();
-        break;
-
-      case _const.REG_EXP_SCROLL_UP.test(keyword):
-        (0, _actions.scrollUp)();
-        break;
-
-      case _const.REG_EXP_SCROLL_TO_TOP.test(keyword):
-        (0, _actions.scrollToTop)();
-        break;
-
-      case _const.REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
-        (0, _actions.scrollToBottom)();
-        break;
-
-      case _const.REG_EXP_SHOW.test(keyword):
-        (_currentElements2 = currentElements).push.apply(_currentElements2, _toConsumableArray((0, _search_for_elements.getElements)()));
-
-        break;
-
-      case _const.REG_EXP_SEARCH.test(keyword):
-        /**
-         * TODO: implement this
-         */
-        break;
-
-      case _const.REG_EXP_OFF.test(keyword):
-        /**
-         * TODO: implement this
-         */
-        break;
-
-      default:
+    if (currentMode === _const.MODE_NO_MODE) {
+      $('.vocs_overlay').remove();
+      $(currentInputfield).blur();
+      currentInputfield = null;
+      currentSelect = null;
     }
+
+    console.log('------Current MODE------: ' + currentMode);
   }
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
@@ -15061,14 +15090,26 @@ function getLabel(element_id) {
 }
 
 function getText(elem) {
+  if ($(elem).is('select')) {
+    return undefined;
+  }
+
   return $(elem).text() ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getValueAttribute(elem) {
+  if ($(elem).is('select')) {
+    return undefined;
+  }
+
   return $(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getPlaceholderAttribute(elem) {
+  if ($(elem).is('select')) {
+    return undefined;
+  }
+
   return $(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
@@ -15084,7 +15125,15 @@ function getOptions(elem) {
   return undefined;
 }
 
-function getOptionValue() {
+function getOptionValue(elem) {
+  if ($(elem).is('select')) {
+    var values = [];
+    $(elem).find('option').each(function () {
+      values.push($(this).val().trim().toLowerCase().replace(/\s{2,}/g, ' '));
+    });
+    return values.length >= 0 ? values : undefined;
+  }
+
   return undefined;
 }
 
@@ -15225,7 +15274,8 @@ function executeSetText(element, text) {
   $(element).val(currentTextContent);
 }
 
-function executeSelect(element) {
+function executeSelect(element, value) {
+  $(element).find("option[value=".concat(value, "]")).prop('selected', true);
   $(element).focus();
 }
 

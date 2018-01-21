@@ -95,7 +95,7 @@ export function getTypeOfElement(element) {
 export function getRecognizedElements(elements, userCommand) {
 
     /**
-     * TODO: optimize search for long strings
+     * TODO: optimize search for long strings with fuzzy
      */
 
     /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
@@ -107,4 +107,8 @@ export function getRecognizedElements(elements, userCommand) {
         return fuzzy_result;
     }
     return [];
+}
+
+export function scrollSelectContainer() {
+    $('.vocs_select_options_container').animate({scrollTop: $('.vocs_select_options_container').scrollTop() + 250}, 'slow');
 }

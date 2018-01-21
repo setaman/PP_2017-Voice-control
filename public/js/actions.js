@@ -46,7 +46,8 @@ export function executeSetText(element, text) {
     $(element).val(currentTextContent);
 }
 
-export function executeSelect(element) {
+export function executeSelect(element, value) {
+    $(element).find(`option[value=${value}]`).prop('selected', true);
     $(element).focus();
 }
 
