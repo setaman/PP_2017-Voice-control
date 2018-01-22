@@ -71,7 +71,7 @@ function getDimensions(elem, label) {
  * @returns {*} ein Label oder oder false, falls mit dem Input kein Label verknüpft ist
  */
 export function getLabel(element_id) {
-
+    if(!element_id){return undefined}
     let selectedLabels = $('[for=' + element_id + ']');
     //Label gefunden
     if (selectedLabels.length === 1) {

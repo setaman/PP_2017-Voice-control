@@ -64,6 +64,10 @@ window.onload = function () {
         performUserAction($('#search-input').val());
     });
 
+    $('#hide').click(function () {
+        alert($('.select_').attr('id'));
+    });
+
     /*$('html, body').click(function () {
         changeInputMode(MODE_NO_MODE);
     });*/
@@ -73,6 +77,10 @@ window.onload = function () {
      * @param input - recognized User command
      */
     function performUserAction(input) {
+
+        $('#hide').click(function () {
+            alert($('.select_').attr('id'));
+        });
 
         let t0 = performance.now();
 

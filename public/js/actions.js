@@ -48,6 +48,7 @@ export function executeSetText(element, text) {
 
 export function executeSelect(element, value) {
     $(element).find(`option[value=${value}]`).prop('selected', true);
+    /*$(element).hide().show();*/
     $(element).focus();
 }
 

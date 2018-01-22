@@ -14694,6 +14694,9 @@ window.onload = function () {
   $('#search').click(function () {
     performUserAction($('#search-input').val());
   });
+  $('#hide').click(function () {
+    alert($('.select_').attr('id'));
+  });
   /*$('html, body').click(function () {
       changeInputMode(MODE_NO_MODE);
   });*/
@@ -14704,6 +14707,9 @@ window.onload = function () {
    */
 
   function performUserAction(input) {
+    $('#hide').click(function () {
+      alert($('.select_').attr('id'));
+    });
     var t0 = performance.now();
     var userCommand = input.toString().toLowerCase().trim();
     currentKeyword = getRecognizedKeyword((0, _helper.extractKeyword)(userCommand));
@@ -15090,6 +15096,10 @@ function getDimensions(elem, label) {
 
 
 function getLabel(element_id) {
+  if (!element_id) {
+    return undefined;
+  }
+
   var selectedLabels = $('[for=' + element_id + ']'); //Label gefunden
 
   if (selectedLabels.length === 1) {
@@ -15302,6 +15312,8 @@ function executeSetText(element, text) {
 
 function executeSelect(element, value) {
   $(element).find("option[value=".concat(value, "]")).prop('selected', true);
+  /*$(element).hide().show();*/
+
   $(element).focus();
 }
 
