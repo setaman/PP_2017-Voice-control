@@ -32,7 +32,8 @@ function buildElement(elem) {
         type: getTypeOfElement(elem),
         select: {
             option: getOptions(elem),
-            value: getOptionValue(elem)
+            value: getOptionValue(elem),
+            selected: getSelectedOption(elem)
         }
     };
 }
@@ -109,6 +110,14 @@ function getOptions(elem) {
             option.push($(this).text().trim().toLowerCase().replace(/\s{2,}/g, ' '));
         });
         return ((option.length >= 0) ? option : undefined);
+    }
+    return undefined;
+}
+
+function getSelectedOption(elem) {
+    if ($(elem).is('select')){
+        let selected = $(elem).find(':selected').text();
+        return (selected ? selected.trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined)
     }
     return undefined;
 }

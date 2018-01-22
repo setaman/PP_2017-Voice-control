@@ -50,7 +50,8 @@ export function splitUserCommand(userCommand, command) {
 
 export function extractKeyword(userCommand) {
     let result = userCommand.split(/[ ,]+/);
-    if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need') {
+    if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need'
+        || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead') {
         return 'click';
     }
     return result[0];
@@ -100,6 +101,15 @@ export function getRecognizedElements(elements, userCommand) {
     return [];
 }
 
-export function scrollSelectContainer() {
+export function scrollSelectContainerDown() {
+    $('.vocs_select_options_container').animate({scrollTop: $('.vocs_select_options_container').scrollTop() + 250}, 'slow');
+}
+export function scrollSelectContainerUp() {
+    $('.vocs_select_options_container').animate({scrollTop: $('.vocs_select_options_container').scrollTop() - 250}, 'slow');
+}
+export function scrollSelectContainerTop() {
+    $('.vocs_select_options_container').animate({scrollTop: $('.vocs_select_options_container').scrollTop() + 250}, 'slow');
+}
+export function scrollSelectContainerBottom() {
     $('.vocs_select_options_container').animate({scrollTop: $('.vocs_select_options_container').scrollTop() + 250}, 'slow');
 }

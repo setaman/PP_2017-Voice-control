@@ -34,7 +34,8 @@ export function search(userInput) {
         for (let i = 0; i < elements.length; i++) {
             if (compareStrings(elements[i].text, userInput) /*|| (elements[i].value ? compareStrings(elements[i].value, userInput) : false)*/
                 || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false)
-                || (elements[i].label ? compareStrings(elements[i].label, userInput) : false)) {
+                || (elements[i].label ? compareStrings(elements[i].label, userInput) : false)
+                || compareStrings(elements[i].select.selected, userInput)) {
 
                 foundedElements.push(elements[i]);
             }
@@ -46,15 +47,6 @@ export function search(userInput) {
 /************************************************************************************************************************
  * Helper methods
  */
-function hasOption(element, userInput) {
-    if ($(element).is('select')) {
-        console.log('********Selects content: ' + element.textContent.toString().toLowerCase());
-        if (element.textContent.toString().toLowerCase().indexOf(userInput) > 0) {
-            return true;
-        }
-    }
-    return false;
-}
 
 function compareStrings(textContent, searchString) {
     if (!textContent || !searchString) {

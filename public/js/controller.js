@@ -33,7 +33,8 @@ import {
     executeSetText, executeAction, executeSelect
 } from './actions';
 import {
-    buildMultipleWrapper, buildSelectOptionsWrapper, extractKeyword, extractSearchString, scrollSelectContainer
+    buildMultipleWrapper, buildSelectOptionsWrapper, extractKeyword, extractSearchString, scrollSelectContainerDown,
+    scrollSelectContainerUp
 } from "./helper";
 import {fuzzySearchForKeywords} from "./fuzzy_search";
 
@@ -131,6 +132,11 @@ window.onload = function () {
             executeSetText(currentInputfield, userCommand);
 
         } else if (currentMode === MODE_SELECT && currentSelect) {
+            if(REG_EXP_SCROLL_DOWN.test(currentKeyword) || REG_EXP_SCROLL_UP.test(currentKeyword) ){
+                choiceAction(currentKeyword, null);
+                return;
+            }
+
             if (!REG_EXP_NUMBER.test(userCommand)) {
                 userCommand = wordsToNumbers(userCommand, {fuzzy: true});
             }
@@ -140,6 +146,7 @@ window.onload = function () {
                 $('.vocs_overlay').remove();
             }catch (e){
                 console.log(e);
+                $('.vocs_overlay').remove();
                 return;
             }
 
@@ -177,10 +184,18 @@ window.onload = function () {
                 }
                 break;
             case REG_EXP_SCROLL_DOWN.test(keyword):
-                scrollDown();
+                if(currentSelect){
+                    scrollSelectContainerDown();
+                }else{
+                    scrollDown();
+                }
                 break;
             case REG_EXP_SCROLL_UP.test(keyword):
-                scrollUp();
+                if(currentSelect){
+                    scrollSelectContainerUp();
+                }else {
+                    scrollUp();
+                }
                 break;
             case REG_EXP_SCROLL_TO_TOP.test(keyword):
                 scrollToTop();

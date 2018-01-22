@@ -11873,7 +11873,10 @@ exports.extractKeyword = extractKeyword;
 exports.extractSearchString = extractSearchString;
 exports.getTypeOfElement = getTypeOfElement;
 exports.getRecognizedElements = getRecognizedElements;
-exports.scrollSelectContainer = scrollSelectContainer;
+exports.scrollSelectContainerDown = scrollSelectContainerDown;
+exports.scrollSelectContainerUp = scrollSelectContainerUp;
+exports.scrollSelectContainerTop = scrollSelectContainerTop;
+exports.scrollSelectContainerBottom = scrollSelectContainerBottom;
 
 var _const = __webpack_require__(4);
 
@@ -11931,7 +11934,7 @@ function splitUserCommand(userCommand, command) {
 function extractKeyword(userCommand) {
   var result = userCommand.split(/[ ,]+/);
 
-  if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need') {
+  if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need' || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead') {
     return 'click';
   }
 
@@ -11983,7 +11986,25 @@ function getRecognizedElements(elements, userCommand) {
   return [];
 }
 
-function scrollSelectContainer() {
+function scrollSelectContainerDown() {
+  $('.vocs_select_options_container').animate({
+    scrollTop: $('.vocs_select_options_container').scrollTop() + 250
+  }, 'slow');
+}
+
+function scrollSelectContainerUp() {
+  $('.vocs_select_options_container').animate({
+    scrollTop: $('.vocs_select_options_container').scrollTop() - 250
+  }, 'slow');
+}
+
+function scrollSelectContainerTop() {
+  $('.vocs_select_options_container').animate({
+    scrollTop: $('.vocs_select_options_container').scrollTop() + 250
+  }, 'slow');
+}
+
+function scrollSelectContainerBottom() {
   $('.vocs_select_options_container').animate({
     scrollTop: $('.vocs_select_options_container').scrollTop() + 250
   }, 'slow');
@@ -13031,7 +13052,7 @@ module.exports = function (val) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -13088,7 +13109,7 @@ function search(userInput) {
     for (var i = 0; i < elements.length; i++) {
       if (compareStrings(elements[i].text, userInput)
       /*|| (elements[i].value ? compareStrings(elements[i].value, userInput) : false)*/
-      || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput) : false)) {
+      || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput) : false) || compareStrings(elements[i].select.selected, userInput)) {
         foundedElements.push(elements[i]);
       }
     }
@@ -13101,18 +13122,6 @@ function search(userInput) {
  */
 
 
-function hasOption(element, userInput) {
-  if ($(element).is('select')) {
-    console.log('********Selects content: ' + element.textContent.toString().toLowerCase());
-
-    if (element.textContent.toString().toLowerCase().indexOf(userInput) > 0) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
 function compareStrings(textContent, searchString) {
   if (!textContent || !searchString) {
     return false;
@@ -13123,7 +13132,6 @@ function compareStrings(textContent, searchString) {
 /**
  * Helper methods
  * ********************************************************************************************************************/
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 29 */
@@ -14751,6 +14759,11 @@ window.onload = function () {
     } else if (currentMode === _const.MODE_TYPE && currentInputfield) {
       (0, _actions.executeSetText)(currentInputfield, userCommand);
     } else if (currentMode === _const.MODE_SELECT && currentSelect) {
+      if (_const.REG_EXP_SCROLL_DOWN.test(currentKeyword) || _const.REG_EXP_SCROLL_UP.test(currentKeyword)) {
+        choiceAction(currentKeyword, null);
+        return;
+      }
+
       if (!_const.REG_EXP_NUMBER.test(userCommand)) {
         userCommand = (0, _wordsToNumbers.default)(userCommand, {
           fuzzy: true
@@ -14763,6 +14776,7 @@ window.onload = function () {
         $('.vocs_overlay').remove();
       } catch (e) {
         console.log(e);
+        $('.vocs_overlay').remove();
         return;
       }
       /*$(currentSelect).find('option').each(function () {
@@ -14806,11 +14820,21 @@ window.onload = function () {
         break;
 
       case _const.REG_EXP_SCROLL_DOWN.test(keyword):
-        (0, _actions.scrollDown)();
+        if (currentSelect) {
+          (0, _helper.scrollSelectContainerDown)();
+        } else {
+          (0, _actions.scrollDown)();
+        }
+
         break;
 
       case _const.REG_EXP_SCROLL_UP.test(keyword):
-        (0, _actions.scrollUp)();
+        if (currentSelect) {
+          (0, _helper.scrollSelectContainerUp)();
+        } else {
+          (0, _actions.scrollUp)();
+        }
+
         break;
 
       case _const.REG_EXP_SCROLL_TO_TOP.test(keyword):
@@ -15024,7 +15048,8 @@ function buildElement(elem) {
     type: getTypeOfElement(elem),
     select: {
       option: getOptions(elem),
-      value: getOptionValue(elem)
+      value: getOptionValue(elem),
+      selected: getSelectedOption(elem)
     }
   };
 }
@@ -15112,6 +15137,15 @@ function getOptions(elem) {
       option.push($(this).text().trim().toLowerCase().replace(/\s{2,}/g, ' '));
     });
     return option.length >= 0 ? option : undefined;
+  }
+
+  return undefined;
+}
+
+function getSelectedOption(elem) {
+  if ($(elem).is('select')) {
+    var selected = $(elem).find(':selected').text();
+    return selected ? selected.trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
   }
 
   return undefined;
@@ -15267,8 +15301,7 @@ function executeSetText(element, text) {
 }
 
 function executeSelect(element, value) {
-  $(element).find("option[value=".concat(value, "]")).prop('selected', true); //document.getElementById('SBox0').selectedIndex = value;
-
+  $(element).find("option[value=".concat(value, "]")).prop('selected', true);
   $(element).focus();
 }
 
