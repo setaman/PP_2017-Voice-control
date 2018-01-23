@@ -13106,9 +13106,7 @@ function search(userInput) {
 
   if (elements.length > 0) {
     for (var i = 0; i < elements.length; i++) {
-      if (compareStrings(elements[i].text, userInput)
-      /*|| (elements[i].value ? compareStrings(elements[i].value, userInput) : false)*/
-      || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput) : false) || compareStrings(elements[i].select.selected, userInput)) {
+      if (compareStrings(elements[i].text, userInput) || (elements[i].value ? compareStrings(elements[i].value, userInput) : false) || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput) : false) || compareStrings(elements[i].select.selected, userInput)) {
         foundedElements.push(elements[i]);
       }
     }

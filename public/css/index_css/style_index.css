@@ -466,3 +466,7 @@ fieldset {
     color: #fff;
     background-color: #5bc0de;
 }
+
+#tog-btn, #go {
+    font-size: 1.2rem; !important;
+}
