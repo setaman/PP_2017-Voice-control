@@ -100,19 +100,17 @@ window.onload = function () {
                 if (!REG_EXP_NUMBER.test(userCommand)) {
                     userCommand = wordsToNumbers(userCommand, {fuzzy: true});
                 }
+                $('.vocs_overlay').remove();
                 let elem = currentMultipleElements[parseInt(userCommand) - 1];
-
-                executeAction(elem.elem);
-                changeInputMode(MODE_NO_MODE);
-
                 if (elem.type === TYPE_FOCUSABLE) {
-                    currentInputfield = elem.elem;
-                    changeInputMode(MODE_TYPE);
+                    setInputField(elem.elem);
+                }else if (elem.type === TYPE_SELECTABLE){
+                    setCustomSelectContainer(elem);
+                }else {
+                    changeInputMode(MODE_NO_MODE);
+                    executeAction(elem.elem);
                 }
                 currentMultipleElements = [];
-
-                $('.vocs_overlay').remove();
-
                 provideSystemStatus('You choose:', userCommand);
 
             } catch (e) {
@@ -157,14 +155,6 @@ window.onload = function () {
                 $('.vocs_overlay').remove();
                 return;
             }
-
-            /*$(currentSelect).find('option').each(function () {
-                if ($(this).text().toLowerCase().trim().startsWith(input.toLowerCase().trim())) {
-                    $(this).prop('selected', true);
-                    $(currentSelect).selectmenu("refresh");
-                    changeInputMode(MODE_NO_MODE);
-                }
-            });*/
         }
         clearCurrentElements();
         let t1 = performance.now();
@@ -182,10 +172,10 @@ window.onload = function () {
                 currentElements.push(...searchForElements(userCommand));
                 if (currentElements.length === 1) {
                     if (currentElements[0].type === TYPE_FOCUSABLE) {
-                        setInputField();
+                        setInputField(currentElements[0].elem);
                         return;
                     } else if (currentElements[0].type === TYPE_SELECTABLE) {
-                        setCustomSelectContainer();
+                        setCustomSelectContainer(currentElements[0]);
                         return;
                     }
                     executeAction(currentElements[0].elem);
@@ -228,16 +218,16 @@ window.onload = function () {
         }
     }
 
-    function setInputField() {
-        currentInputfield = currentElements[0].elem;
+    function setInputField(elem) {
+        currentInputfield = elem;
         changeInputMode(MODE_TYPE);
-        executeAction(currentElements[0].elem);
+        executeAction(elem);
     }
 
-    function setCustomSelectContainer() {
+    function setCustomSelectContainer(elem) {
         $('body').prepend('<div class="vocs_overlay"></div>');
-        buildSelectOptionsWrapper(currentElements[0]);
-        currentSelect = currentElements[0];
+        buildSelectOptionsWrapper(elem);
+        currentSelect = elem;
         changeInputMode(MODE_SELECT);
     }
 

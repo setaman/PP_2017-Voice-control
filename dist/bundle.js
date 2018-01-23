@@ -11865,7 +11865,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.generateIdForSelectWrapper = generateIdForSelectWrapper;
-exports.generateIdForLiSpan = generateIdForLiSpan;
 exports.buildMultipleWrapper = buildMultipleWrapper;
 exports.buildSelectOptionsWrapper = buildSelectOptionsWrapper;
 exports.splitUserCommand = splitUserCommand;
@@ -11892,14 +11891,14 @@ function generateIdForSelectWrapper(i) {
   return 'vocs_select_options_container_' + i;
 }
 
-function generateIdForLiSpan(i) {
-  return 'vocs_select_li_span_' + i;
-}
-
 function buildMultipleWrapper(i, currentElement) {
   var id = generateId(i);
   var wrapperTemplate = "<div class=\"vocs_multiple_select_wrapper_container\" id=\"".concat(id, "\"><div id=\"vocs_wrapper_").concat(i, "\" data-number=\"").concat(i + 1, "\" class=\"vocs_multiple_select_wrapper\"></div></div>");
   $('.vocs_overlay').append(wrapperTemplate);
+  /**
+   * FIXME: does not work for fixed element
+   */
+
   $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 30 ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
   $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
   $('#' + id).offset({
@@ -14729,17 +14728,19 @@ window.onload = function () {
           });
         }
 
+        $('.vocs_overlay').remove();
         var elem = currentMultipleElements[parseInt(userCommand) - 1];
-        (0, _actions.executeAction)(elem.elem);
-        changeInputMode(_const.MODE_NO_MODE);
 
         if (elem.type === _const.TYPE_FOCUSABLE) {
-          currentInputfield = elem.elem;
-          changeInputMode(_const.MODE_TYPE);
+          setInputField(elem.elem);
+        } else if (elem.type === _const.TYPE_SELECTABLE) {
+          setCustomSelectContainer(elem);
+        } else {
+          changeInputMode(_const.MODE_NO_MODE);
+          (0, _actions.executeAction)(elem.elem);
         }
 
         currentMultipleElements = [];
-        $('.vocs_overlay').remove();
         provideSystemStatus('You choose:', userCommand);
       } catch (e) {
         console.error('Error im MULTIPLE mode: ' + e);
@@ -14785,14 +14786,6 @@ window.onload = function () {
         $('.vocs_overlay').remove();
         return;
       }
-      /*$(currentSelect).find('option').each(function () {
-          if ($(this).text().toLowerCase().trim().startsWith(input.toLowerCase().trim())) {
-              $(this).prop('selected', true);
-              $(currentSelect).selectmenu("refresh");
-              changeInputMode(MODE_NO_MODE);
-          }
-      });*/
-
     }
 
     clearCurrentElements();
@@ -14813,10 +14806,10 @@ window.onload = function () {
 
         if (currentElements.length === 1) {
           if (currentElements[0].type === _const.TYPE_FOCUSABLE) {
-            setInputField();
+            setInputField(currentElements[0].elem);
             return;
           } else if (currentElements[0].type === _const.TYPE_SELECTABLE) {
-            setCustomSelectContainer();
+            setCustomSelectContainer(currentElements[0]);
             return;
           }
 
@@ -14872,16 +14865,16 @@ window.onload = function () {
     }
   }
 
-  function setInputField() {
-    currentInputfield = currentElements[0].elem;
+  function setInputField(elem) {
+    currentInputfield = elem;
     changeInputMode(_const.MODE_TYPE);
-    (0, _actions.executeAction)(currentElements[0].elem);
+    (0, _actions.executeAction)(elem);
   }
 
-  function setCustomSelectContainer() {
+  function setCustomSelectContainer(elem) {
     $('body').prepend('<div class="vocs_overlay"></div>');
-    (0, _helper.buildSelectOptionsWrapper)(currentElements[0]);
-    currentSelect = currentElements[0];
+    (0, _helper.buildSelectOptionsWrapper)(elem);
+    currentSelect = elem;
     changeInputMode(_const.MODE_SELECT);
   }
 
@@ -15298,7 +15291,6 @@ function executeFocus(element) {
 }
 
 function executeSetText(element, text) {
-  console.log('---------Typing text......: ' + text);
   var currentTextContent = $(element).val();
 
   if (currentTextContent.trim().length === 0) {
@@ -15330,13 +15322,13 @@ function scrollUp() {
 }
 
 function scrollToTop() {
-  $("html, body").animate({
+  $('html, body').animate({
     scrollTop: 0
-  }, "slow");
+  }, 'slow');
 }
 
 function scrollToBottom() {
-  $("html, body").animate({
+  $('html, body').animate({
     scrollTop: $(document).height()
   }, 1000);
 }

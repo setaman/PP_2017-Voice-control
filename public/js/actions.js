@@ -34,10 +34,7 @@ export function executeFocus(element) {
 }
 
 export function executeSetText(element, text) {
-    console.log('---------Typing text......: ' + text);
-
     let currentTextContent = $(element).val();
-
     if (currentTextContent.trim().length === 0) {
         currentTextContent += text;
     } else {
@@ -65,9 +62,9 @@ export function scrollUp() {
 }
 
 export function scrollToTop() {
-    $("html, body").animate({scrollTop: 0}, "slow");
+    $('html, body').animate({scrollTop: 0}, 'slow');
 }
 
 export function scrollToBottom() {
-    $("html, body").animate({scrollTop: $(document).height()}, 1000);
+    $('html, body').animate({scrollTop: $(document).height()}, 1000);
 }
