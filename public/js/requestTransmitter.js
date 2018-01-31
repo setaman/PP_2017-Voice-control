@@ -1,16 +1,14 @@
 
-export function sendAudioToServer(audio) {
+export function sendAudioToServer(d) {
         $.ajax({
             host: 'localhost',
             port: '3000',
-            /*data: JSON.stringify(audio),*/
+            data: d,
             dataType: 'text',
-            url: '/test',
+            url: '/recognizer',
             type: 'POST',
         }).done(function (data) {
-            serverResponse = data;
-            alert('Server Response: ' + data);
-            console.log(data);
+            console.dir('Server Response: ' + data);
         }).fail(function (jqXHR, errorMessage, error) {
             console.log('AJAx error: ' + error);
         });

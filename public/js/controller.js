@@ -42,6 +42,7 @@ import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 //import '../css/vocs_styles.css'
 import speechRecognition from './visualizer';
+import {sendAudioToServer} from './requestTransmitter'
 
 let currentElements = [];
 let currentMultipleElements = [];
@@ -55,7 +56,7 @@ let currentSearchString;
 
 window.onload = function () {
 
-    //speechRecognition();
+    speechRecognition();
 
     let systemState = $('#vocs_text_status');
     let OnRecognition = $('#vocs_text_onrecognition');
@@ -270,8 +271,8 @@ window.onload = function () {
             provideSystemStatus(STATE_LISTENING, transcript);
 
             if (recognitionResult) {
-
                 if (event.results[0].isFinal) {
+                    sendAudioToServer(recognitionResult);
                     provideSystemStatus(STATE_YOU_SAY, recognitionResult);
                     performUserAction(recognitionResult);
                     clearUI();

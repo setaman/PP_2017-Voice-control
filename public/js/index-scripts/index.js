@@ -6,4 +6,3 @@ let vocs = new Vocs({
     recognizer: 'google',
     ui: true
 }).show('huez');
-console.log('hello from index');

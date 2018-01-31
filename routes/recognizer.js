@@ -7,9 +7,8 @@ let testObject = {
 };
 
 /* GET home page. */
-router.post('/test', function(req, res, next) {
-    /*res.render('index', { title: 'Express' });*/
-    res.send('Thank you for ' + req.body);
+router.post('/', function(req, res, next) {
+    res.send({msg:'Thank you', body: req.body});
 });
 
 module.exports = router;

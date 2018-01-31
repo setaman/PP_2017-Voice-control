@@ -19,6 +19,6 @@ export default class Vocs {
     }
     show(msg) {
         let {recognizer, ui} = this.options;
-        alert(msg + ' ' + recognizer + ' ' + ui);
+        console.log(msg + ' ' + recognizer + ' ' + ui);
     }
 }
