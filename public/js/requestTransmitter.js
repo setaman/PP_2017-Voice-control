@@ -1,6 +1,4 @@
 
-let controller = require('./controller');
-let serverResponse;
 export function sendAudioToServer(audio) {
         $.ajax({
             host: 'localhost',
@@ -16,5 +14,4 @@ export function sendAudioToServer(audio) {
         }).fail(function (jqXHR, errorMessage, error) {
             console.log('AJAx error: ' + error);
         });
-        controller.checkInputType(serverResponse);
 }

@@ -55,7 +55,7 @@ let currentSearchString;
 
 window.onload = function () {
 
-    speechRecognition();
+    //speechRecognition();
 
     let systemState = $('#vocs_text_status');
     let OnRecognition = $('#vocs_text_onrecognition');
@@ -347,7 +347,6 @@ window.onload = function () {
             return undefined;
         }
     }
-
 
     function changeInputMode(newInputMode) {
         currentMode = newInputMode;

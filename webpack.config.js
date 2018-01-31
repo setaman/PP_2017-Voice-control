@@ -4,9 +4,13 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 const webpack = require('webpack');
 
 module.exports = {
-    entry: './public/js/controller.js',
+    entry: {
+        vocs: './public/js/controller.js',
+        index:'./public/js/index-scripts/index.js',
+        temp:'./public/js/vocs.js'
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
     },
 
