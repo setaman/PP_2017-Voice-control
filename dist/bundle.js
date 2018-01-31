@@ -11933,7 +11933,7 @@ function splitUserCommand(userCommand, command) {
 function extractKeyword(userCommand) {
   var result = userCommand.split(/[ ,]+/);
 
-  if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need' || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead') {
+  if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need' || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead' || result[0] === 'plague') {
     return 'click';
   }
 
@@ -14685,6 +14685,7 @@ var currentKeyword;
 var currentSearchString;
 
 window.onload = function () {
+  console.log(window.visualViewport.scale);
   (0, _visualizer.default)();
   var systemState = $('#vocs_text_status');
   var OnRecognition = $('#vocs_text_onrecognition');
@@ -14692,7 +14693,8 @@ window.onload = function () {
     performUserAction($('#search-input').val());
   });
   $('#hide').click(function () {
-    alert($('.select_').attr('id'));
+    $('#fruit').click();
+    $('#fruit').focus();
   });
   /*$('html, body').click(function () {
       changeInputMode(MODE_NO_MODE);

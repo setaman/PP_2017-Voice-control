@@ -1,12 +1,12 @@
 import {elementBuilder} from './element';
-import {ALL_SELECTORS} from './const';
+import {ALL_SELECTOR} from './const';
 import {getRecognizedElements} from './helper';
 
 let elements = [];
 
 export function collectElements() {
     elements = [];
-    elements.push(...elementBuilder(ALL_SELECTORS,));
+    elements.push(...elementBuilder(ALL_SELECTOR,));
     console.log(elements);
 }
 

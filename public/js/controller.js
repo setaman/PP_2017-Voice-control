@@ -55,6 +55,8 @@ let currentSearchString;
 
 window.onload = function () {
 
+    console.log(window.visualViewport.scale);
+
     speechRecognition();
 
     let systemState = $('#vocs_text_status');
@@ -77,10 +79,6 @@ window.onload = function () {
      * @param input - recognized User command
      */
     function performUserAction(input) {
-
-        $('#hide').click(function () {
-            alert($('.select_').attr('id'));
-        });
 
         let t0 = performance.now();
 

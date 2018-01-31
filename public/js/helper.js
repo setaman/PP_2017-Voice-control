@@ -1,6 +1,6 @@
 import {
     CLICK_SELECTORS, FOCUS_SELECTORS, CHECK_SELECTORS, SELECT_SELECTORS, SEARCH_SELECTORS, TYPE_FOCUSABLE,
-    TYPE_SELECTABLE, TYPE_CLICKABLE, ALL_SELECTORS
+    TYPE_SELECTABLE, TYPE_CLICKABLE, ALL_SELECTOR
 } from "./const";
 import {isVisible} from './search_for_elements';
 import {fuzzySearchForElements} from "./fuzzy_search";
@@ -50,7 +50,7 @@ export function splitUserCommand(userCommand, command) {
 export function extractKeyword(userCommand) {
     let result = userCommand.split(/[ ,]+/);
     if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need'
-        || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead') {
+        || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead' || result[0] === 'plague') {
         return 'click';
     }
     return result[0];

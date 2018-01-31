@@ -1,7 +1,9 @@
 import {getTypeOfElement} from "./helper";
 import {TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_CLICKABLE} from "./const";
 
-
+/**
+ * FIXME: element durch allgemeines Element ersetzen
+ */
 export function executeAction(element) {
     let typeC = TYPE_CLICKABLE;
     let typeF = TYPE_FOCUSABLE;
@@ -13,6 +15,8 @@ export function executeAction(element) {
         executeFocus(element);
     } else if (getTypeOfElement(element) === typeS){
         executeSelect(element);
+    } else {
+        executeClick(element)
     }
 }
 
