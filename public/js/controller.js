@@ -57,7 +57,7 @@ let currentSearchString;
  */
 export default function performUserAction(input) {
 
-    speechRecognition();
+    //speechRecognition();
 
     let systemState = $('#vocs_text_status');
     let OnRecognition = $('#vocs_text_onrecognition');
@@ -107,7 +107,6 @@ export default function performUserAction(input) {
                 executeAction(elem.elem);
             }
             currentMultipleElements = [];
-            provideSystemStatus('You choose:', userCommand);
 
         } catch (e) {
             console.error('Error im MULTIPLE mode: ' + e);
@@ -121,12 +120,10 @@ export default function performUserAction(input) {
 
         if (currentSearchString || currentKeyword === SHOW) {
             if (currentElements.length === 0) {
-                provideSystemStatus(STATE_NO_MATCH, 'Please try again');
                 console.error('-------------No element found------------------');
 
             } else if (currentElements.length > 1) {
                 multipleElementsSelected();
-                provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
             }
             console.log(currentElements);
         }

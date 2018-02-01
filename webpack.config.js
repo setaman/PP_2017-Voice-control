@@ -28,7 +28,6 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
-            Vocs:'Vocs'
         }),
         new ExtractTextPlugin('[name].css')
     ],
