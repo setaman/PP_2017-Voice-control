@@ -1,16 +1,51 @@
+let request = require('request');
+
+module.exports.doRequest = function (req, res) {
+    request({
+        url: ' https://speech.platform.bing.com/speech/recognition/interactive/cognitiveservices/v1?language=en-US&format=detailed',
+        headers: {
+            'Ocp-Apim-Subscription-Key': 'd3982e6ce0c54fef8e0fd89d4b9c0584',
+            'Content-Type': "audio/wav; codec=audio/pcm; samplerate=16000",
+            'Host': "speech.platform.bing.com",
+            'Host': "speech.platform.bing.com"
+        },
+        method: 'post',
+        body: "hey"
+    }, function (err, resp, body) {
+        //body will contain the JSON response
+        console.log(body);
+        res.send({
+            success: true,
+            string: body
+        });
+
+    });
+
+};
+
+/*
 let express = require('express');
 let app = express();
+let Houndify = require('houndify');
+let bodyParser = require('body-parser');
 
+/!*
 let houndifyExpress = require('houndify').HoundifyExpress;
-app.get('/textSearchProxy', houndifyExpress.createTextProxyHandler());
+*!/
+app.get('/houndifyAuth', Houndify.HoundifyExpress.createAuthenticationHandler({
+    clientId: "g2BMnR9Hyjv0f9i0hbu11w==",
+    clientKey: "14DCe9azAg4LLfBDntzNHf_8NMDtBjozo2v3LMPFA0wE1rLeEEKeaOzUChc8IL_-byyhWrM0-ZvKcUP3paov9A=="
+}));
+app.post('/textSearchProxy', bodyParser.text({limit: '1mb'}), Houndify.HoundifyExpress.createTextProxyHandler());
 
-// Streams 8/16 kHz mono 16-bit little-endian PCM samples
-// in Int16Array chunks to backend
 module.exports.doRequest = function (req, res) {
+
+    console.log(req.body);
 
     let voiceRequest = new Houndify.VoiceRequest({
         // Your Houndify Client ID
         clientId: "g2BMnR9Hyjv0f9i0hbu11w==",
+        clientKey: "14DCe9azAg4LLfBDntzNHf_8NMDtBjozo2v3LMPFA0wE1rLeEEKeaOzUChc8IL_-byyhWrM0-ZvKcUP3paov9A==",
 
         authURL: "/houndifyAuth",
 
@@ -19,11 +54,6 @@ module.exports.doRequest = function (req, res) {
         requestInfo: {
             UserID: "vocs",
         },
-
-        // Pass the current ConversationState stored from previous queries
-        // See https://www.houndify.com/docs#conversation-state
-        conversationState: conversationState,
-
         // Sample rate of input audio
         sampleRate: 16000,
 
@@ -42,10 +72,10 @@ module.exports.doRequest = function (req, res) {
                 // This example takes the default one from the first result.
                 conversationState = response.AllResults[0].ConversationState;
             }
-
             res.send({
                 success: true,
-                string: response
+                string: response,
+                info: info
             });
         },
 
@@ -57,17 +87,9 @@ module.exports.doRequest = function (req, res) {
             console.log(err);
         }
     });
-
-    let arrayBuffer = new Uint8Array(req.audioData).buffer;
+    let arrayBuffer = new Uint8Array(req.body).buffer;
     let audio = new Int16Array(arrayBuffer);
-
     voiceRequest.write(audio);
-
     voiceRequest.end();
 
-// Ends streaming voice search requests, expects the final response from backend
-    voiceRequest.end();
-
-// Aborts voice search request, does not expect final response from backend
-    voiceRequest.abort();
-};
+};*/

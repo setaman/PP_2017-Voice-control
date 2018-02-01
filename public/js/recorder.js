@@ -1,5 +1,7 @@
 let analyser;
-let rec;
+let recorder;
+let isRecording = false;
+import Recorder from './_recorder_';
 import performUserAction from './controller';
 
 export default function startRecord() {
@@ -20,7 +22,6 @@ export default function startRecord() {
                     let gainNode = audioContext.createGain();
                     analyser = audioContext.createAnalyser();
                     let source;
-                    let audioChunks = [];
 
                     console.log('Start Audio Record');
                     source = audioContext.createMediaStreamSource(stream);
@@ -29,23 +30,7 @@ export default function startRecord() {
                     gainNode.connect(audioContext.destination);
                     gainNode.gain.value = 0;
 
-                    rec = new MediaRecorder(stream);
-
-                    rec.ondataavailable = e => {
-                        audioChunks.push(e.data);
-                    };
-                    rec.onstop = function () {
-                        if (audioChunks.length > 0) {
-                            let audio = new Blob(audioChunks, {type: 'audio/wave'});
-                            sendAudioToServer(audio);
-                            recordedAudio.src = URL.createObjectURL(audio);
-                            recordedAudio.controls = true;
-                            audioDownload.href = recordedAudio.src;
-                            audioDownload.download = 'wave';
-                            audioDownload.innerHTML = 'download';
-                            audioChunks = [];
-                        }
-                    };
+                    recorder = new Recorder(source, {bufferLen: 512} );
 
                     watchForSound();
 
@@ -81,10 +66,10 @@ function watchForSound() {
         analyser.getByteFrequencyData(freqDataArray);
         let freq = freqDataArray[0];
         if (freq >= 200) {
-            if (rec.state === 'inactive' || rec.state === 'paused') {
+            if (!isRecording) {
+                isRecording = !isRecording;
                 console.log('...Starting recorder');
-                rec.start();
-                //isRecording = true;
+                recorder.record();
                 setTimeOut();
             }
         }
@@ -93,12 +78,26 @@ function watchForSound() {
 }
 
 function setTimeOut() {
-    setTimeout(function () {
-        if (rec.state === 'recording')
-            rec.stop();
-        console.log('...Stopping recorder');
-    }, 2500);
+    window.setTimeout(function () {
+        if (isRecording){
+            isRecording = !isRecording;
+            stopRecorder();
+            console.log('...Stopping recorder');
+        }
+    }, 2000);
+}
 
+function stopRecorder() {
+    recorder.stop();
+    recorder.exportWAV(function(audio) {
+        recordedAudio.src = URL.createObjectURL(audio);
+        recordedAudio.controls = true;
+        audioDownload.href = recordedAudio.src;
+        audioDownload.download = 'wave';
+        audioDownload.innerHTML = 'download';
+        console.log(audio);
+        sendAudioToServer(audio);
+    });
 }
 
 
