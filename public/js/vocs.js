@@ -1,4 +1,5 @@
 import startRecord from './recorder'
+import setupWebSpeechRecognitionAPI from './webspeech'
 /**
  * Die Vocs Klasse stellt das API des Systems dar.
  */
@@ -8,8 +9,8 @@ export default class Vocs {
     }
     initRecognizer(){
         let {recognizer, ui} = this.options;
-        if (recognizer === 'google'){
-            //intiGoogle();
+        if (recognizer === 'default'){
+            setupWebSpeechRecognitionAPI();
         }else{
             startRecord();
         }
@@ -17,9 +18,5 @@ export default class Vocs {
         if (ui){
             //setUpUi();
         }
-    }
-    show(msg) {
-        let {recognizer, ui} = this.options;
-        console.log(msg + ' ' + recognizer + ' ' + ui);
     }
 }

@@ -67,7 +67,7 @@ function sendAudioToServer(d) {
         host: 'localhost',
         port: '3000',
         data: d,
-        dataType: 'text',
+        dataType: 'json',
         url: '/recognizer',
         type: 'POST',
     }).done(function (data) {

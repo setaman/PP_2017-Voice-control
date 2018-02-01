@@ -5,7 +5,6 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        /*vocs: './public/js/controller.js',*/
         index:'./public/js/index-scripts/index.js',
         vocs:'./public/js/vocs.js'
     },
@@ -28,7 +27,8 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
-            jQuery: 'jquery'
+            jQuery: 'jquery',
+            Vocs:'Vocs'
         }),
         new ExtractTextPlugin('[name].css')
     ],
