@@ -42,7 +42,6 @@ import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 //import '../css/vocs_styles.css'
 import speechRecognition from './visualizer';
-import {sendAudioToServer} from './requestTransmitter'
 
 let currentElements = [];
 let currentMultipleElements = [];
@@ -52,9 +51,11 @@ let currentMode = MODE_NO_MODE;
 let systemRecognitionState = false;
 let currentKeyword;
 let currentSearchString;
-
-
-window.onload = function () {
+/*******************************************************************************************************************
+ * Main function
+ * @param input - recognized User command
+ */
+export default function performUserAction(input) {
 
     speechRecognition();
 
@@ -73,294 +74,284 @@ window.onload = function () {
         changeInputMode(MODE_NO_MODE);
     });*/
 
-    /*******************************************************************************************************************
-     * Main function
-     * @param input - recognized User command
-     */
-    function performUserAction(input) {
 
-        $('#hide').click(function () {
-            alert($('.select_').attr('id'));
-        });
+    $('#hide').click(function () {
+        alert($('.select_').attr('id'));
+    });
 
-        let t0 = performance.now();
+    let t0 = performance.now();
 
-        let userCommand = input.toString().toLowerCase().trim();
+    let userCommand = input.toString().toLowerCase().trim();
 
-        currentKeyword = getRecognizedKeyword(extractKeyword(userCommand));
-        currentSearchString = extractSearchString(userCommand);
-        console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentSearchString !== '') ? currentSearchString : 'no search string'));
+    currentKeyword = getRecognizedKeyword(extractKeyword(userCommand));
+    currentSearchString = extractSearchString(userCommand);
+    console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentSearchString !== '') ? currentSearchString : 'no search string'));
 
-        if (currentKeyword && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
-            changeInputMode(MODE_NO_MODE);
-            return;
-        }
+    if (currentKeyword && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
+        changeInputMode(MODE_NO_MODE);
+        return;
+    }
 
-        if (currentMode === MODE_MULTIPLE) {
-            try {
-                if (!REG_EXP_NUMBER.test(userCommand)) {
-                    userCommand = wordsToNumbers(userCommand, {fuzzy: true});
-                }
-                $('.vocs_overlay').remove();
-                let elem = currentMultipleElements[parseInt(userCommand) - 1];
-                if (elem.type === TYPE_FOCUSABLE) {
-                    setInputField(elem.elem);
-                }else if (elem.type === TYPE_SELECTABLE){
-                    setCustomSelectContainer(elem);
-                }else {
-                    changeInputMode(MODE_NO_MODE);
-                    executeAction(elem.elem);
-                }
-                currentMultipleElements = [];
-                provideSystemStatus('You choose:', userCommand);
-
-            } catch (e) {
-                console.error('Error im MULTIPLE mode: ' + e);
-            }
-            return;
-        }
-
-        if (currentMode === MODE_NO_MODE && currentKeyword) {
-
-            choiceAction(currentKeyword, currentSearchString);
-
-            if (currentSearchString || currentKeyword === SHOW) {
-                if (currentElements.length === 0) {
-                    provideSystemStatus(STATE_NO_MATCH, 'Please try again');
-                    console.error('-------------No element found------------------');
-
-                } else if (currentElements.length > 1) {
-                    multipleElementsSelected();
-                    provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
-                }
-                console.log(currentElements);
-            }
-        } else if (currentMode === MODE_TYPE && currentInputfield) {
-            executeSetText(currentInputfield, userCommand);
-
-        } else if (currentMode === MODE_SELECT && currentSelect) {
-            if(REG_EXP_SCROLL_DOWN.test(currentKeyword) || REG_EXP_SCROLL_UP.test(currentKeyword) ){
-                choiceAction(currentKeyword, null);
-                return;
-            }
-
+    if (currentMode === MODE_MULTIPLE) {
+        try {
             if (!REG_EXP_NUMBER.test(userCommand)) {
                 userCommand = wordsToNumbers(userCommand, {fuzzy: true});
             }
-            try {
-                executeSelect(currentSelect.elem, currentSelect.select.value[parseInt(userCommand) - 1]);
-                changeInputMode(MODE_NO_MODE);
-                $('.vocs_overlay').remove();
-            }catch (e){
-                console.log(e);
-                $('.vocs_overlay').remove();
-                return;
-            }
-        }
-        clearCurrentElements();
-        let t1 = performance.now();
-        console.log('Execution time: ' + (t1 - t0) + ' mil');
-    }
-
-    /**
-     * Main function end
-     ******************************************************************************************************************/
-
-    function choiceAction(keyword, userCommand) {
-
-        switch (true) {
-            case REG_EXP_CLICK.test(keyword):
-                currentElements.push(...searchForElements(userCommand));
-                if (currentElements.length === 1) {
-                    if (currentElements[0].type === TYPE_FOCUSABLE) {
-                        setInputField(currentElements[0].elem);
-                        return;
-                    } else if (currentElements[0].type === TYPE_SELECTABLE) {
-                        setCustomSelectContainer(currentElements[0]);
-                        return;
-                    }
-                    executeAction(currentElements[0].elem);
-                }
-                break;
-            case REG_EXP_SCROLL_DOWN.test(keyword):
-                if(currentSelect){
-                    scrollSelectContainerDown();
-                }else{
-                    scrollDown();
-                }
-                break;
-            case REG_EXP_SCROLL_UP.test(keyword):
-                if(currentSelect){
-                    scrollSelectContainerUp();
-                }else {
-                    scrollUp();
-                }
-                break;
-            case REG_EXP_SCROLL_TO_TOP.test(keyword):
-                scrollToTop();
-                break;
-            case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
-                scrollToBottom();
-                break;
-            case REG_EXP_SHOW.test(keyword):
-                currentElements.push(...getElements());
-                break;
-            case REG_EXP_SEARCH.test(keyword):
-                /**
-                 * TODO: implement this
-                 */
-                break;
-            case REG_EXP_OFF.test(keyword):
-                /**
-                 * TODO: implement this
-                 */
-                break;
-            default:
-        }
-    }
-
-    function setInputField(elem) {
-        currentInputfield = elem;
-        changeInputMode(MODE_TYPE);
-        executeAction(elem);
-    }
-
-    function setCustomSelectContainer(elem) {
-        $('body').prepend('<div class="vocs_overlay"></div>');
-        buildSelectOptionsWrapper(elem);
-        currentSelect = elem;
-        changeInputMode(MODE_SELECT);
-    }
-
-    function multipleElementsSelected() {
-        $('body').prepend('<div class="vocs_overlay"></div>');
-
-        for (let i = 0; i < currentElements.length; i++) {
-
-            if ($(currentElements[i].elem).is('input') && currentElements[i].label) {
-                buildMultipleWrapper(i, currentElements[i]);
+            $('.vocs_overlay').remove();
+            let elem = currentMultipleElements[parseInt(userCommand) - 1];
+            if (elem.type === TYPE_FOCUSABLE) {
+                setInputField(elem.elem);
+            } else if (elem.type === TYPE_SELECTABLE) {
+                setCustomSelectContainer(elem);
             } else {
-                buildMultipleWrapper(i, currentElements[i]);
+                changeInputMode(MODE_NO_MODE);
+                executeAction(elem.elem);
             }
-            changeInputMode(MODE_MULTIPLE);
-            currentMultipleElements.push(currentElements[i]);
+            currentMultipleElements = [];
+            provideSystemStatus('You choose:', userCommand);
+
+        } catch (e) {
+            console.error('Error im MULTIPLE mode: ' + e);
         }
+        return;
     }
 
-    /**
-     *Setup Google Speech Recognition
-     */
-    try {
-        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
+    if (currentMode === MODE_NO_MODE && currentKeyword) {
 
-        recognition.lang = 'en-US';
-        recognition.interimResults = true;
-        recognition.continuous = false;
-        //recognition.start();
+        choiceAction(currentKeyword, currentSearchString);
 
-        recognition.onresult = function (event) {
+        if (currentSearchString || currentKeyword === SHOW) {
+            if (currentElements.length === 0) {
+                provideSystemStatus(STATE_NO_MATCH, 'Please try again');
+                console.error('-------------No element found------------------');
 
-            let recognitionResult = event.results[0][0].transcript;
-
-            const transcript = Array.from(event.results)
-                .map(result => result[0])
-                .map(result => result.transcript)
-                .join('');
-
-            provideSystemStatus(STATE_LISTENING, transcript);
-
-            if (recognitionResult) {
-                if (event.results[0].isFinal) {
-                    sendAudioToServer(recognitionResult);
-                    provideSystemStatus(STATE_YOU_SAY, recognitionResult);
-                    performUserAction(recognitionResult);
-                    clearUI();
-                }
+            } else if (currentElements.length > 1) {
+                multipleElementsSelected();
+                provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
             }
-
-        };
-        recognition.addEventListener('end', recognition.start);
-        recognition.onerror = function (e) {
-            console.error('Error on recognition: ');
-            console.error(e);
-        };
-
-        $('#startRecord').click(function () {
-            if (!systemRecognitionState) {
-                provideSystemStatus('Say something', '');
-                recognition.start();
-                systemRecognitionState = STATE_ACTIVE;
-                console.log('+++++STOP Recognition++++++');
-            }
-            /*else {
-                           recognition.start();
-                           systemRecognitionState = STATE_ACTIVE;
-                           console.log('+++++START Recognition++++++');
-                       }*/
-
-        });
-    }
-    catch (e) {
-        console.error('Web Speech error: ' + e);
-    }
-
-    function provideSystemStatus(state, textOnRecognition) {
-        if (textOnRecognition.length > 35) {
-            let limitedRecognitionText = textOnRecognition.slice(textOnRecognition.length - 35, textOnRecognition.length);
-            $(OnRecognition).text(limitedRecognitionText);
-        } else {
-            $(OnRecognition).text(textOnRecognition);
+            console.log(currentElements);
         }
-        $(systemState).text(state);
-    }
+    } else if (currentMode === MODE_TYPE && currentInputfield) {
+        executeSetText(currentInputfield, userCommand);
 
-    function clearUI() {
-        setTimeout(function () {
-            $(OnRecognition).text('');
-            $(systemState).text('Say something');
-            console.log('Reset UI');
-        }, 5000);
+    } else if (currentMode === MODE_SELECT && currentSelect) {
+        if (REG_EXP_SCROLL_DOWN.test(currentKeyword) || REG_EXP_SCROLL_UP.test(currentKeyword)) {
+            choiceAction(currentKeyword, null);
+            return;
+        }
 
-    }
-
-    function clearCurrentElements() {
-        currentElements = [];
-        currentKeyword = undefined;
-    }
-
-    function getRecognizedKeyword(keyword) {
-        $.each(KEYWORDS_OBJECTS, (index, value) => {
-            if (value.regExp.test(keyword)) {
-                //Keyword von der SP Software richtig erkannt
-                return keyword;
-            }
-        });
-        //Sonst Keyword vermuten
+        if (!REG_EXP_NUMBER.test(userCommand)) {
+            userCommand = wordsToNumbers(userCommand, {fuzzy: true});
+        }
         try {
-            let result = fuzzySearchForKeywords(KEYWORDS_OBJECTS, keyword);
-            if (result && result.length > 0) {
-                return result[0];
-            }
-            return undefined;
+            executeSelect(currentSelect.elem, currentSelect.select.value[parseInt(userCommand) - 1]);
+            changeInputMode(MODE_NO_MODE);
+            $('.vocs_overlay').remove();
         } catch (e) {
             console.log(e);
-            return undefined;
-        }
-    }
-
-    function changeInputMode(newInputMode) {
-        currentMode = newInputMode;
-        if (currentMode === MODE_NO_MODE) {
             $('.vocs_overlay').remove();
-            $(currentInputfield).blur();
-            currentInputfield = null;
-            currentSelect = null;
+            return;
         }
-        console.log('------Current MODE------: ' + currentMode);
     }
-};
+    clearCurrentElements();
+    let t1 = performance.now();
+    console.log('Execution time: ' + (t1 - t0) + ' mil');
+}
 
+/**
+ * Main function end
+ ******************************************************************************************************************/
 
+function choiceAction(keyword, userCommand) {
 
+    switch (true) {
+        case REG_EXP_CLICK.test(keyword):
+            currentElements.push(...searchForElements(userCommand));
+            if (currentElements.length === 1) {
+                if (currentElements[0].type === TYPE_FOCUSABLE) {
+                    setInputField(currentElements[0].elem);
+                    return;
+                } else if (currentElements[0].type === TYPE_SELECTABLE) {
+                    setCustomSelectContainer(currentElements[0]);
+                    return;
+                }
+                executeAction(currentElements[0].elem);
+            }
+            break;
+        case REG_EXP_SCROLL_DOWN.test(keyword):
+            if (currentSelect) {
+                scrollSelectContainerDown();
+            } else {
+                scrollDown();
+            }
+            break;
+        case REG_EXP_SCROLL_UP.test(keyword):
+            if (currentSelect) {
+                scrollSelectContainerUp();
+            } else {
+                scrollUp();
+            }
+            break;
+        case REG_EXP_SCROLL_TO_TOP.test(keyword):
+            scrollToTop();
+            break;
+        case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
+            scrollToBottom();
+            break;
+        case REG_EXP_SHOW.test(keyword):
+            currentElements.push(...getElements());
+            break;
+        case REG_EXP_SEARCH.test(keyword):
+            /**
+             * TODO: implement this
+             */
+            break;
+        case REG_EXP_OFF.test(keyword):
+            /**
+             * TODO: implement this
+             */
+            break;
+        default:
+    }
+}
 
+function setInputField(elem) {
+    currentInputfield = elem;
+    changeInputMode(MODE_TYPE);
+    executeAction(elem);
+}
+
+function setCustomSelectContainer(elem) {
+    $('body').prepend('<div class="vocs_overlay"></div>');
+    buildSelectOptionsWrapper(elem);
+    currentSelect = elem;
+    changeInputMode(MODE_SELECT);
+}
+
+function multipleElementsSelected() {
+    $('body').prepend('<div class="vocs_overlay"></div>');
+
+    for (let i = 0; i < currentElements.length; i++) {
+
+        if ($(currentElements[i].elem).is('input') && currentElements[i].label) {
+            buildMultipleWrapper(i, currentElements[i]);
+        } else {
+            buildMultipleWrapper(i, currentElements[i]);
+        }
+        changeInputMode(MODE_MULTIPLE);
+        currentMultipleElements.push(currentElements[i]);
+    }
+}
+
+/**
+ *Setup Google Speech Recognition
+ */
+/*try {
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = 'en-US';
+    recognition.interimResults = true;
+    recognition.continuous = false;
+    //recognition.start();
+
+    recognition.onresult = function (event) {
+
+        let recognitionResult = event.results[0][0].transcript;
+
+        const transcript = Array.from(event.results)
+            .map(result => result[0])
+            .map(result => result.transcript)
+            .join('');
+
+        provideSystemStatus(STATE_LISTENING, transcript);
+
+        if (recognitionResult) {
+            if (event.results[0].isFinal) {
+                sendAudioToServer(recognitionResult);
+                provideSystemStatus(STATE_YOU_SAY, recognitionResult);
+                performUserAction(recognitionResult);
+                clearUI();
+            }
+        }
+
+    };
+    recognition.addEventListener('end', recognition.start);
+    recognition.onerror = function (e) {
+        console.error('Error on recognition: ');
+        console.error(e);
+    };
+
+    $('#startRecord').click(function () {
+        if (!systemRecognitionState) {
+            provideSystemStatus('Say something', '');
+            recognition.start();
+            systemRecognitionState = STATE_ACTIVE;
+            console.log('+++++STOP Recognition++++++');
+        }
+        /!*else {
+                       recognition.start();
+                       systemRecognitionState = STATE_ACTIVE;
+                       console.log('+++++START Recognition++++++');
+                   }*!/
+
+    });
+}
+catch (e) {
+    console.error('Web Speech error: ' + e);
+}*/
+
+/*function provideSystemStatus(state, textOnRecognition) {
+    if (textOnRecognition.length > 35) {
+        let limitedRecognitionText = textOnRecognition.slice(textOnRecognition.length - 35, textOnRecognition.length);
+        $(OnRecognition).text(limitedRecognitionText);
+    } else {
+        $(OnRecognition).text(textOnRecognition);
+    }
+    $(systemState).text(state);
+}
+
+function clearUI() {
+    setTimeout(function () {
+        $(OnRecognition).text('');
+        $(systemState).text('Say something');
+        console.log('Reset UI');
+    }, 5000);
+
+}*/
+
+function clearCurrentElements() {
+    currentElements = [];
+    currentKeyword = undefined;
+}
+
+function getRecognizedKeyword(keyword) {
+    $.each(KEYWORDS_OBJECTS, (index, value) => {
+        if (value.regExp.test(keyword)) {
+            //Keyword von der SP Software richtig erkannt
+            return keyword;
+        }
+    });
+    //Sonst Keyword vermuten
+    try {
+        let result = fuzzySearchForKeywords(KEYWORDS_OBJECTS, keyword);
+        if (result && result.length > 0) {
+            return result[0];
+        }
+        return undefined;
+    } catch (e) {
+        console.log(e);
+        return undefined;
+    }
+}
+
+function changeInputMode(newInputMode) {
+    currentMode = newInputMode;
+    if (currentMode === MODE_NO_MODE) {
+        $('.vocs_overlay').remove();
+        $(currentInputfield).blur();
+        currentInputfield = null;
+        currentSelect = null;
+    }
+    console.log('------Current MODE------: ' + currentMode);
+}

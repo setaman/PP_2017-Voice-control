@@ -1,4 +1,3 @@
-let express = require('express');
 let path = require('path');
 let logger = require('morgan');
 let bodyParser = require('body-parser');
@@ -6,8 +5,10 @@ let index = require('./routes/index');
 let semanticui = require('./routes/semanticui');
 let foundation = require('./routes/foundation');
 let recognizer = require('./routes/recognizer');
+let config = require('./routes/config');
 let helmet = require('helmet');
 let resourceMonitorMiddleware = require('express-watcher').resourceMonitorMiddleware;
+let express = require('express');
 let app = express();
 
 // view engine setup
@@ -26,11 +27,7 @@ app.use('/', index);
 app.use('/semanticui', semanticui);
 app.use('/foundation', foundation);
 app.use('/recognizer',recognizer);
-
-app.post('/test', function (req, res) {
-  console.log('REQ.BODY: ' + req.body);
-    res.send('click click');
-});
+app.use('/config',recognizer);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

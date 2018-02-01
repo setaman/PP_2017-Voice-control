@@ -3,6 +3,6 @@
  */
 import Vocs from '../vocs';
 let vocs = new Vocs({
-    recognizer: 'google',
+    recognizer: 'hui',
     ui: true
-}).show('huez');
+}).initRecognizer()/*.show('huez')*/;

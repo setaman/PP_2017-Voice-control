@@ -5,9 +5,9 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        vocs: './public/js/controller.js',
+        /*vocs: './public/js/controller.js',*/
         index:'./public/js/index-scripts/index.js',
-        temp:'./public/js/vocs.js'
+        vocs:'./public/js/vocs.js'
     },
     output: {
         filename: '[name].js',

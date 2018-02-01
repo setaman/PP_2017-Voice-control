@@ -1,14 +1,11 @@
 var express = require('express');
 var router = express.Router();
+let recognizer = require('../recognizers/houndify');
 
-let testObject = {
-    hello: 'hello',
-    client: 'client'
-};
-
-/* GET home page. */
 router.post('/', function(req, res, next) {
-    res.send({msg:'Thank you', body: req.body});
+    res.json({msg:'click buttons', body: req.body});
 });
+
+/*router.post('/', recognizer.doRequest);*/
 
 module.exports = router;

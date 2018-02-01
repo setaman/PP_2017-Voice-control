@@ -1,3 +1,4 @@
+import startRecord from './recorder'
 /**
  * Die Vocs Klasse stellt das API des Systems dar.
  */
@@ -5,12 +6,12 @@ export default class Vocs {
     constructor (options){
         this.options = options;
     }
-    static init(){
+    initRecognizer(){
         let {recognizer, ui} = this.options;
         if (recognizer === 'google'){
             //intiGoogle();
         }else{
-            //initAudio();
+            startRecord();
         }
 
         if (ui){
