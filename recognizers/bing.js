@@ -26,7 +26,7 @@ module.exports.doRequest = function (req, res) {
             console.log(error);
             throw new Error(error);
         }
-
+        console.log(body);
         switch (response.statusCode){
             case 200: res.json({
                 success: true,

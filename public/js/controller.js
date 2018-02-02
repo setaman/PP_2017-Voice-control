@@ -24,7 +24,7 @@ import {
     TYPE_FOCUSABLE,
     KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE,
 } from './const';
-import {getElements, searchForElements} from './search_for_elements';
+import {getElements, searchForElements} from './collector';
 import {
     scrollUp,
     scrollDown,

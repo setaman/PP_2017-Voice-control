@@ -30,7 +30,7 @@ export default function startRecord() {
                     gainNode.connect(audioContext.destination);
                     gainNode.gain.value = 0;
 
-                    recorder = new Recorder(source, {bufferLen: 512} );
+                    recorder = new Recorder(source);
 
                     watchForSound();
 
@@ -49,6 +49,7 @@ function sendAudioToServer(audio) {
     xhr.onload = function () {
         if (this.readyState === 4) {
             console.log(this.responseText);
+            //performUserAction(this.responseText);
         }
     };
     xhr.open("POST", "http://localhost:3000/recognizer", true);

@@ -24,9 +24,6 @@ export function searchForElements(userInput) {
     return result;
 }
 
-/**
- * Buttons
- * */
 export function search(userInput) {
     let foundedElements = [];
 

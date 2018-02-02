@@ -1,4 +1,4 @@
-import startRecord from './recorder'
+import statrtRecord from './recorder'
 import setupWebSpeechRecognitionAPI from './webspeech'
 /**
  * Die Vocs Klasse stellt das API des Systems dar.
