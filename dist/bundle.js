@@ -11007,7 +11007,7 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ROUND3 = exports.ROUND2 = exports.ROUND1 = exports.KEYWORDS_OBJECTS = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTORS = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
+exports.ROUND3 = exports.ROUND2 = exports.ROUND1 = exports.KEYWORDS_OBJECTS = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTOR = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
 
 /**
  * Selectors
@@ -11022,12 +11022,12 @@ var SELECT_SELECTORS = 'select';
 exports.SELECT_SELECTORS = SELECT_SELECTORS;
 var SEARCH_SELECTORS = 'input[type="search"]';
 exports.SEARCH_SELECTORS = SEARCH_SELECTORS;
-var ALL_SELECTORS = "".concat(CLICK_SELECTORS, ", ").concat(FOCUS_SELECTORS, ", ").concat(CHECK_SELECTORS, ", ").concat(SELECT_SELECTORS, ", ").concat(SEARCH_SELECTORS);
+var ALL_SELECTOR = "".concat(CLICK_SELECTORS, ", ").concat(FOCUS_SELECTORS, ", ").concat(CHECK_SELECTORS, ", ").concat(SELECT_SELECTORS, ", ").concat(SEARCH_SELECTORS);
 /**
  * Keywords
  */
 
-exports.ALL_SELECTORS = ALL_SELECTORS;
+exports.ALL_SELECTOR = ALL_SELECTOR;
 var CLICK = 'click';
 exports.CLICK = CLICK;
 var CHECK = 'check';
@@ -11876,6 +11876,7 @@ exports.scrollSelectContainerDown = scrollSelectContainerDown;
 exports.scrollSelectContainerUp = scrollSelectContainerUp;
 exports.scrollSelectContainerTop = scrollSelectContainerTop;
 exports.scrollSelectContainerBottom = scrollSelectContainerBottom;
+exports.checkNumberInterval = checkNumberInterval;
 
 var _const = __webpack_require__(4);
 
@@ -11896,7 +11897,7 @@ function buildMultipleWrapper(i, currentElement) {
   var wrapperTemplate = "<div class=\"vocs_multiple_select_wrapper_container\" id=\"".concat(id, "\"><div id=\"vocs_wrapper_").concat(i, "\" data-number=\"").concat(i + 1, "\" class=\"vocs_multiple_select_wrapper\"></div></div>");
   $('.vocs_overlay').append(wrapperTemplate);
   /**
-   * FIXME: does not work for fixed element
+   * FIXME: does not work for fixed element, versuche mit position attr
    */
 
   $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 30 ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
@@ -11909,13 +11910,13 @@ function buildMultipleWrapper(i, currentElement) {
 
 function buildSelectOptionsWrapper(currentElement) {
   var id = generateIdForSelectWrapper(1);
-  var ul = $('<div>', {
+  var div = $('<div>', {
     class: 'vocs_select_options_container',
     id: id
   }).append(currentElement.select.option.map(function (option, i) {
     return buildLiForSelectOption(i, option);
   }));
-  $('.vocs_overlay').append(ul);
+  $('.vocs_overlay').append(div);
   $('#' + id).offset({
     top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
     left: currentElement.position.posLeft
@@ -12007,6 +12008,10 @@ function scrollSelectContainerBottom() {
   $('.vocs_select_options_container').animate({
     scrollTop: $('.vocs_select_options_container').scrollTop() + 250
   }, 'slow');
+}
+
+function checkNumberInterval(number, max) {
+  return number > 0 && number <= max;
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
@@ -13076,7 +13081,7 @@ function collectElements() {
 
   elements = [];
 
-  (_elements = elements).push.apply(_elements, _toConsumableArray((0, _element.elementBuilder)(_const.ALL_SELECTORS)));
+  (_elements = elements).push.apply(_elements, _toConsumableArray((0, _element.elementBuilder)(_const.ALL_SELECTOR)));
 
   console.log(elements);
 }
@@ -14693,8 +14698,7 @@ window.onload = function () {
     performUserAction($('#search-input').val());
   });
   $('#hide').click(function () {
-    $('#fruit').click();
-    $('#fruit').focus();
+    $('.select_').click();
   });
   /*$('html, body').click(function () {
       changeInputMode(MODE_NO_MODE);
@@ -14706,9 +14710,6 @@ window.onload = function () {
    */
 
   function performUserAction(input) {
-    $('#hide').click(function () {
-      alert($('.select_').attr('id'));
-    });
     var t0 = performance.now();
     var userCommand = input.toString().toLowerCase().trim();
     currentKeyword = getRecognizedKeyword((0, _helper.extractKeyword)(userCommand));
@@ -14726,6 +14727,10 @@ window.onload = function () {
           userCommand = (0, _wordsToNumbers.default)(userCommand, {
             fuzzy: true
           });
+        }
+
+        if (!(0, _helper.checkNumberInterval)(userCommand, currentMultipleElements.length)) {
+          return;
         }
 
         $('.vocs_overlay').remove();
@@ -14775,6 +14780,10 @@ window.onload = function () {
         userCommand = (0, _wordsToNumbers.default)(userCommand, {
           fuzzy: true
         });
+      }
+
+      if (!(0, _helper.checkNumberInterval)(userCommand, currentSelect.select.value.length)) {
+        return;
       }
 
       try {
@@ -15245,7 +15254,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.executeAction = executeAction;
 exports.executeClick = executeClick;
-exports.executeCheck = executeCheck;
 exports.executeFocus = executeFocus;
 exports.executeSetText = executeSetText;
 exports.executeSelect = executeSelect;
@@ -15258,6 +15266,9 @@ var _helper = __webpack_require__(13);
 
 var _const = __webpack_require__(4);
 
+/**
+ * FIXME: element durch allgemeines Element ersetzen
+ */
 function executeAction(element) {
   var typeC = _const.TYPE_CLICKABLE;
   var typeF = _const.TYPE_FOCUSABLE;
@@ -15269,6 +15280,8 @@ function executeAction(element) {
     executeFocus(element);
   } else if ((0, _helper.getTypeOfElement)(element) === typeS) {
     executeSelect(element);
+  } else {
+    executeClick(element);
   }
 }
 /**
@@ -15279,10 +15292,6 @@ function executeAction(element) {
 function executeClick(element) {
   element.click();
   element.focus();
-}
-
-function executeCheck(element) {
-  $(element).click().focus();
 }
 
 function executeFocus(element) {
@@ -15304,8 +15313,6 @@ function executeSetText(element, text) {
 
 function executeSelect(element, value) {
   $(element).find("option[value=".concat(value, "]")).prop('selected', true);
-  /*$(element).hide().show();*/
-
   $(element).focus();
 }
 

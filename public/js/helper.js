@@ -18,7 +18,7 @@ export function buildMultipleWrapper(i, currentElement) {
     const wrapperTemplate = `<div class="vocs_multiple_select_wrapper_container" id="${id}"><div id="vocs_wrapper_${i}" data-number="${i + 1}" class="vocs_multiple_select_wrapper"></div></div>`;
     $('.vocs_overlay').append(wrapperTemplate);
     /**
-     * FIXME: does not work for fixed element
+     * FIXME: does not work for fixed element, versuche mit position attr
      */
     $('#vocs_wrapper_' + i).width((currentElement.dimensions.width <= 30) ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
     $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
@@ -27,11 +27,11 @@ export function buildMultipleWrapper(i, currentElement) {
 
 export function buildSelectOptionsWrapper(currentElement) {
     const id = generateIdForSelectWrapper(1);
-    const ul = $('<div>', {class: 'vocs_select_options_container', id: id}).append(
+    const div = $('<div>', {class: 'vocs_select_options_container', id: id}).append(
         currentElement.select.option.map( (option, i) =>
                 buildLiForSelectOption(i, option)
         ));
-    $('.vocs_overlay').append(ul);
+    $('.vocs_overlay').append(div);
     $('#' + id).offset({
         top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
         left: currentElement.position.posLeft
@@ -84,11 +84,9 @@ export function getTypeOfElement(element) {
 }
 
 export function getRecognizedElements(elements, userCommand) {
-
     /**
      * TODO: optimize search for long strings with fuzzy
      */
-
     /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
 
     let fuzzy_result = fuzzySearchForElements(elements, userCommand);
@@ -111,4 +109,8 @@ export function scrollSelectContainerTop() {
 }
 export function scrollSelectContainerBottom() {
     $('.vocs_select_options_container').animate({scrollTop: $('.vocs_select_options_container').scrollTop() + 250}, 'slow');
+}
+
+export function checkNumberInterval(number, max) {
+    return (number > 0) && (number <= max);
 }

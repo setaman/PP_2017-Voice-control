@@ -28,10 +28,6 @@ export function executeClick(element) {
     element.focus();
 }
 
-export function executeCheck(element) {
-    $(element).click().focus();
-}
-
 export function executeFocus(element) {
     element.click();
     element.focus();
@@ -49,7 +45,6 @@ export function executeSetText(element, text) {
 
 export function executeSelect(element, value) {
     $(element).find(`option[value=${value}]`).prop('selected', true);
-    /*$(element).hide().show();*/
     $(element).focus();
 }
 

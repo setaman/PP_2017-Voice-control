@@ -33,7 +33,8 @@ import {
     executeSetText, executeAction, executeSelect
 } from './actions';
 import {
-    buildMultipleWrapper, buildSelectOptionsWrapper, extractKeyword, extractSearchString, scrollSelectContainerDown,
+    buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, extractSearchString,
+    scrollSelectContainerDown,
     scrollSelectContainerUp
 } from "./helper";
 import {fuzzySearchForKeywords} from "./fuzzy_search";
@@ -67,7 +68,7 @@ window.onload = function () {
     });
 
     $('#hide').click(function () {
-        alert($('.select_').attr('id'));
+        $('.select_').click();
     });
 
     /*$('html, body').click(function () {
@@ -98,6 +99,7 @@ window.onload = function () {
                 if (!REG_EXP_NUMBER.test(userCommand)) {
                     userCommand = wordsToNumbers(userCommand, {fuzzy: true});
                 }
+                if (!checkNumberInterval(userCommand, currentMultipleElements.length)){return;}
                 $('.vocs_overlay').remove();
                 let elem = currentMultipleElements[parseInt(userCommand) - 1];
                 if (elem.type === TYPE_FOCUSABLE) {
@@ -144,6 +146,7 @@ window.onload = function () {
             if (!REG_EXP_NUMBER.test(userCommand)) {
                 userCommand = wordsToNumbers(userCommand, {fuzzy: true});
             }
+            if (!checkNumberInterval(userCommand, currentSelect.select.value.length)){return;}
             try {
                 executeSelect(currentSelect.elem, currentSelect.select.value[parseInt(userCommand) - 1]);
                 changeInputMode(MODE_NO_MODE);
