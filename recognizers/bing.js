@@ -21,38 +21,48 @@ module.exports.doRequest = function (req, res) {
     };
 
     request(options, function (error, response, body) {
-        if (error){
+        if (error) {
             console.log(response.statusCode);
             console.log(error);
+            res.json({
+                success: false,
+                string: ''
+            });
             throw new Error(error);
+        } else {
+            console.log(body);
+            switch (response.statusCode) {
+                case 200:
+                    res.json({
+                        success: true,
+                        string: body
+                    });
+                    break;
+                case 400:
+                    res.json({
+                        success: false,
+                        string: response.statusCode
+                    });
+                    break;
+                case 404:
+                    res.json({
+                        success: false,
+                        string: response.statusCode
+                    });
+                    break;
+                case 500:
+                    res.json({
+                        success: false,
+                        string: response.statusCode
+                    });
+                    break;
+                default:
+                    res.json({
+                        success: false,
+                        string: response.statusCode
+                    });
+            }
         }
-        console.log(body);
-        switch (response.statusCode){
-            case 200: res.json({
-                success: true,
-                string: body
-            });
-            break;
-            case 400: res.json({
-                success: false,
-                string: response.statusCode
-            });
-            break;
-            case 404: res.json({
-                success: false,
-                string: response.statusCode
-            });
-                break;
-            case 500: res.json({
-                success: false,
-                string: response.statusCode
-            });
-                break;
-            default:
-                res.json({
-                    success: false,
-                    string: response.statusCode
-                });
-        }
+
     });
 };

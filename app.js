@@ -19,7 +19,7 @@ app.use(resourceMonitorMiddleware);
 app.use(helmet());
 app.use(logger('dev'));
 app.use(bodyParser.json({limit: '5mb'}));
-app.use(bodyParser.urlencoded({limit: '5mb', extended: false }));
+app.use(bodyParser.urlencoded({limit: '5mb', extended: false, parameterLimit: 100000 }));
 app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(path.join(__dirname + '/dist')));
 

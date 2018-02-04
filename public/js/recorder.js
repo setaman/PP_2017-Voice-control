@@ -49,7 +49,7 @@ function sendAudioToServer(audio) {
     xhr.onload = function () {
         if (this.readyState === 4) {
             try {
-                console.log(JSON.parse(this.responseText));
+                console.log(/*JSON.parse(*/this.responseText/*)*/);
                 //performUserAction(this.responseText);
             } catch (e) {
                 console.error('Error by retrieving JSON: ' + e);
@@ -102,6 +102,7 @@ function stopRecorder() {
         audioDownload.innerHTML = 'download';
         console.log(audio);
         sendAudioToServer(audio);
+        recorder.clear();
     });
 }
 
