@@ -22,7 +22,7 @@ import {
     STATE_MULTIPLE_MATCH,
     MODE_MULTIPLE,
     TYPE_FOCUSABLE,
-    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE,
+    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE,
 } from './const';
 import {getElements, searchForElements} from './search_for_elements';
 import {
@@ -30,7 +30,7 @@ import {
     scrollDown,
     scrollToBottom,
     scrollToTop,
-    executeSetText, executeAction, executeSelect
+    executeSetText, executeAction, executeSelect, executeFocus
 } from './actions';
 import {
     buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, extractSearchString,
@@ -100,14 +100,7 @@ window.onload = function () {
                 if (!checkNumberInterval(userCommand, currentMultipleElements.length)){return;}
                 $('.vocs_overlay').remove();
                 let elem = currentMultipleElements[parseInt(userCommand) - 1];
-                if (elem.type === TYPE_FOCUSABLE) {
-                    setInputField(elem.elem);
-                }else if (elem.type === TYPE_SELECTABLE){
-                    setCustomSelectContainer(elem);
-                }else {
-                    changeInputMode(MODE_NO_MODE);
-                    executeAction(elem.elem);
-                }
+                handleElement(elem);
                 currentMultipleElements = [];
                 provideSystemStatus('You choose:', userCommand);
 
@@ -170,14 +163,7 @@ window.onload = function () {
             case REG_EXP_CLICK.test(keyword):
                 currentElements.push(...searchForElements(userCommand));
                 if (currentElements.length === 1) {
-                    if (currentElements[0].type === TYPE_FOCUSABLE) {
-                        setInputField(currentElements[0].elem);
-                        return;
-                    } else if (currentElements[0].type === TYPE_SELECTABLE) {
-                        setCustomSelectContainer(currentElements[0]);
-                        return;
-                    }
-                    executeAction(currentElements[0].elem);
+                    handleElement(currentElements[0]);
                 }
                 break;
             case REG_EXP_SCROLL_DOWN.test(keyword):
@@ -220,11 +206,11 @@ window.onload = function () {
     function setInputField(elem) {
         currentInputfield = elem;
         changeInputMode(MODE_TYPE);
-        executeAction(elem);
+        executeFocus(elem);
     }
 
     function setDateTime(elem) {
-        currentMode =
+        currentMode = '""'
     }
 
     function setCustomSelectContainer(elem) {
@@ -239,7 +225,7 @@ window.onload = function () {
 
         for (let i = 0; i < currentElements.length; i++) {
 
-            if ($(currentElements[i].elem).is('input') && currentElements[i].label) {
+            if (currentElements[i].label) {
                 buildMultipleWrapper(i, currentElements[i]);
             } else {
                 buildMultipleWrapper(i, currentElements[i]);
@@ -351,16 +337,29 @@ window.onload = function () {
         }
     }
 
-
     function changeInputMode(newInputMode) {
         currentMode = newInputMode;
         if (currentMode === MODE_NO_MODE) {
             $('.vocs_overlay').remove();
-            $(currentInputfield).blur();
+            if (currentInputfield) {currentInputfield.elem.blur()};
             currentInputfield = null;
             currentSelect = null;
         }
         console.log('------Current MODE------: ' + currentMode);
+    }
+
+    //Entscheide was mit dem @elem passieren muss
+    function handleElement(elem) {
+        if (elem.type === TYPE_FOCUSABLE) {
+            setInputField(elem);
+        } else if (elem.type === TYPE_SELECTABLE) {
+            setCustomSelectContainer(elem);
+        } else if (elem.type === TYPE_DATE) {
+            setDateTime(elem);
+        } else {
+            executeAction(elem);
+            changeInputMode(MODE_NO_MODE);
+        }
     }
 };
 

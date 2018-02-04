@@ -11007,14 +11007,14 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ROUND3 = exports.ROUND2 = exports.ROUND1 = exports.KEYWORDS_OBJECTS = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTOR = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
+exports.KEYWORDS_OBJECTS = exports.TYPE_DATE = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTOR = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
 
 /**
  * Selectors
  */
-var CLICK_SELECTORS = 'a, li, :button, :submit, :reset, .vocs_clickable';
+var CLICK_SELECTORS = 'a, :button, :submit, :reset, .vocs_clickable';
 exports.CLICK_SELECTORS = CLICK_SELECTORS;
-var FOCUS_SELECTORS = 'input[type=""], input[type="email"], input[type="text"], input[type="password"], input[type="number"],' + 'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea, .vocs_focusable';
+var FOCUS_SELECTORS = 'input[type="number"],input[type="week"],input[type="time"],input[type="month"],input[type="date"], input[type="datetime-local"], input[type="email"], input[type="text"], input[type="password"], input[type="number"],' + 'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea';
 exports.FOCUS_SELECTORS = FOCUS_SELECTORS;
 var CHECK_SELECTORS = ':radio, :checkbox';
 exports.CHECK_SELECTORS = CHECK_SELECTORS;
@@ -11051,11 +11051,12 @@ exports.SEARCH = SEARCH;
 var STOP = 'stop';
 exports.STOP = STOP;
 var SHOW = 'show';
+exports.SHOW = SHOW;
+var CLEAR = 'show';
 /**
  * RegExp
  */
 
-exports.SHOW = SHOW;
 var REG_EXP_CLICK = /^(click)$/;
 exports.REG_EXP_CLICK = REG_EXP_CLICK;
 var REG_EXP_FOCUS = /^(focus)$/;
@@ -11136,11 +11137,13 @@ exports.TYPE_CLICKABLE = TYPE_CLICKABLE;
 var TYPE_FOCUSABLE = 1;
 exports.TYPE_FOCUSABLE = TYPE_FOCUSABLE;
 var TYPE_SELECTABLE = 2;
+exports.TYPE_SELECTABLE = TYPE_SELECTABLE;
+var TYPE_DATE = 3;
 /**
  * System States for UI
  */
 
-exports.TYPE_SELECTABLE = TYPE_SELECTABLE;
+exports.TYPE_DATE = TYPE_DATE;
 var STATE_LISTENING = 'Listening';
 exports.STATE_LISTENING = STATE_LISTENING;
 var STATE_ERROR = 'Some error';
@@ -11155,20 +11158,10 @@ var STATE_ACTIVE = true;
 exports.STATE_ACTIVE = STATE_ACTIVE;
 var STATE_INACTIVE = false;
 /**
- * search rounds
- */
-
-exports.STATE_INACTIVE = STATE_INACTIVE;
-var ROUND1 = 1;
-exports.ROUND1 = ROUND1;
-var ROUND2 = 2;
-exports.ROUND2 = ROUND2;
-var ROUND3 = 3;
-/**
  * Export consts
  */
 
-exports.ROUND3 = ROUND3;
+exports.STATE_INACTIVE = STATE_INACTIVE;
 
 /***/ }),
 /* 5 */
@@ -13108,11 +13101,14 @@ function searchForElements(userInput) {
 
 function search(userInput) {
   var foundedElements = [];
+  var elem;
 
   if (elements.length > 0) {
     for (var i = 0; i < elements.length; i++) {
-      if (compareStrings(elements[i].text, userInput) || (elements[i].value ? compareStrings(elements[i].value, userInput) : false) || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false) || (elements[i].label ? compareStrings(elements[i].label, userInput) : false) || compareStrings(elements[i].select.selected, userInput)) {
-        foundedElements.push(elements[i]);
+      elem = elements[i];
+
+      if (compareStrings(elem.text, userInput) || (elem.value ? compareStrings(elem.value, userInput) : false) || (elem.placeholder ? compareStrings(elem.placeholder, userInput) : false) || (elem.label ? compareStrings(elem.label, userInput) : false) || compareStrings(elem.select.selected, userInput)) {
+        foundedElements.push(elem);
       }
     }
   }
@@ -14690,7 +14686,6 @@ var currentKeyword;
 var currentSearchString;
 
 window.onload = function () {
-  console.log(window.visualViewport.scale);
   (0, _visualizer.default)();
   var systemState = $('#vocs_text_status');
   var OnRecognition = $('#vocs_text_onrecognition');
@@ -14735,16 +14730,7 @@ window.onload = function () {
 
         $('.vocs_overlay').remove();
         var elem = currentMultipleElements[parseInt(userCommand) - 1];
-
-        if (elem.type === _const.TYPE_FOCUSABLE) {
-          setInputField(elem.elem);
-        } else if (elem.type === _const.TYPE_SELECTABLE) {
-          setCustomSelectContainer(elem);
-        } else {
-          changeInputMode(_const.MODE_NO_MODE);
-          (0, _actions.executeAction)(elem.elem);
-        }
-
+        handleElement(elem);
         currentMultipleElements = [];
         provideSystemStatus('You choose:', userCommand);
       } catch (e) {
@@ -14814,15 +14800,7 @@ window.onload = function () {
         (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _search_for_elements.searchForElements)(userCommand)));
 
         if (currentElements.length === 1) {
-          if (currentElements[0].type === _const.TYPE_FOCUSABLE) {
-            setInputField(currentElements[0].elem);
-            return;
-          } else if (currentElements[0].type === _const.TYPE_SELECTABLE) {
-            setCustomSelectContainer(currentElements[0]);
-            return;
-          }
-
-          (0, _actions.executeAction)(currentElements[0].elem);
+          handleElement(currentElements[0]);
         }
 
         break;
@@ -14877,7 +14855,11 @@ window.onload = function () {
   function setInputField(elem) {
     currentInputfield = elem;
     changeInputMode(_const.MODE_TYPE);
-    (0, _actions.executeAction)(elem);
+    (0, _actions.executeFocus)(elem);
+  }
+
+  function setDateTime(elem) {
+    currentMode = '""';
   }
 
   function setCustomSelectContainer(elem) {
@@ -14891,7 +14873,7 @@ window.onload = function () {
     $('body').prepend('<div class="vocs_overlay"></div>');
 
     for (var i = 0; i < currentElements.length; i++) {
-      if ($(currentElements[i].elem).is('input') && currentElements[i].label) {
+      if (currentElements[i].label) {
         (0, _helper.buildMultipleWrapper)(i, currentElements[i]);
       } else {
         (0, _helper.buildMultipleWrapper)(i, currentElements[i]);
@@ -15007,12 +14989,31 @@ window.onload = function () {
 
     if (currentMode === _const.MODE_NO_MODE) {
       $('.vocs_overlay').remove();
-      $(currentInputfield).blur();
+
+      if (currentInputfield) {
+        currentInputfield.elem.blur();
+      }
+
+      ;
       currentInputfield = null;
       currentSelect = null;
     }
 
     console.log('------Current MODE------: ' + currentMode);
+  } //Entscheide was mit dem @elem passieren muss
+
+
+  function handleElement(elem) {
+    if (elem.type === _const.TYPE_FOCUSABLE) {
+      setInputField(elem);
+    } else if (elem.type === _const.TYPE_SELECTABLE) {
+      setCustomSelectContainer(elem);
+    } else if (elem.type === _const.TYPE_DATE) {
+      setDateTime(elem);
+    } else {
+      (0, _actions.executeAction)(elem);
+      changeInputMode(_const.MODE_NO_MODE);
+    }
   }
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
@@ -15036,7 +15037,7 @@ var _const = __webpack_require__(4);
 function elementBuilder(selector) {
   var elements = [];
   $(selector).each(function () {
-    if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && !($(this).is('li') && $(this).has('a'))) {
+    if (isVisible(this)) {
       elements.push(buildElement(this));
     }
   });
@@ -15273,12 +15274,13 @@ function executeAction(element) {
   var typeC = _const.TYPE_CLICKABLE;
   var typeF = _const.TYPE_FOCUSABLE;
   var typeS = _const.TYPE_SELECTABLE;
+  console.log(element);
 
-  if ((0, _helper.getTypeOfElement)(element) === typeC) {
+  if (element.type === typeC) {
     executeClick(element);
-  } else if ((0, _helper.getTypeOfElement)(element) === typeF) {
+  } else if (element.type === typeF) {
     executeFocus(element);
-  } else if ((0, _helper.getTypeOfElement)(element) === typeS) {
+  } else if (element.type === typeS) {
     executeSelect(element);
   } else {
     executeClick(element);
@@ -15290,30 +15292,33 @@ function executeAction(element) {
 
 
 function executeClick(element) {
-  element.click();
-  element.focus();
+  element.elem.click();
+  element.elem.focus();
 }
 
 function executeFocus(element) {
-  element.click();
-  element.focus();
+  element.elem.focus();
 }
 
 function executeSetText(element, text) {
-  var currentTextContent = $(element).val();
+  try {
+    var currentTextContent = $(element.elem).val();
 
-  if (currentTextContent.trim().length === 0) {
-    currentTextContent += text;
-  } else {
-    currentTextContent += ' ' + text;
+    if (currentTextContent.trim().length === 0) {
+      currentTextContent += text;
+    } else {
+      currentTextContent += ' ' + text;
+    }
+
+    $(element.elem).val(currentTextContent);
+  } catch (e) {
+    console.error('Error in executeSetText(): ' + e);
   }
-
-  $(element).val(currentTextContent);
 }
 
 function executeSelect(element, value) {
-  $(element).find("option[value=".concat(value, "]")).prop('selected', true);
-  $(element).focus();
+  $(element.elem).find("option[value=".concat(value, "]")).prop('selected', true);
+  $(element.elem).focus();
 }
 
 function scrollDown() {

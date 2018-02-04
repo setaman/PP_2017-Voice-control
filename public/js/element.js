@@ -12,7 +12,7 @@ import {
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
-        if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && !($(this).is('li') && $(this).has('a'))) {
+        if (isVisible(this)) {
             elements.push(buildElement(this));
         }
     });

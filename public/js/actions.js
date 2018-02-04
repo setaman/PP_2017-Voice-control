@@ -9,11 +9,13 @@ export function executeAction(element) {
     let typeF = TYPE_FOCUSABLE;
     let typeS = TYPE_SELECTABLE;
 
-    if (getTypeOfElement(element) === typeC){
+    console.log(element);
+
+    if (element.type === typeC){
         executeClick(element);
-    } else if (getTypeOfElement(element) === typeF){
+    } else if (element.type === typeF){
         executeFocus(element);
-    } else if (getTypeOfElement(element) === typeS){
+    } else if (element.type === typeS){
         executeSelect(element);
     } else {
         executeClick(element)
@@ -24,28 +26,32 @@ export function executeAction(element) {
  * TODO: wrap actions with "try catch"
  */
 export function executeClick(element) {
-    element.click();
-    element.focus();
+    element.elem.click();
+    element.elem.focus();
 }
 
 export function executeFocus(element) {
-    element.click();
-    element.focus();
+    element.elem.focus();
 }
 
 export function executeSetText(element, text) {
-    let currentTextContent = $(element).val();
-    if (currentTextContent.trim().length === 0) {
-        currentTextContent += text;
-    } else {
-        currentTextContent += ' ' + text;
+    try {
+        let currentTextContent = $(element.elem).val();
+        if (currentTextContent.trim().length === 0) {
+            currentTextContent += text;
+        } else {
+            currentTextContent += ' ' + text;
+        }
+        $(element.elem).val(currentTextContent);
+    } catch (e) {
+        console.error('Error in executeSetText(): ' + e );
     }
-    $(element).val(currentTextContent);
+
 }
 
 export function executeSelect(element, value) {
-    $(element).find(`option[value=${value}]`).prop('selected', true);
-    $(element).focus();
+    $(element.elem).find(`option[value=${value}]`).prop('selected', true);
+    $(element.elem).focus();
 }
 
 export function scrollDown() {

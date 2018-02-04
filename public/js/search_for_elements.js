@@ -29,15 +29,17 @@ export function searchForElements(userInput) {
  * */
 export function search(userInput) {
     let foundedElements = [];
+    let elem;
 
     if (elements.length > 0) {
         for (let i = 0; i < elements.length; i++) {
-            if (compareStrings(elements[i].text, userInput) || (elements[i].value ? compareStrings(elements[i].value, userInput) : false)
-                || (elements[i].placeholder ? compareStrings(elements[i].placeholder, userInput) : false)
-                || (elements[i].label ? compareStrings(elements[i].label, userInput) : false)
-                || compareStrings(elements[i].select.selected, userInput)) {
+            elem = elements[i];
+            if (compareStrings(elem.text, userInput) || (elem.value ? compareStrings(elem.value, userInput) : false)
+                || (elem.placeholder ? compareStrings(elem.placeholder, userInput) : false)
+                || (elem.label ? compareStrings(elem.label, userInput) : false)
+                || compareStrings(elem.select.selected, userInput)) {
 
-                foundedElements.push(elements[i]);
+                foundedElements.push(elem);
             }
         }
     }
