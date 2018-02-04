@@ -56,9 +56,7 @@ let currentSearchString;
 
 window.onload = function () {
 
-    console.log(window.visualViewport.scale);
-
-    speechRecognition();
+    //speechRecognition();
 
     let systemState = $('#vocs_text_status');
     let OnRecognition = $('#vocs_text_onrecognition');
@@ -248,64 +246,6 @@ window.onload = function () {
         }
     }
 
-    /**
-     *Setup Google Speech Recognition
-     */
-    try {
-        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-
-        recognition.lang = 'en-US';
-        recognition.interimResults = true;
-        recognition.continuous = false;
-        //recognition.start();
-
-        recognition.onresult = function (event) {
-
-            let recognitionResult = event.results[0][0].transcript;
-
-            const transcript = Array.from(event.results)
-                .map(result => result[0])
-                .map(result => result.transcript)
-                .join('');
-
-            provideSystemStatus(STATE_LISTENING, transcript);
-
-            if (recognitionResult) {
-
-                if (event.results[0].isFinal) {
-                    provideSystemStatus(STATE_YOU_SAY, recognitionResult);
-                    performUserAction(recognitionResult);
-                    clearUI();
-                }
-            }
-
-        };
-        recognition.addEventListener('end', recognition.start);
-        recognition.onerror = function (e) {
-            console.error('Error on recognition: ');
-            console.error(e);
-        };
-
-        $('#startRecord').click(function () {
-            if (!systemRecognitionState) {
-                provideSystemStatus('Say something', '');
-                recognition.start();
-                systemRecognitionState = STATE_ACTIVE;
-                console.log('+++++STOP Recognition++++++');
-            }
-            /*else {
-                           recognition.start();
-                           systemRecognitionState = STATE_ACTIVE;
-                           console.log('+++++START Recognition++++++');
-                       }*/
-
-        });
-    }
-    catch (e) {
-        console.error('Web Speech error: ' + e);
-    }
-
     function provideSystemStatus(state, textOnRecognition) {
         if (textOnRecognition.length > 35) {
             let limitedRecognitionText = textOnRecognition.slice(textOnRecognition.length - 35, textOnRecognition.length);
@@ -350,7 +290,6 @@ window.onload = function () {
         }
     }
 
-
     function changeInputMode(newInputMode) {
         currentMode = newInputMode;
         if (currentMode === MODE_NO_MODE) {
@@ -362,7 +301,3 @@ window.onload = function () {
         console.log('------Current MODE------: ' + currentMode);
     }
 };
-
-
-
-

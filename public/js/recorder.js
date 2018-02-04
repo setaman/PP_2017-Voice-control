@@ -48,12 +48,15 @@ function sendAudioToServer(audio) {
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (this.readyState === 4) {
-            console.log(this.responseText);
-            //performUserAction(this.responseText);
+            try {
+                console.log(JSON.parse(this.responseText));
+                //performUserAction(this.responseText);
+            } catch (e) {
+                console.error('Error by retrieving JSON: ' + e);
+            }
         }
     };
     xhr.open("POST", "http://localhost:3000/recognizer", true);
-    xhr.responseType = 'json';
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send(audio);
@@ -81,7 +84,7 @@ function watchForSound() {
 
 function setTimeOut() {
     window.setTimeout(function () {
-        if (isRecording){
+        if (isRecording) {
             isRecording = !isRecording;
             stopRecorder();
             console.log('...Stopping recorder');
@@ -91,7 +94,7 @@ function setTimeOut() {
 
 function stopRecorder() {
     recorder.stop();
-    recorder.exportWAV(function(audio) {
+    recorder.exportWAV(function (audio) {
         recordedAudio.src = URL.createObjectURL(audio);
         recordedAudio.controls = true;
         audioDownload.href = recordedAudio.src;

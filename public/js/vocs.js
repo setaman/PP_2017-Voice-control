@@ -1,4 +1,4 @@
-import statrtRecord from './recorder'
+import startRecord from './recorder'
 import setupWebSpeechRecognitionAPI from './webspeech'
 /**
  * Die Vocs Klasse stellt das API des Systems dar.
@@ -14,7 +14,6 @@ export default class Vocs {
         }else{
             startRecord();
         }
-
         if (ui){
             //setUpUi();
         }
