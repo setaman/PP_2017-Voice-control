@@ -53,6 +53,7 @@ function sendAudioToServer(audio) {
         }
     };
     xhr.open("POST", "http://localhost:3000/recognizer", true);
+    xhr.responseType = 'json';
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send(audio);
