@@ -56,8 +56,6 @@ let currentSearchString;
 
 window.onload = function () {
 
-    console.log(window.visualViewport.scale);
-
     speechRecognition();
 
     let systemState = $('#vocs_text_status');
@@ -223,6 +221,10 @@ window.onload = function () {
         currentInputfield = elem;
         changeInputMode(MODE_TYPE);
         executeAction(elem);
+    }
+
+    function setDateTime(elem) {
+        currentMode =
     }
 
     function setCustomSelectContainer(elem) {

@@ -1,8 +1,8 @@
 /**
  * Selectors
  */
-const CLICK_SELECTORS = 'a, li, :button, :submit, :reset, .vocs_clickable';
-const FOCUS_SELECTORS = 'input[type=""], input[type="email"], input[type="text"], input[type="password"], input[type="number"],' +
+const CLICK_SELECTORS = 'a, :button, :submit, :reset, .vocs_clickable';
+const FOCUS_SELECTORS = 'input[type="number"],input[type="week"],input[type="time"],input[type="month"],input[type="date"], input[type="datetime-local"] input[type="email"], input[type="text"], input[type="password"], input[type="number"],' +
     'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea, .vocs_focusable';
 const CHECK_SELECTORS = ':radio, :checkbox';
 const SELECT_SELECTORS = 'select';
