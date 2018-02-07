@@ -354,8 +354,8 @@ window.onload = function () {
                     return;
                 }
                 if(!hour){
-                    minute = setHour(value);
-                    if (minute){
+                    hour = setHour(value);
+                    if (hour){
                         currentValue += ' H' + hour;
                         newValue = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
                         try {
@@ -385,8 +385,8 @@ window.onload = function () {
                     return;
                 }
                 if(!hour){
-                    minute = setHour(value);
-                    if (minute){
+                    hour = setHour(value);
+                    if (hour){
                         newValue = hour + ':' + minute;
                         try {
                             executeSetDateTime(currentDateTime, newValue);
@@ -431,6 +431,45 @@ window.onload = function () {
                 }
                 break;
             case 'date':
+                if(!value){
+                    setDateTime(elem, 'Set DAY', currentValue);
+                    return;
+                }
+                if(!day){
+                    day = setDay(value);
+                    if (day){
+                        currentValue += 'D' + day;
+                        updateDateTimeMsgAndValue('Set MONTH', currentValue);
+                    } else {
+                        updateDateTimeMsgAndValue('Set DAY', 'Please provide valid value');
+                    }
+                    return;
+                }
+                if(!month){
+                    month = setMonth(value);
+                    if (month){
+                        currentValue += ' M' + month;
+                        updateDateTimeMsgAndValue('Set YEAR', currentValue);
+                    } else {
+                        updateDateTimeMsgAndValue('Set MONTH', 'Please provide valid value');
+                    }
+                    return;
+                }
+                if(!year){
+                    year = setYear(value);
+                    if (year){
+                        newValue = year + '-' + month + '-' + day;
+                        try {
+                            executeSetDateTime(currentDateTime, newValue);
+                            changeInputMode(MODE_NO_MODE);
+                        } catch (e){
+                            console.error('Can not set value: ' + newValue);
+                        }
+                    } else {
+                        updateDateTimeMsgAndValue('Set YEAR', 'Please provide valid value');
+                    }
+                    return;
+                }
                 break;
             case 'month':
                 if(!value){

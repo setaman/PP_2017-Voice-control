@@ -15155,9 +15155,9 @@ window.onload = function () {
         }
 
         if (!hour) {
-          minute = (0, _helper.setHour)(value);
+          hour = (0, _helper.setHour)(value);
 
-          if (minute) {
+          if (hour) {
             currentValue += ' H' + hour;
             newValue = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
 
@@ -15194,9 +15194,9 @@ window.onload = function () {
         }
 
         if (!hour) {
-          minute = (0, _helper.setHour)(value);
+          hour = (0, _helper.setHour)(value);
 
-          if (minute) {
+          if (hour) {
             newValue = hour + ':' + minute;
 
             try {
@@ -15251,6 +15251,56 @@ window.onload = function () {
         break;
 
       case 'date':
+        if (!value) {
+          setDateTime(elem, 'Set DAY', currentValue);
+          return;
+        }
+
+        if (!day) {
+          day = (0, _helper.setDay)(value);
+
+          if (day) {
+            currentValue += 'D' + day;
+            (0, _helper.updateDateTimeMsgAndValue)('Set MONTH', currentValue);
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set DAY', 'Please provide valid value');
+          }
+
+          return;
+        }
+
+        if (!month) {
+          month = (0, _helper.setMonth)(value);
+
+          if (month) {
+            currentValue += ' M' + month;
+            (0, _helper.updateDateTimeMsgAndValue)('Set YEAR', currentValue);
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set MONTH', 'Please provide valid value');
+          }
+
+          return;
+        }
+
+        if (!year) {
+          year = (0, _helper.setYear)(value);
+
+          if (year) {
+            newValue = year + '-' + month + '-' + day;
+
+            try {
+              (0, _actions.executeSetDateTime)(currentDateTime, newValue);
+              changeInputMode(_const.MODE_NO_MODE);
+            } catch (e) {
+              console.error('Can not set value: ' + newValue);
+            }
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set YEAR', 'Please provide valid value');
+          }
+
+          return;
+        }
+
         break;
 
       case 'month':
