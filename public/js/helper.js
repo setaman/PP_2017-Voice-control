@@ -174,7 +174,7 @@ export function setHour(hour) {
 }
 
 export function setNumber(elem, number) {
-    let el = elem;
+    let el = elem.elem;
     let min, max;
 
     if (el.min){min = parseInt(el.min);}

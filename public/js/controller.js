@@ -276,11 +276,12 @@ window.onload = function () {
         currentDateTime = elem;
     }
 
-    function handleDateTime(elem, number) {
-        console.error('current value: ' + number);
+    function handleDateTime(elem, input) {
+        console.error('current value: ' + input);
         let value;
-        if (number){
-            value = number.toString().trim().toLowerCase();
+        if (input){
+            //DO not convert to int here, because don't can set '0' before number
+            value = input.toString().trim().toLowerCase();
         }
         let type = elem.elem.type;
         let newValue;
@@ -518,7 +519,7 @@ window.onload = function () {
                             console.error('Can not set value: ' + newValue);
                         }
                     } else {
-                        updateDateTimeMsgAndValue('Set Number', 'Please provide valid value');
+                        updateDateTimeMsgAndValue('Set NUMBER', 'Please provide valid value');
                     }
                     return;
                 }

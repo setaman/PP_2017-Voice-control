@@ -11014,7 +11014,7 @@ exports.KEYWORDS_OBJECTS = exports.TYPE_DATE_TIME = exports.TYPE_SELECTABLE = ex
  */
 var CLICK_SELECTORS = 'a, :button, :submit, :reset, .vocs_clickable';
 exports.CLICK_SELECTORS = CLICK_SELECTORS;
-var FOCUS_SELECTORS = ' input[type="email"], input[type="text"], input[type="password"], input[type="number"],' + 'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea, input[type="search"]';
+var FOCUS_SELECTORS = ' input[type="email"], input[type="text"], input[type="password"],' + 'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea, input[type="search"]';
 exports.FOCUS_SELECTORS = FOCUS_SELECTORS;
 var CHECK_SELECTORS = ':radio, :checkbox';
 exports.CHECK_SELECTORS = CHECK_SELECTORS;
@@ -13228,7 +13228,7 @@ function setHour(hour) {
 }
 
 function setNumber(elem, number) {
-  var el = elem;
+  var el = elem.elem;
   var min, max;
 
   if (el.min) {
@@ -15058,12 +15058,13 @@ window.onload = function () {
     currentDateTime = elem;
   }
 
-  function handleDateTime(elem, number) {
-    console.error('current value: ' + number);
+  function handleDateTime(elem, input) {
+    console.error('current value: ' + input);
     var value;
 
-    if (number) {
-      value = number.toString().trim().toLowerCase();
+    if (input) {
+      //DO not convert to int here, because don't can set '0' before number
+      value = input.toString().trim().toLowerCase();
     }
 
     var type = elem.elem.type;
@@ -15362,7 +15363,7 @@ window.onload = function () {
               console.error('Can not set value: ' + newValue);
             }
           } else {
-            (0, _helper.updateDateTimeMsgAndValue)('Set Number', 'Please provide valid value');
+            (0, _helper.updateDateTimeMsgAndValue)('Set NUMBER', 'Please provide valid value');
           }
 
           return;
