@@ -6,10 +6,6 @@
       <change beforePath="$PROJECT_DIR$/dist/bundle.js" afterPath="$PROJECT_DIR$/dist/bundle.js" />
       <change beforePath="$PROJECT_DIR$/dist/bundle.js.map" afterPath="$PROJECT_DIR$/dist/bundle.js.map" />
       <change beforePath="$PROJECT_DIR$/public/js/actions.js" afterPath="$PROJECT_DIR$/public/js/actions.js" />
-      <change beforePath="$PROJECT_DIR$/public/js/const.js" afterPath="$PROJECT_DIR$/public/js/const.js" />
-      <change beforePath="$PROJECT_DIR$/public/js/controller.js" afterPath="$PROJECT_DIR$/public/js/controller.js" />
-      <change beforePath="$PROJECT_DIR$/public/js/element.js" afterPath="$PROJECT_DIR$/public/js/element.js" />
-      <change beforePath="$PROJECT_DIR$/public/js/helper.js" afterPath="$PROJECT_DIR$/public/js/helper.js" />
       <change beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -34,7 +30,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="element.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="element.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/element.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
@@ -49,8 +45,8 @@
       <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="516" column="95" lean-forward="false" selection-start-line="516" selection-start-column="95" selection-end-line="516" selection-end-column="95" />
+            <state relative-caret-position="281">
+              <caret line="458" column="53" lean-forward="false" selection-start-line="458" selection-start-column="45" selection-end-line="458" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -109,11 +105,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="actions.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="actions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/actions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-528">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="396">
+              <caret line="48" column="37" lean-forward="true" selection-start-line="48" selection-start-column="37" selection-end-line="48" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -224,11 +220,11 @@
         <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
         <option value="$PROJECT_DIR$/public/js/search_for_elements.js" />
         <option value="$PROJECT_DIR$/public/js/controller.js" />
-        <option value="$PROJECT_DIR$/public/js/actions.js" />
         <option value="$PROJECT_DIR$/public/js/helper.js" />
         <option value="$PROJECT_DIR$/public/js/const.js" />
-        <option value="$PROJECT_DIR$/views/index.ejs" />
         <option value="$PROJECT_DIR$/public/js/element.js" />
+        <option value="$PROJECT_DIR$/views/index.ejs" />
+        <option value="$PROJECT_DIR$/public/js/actions.js" />
       </list>
     </option>
   </component>
@@ -426,14 +422,7 @@
       <workItem from="1517425388805" duration="10011000" />
       <workItem from="1517475438552" duration="43970000" />
       <workItem from="1517567858853" duration="7297000" />
-      <workItem from="1518001290066" duration="5279000" />
-    </task>
-    <task id="LOCAL-00027" summary="reoginize code, add element hilighting bei multiple selected elements">
-      <created>1514640065956</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1514640065956</updated>
+      <workItem from="1518001290066" duration="8087000" />
     </task>
     <task id="LOCAL-00028" summary="implement perfect overlay for multiple select">
       <created>1515012084071</created>
@@ -771,11 +760,18 @@
       <option name="project" value="LOCAL" />
       <updated>1517780430529</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="functions to check if element is disabled or read only added">
+      <created>1518012205932</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1518012205932</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="565800000" />
+    <option name="totallyTimeSpent" value="568608000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -871,7 +867,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="search optimization" />
     <MESSAGE value="2rounds search implemented with search() and fuzzy" />
     <MESSAGE value="&quot;show&quot; function implemented to show all clickable elements" />
     <MESSAGE value="new elements without name added for testing" />
@@ -896,7 +891,8 @@
     <MESSAGE value="bug fixes" />
     <MESSAGE value="new selectors for date, time etc. inputs added" />
     <MESSAGE value="some code clean up, now only elem object used as parameter" />
-    <option name="LAST_COMMIT_MESSAGE" value="some code clean up, now only elem object used as parameter" />
+    <MESSAGE value="functions to check if element is disabled or read only added" />
+    <option name="LAST_COMMIT_MESSAGE" value="functions to check if element is disabled or read only added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1138,22 +1134,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/actions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-528">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="516" column="95" lean-forward="false" selection-start-line="516" selection-start-column="95" selection-end-line="516" selection-end-column="95" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/element.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
@@ -1161,6 +1141,22 @@
           <folding>
             <element signature="e#0#216#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="458" column="53" lean-forward="false" selection-start-line="458" selection-start-column="45" selection-end-line="458" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/actions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="48" column="37" lean-forward="true" selection-start-line="48" selection-start-column="37" selection-end-line="48" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>

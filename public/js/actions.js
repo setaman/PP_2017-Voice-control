@@ -10,11 +10,11 @@ export function executeAction(element) {
 
     console.log(element);
 
-    if (element.type === typeC){
+    if (element.type === typeC) {
         executeClick(element);
-    } else if (element.type === typeF){
+    } else if (element.type === typeF) {
         executeFocus(element);
-    } else if (element.type === typeS){
+    } else if (element.type === typeS) {
         executeSelect(element);
     } else {
         executeClick(element)
@@ -33,17 +33,30 @@ export function executeFocus(element) {
     element.elem.focus();
 }
 
-export function executeSetText(element, text) {
+export function executeSetText(elem, text) {
     try {
-        let currentTextContent = $(element.elem).val();
-        if (currentTextContent.trim().length === 0) {
-            currentTextContent += text;
+        let currentTextContent = $(elem.elem).val();
+        let currentTextLength = currentTextContent.trim().length;
+        let maxTextLength = elem.elem.maxLength;
+
+        if (currentTextLength === 0) {
+            if (maxTextLength > -1) {
+                currentTextContent += text.slice(0, maxTextLength - currentTextLength);
+            } else {
+                currentTextContent += text
+            }
         } else {
-            currentTextContent += ' ' + text;
+            if (maxTextLength > -1) {
+                if (currentTextLength < maxTextLength){
+                    currentTextContent += ' ' + text.slice(0, (maxTextLength - (currentTextLength + 1)));
+                }
+            } else {
+                currentTextContent += ' ' + text;
+            }
         }
-        $(element.elem).val(currentTextContent);
+        $(elem.elem).val(currentTextContent);
     } catch (e) {
-        console.error('Error in executeSetText(): ' + e );
+        console.error('Error in executeSetText(): ' + e);
     }
 
 }

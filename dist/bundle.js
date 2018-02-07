@@ -15324,17 +15324,29 @@ function executeFocus(element) {
   element.elem.focus();
 }
 
-function executeSetText(element, text) {
+function executeSetText(elem, text) {
   try {
-    var currentTextContent = $(element.elem).val();
+    var currentTextContent = $(elem.elem).val();
+    var currentTextLength = currentTextContent.trim().length;
+    var maxTextLength = elem.elem.maxLength;
 
-    if (currentTextContent.trim().length === 0) {
-      currentTextContent += text;
+    if (currentTextLength === 0) {
+      if (maxTextLength > -1) {
+        currentTextContent += text.slice(0, maxTextLength - currentTextLength);
+      } else {
+        currentTextContent += text;
+      }
     } else {
-      currentTextContent += ' ' + text;
+      if (maxTextLength > -1) {
+        if (currentTextLength < maxTextLength) {
+          currentTextContent += ' ' + text.slice(0, maxTextLength - (currentTextLength + 1));
+        }
+      } else {
+        currentTextContent += ' ' + text;
+      }
     }
 
-    $(element.elem).val(currentTextContent);
+    $(elem.elem).val(currentTextContent);
   } catch (e) {
     console.error('Error in executeSetText(): ' + e);
   }
