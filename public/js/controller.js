@@ -36,7 +36,7 @@ import {
     buildDateTimeMassageContainer,
     buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, extractSearchString,
     scrollSelectContainerDown,
-    scrollSelectContainerUp
+    scrollSelectContainerUp, updateDateTimeMsgAndValue
 } from "./helper";
 import {fuzzySearchForKeywords} from "./fuzzy_search";
 
@@ -52,7 +52,17 @@ let currentElements = [],
     currentMode = MODE_NO_MODE,
     systemRecognitionState = false,
     currentKeyword,
-    currentSearchString;
+    currentSearchString,
+    currentDateTime;
+
+let day,
+    week,
+    month,
+    year,
+    second,
+    minute,
+    hour,
+    currentValue = '';
 
 
 window.onload = function () {
@@ -148,8 +158,16 @@ window.onload = function () {
                 $('.vocs_overlay').remove();
                 return;
             }
-        } else if (currentMode = MODE_DATE_TIME){
-
+        } else if (currentMode === MODE_DATE_TIME){
+            if (!REG_EXP_NUMBER.test(userCommand)) {
+                userCommand = wordsToNumbers(userCommand, {fuzzy: true});
+            }
+            try {
+                handleDateTime(currentDateTime, userCommand);
+                return;
+            }catch (e){
+                console.warn(e);
+            }
         }
         clearCurrentElements();
         let t1 = performance.now();
@@ -213,7 +231,7 @@ window.onload = function () {
         } else if (elem.type === TYPE_SELECTABLE) {
             setCustomSelectContainer(elem);
         } else if (elem.type === TYPE_DATE_TIME) {
-            setDateTime(elem);
+            handleDateTime(elem);
         } else {
             executeAction(elem);
             changeInputMode(MODE_NO_MODE);
@@ -224,12 +242,6 @@ window.onload = function () {
         currentInputfield = elem;
         changeInputMode(MODE_TYPE);
         executeFocus(elem);
-    }
-
-    function setDateTime(elem) {
-        $('body').prepend('<div class="vocs_overlay"></div>');
-        changeInputMode(MODE_DATE_TIME);
-        buildDateTimeMassageContainer('Hello', elem);
     }
 
     function setCustomSelectContainer(elem) {
@@ -251,6 +263,87 @@ window.onload = function () {
             }
             changeInputMode(MODE_MULTIPLE);
             currentMultipleElements.push(currentElements[i]);
+        }
+    }
+
+    function setDateTime(elem, msg, currentValue) {
+        $('body').prepend('<div class="vocs_overlay"></div>');
+        changeInputMode(MODE_DATE_TIME);
+        buildDateTimeMassageContainer(elem, msg, currentValue);
+        currentDateTime = elem;
+    }
+
+    function handleDateTime(elem, value) {
+        let type = elem.elem.type;
+        elem.elem.focus();
+
+        switch (type){
+            case 'datetime-local':
+                console.warn('type: ' + type);
+                if(!value){
+                    setDateTime(elem, 'Set Day', currentValue);
+                    return;
+                }
+                if(!day){
+                    day = value;
+                    currentValue += 'D' + day;
+                    updateDateTimeMsgAndValue('Set Week', currentValue);
+                    return;
+                }
+                if(!week){
+                    week = value;
+                    currentValue += ' W' + week;
+                    updateDateTimeMsgAndValue('Set Month', currentValue);
+                    return;
+                }
+                if(!month){
+                    month = value;
+                    currentValue += ' M' + month;
+                    updateDateTimeMsgAndValue('Set Year', currentValue);
+                    return;
+                }
+                if(!year){
+                    year = value;
+                    currentValue += 'Y' + year;
+                    updateDateTimeMsgAndValue('Set Second', currentValue);
+                    return;
+                }
+                if(!second){
+                    second = value;
+                    currentValue += ' S' + second;
+                    updateDateTimeMsgAndValue('Set Minute', currentValue);
+                    return;
+                }
+                if(!minute){
+                    minute = value;
+                    currentValue += ' M' + minute;
+                    updateDateTimeMsgAndValue('Set Hour', currentValue);
+                    return;
+                }
+                if(!hour){
+                    hour = value;
+                    currentValue += ' H' + hour;
+                    updateDateTimeMsgAndValue('Done', currentValue);
+                }
+                let newValue = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
+                $(elem.elem).val(newValue);
+                console.warn('value: ' + newValue);
+                changeInputMode(MODE_NO_MODE);
+                break;
+            case 'time':
+                console.warn('type: ' + type);
+                break;
+            case 'week':
+                console.log('type: ' + type);
+                break;
+            case 'date':
+                console.warn('type: ' + type);
+                break;
+            case 'number':
+                console.warn('type: ' + type);
+                break;
+            default:
+                console.warn('type: ' + type);
         }
     }
 
@@ -332,6 +425,14 @@ window.onload = function () {
     }
 
     function clearCurrentElements() {
+        day = undefined;
+        week = undefined;
+        month = undefined;
+        year = undefined;
+        second = undefined;
+        minute = undefined;
+        hour = undefined;
+        currentValue = '';
         currentElements = [];
         currentKeyword = undefined;
     }
@@ -362,6 +463,7 @@ window.onload = function () {
             $('.vocs_overlay').remove();
             if (currentInputfield) {currentInputfield.elem.blur();}
             currentInputfield = null;
+            currentDateTime = null;
             currentSelect = null;
         }
         console.log('------Current MODE------: ' + currentMode);
