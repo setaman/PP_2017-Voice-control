@@ -12985,6 +12985,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.generateIdForSelectWrapper = generateIdForSelectWrapper;
 exports.buildMultipleWrapper = buildMultipleWrapper;
 exports.buildSelectOptionsWrapper = buildSelectOptionsWrapper;
+exports.buildDateTimeMassageContainer = buildDateTimeMassageContainer;
 exports.splitUserCommand = splitUserCommand;
 exports.extractKeyword = extractKeyword;
 exports.extractSearchString = extractSearchString;
@@ -13042,6 +13043,29 @@ function buildSelectOptionsWrapper(currentElement) {
 
 function buildLiForSelectOption(i, option) {
   return "<li><span>".concat(i + 1, "</span>").concat(option, "</li>");
+}
+
+function buildDateTimeMassageContainer(msg, currentElement) {
+  var id = generateIdForSelectWrapper(1);
+  var divContainer = $('<div>', {
+    class: 'vocs_date_time_container',
+    id: id
+  });
+  var divMsg = $('<div>', {
+    class: 'vocs_date_time_msg'
+  });
+  var divCurrentValue = $('<div>', {
+    class: 'vocs_date_time_current_value'
+  });
+  $(divContainer).append(divCurrentValue);
+  $(divContainer).prepend(divMsg);
+  $(divMsg).text(msg);
+  $(divCurrentValue).text('hui');
+  $('.vocs_overlay').append(divContainer);
+  $('#' + id).offset({
+    top: currentElement.position.posTop - (currentElement.dimensions.height + 80),
+    left: currentElement.position.posLeft
+  });
 }
 
 function splitUserCommand(userCommand, command) {
@@ -14757,7 +14781,7 @@ window.onload = function () {
       }
 
       try {
-        (0, _actions.executeSelect)(currentSelect.elem, currentSelect.select.value[parseInt(userCommand) - 1]);
+        (0, _actions.executeSelect)(currentSelect, currentSelect.select.value[parseInt(userCommand) - 1]);
         changeInputMode(_const.MODE_NO_MODE);
         $('.vocs_overlay').remove();
       } catch (e) {
@@ -14765,7 +14789,7 @@ window.onload = function () {
         $('.vocs_overlay').remove();
         return;
       }
-    }
+    } else if (currentMode = _const.MODE_DATE_TIME) {}
 
     clearCurrentElements();
     var t1 = performance.now();
@@ -14834,6 +14858,20 @@ window.onload = function () {
 
       default:
     }
+  } //Entscheide was mit dem @elem passieren muss
+
+
+  function handleElement(elem) {
+    if (elem.type === _const.TYPE_FOCUSABLE) {
+      setInputField(elem);
+    } else if (elem.type === _const.TYPE_SELECTABLE) {
+      setCustomSelectContainer(elem);
+    } else if (elem.type === _const.TYPE_DATE_TIME) {
+      setDateTime(elem);
+    } else {
+      (0, _actions.executeAction)(elem);
+      changeInputMode(_const.MODE_NO_MODE);
+    }
   }
 
   function setInputField(elem) {
@@ -14843,7 +14881,9 @@ window.onload = function () {
   }
 
   function setDateTime(elem) {
-    currentMode = '""';
+    $('body').prepend('<div class="vocs_overlay"></div>');
+    changeInputMode(_const.MODE_DATE_TIME);
+    (0, _helper.buildDateTimeMassageContainer)('Hello', elem);
   }
 
   function setCustomSelectContainer(elem) {
@@ -14983,20 +15023,6 @@ window.onload = function () {
     }
 
     console.log('------Current MODE------: ' + currentMode);
-  } //Entscheide was mit dem @elem passieren muss
-
-
-  function handleElement(elem) {
-    if (elem.type === _const.TYPE_FOCUSABLE) {
-      setInputField(elem);
-    } else if (elem.type === _const.TYPE_SELECTABLE) {
-      setCustomSelectContainer(elem);
-    } else if (elem.type === _const.TYPE_DATE_TIME) {
-      setDateTime(elem);
-    } else {
-      (0, _actions.executeAction)(elem);
-      changeInputMode(_const.MODE_NO_MODE);
-    }
   }
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
@@ -15353,8 +15379,9 @@ function executeSetText(elem, text) {
 }
 
 function executeSelect(element, value) {
+  console.log(element);
   $(element.elem).find("option[value=".concat(value, "]")).prop('selected', true);
-  $(element.elem).focus();
+  element.elem.focus();
 }
 
 function scrollDown() {

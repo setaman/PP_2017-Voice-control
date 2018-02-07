@@ -62,8 +62,9 @@ export function executeSetText(elem, text) {
 }
 
 export function executeSelect(element, value) {
+    console.log(element);
     $(element.elem).find(`option[value=${value}]`).prop('selected', true);
-    $(element.elem).focus();
+    element.elem.focus();
 }
 
 export function scrollDown() {

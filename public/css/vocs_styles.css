@@ -50,8 +50,9 @@
    Custom select Container
  */
 .vocs_select_options_container{
+    border: 3px solid #48b1ff;
     position: absolute;
-    border: solid 2px #b8b8b8;
+   /* border: solid 2px #b8b8b8;*/
     border-radius: 3px;
     width: 200px;
     max-height: 250px;
@@ -89,4 +90,35 @@
    Custom select Container
  ******************************************/
 
+/*****************************************
+   Container for Date/time
+ */
+.vocs_date_time_container {
+    position: absolute;
+    border: 3px solid #48b1ff;
+    border-radius: 3px;
+    width: 200px;
+    max-height: 250px;
+    z-index: 2000;
+    background-color: white;
+    -webkit-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);
+    -moz-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);
+    box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);
+}
+
+.vocs_date_time_msg {
+    font-weight: bold;
+    height: 40px;
+    padding: 10px;
+    border-bottom: 1px solid #d5d5d5;
+    background: #efefef
+
+}
+.vocs_date_time_current_value {
+    padding: 10px;
+    height: 40px;
+}
+/*
+   Container for Date/time
+ ******************************************/
 

@@ -22,7 +22,7 @@ import {
     STATE_MULTIPLE_MATCH,
     MODE_MULTIPLE,
     TYPE_FOCUSABLE,
-    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE_TIME,
+    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE_TIME, MODE_DATE_TIME,
 } from './const';
 import {getElements, searchForElements} from './search_for_elements';
 import {
@@ -33,6 +33,7 @@ import {
     executeSetText, executeAction, executeSelect, executeFocus
 } from './actions';
 import {
+    buildDateTimeMassageContainer,
     buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, extractSearchString,
     scrollSelectContainerDown,
     scrollSelectContainerUp
@@ -139,7 +140,7 @@ window.onload = function () {
             }
             if (!checkNumberInterval(userCommand, currentSelect.select.value.length)){return;}
             try {
-                executeSelect(currentSelect.elem, currentSelect.select.value[parseInt(userCommand) - 1]);
+                executeSelect(currentSelect, currentSelect.select.value[parseInt(userCommand) - 1]);
                 changeInputMode(MODE_NO_MODE);
                 $('.vocs_overlay').remove();
             }catch (e){
@@ -147,6 +148,8 @@ window.onload = function () {
                 $('.vocs_overlay').remove();
                 return;
             }
+        } else if (currentMode = MODE_DATE_TIME){
+
         }
         clearCurrentElements();
         let t1 = performance.now();
@@ -203,6 +206,20 @@ window.onload = function () {
         }
     }
 
+    //Entscheide was mit dem @elem passieren muss
+    function handleElement(elem) {
+        if (elem.type === TYPE_FOCUSABLE) {
+            setInputField(elem);
+        } else if (elem.type === TYPE_SELECTABLE) {
+            setCustomSelectContainer(elem);
+        } else if (elem.type === TYPE_DATE_TIME) {
+            setDateTime(elem);
+        } else {
+            executeAction(elem);
+            changeInputMode(MODE_NO_MODE);
+        }
+    }
+
     function setInputField(elem) {
         currentInputfield = elem;
         changeInputMode(MODE_TYPE);
@@ -210,7 +227,9 @@ window.onload = function () {
     }
 
     function setDateTime(elem) {
-        currentMode = '""'
+        $('body').prepend('<div class="vocs_overlay"></div>');
+        changeInputMode(MODE_DATE_TIME);
+        buildDateTimeMassageContainer('Hello', elem);
     }
 
     function setCustomSelectContainer(elem) {
@@ -346,19 +365,5 @@ window.onload = function () {
             currentSelect = null;
         }
         console.log('------Current MODE------: ' + currentMode);
-    }
-
-    //Entscheide was mit dem @elem passieren muss
-    function handleElement(elem) {
-        if (elem.type === TYPE_FOCUSABLE) {
-            setInputField(elem);
-        } else if (elem.type === TYPE_SELECTABLE) {
-            setCustomSelectContainer(elem);
-        } else if (elem.type === TYPE_DATE_TIME) {
-            setDateTime(elem);
-        } else {
-            executeAction(elem);
-            changeInputMode(MODE_NO_MODE);
-        }
     }
 };

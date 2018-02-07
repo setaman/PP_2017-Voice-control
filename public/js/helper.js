@@ -36,11 +36,29 @@ export function buildSelectOptionsWrapper(currentElement) {
         top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
         left: currentElement.position.posLeft
     });
-
 }
 
 function buildLiForSelectOption(i, option) {
     return`<li><span>${i + 1}</span>${option}</li>`;
+}
+
+export function buildDateTimeMassageContainer(msg, currentElement) {
+    const id = generateIdForSelectWrapper(1);
+    const divContainer = $('<div>', {class: 'vocs_date_time_container', id: id});
+    const divMsg = $('<div>', {class: 'vocs_date_time_msg'});
+    const divCurrentValue = $('<div>', {class: 'vocs_date_time_current_value'});
+
+    $(divContainer).append(divCurrentValue);
+    $(divContainer).prepend(divMsg);
+
+    $(divMsg).text(msg);
+    $(divCurrentValue).text('hui');
+
+    $('.vocs_overlay').append(divContainer);
+    $('#' + id).offset({
+        top: currentElement.position.posTop - (currentElement.dimensions.height + 80),
+        left: currentElement.position.posLeft
+    });
 }
 
 export function splitUserCommand(userCommand, command) {
