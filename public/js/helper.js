@@ -120,3 +120,75 @@ export function scrollSelectContainerBottom() {
 export function checkNumberInterval(number, max) {
     return (number > 0) && (number <= max);
 }
+
+export function setDay(day) {
+    if (!checkNumberInterval(parseInt(day), 31)){return undefined;}
+    if(day.length === 1){
+        day = '0' + day;
+    }
+    return day;
+}
+
+export function setWeek(week) {
+    if (!checkNumberInterval(parseInt(week), 53)){return undefined;}
+    if(week.length === 1){
+        week = '0' + week;
+    }
+    return week;
+}
+
+export function setMonth(month) {
+    if (!checkNumberInterval(parseInt(month), 12)){return undefined;}
+    if(month.length === 1){
+        month = '0' + month;
+    }
+    return month;
+}
+
+export function setYear(year) {
+    if (!checkNumberInterval(parseInt(year), 5000)){return undefined;}
+    if(year.length === 1){
+        year = '000' + year;
+    } else if (year.length === 2){
+        year = '00' + year;
+    } else if (year.length === 3){
+        year = '0' + year;
+    }
+    return year;
+}
+
+export function setSecondOrMinutes(value) {
+    if (!checkNumberInterval(parseInt(value), 59)){return undefined;}
+    if(value.length === 1){
+        value = '0' + value;
+    }
+    return value;
+}
+
+export function setHour(hour) {
+    if (!checkNumberInterval(parseInt(hour), 23)){return undefined;}
+    if(hour.length === 1){
+        hour = '0' + hour;
+    }
+    return hour;
+}
+
+export function setNumber(elem, number) {
+    let el = elem;
+    let min, max;
+
+    if (el.min){min = parseInt(el.min);}
+    if (el.max){max = parseInt(el.max);}
+
+    if (min && !max){
+        if (number < min){return undefined;}
+    }
+    if (min && max){
+        if (number < min || number > max ){return undefined;}
+    }
+    if (!min && max){
+        if (number > max ){return undefined;}
+    }
+
+    return number;
+}

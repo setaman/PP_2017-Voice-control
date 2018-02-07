@@ -12996,6 +12996,13 @@ exports.scrollSelectContainerUp = scrollSelectContainerUp;
 exports.scrollSelectContainerTop = scrollSelectContainerTop;
 exports.scrollSelectContainerBottom = scrollSelectContainerBottom;
 exports.checkNumberInterval = checkNumberInterval;
+exports.setDay = setDay;
+exports.setWeek = setWeek;
+exports.setMonth = setMonth;
+exports.setYear = setYear;
+exports.setSecondOrMinutes = setSecondOrMinutes;
+exports.setHour = setHour;
+exports.setNumber = setNumber;
 
 var _const = __webpack_require__(4);
 
@@ -13142,6 +13149,115 @@ function scrollSelectContainerBottom() {
 
 function checkNumberInterval(number, max) {
   return number > 0 && number <= max;
+}
+
+function setDay(day) {
+  if (!checkNumberInterval(parseInt(day), 31)) {
+    return undefined;
+  }
+
+  if (day.length === 1) {
+    day = '0' + day;
+  }
+
+  return day;
+}
+
+function setWeek(week) {
+  if (!checkNumberInterval(parseInt(week), 53)) {
+    return undefined;
+  }
+
+  if (week.length === 1) {
+    week = '0' + week;
+  }
+
+  return week;
+}
+
+function setMonth(month) {
+  if (!checkNumberInterval(parseInt(month), 12)) {
+    return undefined;
+  }
+
+  if (month.length === 1) {
+    month = '0' + month;
+  }
+
+  return month;
+}
+
+function setYear(year) {
+  if (!checkNumberInterval(parseInt(year), 5000)) {
+    return undefined;
+  }
+
+  if (year.length === 1) {
+    year = '000' + year;
+  } else if (year.length === 2) {
+    year = '00' + year;
+  } else if (year.length === 3) {
+    year = '0' + year;
+  }
+
+  return year;
+}
+
+function setSecondOrMinutes(value) {
+  if (!checkNumberInterval(parseInt(value), 59)) {
+    return undefined;
+  }
+
+  if (value.length === 1) {
+    value = '0' + value;
+  }
+
+  return value;
+}
+
+function setHour(hour) {
+  if (!checkNumberInterval(parseInt(hour), 23)) {
+    return undefined;
+  }
+
+  if (hour.length === 1) {
+    hour = '0' + hour;
+  }
+
+  return hour;
+}
+
+function setNumber(elem, number) {
+  var el = elem;
+  var min, max;
+
+  if (el.min) {
+    min = parseInt(el.min);
+  }
+
+  if (el.max) {
+    max = parseInt(el.max);
+  }
+
+  if (min && !max) {
+    if (number < min) {
+      return undefined;
+    }
+  }
+
+  if (min && max) {
+    if (number < min || number > max) {
+      return undefined;
+    }
+  }
+
+  if (!min && max) {
+    if (number > max) {
+      return undefined;
+    }
+  }
+
+  return number;
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
@@ -14706,6 +14822,7 @@ var day,
     second,
     minute,
     hour,
+    number,
     currentValue = '';
 
 window.onload = function () {
@@ -14812,6 +14929,10 @@ window.onload = function () {
       }
 
       try {
+        if (!_const.REG_EXP_NUMBER.test(userCommand)) {
+          return;
+        }
+
         handleDateTime(currentDateTime, userCommand);
         return;
       } catch (e) {
@@ -14937,8 +15058,16 @@ window.onload = function () {
     currentDateTime = elem;
   }
 
-  function handleDateTime(elem, value) {
+  function handleDateTime(elem, number) {
+    console.error('current value: ' + number);
+    var value;
+
+    if (number) {
+      value = number.toString().trim().toLowerCase();
+    }
+
     var type = elem.elem.type;
+    var newValue;
     elem.elem.focus();
 
     switch (type) {
@@ -14946,78 +15075,249 @@ window.onload = function () {
         console.warn('type: ' + type);
 
         if (!value) {
-          setDateTime(elem, 'Set Day', currentValue);
+          setDateTime(elem, 'Set DAY', currentValue);
           return;
         }
 
         if (!day) {
-          day = value;
-          currentValue += 'D' + day;
-          (0, _helper.updateDateTimeMsgAndValue)('Set Week', currentValue);
-          return;
-        }
+          day = (0, _helper.setDay)(value);
 
-        if (!week) {
-          week = value;
-          currentValue += ' W' + week;
-          (0, _helper.updateDateTimeMsgAndValue)('Set Month', currentValue);
+          if (day) {
+            currentValue += 'D' + day;
+            (0, _helper.updateDateTimeMsgAndValue)('Set WEEK', currentValue);
+            newValue = '0001-01-' + day + 'T01:01:01';
+            $(elem.elem).val(newValue);
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set DAY', 'Please provide valid value');
+          }
+
           return;
         }
 
         if (!month) {
-          month = value;
-          currentValue += ' M' + month;
-          (0, _helper.updateDateTimeMsgAndValue)('Set Year', currentValue);
+          month = (0, _helper.setMonth)(value);
+
+          if (month) {
+            currentValue += ' M' + month;
+            (0, _helper.updateDateTimeMsgAndValue)('Set YEAR', currentValue);
+            newValue = '0001-' + +month + '-' + day + 'T01:01:01';
+            $(elem.elem).val(newValue);
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set MONTH', 'Please provide valid value');
+          }
+
           return;
         }
 
         if (!year) {
-          year = value;
-          currentValue += 'Y' + year;
-          (0, _helper.updateDateTimeMsgAndValue)('Set Second', currentValue);
+          year = (0, _helper.setYear)(value);
+
+          if (year) {
+            currentValue += ' Y' + year;
+            (0, _helper.updateDateTimeMsgAndValue)('Set SECOND', currentValue);
+            newValue = year + '-' + month + '-' + day + 'T01:01:01';
+            $(elem.elem).val(newValue);
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set YEAR', 'Please provide valid value');
+          }
+
           return;
         }
 
         if (!second) {
-          second = value;
-          currentValue += ' S' + second;
-          (0, _helper.updateDateTimeMsgAndValue)('Set Minute', currentValue);
+          second = (0, _helper.setSecondOrMinutes)(value);
+
+          if (second) {
+            currentValue += ' S' + second;
+            (0, _helper.updateDateTimeMsgAndValue)('Set MINUTE', currentValue);
+            newValue = year + '-' + month + '-' + day + 'T01:01:' + second;
+            $(elem.elem).val(newValue);
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set SECOND', 'Please provide valid value');
+          }
+
           return;
         }
 
         if (!minute) {
-          minute = value;
-          currentValue += ' M' + minute;
-          (0, _helper.updateDateTimeMsgAndValue)('Set Hour', currentValue);
+          minute = (0, _helper.setSecondOrMinutes)(value);
+
+          if (minute) {
+            currentValue += ' M' + minute;
+            (0, _helper.updateDateTimeMsgAndValue)('Set HOUR', currentValue);
+            newValue = year + '-' + month + '-' + day + 'T01:' + minute + ':' + second;
+            $(elem.elem).val(newValue);
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set MINUTE', 'Please provide valid value');
+          }
+
           return;
         }
 
         if (!hour) {
-          hour = value;
-          currentValue += ' H' + hour;
-          (0, _helper.updateDateTimeMsgAndValue)('Done', currentValue);
+          minute = (0, _helper.setHour)(value);
+
+          if (minute) {
+            currentValue += ' H' + hour;
+            newValue = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
+
+            try {
+              (0, _actions.executeSetDateTime)(currentDateTime, newValue);
+              changeInputMode(_const.MODE_NO_MODE);
+            } catch (e) {
+              console.error('Can not set value: ' + newValue);
+            }
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set HOUR', 'Please provide valid value');
+          }
         }
 
-        var newValue = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
-        $(elem.elem).val(newValue);
-        console.warn('value: ' + newValue);
-        changeInputMode(_const.MODE_NO_MODE);
         break;
 
       case 'time':
-        console.warn('type: ' + type);
+        if (!value) {
+          setDateTime(elem, 'Set MINUTE', currentValue);
+          return;
+        }
+
+        if (!minute) {
+          minute = (0, _helper.setSecondOrMinutes)(value);
+
+          if (minute) {
+            currentValue += ' M' + minute;
+            (0, _helper.updateDateTimeMsgAndValue)('Set HOUR', currentValue);
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set MINUTE', 'Please provide valid value');
+          }
+
+          return;
+        }
+
+        if (!hour) {
+          minute = (0, _helper.setHour)(value);
+
+          if (minute) {
+            newValue = hour + ':' + minute;
+
+            try {
+              (0, _actions.executeSetDateTime)(currentDateTime, newValue);
+              changeInputMode(_const.MODE_NO_MODE);
+            } catch (e) {
+              console.error('Can not set value: ' + newValue);
+            }
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set HOUR', 'Please provide valid value');
+          }
+        }
+
         break;
 
       case 'week':
-        console.log('type: ' + type);
+        if (!value) {
+          setDateTime(elem, 'Set WEEK', currentValue);
+          return;
+        }
+
+        if (!week) {
+          week = (0, _helper.setWeek)(value);
+
+          if (week) {
+            currentValue += ' W' + week;
+            (0, _helper.updateDateTimeMsgAndValue)('Set YEAR', currentValue);
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set WEEK', 'Please provide valid value');
+          }
+
+          return;
+        }
+
+        if (!year) {
+          year = (0, _helper.setYear)(value);
+
+          if (year) {
+            newValue = year + '-W' + week;
+
+            try {
+              (0, _actions.executeSetDateTime)(currentDateTime, newValue);
+              changeInputMode(_const.MODE_NO_MODE);
+            } catch (e) {
+              console.error('Can not set value: ' + newValue);
+            }
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set HOUR', 'Please provide valid value');
+          }
+        }
+
         break;
 
       case 'date':
-        console.warn('type: ' + type);
+        break;
+
+      case 'month':
+        if (!value) {
+          setDateTime(elem, 'Set MONTH', currentValue);
+          return;
+        }
+
+        if (!month) {
+          month = (0, _helper.setMonth)(value);
+
+          if (month) {
+            currentValue += ' M' + month;
+            (0, _helper.updateDateTimeMsgAndValue)('Set YEAR', currentValue);
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set MONTH', 'Please provide valid value');
+          }
+
+          return;
+        }
+
+        if (!year) {
+          year = (0, _helper.setYear)(value);
+
+          if (year) {
+            newValue = year + '-' + month;
+
+            try {
+              (0, _actions.executeSetDateTime)(currentDateTime, newValue);
+              changeInputMode(_const.MODE_NO_MODE);
+            } catch (e) {
+              console.error('Can not set value: ' + newValue);
+            }
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set YEAR', 'Please provide valid value');
+          }
+
+          return;
+        }
+
         break;
 
       case 'number':
-        console.warn('type: ' + type);
+        if (!value) {
+          setDateTime(elem, 'Set NUMBER', currentValue);
+          return;
+        }
+
+        if (!number) {
+          number = (0, _helper.setNumber)(currentDateTime, value);
+
+          if (number) {
+            newValue = number;
+
+            try {
+              (0, _actions.executeSetDateTime)(currentDateTime, newValue);
+              changeInputMode(_const.MODE_NO_MODE);
+            } catch (e) {
+              console.error('Can not set value: ' + newValue);
+            }
+          } else {
+            (0, _helper.updateDateTimeMsgAndValue)('Set Number', 'Please provide valid value');
+          }
+
+          return;
+        }
+
         break;
 
       default:
@@ -15141,10 +15441,14 @@ window.onload = function () {
 
       if (currentInputfield) {
         currentInputfield.elem.blur();
+        currentInputfield = null;
       }
 
-      currentInputfield = null;
-      currentDateTime = null;
+      if (currentDateTime) {
+        currentDateTime.elem.blur();
+        currentDateTime = null;
+      }
+
       currentSelect = null;
     }
 
@@ -15436,6 +15740,7 @@ exports.executeClick = executeClick;
 exports.executeFocus = executeFocus;
 exports.executeSetText = executeSetText;
 exports.executeSelect = executeSelect;
+exports.executeSetDateTime = executeSetDateTime;
 exports.scrollDown = scrollDown;
 exports.scrollUp = scrollUp;
 exports.scrollToTop = scrollToTop;
@@ -15508,6 +15813,10 @@ function executeSelect(element, value) {
   console.log(element);
   $(element.elem).find("option[value=".concat(value, "]")).prop('selected', true);
   element.elem.focus();
+}
+
+function executeSetDateTime(elem, value) {
+  $(elem.elem).val(value);
 }
 
 function scrollDown() {

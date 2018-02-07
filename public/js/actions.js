@@ -67,6 +67,10 @@ export function executeSelect(element, value) {
     element.elem.focus();
 }
 
+export function executeSetDateTime(elem, value) {
+    $(elem.elem).val(value);
+}
+
 export function scrollDown() {
     $('html, body').animate({
         scrollTop: $(window).scrollTop() + (window.innerHeight * 0.7)
