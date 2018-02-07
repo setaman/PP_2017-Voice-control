@@ -2,17 +2,18 @@ import {
     CHECK_SELECTORS,
     CLICK_SELECTORS,
     FOCUS_SELECTORS,
-    SEARCH_SELECTORS,
     SELECT_SELECTORS,
     TYPE_CLICKABLE,
     TYPE_SELECTABLE,
-    TYPE_FOCUSABLE, MODE_NO_MODE
+    TYPE_FOCUSABLE,
+    TYPE_DATE_TIME,
+    DATE_TIME_SELECTORS
 } from "./const";
 
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
-        if (isVisible(this)) {
+        if (isVisible(this) && isInteractive(this)) {
             elements.push(buildElement(this));
         }
     });
@@ -22,22 +23,27 @@ export function elementBuilder(selector) {
 function buildElement(elem) {
     let currentLabel = getLabel($(elem).attr('id'));
     return {
-        elem: elem,
-        text: getText(elem),
-        label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '),
-        value: getValueAttribute(elem),
-        placeholder: getPlaceholderAttribute(elem),
-        position: getPosition(currentLabel ? currentLabel : elem),
-        dimensions: getDimensions(currentLabel ? currentLabel : elem),
-        type: getTypeOfElement(elem),
-        select: {
-            option: getOptions(elem),
-            value: getOptionValue(elem),
-            selected: getSelectedOption(elem)
+        elem: elem, //HTML - Element
+        text: getText(elem), //TEXT - Content
+        label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '), //LABEL bei Inputs
+        value: getValueAttribute(elem), //VALUE - Attribut
+        placeholder: getPlaceholderAttribute(elem), //PLACEHOLDER bei Inputfields
+        position: getPosition(currentLabel ? currentLabel : elem), //POSITION eines Elements im Browserfenster
+        dimensions: getDimensions(currentLabel ? currentLabel : elem), //Dimensionen eines Elements
+        type: getTypeOfElement(elem), //TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE oder TYPE_DATE_TIME
+        select: {                       //benötigte Daten eines Selects
+            option: getOptions(elem), // Optionen
+            value: getOptionValue(elem), //Value der Optionen
+            selected: getSelectedOption(elem) // selektierte Option
         }
     };
 }
 
+/**
+ * @param elem - HTML Element
+ * @param label - Label, fasll vorhanden
+ * @returns {{posLeft: jQuery, posTop: jQuery}} - Abstand des Elements/Labels von linkem und oberen Rand des Fensters
+ */
 function getPosition(elem, label) {
     if (label) {
         return {
@@ -51,6 +57,11 @@ function getPosition(elem, label) {
     };
 }
 
+/**
+ * @param elem - HTML Element
+ * @param label - Label, falls vorhanden
+ * @returns {{width: jQuery, height: jQuery}} - Höhe und Breite des Elements/Labels
+ */
 function getDimensions(elem, label) {
     if (label) {
         return {
@@ -68,7 +79,7 @@ function getDimensions(elem, label) {
  * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
  * verknüpft werden, falls ein Input mehrere Labels hat, wird nur Label mit dem Textinhalt berücksichtigt
  * @param element_id - id des zu dem Label zugehörigen Input elements
- * @returns {*} ein Label oder oder false, falls mit dem Input kein Label verknüpft ist
+ * @returns {*} ein Label oder oder @undefined, falls mit dem Input kein Label verknüpft ist
  */
 export function getLabel(element_id) {
     if(!element_id){return undefined}
@@ -87,6 +98,12 @@ export function getLabel(element_id) {
     return undefined;
 }
 
+/**
+ * Die String werden vereinheitlicht: getrimmt, klein geschieben und alle unnötige Whitespaces entfernt werden. Gilt füe Alle
+ * Strings, die extrahiert werden
+ * @param elem - HTML Element
+ * @returns {*} Textinhlat des Elements oder @undefined
+ */
 function getText(elem) {
     if ($(elem).is('select')){return undefined;}
     return ($(elem).text()) ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
@@ -136,12 +153,14 @@ function getOptionValue(elem) {
 
 export function getTypeOfElement(element) {
     let clickable = CLICK_SELECTORS + ',' + CHECK_SELECTORS;
-    let focusable = FOCUS_SELECTORS + ',' + SEARCH_SELECTORS;
+    let focusable = FOCUS_SELECTORS /*+ ',' + SEARCH_SELECTORS*/;
     let selectable = SELECT_SELECTORS;
+    let dateime = DATE_TIME_SELECTORS;
 
     let typeC = TYPE_CLICKABLE;
     let typeF = TYPE_FOCUSABLE;
     let typeS = TYPE_SELECTABLE;
+    let typeDT = TYPE_DATE_TIME;
 
     if ($(element).is(clickable)) {
         return typeC;
@@ -149,7 +168,13 @@ export function getTypeOfElement(element) {
         return typeF;
     } else if ($(element).is(selectable)) {
         return typeS;
-    }
+    } else if ($(element).is(dateime)){
+        return typeDT;
+    } else {return typeC;}
+}
+
+function isInteractive(elem) {
+    return !(elem.disabled || elem.readOnly);
 }
 
 function isVisible(elem) {
@@ -181,5 +206,4 @@ function isVisible(elem) {
     } catch (e) {
         console.log(e);
     }
-
 }

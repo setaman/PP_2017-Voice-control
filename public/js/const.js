@@ -2,12 +2,12 @@
  * Selectors
  */
 const CLICK_SELECTORS = 'a, :button, :submit, :reset, .vocs_clickable';
-const FOCUS_SELECTORS = 'input[type="number"],input[type="week"],input[type="time"],input[type="month"],input[type="date"], input[type="datetime-local"], input[type="email"], input[type="text"], input[type="password"], input[type="number"],' +
-    'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea';
+const FOCUS_SELECTORS = ' input[type="email"], input[type="text"], input[type="password"], input[type="number"],' +
+    'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea, input[type="search"]';
 const CHECK_SELECTORS = ':radio, :checkbox';
 const SELECT_SELECTORS = 'select';
-const SEARCH_SELECTORS = 'input[type="search"]';
-const ALL_SELECTOR = `${CLICK_SELECTORS}, ${FOCUS_SELECTORS}, ${CHECK_SELECTORS}, ${SELECT_SELECTORS}, ${SEARCH_SELECTORS}`;
+const DATE_TIME_SELECTORS = 'input[type="number"],input[type="week"],input[type="time"],input[type="month"],input[type="date"], input[type="datetime-local"]';
+const ALL_SELECTOR = `${CLICK_SELECTORS}, ${FOCUS_SELECTORS}, ${CHECK_SELECTORS}, ${SELECT_SELECTORS}, ${DATE_TIME_SELECTORS}`;
 /**
  * Keywords
  */
@@ -70,13 +70,14 @@ const MODE_NO_MODE = 0;
 const MODE_TYPE = 1;
 const MODE_SELECT = 2;
 const MODE_MULTIPLE = 3;
+const MODE_DATE_TIME = 4;
 /**
  * Types of elements
  * */
 const TYPE_CLICKABLE = 0;
 const TYPE_FOCUSABLE = 1;
 const TYPE_SELECTABLE = 2;
-const TYPE_DATE = 3;
+const TYPE_DATE_TIME = 3;
 /**
  * System States for UI
  */
@@ -91,10 +92,10 @@ const STATE_INACTIVE = false;
 /**
  * Export consts
  */
-export {SELECT_SELECTORS, CHECK_SELECTORS, SHOW, CLICK_SELECTORS, SEARCH_SELECTORS, FOCUS_SELECTORS, ALL_SELECTOR,
+export {SELECT_SELECTORS, DATE_TIME_SELECTORS, CHECK_SELECTORS, SHOW, CLICK_SELECTORS, FOCUS_SELECTORS, ALL_SELECTOR,
         CLICK, FOCUS, OFF, SELECT,SCROLL_DOWN, SCROLL_UP, SCROLL_TO_BOTTOM, SCROLL_TO_TOP, SEARCH, CHECK, STOP,
         REG_EXP_CLICK, REG_EXP_FOCUS, REG_EXP_OFF, REG_EXP_SEARCH, REG_EXP_CHECK, REG_EXP_SELECT, REG_EXP_SHOW, REG_EXP_NUMBER,
         REG_EXP_SCROLL_DOWN, STATE_MULTIPLE_MATCH, REG_EXP_SCROLL_TO_TOP, REG_EXP_SCROLL_TO_BOTTOM,REG_EXP_STOP, REG_EXP_SCROLL_UP,
-        MODE_TYPE, MODE_SELECT, MODE_NO_MODE, MODE_MULTIPLE, STATE_LISTENING, STATE_ERROR, STATE_YOU_SAY, STATE_NO_MATCH
-        ,STATE_ACTIVE, STATE_INACTIVE, TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_DATE, KEYWORDS_OBJECTS};
+        MODE_TYPE, MODE_SELECT, MODE_DATE_TIME, MODE_NO_MODE, MODE_MULTIPLE, STATE_LISTENING, STATE_ERROR, STATE_YOU_SAY, STATE_NO_MATCH
+        ,STATE_ACTIVE, STATE_INACTIVE, TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_DATE_TIME, KEYWORDS_OBJECTS};
 

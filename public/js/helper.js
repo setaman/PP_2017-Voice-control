@@ -65,23 +65,6 @@ export function extractSearchString(userCommand) {
     return undefined;
 }
 
-export function getTypeOfElement(element) {
-    let clickable = CLICK_SELECTORS + ',' + CHECK_SELECTORS;
-    let focusable = FOCUS_SELECTORS + ',' + SEARCH_SELECTORS;
-    let selectable = SELECT_SELECTORS;
-
-    let typeC = TYPE_CLICKABLE;
-    let typeF = TYPE_FOCUSABLE;
-    let typeS = TYPE_SELECTABLE;
-
-    if ($(element).is(clickable)) {
-        return typeC;
-    } else if ($(element).is(focusable)) {
-        return typeF;
-    } else if ($(element).is(selectable)) {
-        return typeS;
-    }
-}
 
 export function getRecognizedElements(elements, userCommand) {
     /**

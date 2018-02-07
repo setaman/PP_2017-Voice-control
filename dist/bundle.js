@@ -74,7 +74,7 @@
 // Imports
 // --------------------------------------------------------------------
 
-var extend = __webpack_require__(22);
+var extend = __webpack_require__(21);
 
 // --------------------------------------------------------------------
 // Private Stuff
@@ -11007,22 +11007,22 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.KEYWORDS_OBJECTS = exports.TYPE_DATE = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTOR = exports.FOCUS_SELECTORS = exports.SEARCH_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.SELECT_SELECTORS = void 0;
+exports.KEYWORDS_OBJECTS = exports.TYPE_DATE_TIME = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_DATE_TIME = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTOR = exports.FOCUS_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.DATE_TIME_SELECTORS = exports.SELECT_SELECTORS = void 0;
 
 /**
  * Selectors
  */
 var CLICK_SELECTORS = 'a, :button, :submit, :reset, .vocs_clickable';
 exports.CLICK_SELECTORS = CLICK_SELECTORS;
-var FOCUS_SELECTORS = 'input[type="number"],input[type="week"],input[type="time"],input[type="month"],input[type="date"], input[type="datetime-local"], input[type="email"], input[type="text"], input[type="password"], input[type="number"],' + 'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea';
+var FOCUS_SELECTORS = ' input[type="email"], input[type="text"], input[type="password"], input[type="number"],' + 'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea, input[type="search"]';
 exports.FOCUS_SELECTORS = FOCUS_SELECTORS;
 var CHECK_SELECTORS = ':radio, :checkbox';
 exports.CHECK_SELECTORS = CHECK_SELECTORS;
 var SELECT_SELECTORS = 'select';
 exports.SELECT_SELECTORS = SELECT_SELECTORS;
-var SEARCH_SELECTORS = 'input[type="search"]';
-exports.SEARCH_SELECTORS = SEARCH_SELECTORS;
-var ALL_SELECTOR = "".concat(CLICK_SELECTORS, ", ").concat(FOCUS_SELECTORS, ", ").concat(CHECK_SELECTORS, ", ").concat(SELECT_SELECTORS, ", ").concat(SEARCH_SELECTORS);
+var DATE_TIME_SELECTORS = 'input[type="number"],input[type="week"],input[type="time"],input[type="month"],input[type="date"], input[type="datetime-local"]';
+exports.DATE_TIME_SELECTORS = DATE_TIME_SELECTORS;
+var ALL_SELECTOR = "".concat(CLICK_SELECTORS, ", ").concat(FOCUS_SELECTORS, ", ").concat(CHECK_SELECTORS, ", ").concat(SELECT_SELECTORS, ", ").concat(DATE_TIME_SELECTORS);
 /**
  * Keywords
  */
@@ -11127,23 +11127,25 @@ exports.MODE_TYPE = MODE_TYPE;
 var MODE_SELECT = 2;
 exports.MODE_SELECT = MODE_SELECT;
 var MODE_MULTIPLE = 3;
+exports.MODE_MULTIPLE = MODE_MULTIPLE;
+var MODE_DATE_TIME = 4;
 /**
  * Types of elements
  * */
 
-exports.MODE_MULTIPLE = MODE_MULTIPLE;
+exports.MODE_DATE_TIME = MODE_DATE_TIME;
 var TYPE_CLICKABLE = 0;
 exports.TYPE_CLICKABLE = TYPE_CLICKABLE;
 var TYPE_FOCUSABLE = 1;
 exports.TYPE_FOCUSABLE = TYPE_FOCUSABLE;
 var TYPE_SELECTABLE = 2;
 exports.TYPE_SELECTABLE = TYPE_SELECTABLE;
-var TYPE_DATE = 3;
+var TYPE_DATE_TIME = 3;
 /**
  * System States for UI
  */
 
-exports.TYPE_DATE = TYPE_DATE;
+exports.TYPE_DATE_TIME = TYPE_DATE_TIME;
 var STATE_LISTENING = 'Listening';
 exports.STATE_LISTENING = STATE_LISTENING;
 var STATE_ERROR = 'Some error';
@@ -11261,12 +11263,12 @@ module.exports = getMapData;
 // --------------------------------------------------------------------
 
 var Builder = __webpack_require__(126);
-var Grammar = __webpack_require__(21);
+var Grammar = __webpack_require__(20);
 var Namespace = __webpack_require__(41);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
 var pexprs = __webpack_require__(1);
-var util = __webpack_require__(24);
+var util = __webpack_require__(23);
 
 var isBuffer = __webpack_require__(168);
 
@@ -11849,167 +11851,6 @@ if (typeof Object.create === 'function') {
 
 /***/ }),
 /* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function($) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.generateIdForSelectWrapper = generateIdForSelectWrapper;
-exports.buildMultipleWrapper = buildMultipleWrapper;
-exports.buildSelectOptionsWrapper = buildSelectOptionsWrapper;
-exports.splitUserCommand = splitUserCommand;
-exports.extractKeyword = extractKeyword;
-exports.extractSearchString = extractSearchString;
-exports.getTypeOfElement = getTypeOfElement;
-exports.getRecognizedElements = getRecognizedElements;
-exports.scrollSelectContainerDown = scrollSelectContainerDown;
-exports.scrollSelectContainerUp = scrollSelectContainerUp;
-exports.scrollSelectContainerTop = scrollSelectContainerTop;
-exports.scrollSelectContainerBottom = scrollSelectContainerBottom;
-exports.checkNumberInterval = checkNumberInterval;
-
-var _const = __webpack_require__(4);
-
-var _search_for_elements = __webpack_require__(28);
-
-var _fuzzy_search = __webpack_require__(29);
-
-function generateId(i) {
-  return 'vocs_multiple_select_wrapper_' + i;
-}
-
-function generateIdForSelectWrapper(i) {
-  return 'vocs_select_options_container_' + i;
-}
-
-function buildMultipleWrapper(i, currentElement) {
-  var id = generateId(i);
-  var wrapperTemplate = "<div class=\"vocs_multiple_select_wrapper_container\" id=\"".concat(id, "\"><div id=\"vocs_wrapper_").concat(i, "\" data-number=\"").concat(i + 1, "\" class=\"vocs_multiple_select_wrapper\"></div></div>");
-  $('.vocs_overlay').append(wrapperTemplate);
-  /**
-   * FIXME: does not work for fixed element, versuche mit position attr
-   */
-
-  $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 30 ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
-  $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
-  $('#' + id).offset({
-    top: currentElement.position.posTop - 5,
-    left: currentElement.position.posLeft - 5
-  });
-}
-
-function buildSelectOptionsWrapper(currentElement) {
-  var id = generateIdForSelectWrapper(1);
-  var div = $('<div>', {
-    class: 'vocs_select_options_container',
-    id: id
-  }).append(currentElement.select.option.map(function (option, i) {
-    return buildLiForSelectOption(i, option);
-  }));
-  $('.vocs_overlay').append(div);
-  $('#' + id).offset({
-    top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
-    left: currentElement.position.posLeft
-  });
-}
-
-function buildLiForSelectOption(i, option) {
-  return "<li><span>".concat(i + 1, "</span>").concat(option, "</li>");
-}
-
-function splitUserCommand(userCommand, command) {
-  return userCommand.slice(userCommand.indexOf(command) + command.length).trim();
-}
-
-function extractKeyword(userCommand) {
-  var result = userCommand.split(/[ ,]+/);
-
-  if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need' || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead' || result[0] === 'plague') {
-    return 'click';
-  }
-
-  return result[0];
-}
-
-function extractSearchString(userCommand) {
-  var result = userCommand.split(/[ ,]+/);
-
-  if (result.length > 1) {
-    result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-    return result.length > 1 ? result[1] : undefined;
-  }
-
-  return undefined;
-}
-
-function getTypeOfElement(element) {
-  var clickable = _const.CLICK_SELECTORS + ',' + _const.CHECK_SELECTORS;
-  var focusable = _const.FOCUS_SELECTORS + ',' + _const.SEARCH_SELECTORS;
-  var selectable = _const.SELECT_SELECTORS;
-  var typeC = _const.TYPE_CLICKABLE;
-  var typeF = _const.TYPE_FOCUSABLE;
-  var typeS = _const.TYPE_SELECTABLE;
-
-  if ($(element).is(clickable)) {
-    return typeC;
-  } else if ($(element).is(focusable)) {
-    return typeF;
-  } else if ($(element).is(selectable)) {
-    return typeS;
-  }
-}
-
-function getRecognizedElements(elements, userCommand) {
-  /**
-   * TODO: optimize search for long strings with fuzzy
-   */
-
-  /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
-  var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)(elements, userCommand);
-
-  if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
-    console.log('FUZZY found:');
-    console.log(fuzzy_result);
-    return fuzzy_result;
-  }
-
-  return [];
-}
-
-function scrollSelectContainerDown() {
-  $('.vocs_select_options_container').animate({
-    scrollTop: $('.vocs_select_options_container').scrollTop() + 250
-  }, 'slow');
-}
-
-function scrollSelectContainerUp() {
-  $('.vocs_select_options_container').animate({
-    scrollTop: $('.vocs_select_options_container').scrollTop() - 250
-  }, 'slow');
-}
-
-function scrollSelectContainerTop() {
-  $('.vocs_select_options_container').animate({
-    scrollTop: $('.vocs_select_options_container').scrollTop() + 250
-  }, 'slow');
-}
-
-function scrollSelectContainerBottom() {
-  $('.vocs_select_options_container').animate({
-    scrollTop: $('.vocs_select_options_container').scrollTop() + 250
-  }, 'slow');
-}
-
-function checkNumberInterval(number, max) {
-  return number > 0 && number <= max;
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 14 */
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -12021,7 +11862,7 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -12030,7 +11871,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
@@ -12040,7 +11881,7 @@ module.exports = !__webpack_require__(6)(function () {
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports) {
 
 /**
@@ -12072,7 +11913,7 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(37),
@@ -12107,10 +11948,10 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(20);
+var root = __webpack_require__(19);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -12119,7 +11960,7 @@ module.exports = Symbol;
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var freeGlobal = __webpack_require__(86);
@@ -12134,7 +11975,7 @@ module.exports = root;
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12494,7 +12335,7 @@ module.exports = Grammar;
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -12533,7 +12374,7 @@ function extend(origin, add) {
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12545,7 +12386,7 @@ function extend(origin, add) {
 
 var assert = __webpack_require__(0).assert;
 var errors = __webpack_require__(2);
-var util = __webpack_require__(24);
+var util = __webpack_require__(23);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -12680,7 +12521,7 @@ module.exports = Interval;
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12835,7 +12676,7 @@ exports.getLineAndColumnMessage = function(str, offset /* ...ranges */) {
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12845,7 +12686,7 @@ exports.getLineAndColumnMessage = function(str, offset /* ...ranges */) {
 // Imports
 // --------------------------------------------------------------------
 
-var Interval = __webpack_require__(23);
+var Interval = __webpack_require__(22);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -12914,7 +12755,7 @@ module.exports = InputStream;
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12925,8 +12766,8 @@ module.exports = InputStream;
 // --------------------------------------------------------------------
 
 var common = __webpack_require__(0);
-var util = __webpack_require__(24);
-var Interval = __webpack_require__(23);
+var util = __webpack_require__(23);
+var Interval = __webpack_require__(22);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -13031,7 +12872,7 @@ module.exports = MatchResult;
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13045,7 +12886,7 @@ module.exports = function (val) {
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13063,7 +12904,7 @@ var _element = __webpack_require__(46);
 
 var _const = __webpack_require__(4);
 
-var _helper = __webpack_require__(13);
+var _helper = __webpack_require__(28);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -13132,6 +12973,149 @@ function compareStrings(textContent, searchString) {
  * ********************************************************************************************************************/
 
 /***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.generateIdForSelectWrapper = generateIdForSelectWrapper;
+exports.buildMultipleWrapper = buildMultipleWrapper;
+exports.buildSelectOptionsWrapper = buildSelectOptionsWrapper;
+exports.splitUserCommand = splitUserCommand;
+exports.extractKeyword = extractKeyword;
+exports.extractSearchString = extractSearchString;
+exports.getRecognizedElements = getRecognizedElements;
+exports.scrollSelectContainerDown = scrollSelectContainerDown;
+exports.scrollSelectContainerUp = scrollSelectContainerUp;
+exports.scrollSelectContainerTop = scrollSelectContainerTop;
+exports.scrollSelectContainerBottom = scrollSelectContainerBottom;
+exports.checkNumberInterval = checkNumberInterval;
+
+var _const = __webpack_require__(4);
+
+var _search_for_elements = __webpack_require__(27);
+
+var _fuzzy_search = __webpack_require__(29);
+
+function generateId(i) {
+  return 'vocs_multiple_select_wrapper_' + i;
+}
+
+function generateIdForSelectWrapper(i) {
+  return 'vocs_select_options_container_' + i;
+}
+
+function buildMultipleWrapper(i, currentElement) {
+  var id = generateId(i);
+  var wrapperTemplate = "<div class=\"vocs_multiple_select_wrapper_container\" id=\"".concat(id, "\"><div id=\"vocs_wrapper_").concat(i, "\" data-number=\"").concat(i + 1, "\" class=\"vocs_multiple_select_wrapper\"></div></div>");
+  $('.vocs_overlay').append(wrapperTemplate);
+  /**
+   * FIXME: does not work for fixed element, versuche mit position attr
+   */
+
+  $('#vocs_wrapper_' + i).width(currentElement.dimensions.width <= 30 ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
+  $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
+  $('#' + id).offset({
+    top: currentElement.position.posTop - 5,
+    left: currentElement.position.posLeft - 5
+  });
+}
+
+function buildSelectOptionsWrapper(currentElement) {
+  var id = generateIdForSelectWrapper(1);
+  var div = $('<div>', {
+    class: 'vocs_select_options_container',
+    id: id
+  }).append(currentElement.select.option.map(function (option, i) {
+    return buildLiForSelectOption(i, option);
+  }));
+  $('.vocs_overlay').append(div);
+  $('#' + id).offset({
+    top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
+    left: currentElement.position.posLeft
+  });
+}
+
+function buildLiForSelectOption(i, option) {
+  return "<li><span>".concat(i + 1, "</span>").concat(option, "</li>");
+}
+
+function splitUserCommand(userCommand, command) {
+  return userCommand.slice(userCommand.indexOf(command) + command.length).trim();
+}
+
+function extractKeyword(userCommand) {
+  var result = userCommand.split(/[ ,]+/);
+
+  if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need' || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead' || result[0] === 'plague') {
+    return 'click';
+  }
+
+  return result[0];
+}
+
+function extractSearchString(userCommand) {
+  var result = userCommand.split(/[ ,]+/);
+
+  if (result.length > 1) {
+    result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+    return result.length > 1 ? result[1] : undefined;
+  }
+
+  return undefined;
+}
+
+function getRecognizedElements(elements, userCommand) {
+  /**
+   * TODO: optimize search for long strings with fuzzy
+   */
+
+  /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
+  var fuzzy_result = (0, _fuzzy_search.fuzzySearchForElements)(elements, userCommand);
+
+  if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
+    console.log('FUZZY found:');
+    console.log(fuzzy_result);
+    return fuzzy_result;
+  }
+
+  return [];
+}
+
+function scrollSelectContainerDown() {
+  $('.vocs_select_options_container').animate({
+    scrollTop: $('.vocs_select_options_container').scrollTop() + 250
+  }, 'slow');
+}
+
+function scrollSelectContainerUp() {
+  $('.vocs_select_options_container').animate({
+    scrollTop: $('.vocs_select_options_container').scrollTop() - 250
+  }, 'slow');
+}
+
+function scrollSelectContainerTop() {
+  $('.vocs_select_options_container').animate({
+    scrollTop: $('.vocs_select_options_container').scrollTop() + 250
+  }, 'slow');
+}
+
+function scrollSelectContainerBottom() {
+  $('.vocs_select_options_container').animate({
+    scrollTop: $('.vocs_select_options_container').scrollTop() + 250
+  }, 'slow');
+}
+
+function checkNumberInterval(number, max) {
+  return number > 0 && number <= max;
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13182,7 +13166,7 @@ function fuzzySearchForKeywords(list, searchString) {
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(14);
+var global = __webpack_require__(13);
 var core = __webpack_require__(5);
 var ctx = __webpack_require__(55);
 var hide = __webpack_require__(57);
@@ -13320,7 +13304,7 @@ module.exports = function (it) {
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(19),
+var Symbol = __webpack_require__(18),
     getRawTag = __webpack_require__(88),
     objectToString = __webpack_require__(89);
 
@@ -13527,7 +13511,7 @@ module.exports = Failure;
 // Imports
 // --------------------------------------------------------------------
 
-var extend = __webpack_require__(22);
+var extend = __webpack_require__(21);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -13590,7 +13574,7 @@ module.exports = Namespace;
 // Imports
 // --------------------------------------------------------------------
 
-var Interval = __webpack_require__(23);
+var Interval = __webpack_require__(22);
 var common = __webpack_require__(0);
 
 // --------------------------------------------------------------------
@@ -13777,9 +13761,9 @@ module.exports = Trace;
 var Symbol = __webpack_require__(149);  // eslint-disable-line no-undef
 var inherits = __webpack_require__(12);
 
-var InputStream = __webpack_require__(25);
+var InputStream = __webpack_require__(24);
 var IterationNode = __webpack_require__(11).IterationNode;
-var MatchResult = __webpack_require__(26);
+var MatchResult = __webpack_require__(25);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
 
@@ -14512,9 +14496,9 @@ module.exports = Semantics;
 // --------------------------------------------------------------------
 
 var pexprs = __webpack_require__(1);
-var MatchResult = __webpack_require__(26);
-var Grammar = __webpack_require__(21);
-var extend = __webpack_require__(22);
+var MatchResult = __webpack_require__(25);
+var Grammar = __webpack_require__(20);
+var extend = __webpack_require__(21);
 
 // --------------------------------------------------------------------
 // Operations
@@ -14658,11 +14642,11 @@ module.exports = {
 
 var _const = __webpack_require__(4);
 
-var _search_for_elements = __webpack_require__(28);
+var _search_for_elements = __webpack_require__(27);
 
 var _actions = __webpack_require__(48);
 
-var _helper = __webpack_require__(13);
+var _helper = __webpack_require__(28);
 
 var _fuzzy_search = __webpack_require__(29);
 
@@ -14676,14 +14660,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var currentElements = [];
-var currentMultipleElements = [];
-var currentInputfield;
-var currentSelect;
-var currentMode = _const.MODE_NO_MODE;
-var systemRecognitionState = false;
-var currentKeyword;
-var currentSearchString;
+var currentElements = [],
+    currentMultipleElements = [],
+    currentInputfield,
+    currentSelect,
+    currentMode = _const.MODE_NO_MODE,
+    systemRecognitionState = false,
+    currentKeyword,
+    currentSearchString;
 
 window.onload = function () {
   (0, _visualizer.default)();
@@ -14994,7 +14978,6 @@ window.onload = function () {
         currentInputfield.elem.blur();
       }
 
-      ;
       currentInputfield = null;
       currentSelect = null;
     }
@@ -15008,7 +14991,7 @@ window.onload = function () {
       setInputField(elem);
     } else if (elem.type === _const.TYPE_SELECTABLE) {
       setCustomSelectContainer(elem);
-    } else if (elem.type === _const.TYPE_DATE) {
+    } else if (elem.type === _const.TYPE_DATE_TIME) {
       setDateTime(elem);
     } else {
       (0, _actions.executeAction)(elem);
@@ -15037,7 +15020,7 @@ var _const = __webpack_require__(4);
 function elementBuilder(selector) {
   var elements = [];
   $(selector).each(function () {
-    if (isVisible(this)) {
+    if (isVisible(this) && isInteractive(this)) {
       elements.push(buildElement(this));
     }
   });
@@ -15048,20 +15031,38 @@ function buildElement(elem) {
   var currentLabel = getLabel($(elem).attr('id'));
   return {
     elem: elem,
+    //HTML - Element
     text: getText(elem),
+    //TEXT - Content
     label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '),
+    //LABEL bei Inputs
     value: getValueAttribute(elem),
+    //VALUE - Attribut
     placeholder: getPlaceholderAttribute(elem),
+    //PLACEHOLDER bei Inputfields
     position: getPosition(currentLabel ? currentLabel : elem),
+    //POSITION eines Elements im Browserfenster
     dimensions: getDimensions(currentLabel ? currentLabel : elem),
+    //Dimensionen eines Elements
     type: getTypeOfElement(elem),
+    //TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE oder TYPE_DATE_TIME
     select: {
+      //benötigte Daten eines Selects
       option: getOptions(elem),
+      // Optionen
       value: getOptionValue(elem),
-      selected: getSelectedOption(elem)
+      //Value der Optionen
+      selected: getSelectedOption(elem) // selektierte Option
+
     }
   };
 }
+/**
+ * @param elem - HTML Element
+ * @param label - Label, fasll vorhanden
+ * @returns {{posLeft: jQuery, posTop: jQuery}} - Abstand des Elements/Labels von linkem und oberen Rand des Fensters
+ */
+
 
 function getPosition(elem, label) {
   if (label) {
@@ -15076,6 +15077,12 @@ function getPosition(elem, label) {
     posTop: $(elem).offset().top
   };
 }
+/**
+ * @param elem - HTML Element
+ * @param label - Label, falls vorhanden
+ * @returns {{width: jQuery, height: jQuery}} - Höhe und Breite des Elements/Labels
+ */
+
 
 function getDimensions(elem, label) {
   if (label) {
@@ -15094,7 +15101,7 @@ function getDimensions(elem, label) {
  * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
  * verknüpft werden, falls ein Input mehrere Labels hat, wird nur Label mit dem Textinhalt berücksichtigt
  * @param element_id - id des zu dem Label zugehörigen Input elements
- * @returns {*} ein Label oder oder false, falls mit dem Input kein Label verknüpft ist
+ * @returns {*} ein Label oder oder @undefined, falls mit dem Input kein Label verknüpft ist
  */
 
 
@@ -15118,6 +15125,13 @@ function getLabel(element_id) {
 
   return undefined;
 }
+/**
+ * Die String werden vereinheitlicht: getrimmt, klein geschieben und alle unnötige Whitespaces entfernt werden. Gilt füe Alle
+ * Strings, die extrahiert werden
+ * @param elem - HTML Element
+ * @returns {*} Textinhlat des Elements oder @undefined
+ */
+
 
 function getText(elem) {
   if ($(elem).is('select')) {
@@ -15178,11 +15192,15 @@ function getOptionValue(elem) {
 
 function getTypeOfElement(element) {
   var clickable = _const.CLICK_SELECTORS + ',' + _const.CHECK_SELECTORS;
-  var focusable = _const.FOCUS_SELECTORS + ',' + _const.SEARCH_SELECTORS;
+  var focusable = _const.FOCUS_SELECTORS
+  /*+ ',' + SEARCH_SELECTORS*/
+  ;
   var selectable = _const.SELECT_SELECTORS;
+  var dateime = _const.DATE_TIME_SELECTORS;
   var typeC = _const.TYPE_CLICKABLE;
   var typeF = _const.TYPE_FOCUSABLE;
   var typeS = _const.TYPE_SELECTABLE;
+  var typeDT = _const.TYPE_DATE_TIME;
 
   if ($(element).is(clickable)) {
     return typeC;
@@ -15190,7 +15208,15 @@ function getTypeOfElement(element) {
     return typeF;
   } else if ($(element).is(selectable)) {
     return typeS;
+  } else if ($(element).is(dateime)) {
+    return typeDT;
+  } else {
+    return typeC;
   }
+}
+
+function isInteractive(elem) {
+  return !(elem.disabled || elem.readOnly);
 }
 
 function isVisible(elem) {
@@ -15262,8 +15288,6 @@ exports.scrollDown = scrollDown;
 exports.scrollUp = scrollUp;
 exports.scrollToTop = scrollToTop;
 exports.scrollToBottom = scrollToBottom;
-
-var _helper = __webpack_require__(13);
 
 var _const = __webpack_require__(4);
 
@@ -15719,7 +15743,7 @@ module.exports = function (it) {
 
 var dP = __webpack_require__(58);
 var createDesc = __webpack_require__(63);
-module.exports = __webpack_require__(16) ? function (object, key, value) {
+module.exports = __webpack_require__(15) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
 } : function (object, key, value) {
   object[key] = value;
@@ -15736,7 +15760,7 @@ var IE8_DOM_DEFINE = __webpack_require__(60);
 var toPrimitive = __webpack_require__(62);
 var dP = Object.defineProperty;
 
-exports.f = __webpack_require__(16) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+exports.f = __webpack_require__(15) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
@@ -15753,7 +15777,7 @@ exports.f = __webpack_require__(16) ? Object.defineProperty : function definePro
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(15);
+var isObject = __webpack_require__(14);
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
@@ -15764,7 +15788,7 @@ module.exports = function (it) {
 /* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(16) && !__webpack_require__(6)(function () {
+module.exports = !__webpack_require__(15) && !__webpack_require__(6)(function () {
   return Object.defineProperty(__webpack_require__(61)('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
@@ -15773,8 +15797,8 @@ module.exports = !__webpack_require__(16) && !__webpack_require__(6)(function ()
 /* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(15);
-var document = __webpack_require__(14).document;
+var isObject = __webpack_require__(14);
+var document = __webpack_require__(13).document;
 // typeof document.createElement is 'object' in old IE
 var is = isObject(document) && isObject(document.createElement);
 module.exports = function (it) {
@@ -15787,7 +15811,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(15);
+var isObject = __webpack_require__(14);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function (it, S) {
@@ -15968,7 +15992,7 @@ module.exports = function (key) {
 /* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(14);
+var global = __webpack_require__(13);
 var SHARED = '__core-js_shared__';
 var store = global[SHARED] || (global[SHARED] = {});
 module.exports = function (key) {
@@ -16165,7 +16189,7 @@ module.exports = baseGet;
 /* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(17),
+var isArray = __webpack_require__(16),
     isKey = __webpack_require__(85),
     stringToPath = __webpack_require__(91),
     toString = __webpack_require__(121);
@@ -16192,8 +16216,8 @@ module.exports = castPath;
 /* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(17),
-    isSymbol = __webpack_require__(18);
+var isArray = __webpack_require__(16),
+    isSymbol = __webpack_require__(17);
 
 /** Used to match property names within property paths. */
 var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
@@ -16265,7 +16289,7 @@ module.exports = g;
 /* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(19);
+var Symbol = __webpack_require__(18);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -16771,7 +16795,7 @@ module.exports = isMasked;
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(20);
+var root = __webpack_require__(19);
 
 /** Used to detect overreaching core-js shims. */
 var coreJsData = root['__core-js_shared__'];
@@ -17172,7 +17196,7 @@ module.exports = listCacheSet;
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(38),
-    root = __webpack_require__(20);
+    root = __webpack_require__(19);
 
 /* Built-in method references that are verified to be native. */
 var Map = getNative(root, 'Map');
@@ -17335,10 +17359,10 @@ module.exports = toString;
 /* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(19),
+var Symbol = __webpack_require__(18),
     arrayMap = __webpack_require__(123),
-    isArray = __webpack_require__(17),
-    isSymbol = __webpack_require__(18);
+    isArray = __webpack_require__(16),
+    isSymbol = __webpack_require__(17);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -17405,7 +17429,7 @@ module.exports = arrayMap;
 /* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSymbol = __webpack_require__(18);
+var isSymbol = __webpack_require__(17);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -17638,8 +17662,8 @@ module.exports = Builder;
 // Imports
 // --------------------------------------------------------------------
 
-var Grammar = __webpack_require__(21);
-var InputStream = __webpack_require__(25);
+var Grammar = __webpack_require__(20);
+var InputStream = __webpack_require__(24);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
 var pexprs = __webpack_require__(1);
@@ -19894,8 +19918,8 @@ module.exports = Matcher;
 // Imports
 // --------------------------------------------------------------------
 
-var InputStream = __webpack_require__(25);
-var MatchResult = __webpack_require__(26);
+var InputStream = __webpack_require__(24);
+var MatchResult = __webpack_require__(25);
 var PosInfo = __webpack_require__(148);
 var Trace = __webpack_require__(42);
 var pexprs = __webpack_require__(1);
@@ -20716,7 +20740,7 @@ module.exports = function () {
 "use strict";
 
 
-var isValue = __webpack_require__(27);
+var isValue = __webpack_require__(26);
 
 var keys = Object.keys;
 
@@ -20743,7 +20767,7 @@ module.exports = function () {};
 "use strict";
 
 
-var isValue = __webpack_require__(27);
+var isValue = __webpack_require__(26);
 
 module.exports = function (value) {
 	if (!isValue(value)) throw new TypeError("Cannot use null or undefined");
@@ -20758,7 +20782,7 @@ module.exports = function (value) {
 "use strict";
 
 
-var isValue = __webpack_require__(27);
+var isValue = __webpack_require__(26);
 
 var forEach = Array.prototype.forEach, create = Object.create;
 

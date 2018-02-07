@@ -1,4 +1,3 @@
-import {getTypeOfElement} from "./helper";
 import {TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_CLICKABLE} from "./const";
 
 /**

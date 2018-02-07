@@ -22,7 +22,7 @@ import {
     STATE_MULTIPLE_MATCH,
     MODE_MULTIPLE,
     TYPE_FOCUSABLE,
-    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE,
+    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE_TIME,
 } from './const';
 import {getElements, searchForElements} from './search_for_elements';
 import {
@@ -44,14 +44,14 @@ import wordsToNumbers from 'words-to-numbers';
 //import '../css/vocs_styles.css'
 import speechRecognition from './visualizer';
 
-let currentElements = [];
-let currentMultipleElements = [];
-let currentInputfield;
-let currentSelect;
-let currentMode = MODE_NO_MODE;
-let systemRecognitionState = false;
-let currentKeyword;
-let currentSearchString;
+let currentElements = [],
+    currentMultipleElements = [],
+    currentInputfield,
+    currentSelect,
+    currentMode = MODE_NO_MODE,
+    systemRecognitionState = false,
+    currentKeyword,
+    currentSearchString;
 
 
 window.onload = function () {
@@ -341,7 +341,7 @@ window.onload = function () {
         currentMode = newInputMode;
         if (currentMode === MODE_NO_MODE) {
             $('.vocs_overlay').remove();
-            if (currentInputfield) {currentInputfield.elem.blur()};
+            if (currentInputfield) {currentInputfield.elem.blur();}
             currentInputfield = null;
             currentSelect = null;
         }
@@ -354,7 +354,7 @@ window.onload = function () {
             setInputField(elem);
         } else if (elem.type === TYPE_SELECTABLE) {
             setCustomSelectContainer(elem);
-        } else if (elem.type === TYPE_DATE) {
+        } else if (elem.type === TYPE_DATE_TIME) {
             setDateTime(elem);
         } else {
             executeAction(elem);
@@ -362,7 +362,3 @@ window.onload = function () {
         }
     }
 };
-
-
-
-
