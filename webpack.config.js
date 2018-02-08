@@ -4,9 +4,12 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 const webpack = require('webpack');
 
 module.exports = {
-    entry: './public/js/controller.js',
+    entry: {
+        index:'./public/js/index-scripts/index.js',
+        vocs:'./public/js/vocs.js'
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
     },
 
@@ -24,7 +27,7 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
-            jQuery: 'jquery'
+            jQuery: 'jquery',
         }),
         new ExtractTextPlugin('[name].css')
     ],

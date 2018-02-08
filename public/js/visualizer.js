@@ -59,7 +59,6 @@ export default function speechRecognition() {
     let convolver = audioCtx.createConvolver();
 
 // set up canvas context for visualizer
-
     let canvas = document.querySelector('.visualizer');
     let canvasCtx = canvas.getContext("2d");
     const WIDTH = canvas.width;
@@ -153,16 +152,6 @@ export default function speechRecognition() {
                     }
 
                     x += sliceWidth + 1;
-
-                    /*if (barHeight >= 100) {
-                        /!*console.log('#####' + barHeight);*!/
-                        if (isRecording === false) {
-                            console.log('...Starting recorder');
-                            rec.start();
-                            isRecording = true;
-                            setTimeOut();
-                        }
-                    }*/
                 }
 
                 canvasCtx.lineTo(canvas.width, canvas.height / 2);
@@ -197,27 +186,5 @@ export default function speechRecognition() {
                 console.log('AudioContext state: ' + audioCtx.state);
             });
         }
-    }
-
-    function getAverageVolume(array) {
-        let values = 0;
-        let average;
-        let length = array.length;
-        // get all the frequency amplitudes
-        for (let i = 0; i < length; i++) {
-            values += array[i];
-        }
-        average = values / length;
-        console.log('AVArAGE:' + average);
-        return average;
-    }
-
-    function setTimeOut() {
-        setTimeout(function () {
-            rec.stop();
-            sendRequest();
-            console.log('...Stopping recorder');
-        }, 1500);
-
     }
 }

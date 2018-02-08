@@ -1,13 +1,14 @@
-let express = require('express');
 let path = require('path');
 let logger = require('morgan');
 let bodyParser = require('body-parser');
 let index = require('./routes/index');
 let semanticui = require('./routes/semanticui');
 let foundation = require('./routes/foundation');
-let test = require('./routes/test-post');
+let recognizer = require('./routes/recognizer');
+let config = require('./routes/config');
 let helmet = require('helmet');
 let resourceMonitorMiddleware = require('express-watcher').resourceMonitorMiddleware;
+let express = require('express');
 let app = express();
 
 // view engine setup
@@ -17,19 +18,16 @@ app.set('view engine', 'ejs');
 app.use(resourceMonitorMiddleware);
 app.use(helmet());
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({limit: '5mb', extended: false, parameterLimit: 100000 }));
 app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(path.join(__dirname + '/dist')));
 
 app.use('/', index);
 app.use('/semanticui', semanticui);
 app.use('/foundation', foundation);
-
-app.post('/test', function (req, res) {
-  console.log('REQ.BODY: ' + req.body);
-    res.send('click click');
-});
+app.use('/recognizer',recognizer);
+app.use('/config',recognizer);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -25,7 +25,7 @@ import {
     TYPE_FOCUSABLE,
     KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, CLEAR, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE_TIME, MODE_DATE_TIME,
 } from './const';
-import {getElements, searchForElements} from './search_for_elements';
+import {getElements, searchForElements} from './collector';
 import {
     scrollUp,
     scrollDown,
@@ -70,7 +70,7 @@ let day,
 
 window.onload = function () {
 
-    speechRecognition();
+    //speechRecognition();
 
     let systemState = $('#vocs_text_status');
     let OnRecognition = $('#vocs_text_onrecognition');
@@ -92,6 +92,10 @@ window.onload = function () {
      * @param input - recognized User command
      */
     function performUserAction(input) {
+
+        $('#hide').click(function () {
+            alert($('.select_').attr('id'));
+        });
 
         let t0 = performance.now();
 

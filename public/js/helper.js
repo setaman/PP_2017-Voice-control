@@ -2,7 +2,7 @@ import {
     CLICK_SELECTORS, FOCUS_SELECTORS, CHECK_SELECTORS, SELECT_SELECTORS, SEARCH_SELECTORS, TYPE_FOCUSABLE,
     TYPE_SELECTABLE, TYPE_CLICKABLE, ALL_SELECTOR
 } from "./const";
-import {isVisible} from './search_for_elements';
+import {isVisible} from './collector';
 import {fuzzySearchForElements} from "./fuzzy_search";
 
 function generateId(i) {
