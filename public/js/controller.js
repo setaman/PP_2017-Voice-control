@@ -298,7 +298,7 @@ window.onload = function () {
                     day = setDay(value);
                     if (day){
                         currentValue += 'D' + day;
-                        updateDateTimeMsgAndValue('Set WEEK', currentValue);
+                        updateDateTimeMsgAndValue('Set MOTH', currentValue);
                         newValue = '0001-01-' + day + 'T01:01:01';
                         $(elem.elem).val(newValue);
                     } else {
