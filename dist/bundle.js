@@ -11007,7 +11007,7 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.KEYWORDS_OBJECTS = exports.TYPE_DATE_TIME = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_DATE_TIME = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTOR = exports.FOCUS_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.DATE_TIME_SELECTORS = exports.SELECT_SELECTORS = void 0;
+exports.KEYWORDS_OBJECTS = exports.TYPE_DATE_TIME = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_DATE_TIME = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_SCROLL_UP = exports.REG_EXP_STOP = exports.REG_EXP_SCROLL_TO_BOTTOM = exports.REG_EXP_CLEAR = exports.REG_EXP_SCROLL_TO_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_SCROLL_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_SELECT = exports.REG_EXP_CHECK = exports.REG_EXP_SEARCH = exports.REG_EXP_OFF = exports.REG_EXP_FOCUS = exports.REG_EXP_CLICK = exports.STOP = exports.CHECK = exports.SEARCH = exports.SCROLL_TO_TOP = exports.SCROLL_TO_BOTTOM = exports.SCROLL_UP = exports.SCROLL_DOWN = exports.SELECT = exports.CLEAR = exports.OFF = exports.FOCUS = exports.CLICK = exports.ALL_SELECTOR = exports.FOCUS_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.DATE_TIME_SELECTORS = exports.SELECT_SELECTORS = void 0;
 
 /**
  * Selectors
@@ -11052,11 +11052,12 @@ var STOP = 'stop';
 exports.STOP = STOP;
 var SHOW = 'show';
 exports.SHOW = SHOW;
-var CLEAR = 'show';
+var CLEAR = 'clear';
 /**
  * RegExp
  */
 
+exports.CLEAR = CLEAR;
 var REG_EXP_CLICK = /^(click)$/;
 exports.REG_EXP_CLICK = REG_EXP_CLICK;
 var REG_EXP_FOCUS = /^(focus)$/;
@@ -11081,6 +11082,8 @@ var REG_EXP_STOP = /^(stop)$/;
 exports.REG_EXP_STOP = REG_EXP_STOP;
 var REG_EXP_SHOW = /^(show)$/;
 exports.REG_EXP_SHOW = REG_EXP_SHOW;
+var REG_EXP_CLEAR = /^(clear)$/;
+exports.REG_EXP_CLEAR = REG_EXP_CLEAR;
 var REG_EXP_NUMBER = /^[0-9]+$/;
 /**
  * Keywords object needed for fuzzy search
@@ -11111,6 +11114,9 @@ var KEYWORDS_OBJECTS = [{
 }, {
   keyword: SHOW,
   regExp: REG_EXP_SHOW
+}, {
+  keyword: CLEAR,
+  regExp: REG_EXP_CLEAR
 }, {
   keyword: SCROLL_TO_TOP,
   regExp: REG_EXP_SCROLL_TO_TOP
@@ -14895,6 +14901,11 @@ window.onload = function () {
         console.log(currentElements);
       }
     } else if (currentMode === _const.MODE_TYPE && currentInputfield) {
+      if (_const.REG_EXP_CLEAR.test(currentKeyword)) {
+        (0, _actions.executeClearText)(currentInputfield);
+        return;
+      }
+
       (0, _actions.executeSetText)(currentInputfield, userCommand);
     } else if (currentMode === _const.MODE_SELECT && currentSelect) {
       if (_const.REG_EXP_SCROLL_DOWN.test(currentKeyword) || _const.REG_EXP_SCROLL_UP.test(currentKeyword)) {
@@ -14922,6 +14933,14 @@ window.onload = function () {
         return;
       }
     } else if (currentMode === _const.MODE_DATE_TIME) {
+      if (_const.REG_EXP_CLEAR.test(currentKeyword)) {
+        $('.vocs_overlay').remove();
+        clearDateTimeValues();
+        (0, _actions.executeClearText)(currentDateTime);
+        handleDateTime(currentDateTime, undefined);
+        return;
+      }
+
       if (!_const.REG_EXP_NUMBER.test(userCommand)) {
         userCommand = (0, _wordsToNumbers.default)(userCommand, {
           fuzzy: true
@@ -14951,6 +14970,10 @@ window.onload = function () {
 
   function choiceAction(keyword, userCommand) {
     var _currentElements, _currentElements2;
+
+    if (!keyword) {
+      return;
+    }
 
     switch (true) {
       case _const.REG_EXP_CLICK.test(keyword):
@@ -14991,12 +15014,6 @@ window.onload = function () {
       case _const.REG_EXP_SHOW.test(keyword):
         (_currentElements2 = currentElements).push.apply(_currentElements2, _toConsumableArray((0, _search_for_elements.getElements)()));
 
-        break;
-
-      case _const.REG_EXP_SEARCH.test(keyword):
-        /**
-         * TODO: implement this
-         */
         break;
 
       case _const.REG_EXP_OFF.test(keyword):
@@ -15057,18 +15074,24 @@ window.onload = function () {
     (0, _helper.buildDateTimeMassageContainer)(elem, msg, currentValue);
     currentDateTime = elem;
   }
+  /**
+   * Eingabe der Datum un der Uhrzeit, für unterschiedliche Input-Typen ist untr. Logik nötig, die Daten werden nacheinander
+   * gefüllt und in dem value-Attribut hinzugefügt
+   * @param elem - HTML - Element, <input type="date time week...">
+   * @param input - Benutzereingabe, undefined in der ersten Runde, dann eine Zahl
+   */
+
 
   function handleDateTime(elem, input) {
     console.error('current value: ' + input);
-    var value;
+    var value, newValue, type;
 
     if (input) {
-      //DO not convert to int here, because don't can set '0' before number
+      //DO not convert to int here, because can't set '0' before number
       value = input.toString().trim().toLowerCase();
     }
 
-    var type = elem.elem.type;
-    var newValue;
+    type = elem.elem.type;
     elem.elem.focus();
 
     switch (type) {
@@ -15085,7 +15108,7 @@ window.onload = function () {
 
           if (day) {
             currentValue += 'D' + day;
-            (0, _helper.updateDateTimeMsgAndValue)('Set WEEK', currentValue);
+            (0, _helper.updateDateTimeMsgAndValue)('Set MOTH', currentValue);
             newValue = '0001-01-' + day + 'T01:01:01';
             $(elem.elem).val(newValue);
           } else {
@@ -15450,14 +15473,7 @@ window.onload = function () {
   }
 
   function clearCurrentElements() {
-    day = undefined;
-    week = undefined;
-    month = undefined;
-    year = undefined;
-    second = undefined;
-    minute = undefined;
-    hour = undefined;
-    currentValue = '';
+    clearDateTimeValues();
     currentElements = [];
     currentKeyword = undefined;
   }
@@ -15504,6 +15520,17 @@ window.onload = function () {
     }
 
     console.log('------Current MODE------: ' + currentMode);
+  }
+
+  function clearDateTimeValues() {
+    day = undefined;
+    week = undefined;
+    month = undefined;
+    year = undefined;
+    second = undefined;
+    minute = undefined;
+    hour = undefined;
+    currentValue = '';
   }
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
@@ -15790,6 +15817,7 @@ exports.executeAction = executeAction;
 exports.executeClick = executeClick;
 exports.executeFocus = executeFocus;
 exports.executeSetText = executeSetText;
+exports.executeClearText = executeClearText;
 exports.executeSelect = executeSelect;
 exports.executeSetDateTime = executeSetDateTime;
 exports.scrollDown = scrollDown;
@@ -15857,6 +15885,18 @@ function executeSetText(elem, text) {
     $(elem.elem).val(currentTextContent);
   } catch (e) {
     console.error('Error in executeSetText(): ' + e);
+  }
+}
+
+function executeClearText(elem) {
+  if (!elem) {
+    return;
+  }
+
+  var el = $(elem.elem);
+
+  if (el.val() && el.val() !== '') {
+    el.val(null);
   }
 }
 

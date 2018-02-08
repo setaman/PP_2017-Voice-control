@@ -5,6 +5,7 @@ import {
     REG_EXP_CLICK,
     REG_EXP_OFF,
     REG_EXP_SEARCH,
+    REG_EXP_CLEAR,
     REG_EXP_SCROLL_DOWN,
     REG_EXP_SCROLL_TO_TOP,
     REG_EXP_SCROLL_TO_BOTTOM,
@@ -22,7 +23,7 @@ import {
     STATE_MULTIPLE_MATCH,
     MODE_MULTIPLE,
     TYPE_FOCUSABLE,
-    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE_TIME, MODE_DATE_TIME,
+    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, CLEAR, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE_TIME, MODE_DATE_TIME,
 } from './const';
 import {getElements, searchForElements} from './search_for_elements';
 import {
@@ -30,7 +31,7 @@ import {
     scrollDown,
     scrollToBottom,
     scrollToTop,
-    executeSetText, executeAction, executeSelect, executeFocus, executeSetDateTime
+    executeSetText, executeAction, executeSelect, executeFocus, executeSetDateTime, executeClearText
 } from './actions';
 import {
     buildDateTimeMassageContainer,
@@ -139,6 +140,10 @@ window.onload = function () {
                 console.log(currentElements);
             }
         } else if (currentMode === MODE_TYPE && currentInputfield) {
+            if(REG_EXP_CLEAR.test(currentKeyword)){
+                executeClearText(currentInputfield);
+                return;
+            }
             executeSetText(currentInputfield, userCommand);
 
         } else if (currentMode === MODE_SELECT && currentSelect) {
@@ -146,7 +151,6 @@ window.onload = function () {
                 choiceAction(currentKeyword, null);
                 return;
             }
-
             if (!REG_EXP_NUMBER.test(userCommand)) {
                 userCommand = wordsToNumbers(userCommand, {fuzzy: true});
             }
@@ -161,6 +165,13 @@ window.onload = function () {
                 return;
             }
         } else if (currentMode === MODE_DATE_TIME){
+            if(REG_EXP_CLEAR.test(currentKeyword)){
+                $('.vocs_overlay').remove();
+                clearDateTimeValues();
+                executeClearText(currentDateTime);
+                handleDateTime(currentDateTime, undefined);
+                return;
+            }
             if (!REG_EXP_NUMBER.test(userCommand)) {
                 userCommand = wordsToNumbers(userCommand, {fuzzy: true});
             }
@@ -182,6 +193,7 @@ window.onload = function () {
      ******************************************************************************************************************/
 
     function choiceAction(keyword, userCommand) {
+        if (!keyword) {return;}
 
         switch (true) {
             case REG_EXP_CLICK.test(keyword):
@@ -212,11 +224,6 @@ window.onload = function () {
                 break;
             case REG_EXP_SHOW.test(keyword):
                 currentElements.push(...getElements());
-                break;
-            case REG_EXP_SEARCH.test(keyword):
-                /**
-                 * TODO: implement this
-                 */
                 break;
             case REG_EXP_OFF.test(keyword):
                 /**
@@ -276,15 +283,22 @@ window.onload = function () {
         currentDateTime = elem;
     }
 
+    /**
+     * Eingabe der Datum un der Uhrzeit, für unterschiedliche Input-Typen ist untr. Logik nötig, die Daten werden nacheinander
+     * gefüllt und in dem value-Attribut hinzugefügt
+     * @param elem - HTML - Element, <input type="date time week...">
+     * @param input - Benutzereingabe, undefined in der ersten Runde, dann eine Zahl
+     */
     function handleDateTime(elem, input) {
         console.error('current value: ' + input);
-        let value;
+        let value,
+            newValue,
+            type;
         if (input){
-            //DO not convert to int here, because don't can set '0' before number
+            //DO not convert to int here, because can't set '0' before number
             value = input.toString().trim().toLowerCase();
         }
-        let type = elem.elem.type;
-        let newValue;
+        type = elem.elem.type;
         elem.elem.focus();
 
         switch (type){
@@ -607,14 +621,7 @@ window.onload = function () {
     }
 
     function clearCurrentElements() {
-        day = undefined;
-        week = undefined;
-        month = undefined;
-        year = undefined;
-        second = undefined;
-        minute = undefined;
-        hour = undefined;
-        currentValue = '';
+        clearDateTimeValues();
         currentElements = [];
         currentKeyword = undefined;
     }
@@ -648,5 +655,16 @@ window.onload = function () {
             currentSelect = null;
         }
         console.log('------Current MODE------: ' + currentMode);
+    }
+
+    function clearDateTimeValues (){
+        day = undefined;
+        week = undefined;
+        month = undefined;
+        year = undefined;
+        second = undefined;
+        minute = undefined;
+        hour = undefined;
+        currentValue = '';
     }
 };

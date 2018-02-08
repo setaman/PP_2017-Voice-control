@@ -61,6 +61,14 @@ export function executeSetText(elem, text) {
 
 }
 
+export function executeClearText(elem) {
+    if (!elem){return;}
+    let el = $(elem.elem);
+    if (el.val() && el.val() !== ''){
+        el.val(null);
+    }
+}
+
 export function executeSelect(element, value) {
     console.log(element);
     $(element.elem).find(`option[value=${value}]`).prop('selected', true);

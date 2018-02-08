@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/dist/bundle.js" afterPath="$PROJECT_DIR$/dist/bundle.js" />
+      <change beforePath="$PROJECT_DIR$/dist/bundle.js.map" afterPath="$PROJECT_DIR$/dist/bundle.js.map" />
+      <change beforePath="$PROJECT_DIR$/public/js/actions.js" afterPath="$PROJECT_DIR$/public/js/actions.js" />
+      <change beforePath="$PROJECT_DIR$/public/js/const.js" afterPath="$PROJECT_DIR$/public/js/const.js" />
       <change beforePath="$PROJECT_DIR$/public/js/controller.js" afterPath="$PROJECT_DIR$/public/js/controller.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -40,8 +44,8 @@
       <file leaf-file-name="const.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/const.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2156">
-              <caret line="98" column="28" lean-forward="false" selection-start-line="98" selection-start-column="28" selection-end-line="98" selection-end-column="28" />
+            <state relative-caret-position="609">
+              <caret line="100" column="87" lean-forward="false" selection-start-line="100" selection-start-column="87" selection-end-line="100" selection-end-column="87" />
               <folding />
             </state>
           </provider>
@@ -50,11 +54,11 @@
       <file leaf-file-name="controller.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="300" column="59" lean-forward="false" selection-start-line="300" selection-start-column="59" selection-end-line="300" selection-end-column="59" />
+            <state relative-caret-position="1744">
+              <caret line="366" column="39" lean-forward="false" selection-start-line="366" selection-start-column="39" selection-end-line="366" selection-end-column="39" />
               <folding>
-                <element signature="e#6163#7599#0" expanded="false" />
-                <element signature="e#19802#21527#0" expanded="false" />
+                <element signature="e#6634#7952#0" expanded="false" />
+                <element signature="e#20516#22241#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -85,12 +89,9 @@
       <file leaf-file-name="actions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/actions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="6" column="25" lean-forward="false" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
-              <folding>
-                <marker date="1518118853411" expanded="false" signature="7:8" ph="..." />
-                <marker date="1518118853411" expanded="true" signature="1957:1961" ph="{...}" />
-              </folding>
+            <state relative-caret-position="484">
+              <caret line="63" column="7" lean-forward="false" selection-start-line="63" selection-start-column="7" selection-end-line="63" selection-end-column="7" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -128,7 +129,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.caret</find>
       <find>test1</find>
       <find>button</find>
       <find>col-sm</find>
@@ -155,9 +155,10 @@
       <find>DATE_TIME_SELE</find>
       <find>textarea</find>
       <find>avocad</find>
-      <find>clear</find>
       <find>submit</find>
       <find>setNum</find>
+      <find>clear</find>
+      <find>choiceActio</find>
     </findStrings>
     <dirStrings>
       <dir>G:\Projects\PP_2017-Voice-control</dir>
@@ -167,7 +168,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/WSC-5-vocs-object" />
+        <entry key="$PROJECT_DIR$" value="feature/WSC-4-all-new-features-branche" />
       </map>
     </option>
   </component>
@@ -220,10 +221,10 @@
         <option value="$PROJECT_DIR$/public/js/search_for_elements.js" />
         <option value="$PROJECT_DIR$/public/js/element.js" />
         <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
-        <option value="$PROJECT_DIR$/public/js/actions.js" />
-        <option value="$PROJECT_DIR$/public/js/const.js" />
         <option value="$PROJECT_DIR$/public/js/helper.js" />
         <option value="$PROJECT_DIR$/views/index.ejs" />
+        <option value="$PROJECT_DIR$/public/js/const.js" />
+        <option value="$PROJECT_DIR$/public/js/actions.js" />
         <option value="$PROJECT_DIR$/public/js/controller.js" />
       </list>
     </option>
@@ -326,19 +327,19 @@
     <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="G:\Projects\PP_2017-Voice-control\recognizers\configs" />
-      <recent name="G:\Projects\PP_2017-Voice-control\recognizers" />
-      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css\semantic" />
-      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css" />
-      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css\index" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\Projects\PP_2017-Voice-control\public\js" />
       <recent name="G:\Projects\PP_2017-Voice-control\recognizers" />
       <recent name="G:\Projects\PP_2017-Voice-control\routes" />
       <recent name="G:\Projects\PP_2017-Voice-control\recognizers\configs" />
       <recent name="G:\Projects\PP_2017-Voice-control" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\Projects\PP_2017-Voice-control\recognizers\configs" />
+      <recent name="G:\Projects\PP_2017-Voice-control\recognizers" />
+      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css\semantic" />
+      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css" />
+      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css\index" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -432,13 +433,6 @@
       <workItem from="1517567858853" duration="7297000" />
       <workItem from="1518001290066" duration="30133000" />
       <workItem from="1518093972353" duration="3153000" />
-    </task>
-    <task id="LOCAL-00034" summary="semantic ui framwork added for testing">
-      <created>1515172343516</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1515172343517</updated>
     </task>
     <task id="LOCAL-00035" summary="add floating button">
       <created>1515173210470</created>
@@ -776,11 +770,18 @@
       <option name="project" value="LOCAL" />
       <updated>1518041672913</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="little bag in handleDateTime() with string">
+      <created>1518119140554</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1518119140554</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="594059000" />
+    <option name="totallyTimeSpent" value="598595000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -886,7 +887,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="save option of select in array" />
     <MESSAGE value="custom select builder function" />
     <MESSAGE value="build custom select overlay wrapper" />
     <MESSAGE value="custom select with numbers for each option" />
@@ -911,11 +911,12 @@
     <MESSAGE value="test logic implemented for set date/time" />
     <MESSAGE value="set date/time logic with validation implemented" />
     <MESSAGE value="debugging und testing date/time" />
-    <option name="LAST_COMMIT_MESSAGE" value="debugging und testing date/time" />
+    <MESSAGE value="little bag in handleDateTime() with string" />
+    <option name="LAST_COMMIT_MESSAGE" value="little bag in handleDateTime() with string" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="19" />
+      <option name="time" value="20" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1122,37 +1123,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/fuzzy_search.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="18" column="26" lean-forward="false" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/actions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="6" column="25" lean-forward="false" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
-          <folding>
-            <marker date="1518118853411" expanded="false" signature="7:8" ph="..." />
-            <marker date="1518118853411" expanded="true" signature="1957:1961" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1210">
           <caret line="55" column="12" lean-forward="false" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/const.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2156">
-          <caret line="98" column="28" lean-forward="false" selection-start-line="98" selection-start-column="28" selection-end-line="98" selection-end-column="28" />
           <folding />
         </state>
       </provider>
@@ -1167,22 +1141,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="300" column="59" lean-forward="false" selection-start-line="300" selection-start-column="59" selection-end-line="300" selection-end-column="59" />
-          <folding>
-            <element signature="e#6163#7599#0" expanded="false" />
-            <element signature="e#19802#21527#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5940">
           <caret line="270" column="76" lean-forward="false" selection-start-line="270" selection-start-column="76" selection-end-line="270" selection-end-column="76" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/fuzzy_search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="18" column="26" lean-forward="false" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/const.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="100" column="87" lean-forward="false" selection-start-line="100" selection-start-column="87" selection-end-line="100" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/actions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="63" column="7" lean-forward="false" selection-start-line="63" selection-start-column="7" selection-end-line="63" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1744">
+          <caret line="366" column="39" lean-forward="false" selection-start-line="366" selection-start-column="39" selection-end-line="366" selection-end-column="39" />
+          <folding>
+            <element signature="e#6634#7952#0" expanded="false" />
+            <element signature="e#20516#22241#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
