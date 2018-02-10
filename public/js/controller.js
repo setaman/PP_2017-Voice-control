@@ -102,7 +102,7 @@ export function performUserAction(input) {
     currentSearchString = extractSearchString(userCommand);
     console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentSearchString !== '') ? currentSearchString : 'no search string'));
 
-    if (currentKeyword && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
+    if (currentKeyword && !currentSearchString && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
         changeInputMode(MODE_NO_MODE);
         return;
     }
@@ -143,7 +143,7 @@ export function performUserAction(input) {
             console.log(currentElements);
         }
     } else if (currentMode === MODE_TYPE && currentInputfield) {
-        if (REG_EXP_CLEAR.test(currentKeyword)) {
+        if (REG_EXP_CLEAR.test(currentKeyword) && !currentSearchString) {
             executeClearText(currentInputfield);
             return;
         }
@@ -169,8 +169,8 @@ export function performUserAction(input) {
             $('.vocs_overlay').remove();
             return;
         }
-    } else if (currentMode === MODE_DATE_TIME) {
-        if (REG_EXP_CLEAR.test(currentKeyword)) {
+    } else if (currentMode === MODE_DATE_TIME && userCommand) {
+        if (REG_EXP_CLEAR.test(currentKeyword) && !currentSearchString) {
             $('.vocs_overlay').remove();
             clearDateTimeValues();
             executeClearText(currentDateTime);
@@ -200,46 +200,48 @@ export function performUserAction(input) {
  ******************************************************************************************************************/
 
 function choiceAction(keyword, userCommand) {
-    if (!keyword) {
-        return;
-    }
-
-    switch (true) {
-        case REG_EXP_CLICK.test(keyword):
+    if (keyword && userCommand) {
+        if (REG_EXP_CLICK.test(keyword)){
             currentElements.push(...searchForElements(userCommand));
             if (currentElements.length === 1) {
                 handleElement(currentElements[0]);
             }
-            break;
-        case REG_EXP_SCROLL_DOWN.test(keyword):
-            if (currentSelect) {
-                scrollSelectContainerDown();
-            } else {
-                scrollDown();
-            }
-            break;
-        case REG_EXP_SCROLL_UP.test(keyword):
-            if (currentSelect) {
-                scrollSelectContainerUp();
-            } else {
-                scrollUp();
-            }
-            break;
-        case REG_EXP_SCROLL_TO_TOP.test(keyword):
-            scrollToTop();
-            break;
-        case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
-            scrollToBottom();
-            break;
-        case REG_EXP_SHOW.test(keyword):
-            currentElements.push(...getElements());
-            break;
-        case REG_EXP_OFF.test(keyword):
-            /**
-             * TODO: implement this
-             */
-            break;
-        default:
+        }
+    } else if (keyword && !userCommand){
+        switch (true) {
+            case REG_EXP_CLICK.test(keyword):
+
+                break;
+            case REG_EXP_SCROLL_DOWN.test(keyword):
+                if (currentSelect) {
+                    scrollSelectContainerDown();
+                } else {
+                    scrollDown();
+                }
+                break;
+            case REG_EXP_SCROLL_UP.test(keyword):
+                if (currentSelect) {
+                    scrollSelectContainerUp();
+                } else {
+                    scrollUp();
+                }
+                break;
+            case REG_EXP_SCROLL_TO_TOP.test(keyword):
+                scrollToTop();
+                break;
+            case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
+                scrollToBottom();
+                break;
+            case REG_EXP_SHOW.test(keyword):
+                currentElements.push(...getElements());
+                break;
+            case REG_EXP_OFF.test(keyword):
+                /**
+                 * TODO: implement this
+                 */
+                break;
+            default:
+        }
     }
 }
 
