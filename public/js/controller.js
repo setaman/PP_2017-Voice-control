@@ -151,7 +151,7 @@ export function performUserAction(input) {
 
     } else if (currentMode === MODE_SELECT && currentSelect) {
         if (REG_EXP_SCROLL_DOWN.test(currentKeyword) || REG_EXP_SCROLL_UP.test(currentKeyword)) {
-            choiceAction(currentKeyword, null);
+            choiceAction(currentKeyword, currentSearchString);
             return;
         }
         if (!REG_EXP_NUMBER.test(userCommand)) {

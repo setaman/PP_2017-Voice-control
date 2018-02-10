@@ -13,7 +13,7 @@ import {
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
-        if (isVisible(this) && isInteractive(this)) {
+        if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && isInteractive(this)) {
             elements.push(buildElement(this));
         }
     });
@@ -99,7 +99,7 @@ export function getLabel(element_id) {
 }
 
 /**
- * Die String werden vereinheitlicht: getrimmt, klein geschieben und alle unnötige Whitespaces entfernt werden. Gilt füe Alle
+ * Die String werden vereinheitlicht: getrimmt, klein geschieben und alle unnötige Whitespaces entfernt. Gilt füe Alle
  * Strings, die extrahiert werden
  * @param elem - HTML Element
  * @returns {*} Textinhlat des Elements oder @undefined
