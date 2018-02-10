@@ -5,7 +5,7 @@ import Vocs from '../vocs';
 
 window.onload = function () {
     let vocs = new Vocs({
-        recognizer: 'houndify',
+        recognizer: 'default',
     }).initRecognizer();
 };
 
