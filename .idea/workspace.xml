@@ -48,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="element.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="element.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/element.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="94" column="47" lean-forward="false" selection-start-line="94" selection-start-column="47" selection-end-line="94" selection-end-column="47" />
+            <state relative-caret-position="616">
+              <caret line="116" column="49" lean-forward="false" selection-start-line="116" selection-start-column="49" selection-end-line="116" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -108,11 +108,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="523">
-              <caret line="653" column="76" lean-forward="false" selection-start-line="653" selection-start-column="76" selection-end-line="653" selection-end-column="76" />
+            <state relative-caret-position="271">
+              <caret line="79" column="0" lean-forward="true" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -134,8 +134,8 @@
                 <element signature="n#style#0;n#button#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#button#1;n#form#0;n#div#0;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#1;n#div#6;n#form#0;n#div#4;n#form#0;n#div#1;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="e#77217#77224#1#HTML" expanded="true" />
-                <element signature="e#77918#77925#1#HTML" expanded="true" />
+                <element signature="e#76831#76838#1#HTML" expanded="true" />
+                <element signature="e#77532#77539#1#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -472,14 +472,7 @@
       <workItem from="1518001290066" duration="30133000" />
       <workItem from="1518093972353" duration="3153000" />
       <workItem from="1518124809610" duration="1092000" />
-      <workItem from="1518281854014" duration="8546000" />
-    </task>
-    <task id="LOCAL-00040" summary="fuse.js added">
-      <created>1515617805511</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1515617805511</updated>
+      <workItem from="1518281854014" duration="9749000" />
     </task>
     <task id="LOCAL-00041" summary="test functions for fuzzy search implemented">
       <created>1515625269092</created>
@@ -817,11 +810,18 @@
       <option name="project" value="LOCAL" />
       <updated>1518291164395</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="search for labels optimized">
+      <created>1518294240694</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1518294240694</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="608542000" />
+    <option name="totallyTimeSpent" value="609745000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -917,7 +917,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="implement selecting options for native select element" />
     <MESSAGE value="scrolling for nested custom select container, search for selects optimized" />
     <MESSAGE value="option selection simulate" />
     <MESSAGE value="merge with WSC2" />
@@ -942,7 +941,8 @@
     <MESSAGE value="keywords now can be used only isolated" />
     <MESSAGE value="debugging for isolation" />
     <MESSAGE value="merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="merge" />
+    <MESSAGE value="search for labels optimized" />
+    <option name="LAST_COMMIT_MESSAGE" value="search for labels optimized" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1118,6 +1118,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10274">
           <caret line="467" column="1" lean-forward="false" selection-start-line="467" selection-start-column="1" selection-end-line="467" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1207,10 +1208,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/element.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="616">
+          <caret line="116" column="49" lean-forward="false" selection-start-line="116" selection-start-column="49" selection-end-line="116" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
-          <caret line="653" column="76" lean-forward="false" selection-start-line="653" selection-start-column="76" selection-end-line="653" selection-end-column="76" />
+        <state relative-caret-position="271">
+          <caret line="79" column="0" lean-forward="true" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1232,17 +1241,9 @@
             <element signature="n#style#0;n#button#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#1;n#form#0;n#div#0;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#1;n#div#6;n#form#0;n#div#4;n#form#0;n#div#1;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#77217#77224#1#HTML" expanded="true" />
-            <element signature="e#77918#77925#1#HTML" expanded="true" />
+            <element signature="e#76831#76838#1#HTML" expanded="true" />
+            <element signature="e#77532#77539#1#HTML" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/element.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="94" column="47" lean-forward="false" selection-start-line="94" selection-start-column="47" selection-end-line="94" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>

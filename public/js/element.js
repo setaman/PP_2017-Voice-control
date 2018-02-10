@@ -114,7 +114,7 @@ export function getLabel(elem) {
         return selectedLabels[0];
     }
     selectedLabels = null;
-    selectedLabels = $(elem).parent('label');
+    selectedLabels = $(elem).parent('label').eq(0);
     if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
         return selectedLabels[0];
     }
