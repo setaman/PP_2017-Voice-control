@@ -626,3 +626,4 @@ function clearDateTimeValues() {
     hour = undefined;
     currentValue = '';
 }
+

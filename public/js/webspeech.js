@@ -12,7 +12,7 @@ export default function setupWebSpeechRecognitionAPI(){
         recognition.continuous = false;
         recognition.start();
 
-        recognition.onresult = function (event) {
+        recognition.onresult = event => {
 
             let recognitionResult = event.results[0][0].transcript;
 
