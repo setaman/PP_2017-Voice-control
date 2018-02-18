@@ -67,8 +67,13 @@ export function updateDateTimeMsgAndValue (msg, currentValue){
 }
 
 export function extractElementName(userCommand, keyword) {
-    if (keyword !== KEYWORDS_OBJECTS[0].keyword) {return undefined;}//'click' nicht verwendet
-    return userCommand.slice(keyword.length).trim(); //der String ab 'click' wird zurückgegeben
+    /*if (keyword !== KEYWORDS_OBJECTS[0].keyword) {return undefined;}//'click' nicht verwendet*/
+    let result = userCommand.split(/[ ,]+/);
+    if (result.length > 1) {
+        result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
+        return (result.length > 1) ? result[1] : undefined;
+    }
+    return undefined;
 }
 
 /*function splitUserCommand(userCommand, keyword) {
@@ -98,7 +103,7 @@ export function getRecognizedKeyword(userCommand) {
 
 function extractKeyword(userCommand) {
     let result = userCommand.split(/[ ,]+/); // String bei Leerzeichen splitten, erzeugt [click, select];
-    if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need'
+    if (result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need'
         || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead' || result[0] === 'plague') {
         return 'click';
     }

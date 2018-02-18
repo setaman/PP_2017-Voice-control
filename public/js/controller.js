@@ -4,7 +4,6 @@
 import {
     REG_EXP_CLICK,
     REG_EXP_OFF,
-    REG_EXP_SEARCH,
     REG_EXP_CLEAR,
     REG_EXP_DOWN,
     REG_EXP_TOP,
@@ -14,16 +13,11 @@ import {
     MODE_TYPE,
     MODE_SELECT,
     MODE_NO_MODE,
-    STATE_LISTENING,
-    STATE_ERROR,
-    STATE_YOU_SAY,
     STATE_NO_MATCH,
-    STATE_ACTIVE,
-    STATE_INACTIVE,
     STATE_MULTIPLE_MATCH,
     MODE_MULTIPLE,
-    TYPE_FOCUSABLE,
-    KEYWORDS_OBJECTS, REG_EXP_SHOW, SHOW, CLEAR, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE_TIME, MODE_DATE_TIME,
+    TYPE_FOCUSABLE, REG_EXP_SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE_TIME, MODE_DATE_TIME, REG_EXP_INFO,
+    REG_EXP_DELETE,
 } from './const';
 import {getElements, searchForElements} from './collector';
 import {
@@ -31,7 +25,7 @@ import {
     scrollDown,
     scrollToBottom,
     scrollToTop,
-    executeSetText, executeAction, executeSelect, executeFocus, executeSetDateTime, executeClearText
+    executeSetText, executeAction, executeSelect, executeFocus, executeSetDateTime, executeClearText, executeDeleteText
 } from './actions';
 import {
     buildDateTimeMassageContainer,
@@ -50,7 +44,8 @@ import speechRecognition from './visualizer';
 
 let currentElements = [],
     currentMultipleElements = [],
-    currentInputfield,
+    currentInputField,
+    currentInput,
     currentSelect,
     currentMode = MODE_NO_MODE,
     currentKeyword,
@@ -138,14 +133,21 @@ export function performUserAction(input) {
             }
             break;
         case MODE_TYPE:
-            if (!currentInputfield) {
+            if (!currentInputField) {
                 return;
             }
             if (REG_EXP_CLEAR.test(currentKeyword) && !currentElementName) {
-                executeClearText(currentInputfield);
+                executeClearText(currentInputField);
                 return;
             }
-            executeSetText(currentInputfield, userCommand);
+            if (REG_EXP_DELETE.test(currentKeyword) && !currentElementName) {
+                executeDeleteText(currentInputField);
+                return;
+            }
+            if(currentKeyword === currentElementName){
+                userCommand = currentKeyword;
+            }
+            executeSetText(currentInputField, userCommand);
             break;
         case MODE_SELECT:
             if (!currentSelect) {
@@ -222,9 +224,6 @@ function choiceAction(keyword, userCommand) {
         }
     } else if (keyword && !userCommand) {
         switch (true) {
-            case REG_EXP_CLICK.test(keyword):
-
-                break;
             case REG_EXP_DOWN.test(keyword):
                 if (currentSelect) {
                     scrollSelectContainerDown();
@@ -253,6 +252,10 @@ function choiceAction(keyword, userCommand) {
                  * TODO: implement this
                  */
                 break;
+            case REG_EXP_INFO.test(keyword):
+            /**
+             * TODO: implement this(not relevant)
+             */
             default:
         }
     }
@@ -273,7 +276,7 @@ function handleElement(elem) {
 }
 
 function setInputField(elem) {
-    currentInputfield = elem;
+    currentInputField = elem;
     changeInputMode(MODE_TYPE);
     executeFocus(elem);
 }
@@ -594,9 +597,10 @@ function changeInputMode(newInputMode) {
     currentMode = newInputMode;
     if (currentMode === MODE_NO_MODE) {
         $('.vocs_overlay').remove();
-        if (currentInputfield) {
-            currentInputfield.elem.blur();
-            currentInputfield = null;
+        if (currentInputField) {
+            currentInputField.elem.blur();
+            currentInputField = null;
+            currentInput = null;
         }
         if (currentDateTime) {
             currentDateTime.elem.blur();

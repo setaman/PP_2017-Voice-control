@@ -69,6 +69,15 @@ export function executeClearText(elem) {
     }
 }
 
+export function executeDeleteText(elem) {
+    let el = $(elem.elem);
+    let currentText = el.val();
+    if (currentText && currentText !== ''){
+        let temp = currentText.split(/[ ,]+/);
+        el.val(currentText.slice(0, - (temp[temp.length - 1].length + 1)));
+    }
+}
+
 export function executeSelect(element, value) {
     console.log(element);
     $(element.elem).find(`option[value=${value}]`).prop('selected', true);

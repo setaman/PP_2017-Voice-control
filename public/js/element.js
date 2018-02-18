@@ -13,7 +13,7 @@ import {
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
-        if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && isInteractive(this)) {
+        if ((isVisible(this) || isVisible(getLabel(this))) && isInteractive(this)) {
             elements.push(buildElement(this));
         }
     });
@@ -21,7 +21,7 @@ export function elementBuilder(selector) {
 }
 
 function buildElement(elem) {
-    let currentLabel = getLabel($(elem).attr('id'));
+    let currentLabel = getLabel(elem);
     return {
         elem: elem, //HTML - Element
         text: getText(elem), //TEXT - Content
