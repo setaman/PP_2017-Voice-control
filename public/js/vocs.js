@@ -1,19 +1,17 @@
-import startRecord from './recorder'
-import setupWebSpeechRecognitionAPI from './webspeech'
+import startRecord from './recorder';
+import setupWebSpeechRecognitionAPI from './webspeech';
 /**
  * Die Vocs Klasse stellt das API des Systems dar.
  */
 export default class Vocs {
-    constructor ({recognizer = 'default'}){
-        this.options = {
+    static initRecognizer({recognizer = 'default'}){
+        let options = {
             recognizer: recognizer
         };
-    }
-    initRecognizer(){
-        if (this.options.recognizer === 'default'){
+        if (options.recognizer === 'default'){
             setupWebSpeechRecognitionAPI();
         }else{
-            startRecord(this.options.recognizer);
+            startRecord(options.recognizer);
         }
     }
 }

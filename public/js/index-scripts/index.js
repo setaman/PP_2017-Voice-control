@@ -4,6 +4,6 @@
 import Vocs from '../vocs';
 
 window.onload = function () {
-    let vocs = new Vocs({}).initRecognizer();
+    Vocs.initRecognizer({});
 };
 
