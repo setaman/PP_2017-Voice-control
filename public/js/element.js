@@ -13,7 +13,7 @@ import {
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
-        if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && isInteractive(this)) {
+        if ((isVisible(this) || isVisible(getLabel(this))) && isInteractive(this)) {
             elements.push(buildElement(this));
         }
     });
@@ -21,7 +21,7 @@ export function elementBuilder(selector) {
 }
 
 function buildElement(elem) {
-    let currentLabel = getLabel($(elem).attr('id'));
+    let currentLabel = getLabel(elem);
     return {
         elem: elem, //HTML - Element
         text: getText(elem), //TEXT - Content
@@ -78,22 +78,46 @@ function getDimensions(elem, label) {
 /**
  * Sucht nach dem Label für ein Input - Element, Label muss im 'for' - Attribut über id mit dem zugehörigen Input
  * verknüpft werden, falls ein Input mehrere Labels hat, wird nur Label mit dem Textinhalt berücksichtigt
- * @param element_id - id des zu dem Label zugehörigen Input elements
+ * @param elem - HTML - Element
  * @returns {*} ein Label oder oder @undefined, falls mit dem Input kein Label verknüpft ist
  */
-export function getLabel(element_id) {
-    if(!element_id){return undefined}
-    let selectedLabels = $('[for=' + element_id + ']');
-    //Label gefunden
-    if (selectedLabels.length === 1) {
-        return selectedLabels[0];
-    } else if (selectedLabels.length > 1) {
-        //Element hat mehrere Labels
-        for (let i = 0; i < selectedLabels.length; i++) {
-            if (selectedLabels[i].textContent.trim().length > 0) {
-                return selectedLabels[i];
+export function getLabel(elem) {
+    let element_id = $(elem).attr('id');
+    let selectedLabels;
+    if (element_id) {
+        selectedLabels = $('[for=' + element_id + ']');
+    }
+
+    if (element_id && selectedLabels && selectedLabels.length > 0) {
+        //Label gefunden
+        if (selectedLabels.length === 1) {
+            return selectedLabels[0];
+        } else if (selectedLabels.length > 1) {
+            //Element hat mehrere Labels
+            for (let i = 0; i < selectedLabels.length; i++) {
+                if (selectedLabels[i].textContent.trim().length > 0) {
+                    return selectedLabels[i];
+                }
             }
         }
+    }
+/*
+    selectedLabels = null;
+*/
+    selectedLabels = $(elem).prev();
+    if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
+        return selectedLabels[0];
+    }
+    selectedLabels = null;
+    selectedLabels = $(elem).next();
+    if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
+        return selectedLabels[0];
+    }
+    //TODO: check , ob die regel korrekt ist
+    selectedLabels = null;
+    selectedLabels = $(elem).parent('label').eq(0);
+    if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
+        return selectedLabels[0];
     }
     return undefined;
 }
@@ -105,22 +129,28 @@ export function getLabel(element_id) {
  * @returns {*} Textinhlat des Elements oder @undefined
  */
 function getText(elem) {
-    if ($(elem).is('select')){return undefined;}
+    if ($(elem).is('select')) {
+        return undefined;
+    }
     return ($(elem).text()) ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getValueAttribute(elem) {
-    if ($(elem).is('select')){return undefined;}
+    if ($(elem).is('select')) {
+        return undefined;
+    }
     return (($(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null)) ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getPlaceholderAttribute(elem) {
-    if ($(elem).is('select')){return undefined;}
+    if ($(elem).is('select')) {
+        return undefined;
+    }
     return ($(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null) ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getOptions(elem) {
-    if ($(elem).is('select')){
+    if ($(elem).is('select')) {
         let option = [];
 
         $(elem).find('option').each(function () {
@@ -132,7 +162,7 @@ function getOptions(elem) {
 }
 
 function getSelectedOption(elem) {
-    if ($(elem).is('select')){
+    if ($(elem).is('select')) {
         let selected = $(elem).find(':selected').text();
         return (selected ? selected.trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined)
     }
@@ -140,7 +170,7 @@ function getSelectedOption(elem) {
 }
 
 function getOptionValue(elem) {
-    if ($(elem).is('select')){
+    if ($(elem).is('select')) {
         let values = [];
 
         $(elem).find('option').each(function () {
@@ -168,9 +198,11 @@ export function getTypeOfElement(element) {
         return typeF;
     } else if ($(element).is(selectable)) {
         return typeS;
-    } else if ($(element).is(dateime)){
+    } else if ($(element).is(dateime)) {
         return typeDT;
-    } else {return typeC;}
+    } else {
+        return typeC;
+    }
 }
 
 function isInteractive(elem) {

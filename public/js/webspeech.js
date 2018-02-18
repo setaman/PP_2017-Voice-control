@@ -12,7 +12,7 @@ export default function setupWebSpeechRecognitionAPI(){
         recognition.continuous = false;
         recognition.start();
 
-        recognition.onresult = function (event) {
+        recognition.onresult = event => {
 
             let recognitionResult = event.results[0][0].transcript;
 
@@ -34,6 +34,7 @@ export default function setupWebSpeechRecognitionAPI(){
         };
         recognition.addEventListener('end', recognition.start);
         recognition.onerror = function (e) {
+            if(e.error === 'no-speech'){return;}
             console.error('Error on recognition: ');
             console.error(e);
         };
