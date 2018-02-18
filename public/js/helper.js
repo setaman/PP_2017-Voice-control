@@ -1,9 +1,9 @@
 import {
     CLICK_SELECTORS, FOCUS_SELECTORS, CHECK_SELECTORS, SELECT_SELECTORS, SEARCH_SELECTORS, TYPE_FOCUSABLE,
-    TYPE_SELECTABLE, TYPE_CLICKABLE, ALL_SELECTOR
+    TYPE_SELECTABLE, TYPE_CLICKABLE, ALL_SELECTOR, KEYWORDS_OBJECTS
 } from "./const";
 import {isVisible} from './collector';
-import {fuzzySearchForElements} from "./fuzzy_search";
+import {fuzzySearchForElements, fuzzySearchForKeywords} from "./fuzzy_search";
 
 function generateId(i) {
     return 'vocs_multiple_select_wrapper_' + i;
@@ -18,10 +18,10 @@ export function buildMultipleWrapper(i, currentElement) {
     const wrapperTemplate = `<div class="vocs_multiple_select_wrapper_container" id="${id}"><div id="vocs_wrapper_${i}" data-number="${i + 1}" class="vocs_multiple_select_wrapper"></div></div>`;
     $('.vocs_overlay').append(wrapperTemplate);
     /**
-     * FIXME: does not work for fixed element, versuche mit position attr
+     * FIXME: does not work for fixed elements, versuche mit position attr
      */
     $('#vocs_wrapper_' + i).width((currentElement.dimensions.width <= 30) ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
-    $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
+    $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height);
     $('#' + id).offset({top: currentElement.position.posTop - 5, left: currentElement.position.posLeft - 5});
 }
 
@@ -66,28 +66,44 @@ export function updateDateTimeMsgAndValue (msg, currentValue){
     $('.vocs_date_time_current_value').text(currentValue);
 }
 
-export function splitUserCommand(userCommand, command) {
-    return userCommand.slice((userCommand.indexOf(command) + command.length)).trim();
+export function extractElementName(userCommand, keyword) {
+    if (keyword !== KEYWORDS_OBJECTS[0].keyword) {return undefined;}//'click' nicht verwendet
+    return userCommand.slice(keyword.length).trim(); //der String ab 'click' wird zurückgegeben
 }
 
-export function extractKeyword(userCommand) {
-    let result = userCommand.split(/[ ,]+/);
+/*function splitUserCommand(userCommand, keyword) {
+    return userCommand.slice((userCommand.indexOf(keyword) + keyword.length)).trim();
+}*/
+
+export function getRecognizedKeyword(userCommand) {
+    let keyword = extractKeyword(userCommand);
+    $.each(KEYWORDS_OBJECTS, (index, value) => {
+        if (value.regExp.test(keyword)) {
+            //Keyword von der SE Software richtig erkannt
+            return keyword;
+        }
+    });
+    //Sonst Keyword vermuten
+    try {
+        let result = fuzzySearchForKeywords(KEYWORDS_OBJECTS, keyword);
+        if (result && result.length > 0) {
+            return result[0];
+        }
+        return undefined;
+    } catch (e) {
+        console.log(e);
+        return undefined;
+    }
+}
+
+function extractKeyword(userCommand) {
+    let result = userCommand.split(/[ ,]+/); // String bei Leerzeichen splitten, erzeugt [click, select];
     if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need'
         || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead' || result[0] === 'plague') {
         return 'click';
     }
     return result[0];
 }
-
-export function extractSearchString(userCommand) {
-    let result = userCommand.split(/[ ,]+/);
-    if (result.length > 1) {
-        result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-        return (result.length > 1) ? result[1] : undefined;
-    }
-    return undefined;
-}
-
 
 export function getRecognizedElements(elements, userCommand) {
     /**

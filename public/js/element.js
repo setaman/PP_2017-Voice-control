@@ -13,7 +13,7 @@ import {
 export function elementBuilder(selector) {
     let elements = [];
     $(selector).each(function () {
-        if ((isVisible(this) || isVisible(getLabel(this))) && isInteractive(this)) {
+        if ((isVisible(this) || isVisible(getLabel($(this).attr('id')))) && isInteractive(this)) {
             elements.push(buildElement(this));
         }
     });
@@ -21,7 +21,7 @@ export function elementBuilder(selector) {
 }
 
 function buildElement(elem) {
-    let currentLabel = getLabel(elem);
+    let currentLabel = getLabel($(elem).attr('id'));
     return {
         elem: elem, //HTML - Element
         text: getText(elem), //TEXT - Content
@@ -113,6 +113,7 @@ export function getLabel(elem) {
     if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
         return selectedLabels[0];
     }
+    //TODO: check , ob die regel korrekt ist
     selectedLabels = null;
     selectedLabels = $(elem).parent('label').eq(0);
     if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
@@ -128,28 +129,22 @@ export function getLabel(elem) {
  * @returns {*} Textinhlat des Elements oder @undefined
  */
 function getText(elem) {
-    if ($(elem).is('select')) {
-        return undefined;
-    }
+    if ($(elem).is('select')){return undefined;}
     return ($(elem).text()) ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getValueAttribute(elem) {
-    if ($(elem).is('select')) {
-        return undefined;
-    }
+    if ($(elem).is('select')){return undefined;}
     return (($(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null)) ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getPlaceholderAttribute(elem) {
-    if ($(elem).is('select')) {
-        return undefined;
-    }
+    if ($(elem).is('select')){return undefined;}
     return ($(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null) ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getOptions(elem) {
-    if ($(elem).is('select')) {
+    if ($(elem).is('select')){
         let option = [];
 
         $(elem).find('option').each(function () {

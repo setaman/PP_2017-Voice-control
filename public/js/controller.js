@@ -6,11 +6,11 @@ import {
     REG_EXP_OFF,
     REG_EXP_SEARCH,
     REG_EXP_CLEAR,
-    REG_EXP_SCROLL_DOWN,
-    REG_EXP_SCROLL_TO_TOP,
-    REG_EXP_SCROLL_TO_BOTTOM,
+    REG_EXP_DOWN,
+    REG_EXP_TOP,
+    REG_EXP_BOTTOM,
     REG_EXP_STOP,
-    REG_EXP_SCROLL_UP,
+    REG_EXP_UP,
     MODE_TYPE,
     MODE_SELECT,
     MODE_NO_MODE,
@@ -35,10 +35,11 @@ import {
 } from './actions';
 import {
     buildDateTimeMassageContainer,
-    buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, extractSearchString,
+    buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, extractElementName,
     scrollSelectContainerDown,
     scrollSelectContainerUp, setDay, setHour, setMonth, setNumber, setSecondOrMinutes, setWeek, setYear,
-    updateDateTimeMsgAndValue
+    updateDateTimeMsgAndValue,
+    getRecognizedKeyword
 } from "./helper";
 import {fuzzySearchForKeywords} from "./fuzzy_search";
 
@@ -53,7 +54,7 @@ let currentElements = [],
     currentSelect,
     currentMode = MODE_NO_MODE,
     currentKeyword,
-    currentSearchString,
+    currentElementName,
     currentDateTime;
 
 let day,
@@ -90,105 +91,113 @@ $('#hide').click(function () {
  */
 export function performUserAction(input) {
 
-    $('#hide').click(function () {
-        alert($('.select_').attr('id'));
-    });
-
     let t0 = performance.now();
 
-    let userCommand = input.toString().toLowerCase().trim();
+    let userCommand = input.toString().toLowerCase().trim(); //normalisiere den String
 
-    currentKeyword = getRecognizedKeyword(extractKeyword(userCommand));
-    currentSearchString = extractSearchString(userCommand);
-    console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentSearchString !== '') ? currentSearchString : 'no search string'));
+    currentKeyword = getRecognizedKeyword(userCommand);
+    currentElementName = extractElementName(userCommand, currentKeyword);
 
-    if (currentKeyword && !currentSearchString && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
+    console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentElementName !== '') ? currentElementName : 'no search string'));
+
+    if (currentKeyword && !currentElementName && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
         changeInputMode(MODE_NO_MODE);
         return;
     }
 
-    if (currentMode === MODE_MULTIPLE) {
-        try {
-            if (!REG_EXP_NUMBER.test(userCommand)) {
-                userCommand = wordsToNumbers(userCommand, {fuzzy: true});
-            }
-            if (!checkNumberInterval(userCommand, currentMultipleElements.length)) {
+    switch (currentMode) {
+        case MODE_NO_MODE:
+            if (!currentKeyword) {
                 return;
             }
-            $('.vocs_overlay').remove();
-            let elem = currentMultipleElements[parseInt(userCommand) - 1];
-            handleElement(elem);
-            currentMultipleElements = [];
-            provideSystemStatus('You choose:', userCommand);
+            choiceAction(currentKeyword, currentElementName);
 
-        } catch (e) {
-            console.error('Error im MULTIPLE mode: ' + e);
-        }
-        return;
-    }
-
-    if (currentMode === MODE_NO_MODE && currentKeyword) {
-
-        choiceAction(currentKeyword, currentSearchString);
-
-        if (currentSearchString || currentKeyword === SHOW) {
-            if (currentElements.length === 0) {
-                provideSystemStatus(STATE_NO_MATCH, 'Please try again');
-                console.error('-------------No element found------------------');
-
-            } else if (currentElements.length > 1) {
+            if (currentElements.length > 1) {
                 multipleElementsSelected();
                 provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
             }
             console.log(currentElements);
-        }
-    } else if (currentMode === MODE_TYPE && currentInputfield) {
-        if (REG_EXP_CLEAR.test(currentKeyword) && !currentSearchString) {
-            executeClearText(currentInputfield);
-            return;
-        }
-        executeSetText(currentInputfield, userCommand);
+            break;
+        case MODE_MULTIPLE:
+            try {
+                if (!REG_EXP_NUMBER.test(userCommand)) {
+                    userCommand = wordsToNumbers(userCommand, {fuzzy: true});
+                }
+                if (!checkNumberInterval(userCommand, currentMultipleElements.length)) {
+                    return;
+                }
+                $('.vocs_overlay').remove();
+                let elem = currentMultipleElements[parseInt(userCommand) - 1];
+                handleElement(elem);
+                currentMultipleElements = [];
+                provideSystemStatus('You choose:', userCommand);
 
-    } else if (currentMode === MODE_SELECT && currentSelect) {
-        if (REG_EXP_SCROLL_DOWN.test(currentKeyword) || REG_EXP_SCROLL_UP.test(currentKeyword)) {
-            choiceAction(currentKeyword, currentSearchString);
-            return;
-        }
-        if (!REG_EXP_NUMBER.test(userCommand)) {
-            userCommand = wordsToNumbers(userCommand, {fuzzy: true});
-        }
-        if (!checkNumberInterval(userCommand, currentSelect.select.value.length)) {
-            return;
-        }
-        try {
-            executeSelect(currentSelect, currentSelect.select.value[parseInt(userCommand) - 1]);
-            changeInputMode(MODE_NO_MODE);
-            $('.vocs_overlay').remove();
-        } catch (e) {
-            console.log(e);
-            $('.vocs_overlay').remove();
-            return;
-        }
-    } else if (currentMode === MODE_DATE_TIME && userCommand) {
-        if (REG_EXP_CLEAR.test(currentKeyword) && !currentSearchString) {
-            $('.vocs_overlay').remove();
-            clearDateTimeValues();
-            executeClearText(currentDateTime);
-            handleDateTime(currentDateTime, undefined);
-            return;
-        }
-        if (!REG_EXP_NUMBER.test(userCommand)) {
-            userCommand = wordsToNumbers(userCommand, {fuzzy: true});
-        }
-        try {
-            if (!REG_EXP_NUMBER.test(userCommand)) {
+            } catch (e) {
+                $('.vocs_overlay').remove();
+                console.error('Error im MULTIPLE mode: ' + e);
+            }
+            break;
+        case MODE_TYPE:
+            if (!currentInputfield) {
                 return;
             }
-            handleDateTime(currentDateTime, userCommand);
-            return;
-        } catch (e) {
-            console.warn(e);
-        }
+            if (REG_EXP_CLEAR.test(currentKeyword) && !currentElementName) {
+                executeClearText(currentInputfield);
+                return;
+            }
+            executeSetText(currentInputfield, userCommand);
+            break;
+        case MODE_SELECT:
+            if (!currentSelect) {
+                return;
+            }
+            if (REG_EXP_DOWN.test(currentKeyword) || REG_EXP_UP.test(currentKeyword)) {
+                choiceAction(currentKeyword,
+                    currentElementName);
+                return;
+            }
+            if (!REG_EXP_NUMBER.test(userCommand)) {
+                userCommand = wordsToNumbers(userCommand, {fuzzy: true});
+            }
+            if (!checkNumberInterval(userCommand, currentSelect.select.value.length)) {
+                return;
+            }
+            try {
+                executeSelect(currentSelect, currentSelect.select.value[parseInt(userCommand) - 1]);
+                changeInputMode(MODE_NO_MODE);
+                $('.vocs_overlay').remove();
+            } catch (e) {
+                console.log(e);
+                $('.vocs_overlay').remove();
+            }
+            break;
+        case MODE_DATE_TIME:
+            if (!currentDateTime && !userCommand) {
+                return;
+            }
+            if (REG_EXP_CLEAR.test(currentKeyword) && !currentElementName) {
+                $('.vocs_overlay').remove();
+                clearDateTimeValues();
+                executeClearText(currentDateTime);
+                handleDateTime(currentDateTime, undefined);
+                return;
+            }
+            if (!REG_EXP_NUMBER.test(userCommand)) {
+                userCommand = wordsToNumbers(userCommand, {fuzzy: true});
+            }
+            try {
+                if (!REG_EXP_NUMBER.test(userCommand)) {
+                    return;
+                }
+                handleDateTime(currentDateTime, userCommand);
+                return;
+            } catch (e) {
+                console.warn(e);
+            }
+            break;
+        default:
+            clearCurrentElements();
+            break;
     }
     clearCurrentElements();
     let t1 = performance.now();
@@ -201,35 +210,39 @@ export function performUserAction(input) {
 
 function choiceAction(keyword, userCommand) {
     if (keyword && userCommand) {
-        if (REG_EXP_CLICK.test(keyword)){
+        if (REG_EXP_CLICK.test(keyword)) {
             currentElements.push(...searchForElements(userCommand));
             if (currentElements.length === 1) {
                 handleElement(currentElements[0]);
+            } else if (currentElements.length === 0) {
+                provideSystemStatus(STATE_NO_MATCH, 'Please try again');
+                console.error('-------------No element found------------------');
+
             }
         }
-    } else if (keyword && !userCommand){
+    } else if (keyword && !userCommand) {
         switch (true) {
             case REG_EXP_CLICK.test(keyword):
 
                 break;
-            case REG_EXP_SCROLL_DOWN.test(keyword):
+            case REG_EXP_DOWN.test(keyword):
                 if (currentSelect) {
                     scrollSelectContainerDown();
                 } else {
                     scrollDown();
                 }
                 break;
-            case REG_EXP_SCROLL_UP.test(keyword):
+            case REG_EXP_UP.test(keyword):
                 if (currentSelect) {
                     scrollSelectContainerUp();
                 } else {
                     scrollUp();
                 }
                 break;
-            case REG_EXP_SCROLL_TO_TOP.test(keyword):
+            case REG_EXP_TOP.test(keyword):
                 scrollToTop();
                 break;
-            case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
+            case REG_EXP_BOTTOM.test(keyword):
                 scrollToBottom();
                 break;
             case REG_EXP_SHOW.test(keyword):
@@ -274,9 +287,7 @@ function setCustomSelectContainer(elem) {
 
 function multipleElementsSelected() {
     $('body').prepend('<div class="vocs_overlay"></div>');
-
     for (let i = 0; i < currentElements.length; i++) {
-
         if (currentElements[i].label) {
             buildMultipleWrapper(i, currentElements[i]);
         } else {
@@ -298,7 +309,7 @@ function setDateTime(elem, msg, currentValue) {
  * Eingabe der Datum un der Uhrzeit, für unterschiedliche Input-Typen ist untr. Logik nötig, die Daten werden nacheinander
  * gefüllt und in dem value-Attribut hinzugefügt
  * @param elem - HTML - Element, <input type="date time week...">
- * @param input - Benutzereingabe, undefined in der ersten Runde, dann eine Zahl
+ * @param input - Benutzereingabe, undefined in der ersten Runde, dann muss eine Zahl sein
  */
 function handleDateTime(elem, input) {
     console.error('current value: ' + input);
@@ -579,26 +590,6 @@ function clearCurrentElements() {
     currentKeyword = undefined;
 }
 
-function getRecognizedKeyword(keyword) {
-    $.each(KEYWORDS_OBJECTS, (index, value) => {
-        if (value.regExp.test(keyword)) {
-            //Keyword von der SP Software richtig erkannt
-            return keyword;
-        }
-    });
-    //Sonst Keyword vermuten
-    try {
-        let result = fuzzySearchForKeywords(KEYWORDS_OBJECTS, keyword);
-        if (result && result.length > 0) {
-            return result[0];
-        }
-        return undefined;
-    } catch (e) {
-        console.log(e);
-        return undefined;
-    }
-}
-
 function changeInputMode(newInputMode) {
     currentMode = newInputMode;
     if (currentMode === MODE_NO_MODE) {
@@ -612,6 +603,7 @@ function changeInputMode(newInputMode) {
             currentDateTime = null;
         }
         currentSelect = null;
+        clearCurrentElements();
     }
     console.log('------Current MODE------: ' + currentMode);
 }
