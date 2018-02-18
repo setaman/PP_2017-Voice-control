@@ -6,11 +6,11 @@ import {
     REG_EXP_OFF,
     REG_EXP_SEARCH,
     REG_EXP_CLEAR,
-    REG_EXP_SCROLL_DOWN,
-    REG_EXP_SCROLL_TO_TOP,
-    REG_EXP_SCROLL_TO_BOTTOM,
+    REG_EXP_DOWN,
+    REG_EXP_TOP,
+    REG_EXP_BOTTOM,
     REG_EXP_STOP,
-    REG_EXP_SCROLL_UP,
+    REG_EXP_UP,
     MODE_TYPE,
     MODE_SELECT,
     MODE_NO_MODE,
@@ -35,7 +35,7 @@ import {
 } from './actions';
 import {
     buildDateTimeMassageContainer,
-    buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, extractSearchString,
+    buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, extractElementName,
     scrollSelectContainerDown,
     scrollSelectContainerUp, setDay, setHour, setMonth, setNumber, setSecondOrMinutes, setWeek, setYear,
     updateDateTimeMsgAndValue,
@@ -54,7 +54,7 @@ let currentElements = [],
     currentSelect,
     currentMode = MODE_NO_MODE,
     currentKeyword,
-    currentSearchString,
+    currentElementName,
     currentDateTime;
 
 let day,
@@ -93,13 +93,14 @@ export function performUserAction(input) {
 
     let t0 = performance.now();
 
-    let userCommand = input.toString().toLowerCase().trim();
+    let userCommand = input.toString().toLowerCase().trim(); //normalisiere den String
 
     currentKeyword = getRecognizedKeyword(userCommand);
-    currentSearchString = extractSearchString(userCommand);
-    console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentSearchString !== '') ? currentSearchString : 'no search string'));
+    currentElementName = extractElementName(userCommand, currentKeyword);
 
-    if (currentKeyword && !currentSearchString && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
+    console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentElementName !== '') ? currentElementName : 'no search string'));
+
+    if (currentKeyword && !currentElementName && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
         changeInputMode(MODE_NO_MODE);
         return;
     }
@@ -109,7 +110,7 @@ export function performUserAction(input) {
             if (!currentKeyword) {
                 return;
             }
-            choiceAction(currentKeyword, currentSearchString);
+            choiceAction(currentKeyword, currentElementName);
 
             if (currentElements.length > 1) {
                 multipleElementsSelected();
@@ -140,7 +141,7 @@ export function performUserAction(input) {
             if (!currentInputfield) {
                 return;
             }
-            if (REG_EXP_CLEAR.test(currentKeyword) && !currentSearchString) {
+            if (REG_EXP_CLEAR.test(currentKeyword) && !currentElementName) {
                 executeClearText(currentInputfield);
                 return;
             }
@@ -150,8 +151,9 @@ export function performUserAction(input) {
             if (!currentSelect) {
                 return;
             }
-            if (REG_EXP_SCROLL_DOWN.test(currentKeyword) || REG_EXP_SCROLL_UP.test(currentKeyword)) {
-                choiceAction(currentKeyword, currentSearchString);
+            if (REG_EXP_DOWN.test(currentKeyword) || REG_EXP_UP.test(currentKeyword)) {
+                choiceAction(currentKeyword,
+                    currentElementName);
                 return;
             }
             if (!REG_EXP_NUMBER.test(userCommand)) {
@@ -173,7 +175,7 @@ export function performUserAction(input) {
             if (!currentDateTime && !userCommand) {
                 return;
             }
-            if (REG_EXP_CLEAR.test(currentKeyword) && !currentSearchString) {
+            if (REG_EXP_CLEAR.test(currentKeyword) && !currentElementName) {
                 $('.vocs_overlay').remove();
                 clearDateTimeValues();
                 executeClearText(currentDateTime);
@@ -223,24 +225,24 @@ function choiceAction(keyword, userCommand) {
             case REG_EXP_CLICK.test(keyword):
 
                 break;
-            case REG_EXP_SCROLL_DOWN.test(keyword):
+            case REG_EXP_DOWN.test(keyword):
                 if (currentSelect) {
                     scrollSelectContainerDown();
                 } else {
                     scrollDown();
                 }
                 break;
-            case REG_EXP_SCROLL_UP.test(keyword):
+            case REG_EXP_UP.test(keyword):
                 if (currentSelect) {
                     scrollSelectContainerUp();
                 } else {
                     scrollUp();
                 }
                 break;
-            case REG_EXP_SCROLL_TO_TOP.test(keyword):
+            case REG_EXP_TOP.test(keyword):
                 scrollToTop();
                 break;
-            case REG_EXP_SCROLL_TO_BOTTOM.test(keyword):
+            case REG_EXP_BOTTOM.test(keyword):
                 scrollToBottom();
                 break;
             case REG_EXP_SHOW.test(keyword):

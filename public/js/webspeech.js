@@ -1,4 +1,4 @@
-import {performUserAction/*, provideSystemStatus*/} from './controller';
+import {performUserAction, provideSystemStatus/*, provideSystemStatus*/} from './controller';
 /**
  *  Setup Google Speech Recognition
  */
@@ -21,11 +21,11 @@ export default function setupWebSpeechRecognitionAPI(){
                 .map(result => result.transcript)
                 .join('');
 
-            //provideSystemStatus('Listen', transcript);
+            provideSystemStatus('Listen', transcript);
 
             if (recognitionResult) {
                 if (event.results[0].isFinal) {
-                    //provideSystemStatus('You Say', recognitionResult);
+                    provideSystemStatus('You Say', recognitionResult);
                     console.warn(recognitionResult);
                     performUserAction(recognitionResult);
                 }
@@ -33,7 +33,7 @@ export default function setupWebSpeechRecognitionAPI(){
 
         };
         recognition.addEventListener('end', recognition.start);
-        recognition.onerror = function (e) {
+        recognition.onerror = e => {
             if(e.error === 'no-speech'){return;}
             console.error('Error on recognition: ');
             console.error(e);

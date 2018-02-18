@@ -21,7 +21,7 @@ export function buildMultipleWrapper(i, currentElement) {
      * FIXME: does not work for fixed elements, versuche mit position attr
      */
     $('#vocs_wrapper_' + i).width((currentElement.dimensions.width <= 30) ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
-    $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height + 10);
+    $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height);
     $('#' + id).offset({top: currentElement.position.posTop - 5, left: currentElement.position.posLeft - 5});
 }
 
@@ -66,33 +66,20 @@ export function updateDateTimeMsgAndValue (msg, currentValue){
     $('.vocs_date_time_current_value').text(currentValue);
 }
 
-export function splitUserCommand(userCommand, command) {
-    return userCommand.slice((userCommand.indexOf(command) + command.length)).trim();
+export function extractElementName(userCommand, keyword) {
+    if (keyword !== KEYWORDS_OBJECTS[0].keyword) {return undefined;}//'click' nicht verwendet
+    return userCommand.slice(keyword.length).trim(); //der String ab 'click' wird zurückgegeben
 }
 
-function extractKeyword(userCommand) {
-    let result = userCommand.split(/[ ,]+/);
-    if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need'
-        || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead' || result[0] === 'plague') {
-        return 'click';
-    }
-    return result[0];
-}
+/*function splitUserCommand(userCommand, keyword) {
+    return userCommand.slice((userCommand.indexOf(keyword) + keyword.length)).trim();
+}*/
 
-export function extractSearchString(userCommand) {
-    let result = userCommand.split(/[ ,]+/);
-    if (result.length > 1) {
-        result = userCommand.match(/^(\S+)\s(.*)/).slice(1);
-        return (result.length > 1) ? result[1] : undefined;
-    }
-    return undefined;
-}
-
-export function getRecognizedKeyword(keyword) {
-    keyword = extractKeyword(keyword);
+export function getRecognizedKeyword(userCommand) {
+    let keyword = extractKeyword(userCommand);
     $.each(KEYWORDS_OBJECTS, (index, value) => {
         if (value.regExp.test(keyword)) {
-            //Keyword von der SP Software richtig erkannt
+            //Keyword von der SE Software richtig erkannt
             return keyword;
         }
     });
@@ -107,6 +94,15 @@ export function getRecognizedKeyword(keyword) {
         console.log(e);
         return undefined;
     }
+}
+
+function extractKeyword(userCommand) {
+    let result = userCommand.split(/[ ,]+/); // String bei Leerzeichen splitten, erzeugt [click, select];
+    if (result[0] === 'delete' || result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need'
+        || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead' || result[0] === 'plague') {
+        return 'click';
+    }
+    return result[0];
 }
 
 export function getRecognizedElements(elements, userCommand) {
