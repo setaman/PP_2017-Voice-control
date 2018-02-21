@@ -63,7 +63,7 @@ let day,
     currentValue = '';
 
 
-speechRecognition();
+//speechRecognition();
 
 let systemState = $('#vocs_text_status');
 let OnRecognition = $('#vocs_text_onrecognition');
@@ -144,7 +144,7 @@ export function performUserAction(input) {
                 executeDeleteText(currentInputField);
                 return;
             }
-            if(currentKeyword === currentElementName){
+            if((currentKeyword && currentElementName) && (currentKeyword === currentElementName)){
                 userCommand = currentKeyword;
             }
             executeSetText(currentInputField, userCommand);

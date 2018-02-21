@@ -7,6 +7,7 @@
     <title>
         Test display of HTML elements
     </title>
+    <link rel="stylesheet" href="/css/vocs_styles.css" type="text/css">
     <style>
         .limited { width: 15.5em; }
         .hyphens {
@@ -17,14 +18,14 @@
         }
     </style>
     <link rel="alternate stylesheet" type="text/css" title=
-            "A cool style sheet" href="../styles/cool.css">
+    "A cool style sheet" href="../styles/cool.css">
     <link rel="alternate stylesheet" type="text/css" title=
-            "Yucca's basic style sheet" href="../basic.css">
+    "Yucca's basic style sheet" href="../basic.css">
     <link rel="alternate stylesheet" type="text/css" title=
-            "Style sheet for fixing some IE oddities" href="test-ie.css">
+    "Style sheet for fixing some IE oddities" href="test-ie.css">
     <script src="../js/hyphenator.js"></script>
     <script>
-        Hyphenator.run();
+        //Hyphenator.run();
     </script>
 
 </head>
@@ -60,9 +61,9 @@
 <div>This is a <code>div</code> element. Authors may use such elements instead
     of paragraph markup for various reasons. (End of <code>div</code>.)</div>
 <blockquote><p>This is a block quotation containing a single
-    paragraph. Well, not quite, since this is not <em>really</em>
-    quoted text, but I hope you understand the point. After all, this
-    page does not use HTML markup very normally anyway.</p></blockquote>
+        paragraph. Well, not quite, since this is not <em>really</em>
+        quoted text, but I hope you understand the point. After all, this
+        page does not use HTML markup very normally anyway.</p></blockquote>
 <p>The following contains address information about the author, in an <code>address</code>
     element.</p>
 <address>
@@ -200,10 +201,10 @@
 <ul>
     <li> <a href="../index.html">main page</a>
     <li> <a href=
-                    "http://www.unicode.org/versions/Unicode4.0.0/ch06.pdf"
+            "http://www.unicode.org/versions/Unicode4.0.0/ch06.pdf"
             title="Writing Systems and Punctuation"
             type="application/pdf"
-    >Unicode Standard, chapter&nbsp;6</a>
+        >Unicode Standard, chapter&nbsp;6</a>
 </ul>
 
 <p>This is a text paragraph that contains some
@@ -224,9 +225,9 @@
         values (defaults) set, so that you can see how input text looks
         like without actually typing it):</div>
     <div><label for="but">Button:
-        <button id="but" type="submit" name="foo" value="bar">A cool<br>button</button></label></div>
+            <button id="but" type="submit" name="foo" value="bar">A cool<br>button</button></label></div>
     <div><label for="f0">Reset button:
-        <input id="f0" type="reset" name="reset" value="Reset"></label></div>
+            <input id="f0" type="reset" name="reset" value="Reset"></label></div>
     <div><label for="f1">Single-line text input field: <input id="f1" name="text" size="20" value="Default text."></label></div>
     <div><label for="f2">Multi-line text input field (textarea):</label><br>
         <textarea id="f2" name="textarea" rows="2" cols="20">
@@ -245,21 +246,21 @@ Default text.
         <div><label for="f6"><input id="f6" type="checkbox" name="checkbox2" checked> Checkbox 2 (initially checked)</label></div>
     </fieldset>
     <div><label for="f10">A <code>select</code> element with <code>size="1"</code>
-        (dropdown box):
-        <select id="f10" name="select1" size="1">
-            <option>one
-            <option selected>two (default)
-            <option>three
-        </select></label></div>
+            (dropdown box):
+            <select id="f10" name="select1" size="1">
+                <option>one
+                <option selected>two (default)
+                <option>three
+            </select></label></div>
     <div><label for="f11">A <code>select</code> element with <code>size="3"</code>
-        (listbox):</label><br>
+            (listbox):</label><br>
         <select id="f11" name="select2" size="3">
             <option>one
             <option selected>two (default)
             <option>three
         </select></div>
     <div><label for="f99">Submit button:
-        <input id="f99" type="submit" name="submit" value="Just a test"></label></div>
+            <input id="f99" type="submit" name="submit" value="Just a test"></label></div>
 </form>
 
 <h2>Tables</h2>
@@ -270,7 +271,7 @@ Default text.
     attributes:</p>
 
 <TABLE summary=
-               "Each row names a Nordic country and specifies its total area and land area, in square kilometers">
+       "Each row names a Nordic country and specifies its total area and land area, in square kilometers">
     <CAPTION>Sample table: Areas of the Nordic countries, in sq km</CAPTION>
     <TR><th scope="col">Country</th> <th scope="col">Total area</TH> <th scope="col">Land area</TH>
     <TR><th scope="row">Denmark</TH> <TD ALIGN=RIGHT> 43,070 </TD><TD ALIGN=RIGHT> 42,370</TR>
@@ -324,7 +325,7 @@ Default text.
 </address>
 <div>
     <A TITLE=
-               "ISO 8601, the date and time representation standard"
+       "ISO 8601, the date and time representation standard"
        HREF="../iso8601.html">
         Date</A> of creation: 2000-09-15.
     Last update: 2013-03-21.

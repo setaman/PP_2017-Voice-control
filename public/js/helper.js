@@ -17,11 +17,11 @@ export function buildMultipleWrapper(i, currentElement) {
     const id = generateId(i);
     const wrapperTemplate = `<div class="vocs_multiple_select_wrapper_container" id="${id}"><div id="vocs_wrapper_${i}" data-number="${i + 1}" class="vocs_multiple_select_wrapper"></div></div>`;
     $('.vocs_overlay').append(wrapperTemplate);
-    /**
-     * FIXME: does not work for fixed elements, versuche mit position attr
-     */
+
+    //FIXME: does not work properly for fixed elements on scroll
     $('#vocs_wrapper_' + i).width((currentElement.dimensions.width <= 30) ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
     $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height);
+    // FIXME: fix height position for wrapper
     $('#' + id).offset({top: currentElement.position.posTop - 5, left: currentElement.position.posLeft - 5});
 }
 
