@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/views/test.ejs" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/public/js/controller.js" afterPath="$PROJECT_DIR$/public/js/controller.js" />
-      <change beforePath="$PROJECT_DIR$/public/js/helper.js" afterPath="$PROJECT_DIR$/public/js/helper.js" />
-      <change beforePath="$PROJECT_DIR$/routes/test.js" afterPath="$PROJECT_DIR$/routes/test.js" />
+      <change beforePath="$PROJECT_DIR$/public/js/const.js" afterPath="$PROJECT_DIR$/public/js/const.js" />
       <change beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
-      <change beforePath="$PROJECT_DIR$/views/testsite.html" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,11 +18,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="237">
-              <caret line="614" column="74" lean-forward="true" selection-start-line="614" selection-start-column="74" selection-end-line="614" selection-end-column="74" />
+              <caret line="614" column="78" lean-forward="false" selection-start-line="614" selection-start-column="78" selection-end-line="614" selection-end-column="78" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="const.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/js/const.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="88">
+              <caret line="4" column="43" lean-forward="false" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -60,16 +66,6 @@
               <folding>
                 <element signature="n#!!block;n#handleDateTime#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="14" column="20" lean-forward="false" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -221,7 +217,6 @@
         <option value="$PROJECT_DIR$/public/js/vocs.js" />
         <option value="$PROJECT_DIR$/public/js/index-scripts/index.js" />
         <option value="$PROJECT_DIR$/public/js/element.js" />
-        <option value="$PROJECT_DIR$/public/js/const.js" />
         <option value="$PROJECT_DIR$/public/js/actions.js" />
         <option value="$PROJECT_DIR$/public/js/visualizer.js" />
         <option value="$PROJECT_DIR$/public/js/ui.js" />
@@ -238,6 +233,7 @@
         <option value="$PROJECT_DIR$/public/js/helper.js" />
         <option value="$PROJECT_DIR$/public/js/controller.js" />
         <option value="$PROJECT_DIR$/views/index.ejs" />
+        <option value="$PROJECT_DIR$/public/js/const.js" />
       </list>
     </option>
   </component>
@@ -463,14 +459,7 @@
       <workItem from="1518349636151" duration="6406000" />
       <workItem from="1518691329317" duration="2160000" />
       <workItem from="1518980515520" duration="7166000" />
-      <workItem from="1519229256905" duration="5362000" />
-    </task>
-    <task id="LOCAL-00046" summary="debugging element object builder (its works)">
-      <created>1515968436550</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1515968436550</updated>
+      <workItem from="1519229256905" duration="5458000" />
     </task>
     <task id="LOCAL-00047" summary="debugging element object builder (its perfect)">
       <created>1515970132728</created>
@@ -808,11 +797,18 @@
       <option name="project" value="LOCAL" />
       <updated>1519236315767</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="new test site added">
+      <created>1519239146773</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1519239146773</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="631834000" />
+    <option name="totallyTimeSpent" value="631930000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -888,7 +884,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="audio recording implemented" />
     <MESSAGE value="new architecture" />
     <MESSAGE value="send audio to server implemented" />
     <MESSAGE value="sending audio from nodejs to Bing ARS implemented" />
@@ -913,7 +908,8 @@
     <MESSAGE value="'delete' for simple inputs implemented, also now with 'stop stop' 'stop' can be typed" />
     <MESSAGE value="init system ui" />
     <MESSAGE value="fix overlay ccs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix overlay ccs" />
+    <MESSAGE value="new test site added" />
+    <option name="LAST_COMMIT_MESSAGE" value="new test site added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1039,14 +1035,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
           <caret line="18" column="26" lean-forward="false" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/const.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
-          <caret line="29" column="28" lean-forward="false" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
           <folding />
         </state>
       </provider>
@@ -1229,7 +1217,15 @@
     <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="237">
-          <caret line="614" column="74" lean-forward="true" selection-start-line="614" selection-start-column="74" selection-end-line="614" selection-end-column="74" />
+          <caret line="614" column="78" lean-forward="false" selection-start-line="614" selection-start-column="78" selection-end-line="614" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/const.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="43" lean-forward="false" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="43" />
           <folding />
         </state>
       </provider>

@@ -2,7 +2,7 @@
  * Selectors
  */
 const CLICK_SELECTORS = 'a, :button, :submit, :reset, .vocs_clickable';
-const FOCUS_SELECTORS = ' input[type="email"], input[type="text"], input[type="password"],' +
+const FOCUS_SELECTORS = 'input:not([type]), input[type="email"], input[type="text"], input[type="password"],' +
     'input[type="search"], input[type="tel"], input[type="url"], input[type="hidden"], textarea, input[type="search"]';
 const CHECK_SELECTORS = ':radio, :checkbox';
 const SELECT_SELECTORS = 'select';
