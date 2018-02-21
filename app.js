@@ -5,6 +5,7 @@ let index = require('./routes/index');
 let semanticui = require('./routes/semanticui');
 let foundation = require('./routes/foundation');
 let recognizer = require('./routes/recognizer');
+let test = require('./routes/test');
 let config = require('./routes/config');
 let helmet = require('helmet');
 let resourceMonitorMiddleware = require('express-watcher').resourceMonitorMiddleware;
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(path.join(__dirname + '/dist')));
 
 app.use('/', index);
+app.use('/test', test);
 app.use('/semanticui', semanticui);
 app.use('/foundation', foundation);
 app.use('/recognizer',recognizer);

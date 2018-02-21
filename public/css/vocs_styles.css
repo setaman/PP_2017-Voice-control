@@ -1,13 +1,15 @@
 /*   Full screen transparent overlay container for highlighting*/
 .vocs_overlay {
-    width: 100%; /* Full width (cover the whole page) */
+    /*position: fixed;
+    width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 0;*/
     background-color: transparent;
     cursor: pointer;
+    z-index: 2000;
 }
 /*****************************************
    highlighting for many selected Elements

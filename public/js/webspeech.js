@@ -1,4 +1,4 @@
-import {performUserAction, provideSystemStatus/*, provideSystemStatus*/} from './controller';
+import {performUserAction, provideSystemStatus} from './controller';
 /**
  *  Setup Google Speech Recognition
  */
