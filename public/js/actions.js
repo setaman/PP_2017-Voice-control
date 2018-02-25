@@ -1,8 +1,6 @@
 import {TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_CLICKABLE} from "./const";
 
-/**
- * FIXME: element durch allgemeines Element ersetzen
- */
+//FIXME: is this function required?
 export function executeAction(element) {
     let typeC = TYPE_CLICKABLE;
     let typeF = TYPE_FOCUSABLE;
@@ -15,7 +13,7 @@ export function executeAction(element) {
     } else if (element.type === typeF) {
         executeFocus(element);
     } else if (element.type === typeS) {
-        executeSelect(element);
+        executeSelection(element);
     } else {
         executeClick(element)
     }
@@ -78,10 +76,17 @@ export function executeDeleteText(elem) {
     }
 }
 
-export function executeSelect(element, value) {
-    console.log(element);
+export function executeSelection(element, value) {
+    //FIXME: does not work for values with characters like "()"
     $(element.elem).find(`option[value=${value}]`).prop('selected', true);
-    element.elem.focus();
+}
+
+export function executeClearSelection(elem) {
+    //TODO: implement this
+}
+
+export function executeDeleteSelection(elem) {
+    //TODO: implement this
 }
 
 export function executeSetDateTime(elem, value) {

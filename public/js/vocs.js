@@ -4,14 +4,14 @@ import setupWebSpeechRecognitionAPI from './webspeech';
  * Die Vocs Klasse stellt das API des Systems dar.
  */
 export default class Vocs {
-    static initRecognizer({recognizer = 'default'}){
+    static initRecognizer({api = 'default'}){
         let options = {
-            recognizer: recognizer
+            api: api
         };
-        if (options.recognizer === 'default'){
+        if (options.api === 'default'){
             setupWebSpeechRecognitionAPI();
         }else{
-            startRecord(options.recognizer);
+            startRecord(options.api);
         }
     }
 }

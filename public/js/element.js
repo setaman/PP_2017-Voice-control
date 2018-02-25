@@ -24,17 +24,17 @@ function buildElement(elem) {
     let currentLabel = getLabel(elem);
     return {
         elem: elem, //HTML - Element
-        text: getText(elem), //TEXT - Content
-        label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '), //LABEL bei Inputs
+        text: getText(elem), //Text - Inhalt
+        label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '), //LABEL - Text bei Inputs
         value: getValueAttribute(elem), //VALUE - Attribut
-        placeholder: getPlaceholderAttribute(elem), //PLACEHOLDER bei Inputfields
+        placeholder: getPlaceholderAttribute(elem), //PLACEHOLDER - Attribut bei Eingabefeldern
         position: getPosition(currentLabel ? currentLabel : elem), //POSITION eines Elements im Browserfenster
         dimensions: getDimensions(currentLabel ? currentLabel : elem), //Dimensionen eines Elements
         type: getTypeOfElement(elem), //TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE oder TYPE_DATE_TIME
-        select: {                       //benötigte Daten eines Selects
+        select: { //benötigte Daten eines Selects
             option: getOptions(elem), // Optionen
-            value: getOptionValue(elem), //Value der Optionen
-            selected: getSelectedOption(elem) // selektierte Option
+            value: getOptionsValues(elem), //Value der Optionen
+            selected: getSelectedOption(elem) // aktuell selektierte Option
         }
     };
 }
@@ -101,9 +101,9 @@ export function getLabel(elem) {
             }
         }
     }
-/*
-    selectedLabels = null;
-*/
+    /*
+        selectedLabels = null;
+    */
     selectedLabels = $(elem).prev();
     if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
         return selectedLabels[0];
@@ -113,7 +113,7 @@ export function getLabel(elem) {
     if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
         return selectedLabels[0];
     }
-    //TODO: check , ob die regel korrekt ist
+    //TODO: check, ob die Regel korrekt ist
     selectedLabels = null;
     selectedLabels = $(elem).parent('label').eq(0);
     if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
@@ -123,28 +123,34 @@ export function getLabel(elem) {
 }
 
 /**
- * Die String werden vereinheitlicht: getrimmt, klein geschieben und alle unnötige Whitespaces entfernt. Gilt füe Alle
+ * Die Strings werden vereinheitlicht: getrimmt, klein geschieben und alle unnötigen Whitespaces entfernt. Gilt füe Alle
  * Strings, die extrahiert werden
  * @param elem - HTML Element
  * @returns {*} Textinhlat des Elements oder @undefined
  */
 function getText(elem) {
-    if ($(elem).is('select')){return undefined;}
+    if ($(elem).is('select')) {
+        return undefined;
+    }
     return ($(elem).text()) ? $(elem).text().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getValueAttribute(elem) {
-    if ($(elem).is('select')){return undefined;}
+    if ($(elem).is('select')) {
+        return undefined;
+    }
     return (($(elem).val() !== undefined && $(elem).val() !== '' && $(elem).val() !== null)) ? $(elem).val().toString().trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getPlaceholderAttribute(elem) {
-    if ($(elem).is('select')){return undefined;}
+    if ($(elem).is('select')) {
+        return undefined;
+    }
     return ($(elem).attr('placeholder') !== undefined && $(elem).attr('placeholder') !== '' && $(elem).attr('placeholder') !== null) ? $(elem).attr('placeholder').trim().toLowerCase().replace(/\s{2,}/g, ' ') : undefined;
 }
 
 function getOptions(elem) {
-    if ($(elem).is('select')){
+    if ($(elem).is('select')) {
         let option = [];
 
         $(elem).find('option').each(function () {
@@ -163,7 +169,7 @@ function getSelectedOption(elem) {
     return undefined;
 }
 
-function getOptionValue(elem) {
+function getOptionsValues(elem) {
     if ($(elem).is('select')) {
         let values = [];
 

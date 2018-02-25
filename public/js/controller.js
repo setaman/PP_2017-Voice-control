@@ -25,7 +25,8 @@ import {
     scrollDown,
     scrollToBottom,
     scrollToTop,
-    executeSetText, executeAction, executeSelect, executeFocus, executeSetDateTime, executeClearText, executeDeleteText
+    executeSetText, executeAction, executeSelection, executeFocus, executeSetDateTime, executeClearText,
+    executeDeleteText, executeClearSelection, executeClick
 } from './actions';
 import {
     buildDateTimeMassageContainer,
@@ -144,7 +145,7 @@ export function performUserAction(input) {
                 executeDeleteText(currentInputField);
                 return;
             }
-            if((currentKeyword && currentElementName) && (currentKeyword === currentElementName)){
+            if ((currentKeyword && currentElementName) && (currentKeyword === currentElementName)) {
                 userCommand = currentKeyword;
             }
             executeSetText(currentInputField, userCommand);
@@ -154,8 +155,11 @@ export function performUserAction(input) {
                 return;
             }
             if (REG_EXP_DOWN.test(currentKeyword) || REG_EXP_UP.test(currentKeyword)) {
-                choiceAction(currentKeyword,
-                    currentElementName);
+                choiceAction(currentKeyword, currentElementName);
+                return;
+            }
+            if (REG_EXP_CLEAR.test(currentKeyword)) {
+                executeClearSelection(currentSelect);
                 return;
             }
             if (!REG_EXP_NUMBER.test(userCommand)) {
@@ -165,7 +169,7 @@ export function performUserAction(input) {
                 return;
             }
             try {
-                executeSelect(currentSelect, currentSelect.select.value[parseInt(userCommand) - 1]);
+                executeSelection(currentSelect, currentSelect.select.value[parseInt(userCommand) - 1]);
                 changeInputMode(MODE_NO_MODE);
                 $('.vocs_overlay').remove();
             } catch (e) {
@@ -210,10 +214,10 @@ export function performUserAction(input) {
  * Main function end
  ******************************************************************************************************************/
 
-function choiceAction(keyword, userCommand) {
-    if (keyword && userCommand) {
+function choiceAction(keyword, elementName) {
+    if (keyword && elementName) {
         if (REG_EXP_CLICK.test(keyword)) {
-            currentElements.push(...searchForElements(userCommand));
+            currentElements.push(...searchForElements(elementName));
             if (currentElements.length === 1) {
                 handleElement(currentElements[0]);
             } else if (currentElements.length === 0) {
@@ -222,7 +226,7 @@ function choiceAction(keyword, userCommand) {
 
             }
         }
-    } else if (keyword && !userCommand) {
+    } else if (keyword && !elementName) {
         switch (true) {
             case REG_EXP_DOWN.test(keyword):
                 if (currentSelect) {
@@ -270,7 +274,7 @@ function handleElement(elem) {
     } else if (elem.type === TYPE_DATE_TIME) {
         handleDateTime(elem);
     } else {
-        executeAction(elem);
+        executeClick(elem);
         changeInputMode(MODE_NO_MODE);
     }
 }
@@ -286,12 +290,13 @@ function setCustomSelectContainer(elem) {
     buildSelectOptionsWrapper(elem);
     currentSelect = elem;
     changeInputMode(MODE_SELECT);
+    elem.elem.focus(); //Select fokussieren
 }
 
 function multipleElementsSelected() {
     $('body').prepend('<div class="vocs_overlay"></div>');
     for (let i = 0; i < currentElements.length; i++) {
-        if (currentElements[i].label) {
+        if (currentElements[i].label) {//FIXME: why do i do this???
             buildMultipleWrapper(i, currentElements[i]);
         } else {
             buildMultipleWrapper(i, currentElements[i]);
@@ -600,13 +605,15 @@ function changeInputMode(newInputMode) {
         if (currentInputField) {
             currentInputField.elem.blur();
             currentInputField = null;
-            currentInput = null;
         }
         if (currentDateTime) {
             currentDateTime.elem.blur();
             currentDateTime = null;
         }
-        currentSelect = null;
+        if (currentSelect) {
+            currentSelect.elem.blur();
+            currentSelect = null;
+        }
         clearCurrentElements();
     }
     console.log('------Current MODE------: ' + currentMode);

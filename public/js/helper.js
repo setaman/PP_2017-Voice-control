@@ -18,28 +18,28 @@ export function buildMultipleWrapper(i, currentElement) {
     const wrapperTemplate = `<div class="vocs_multiple_select_wrapper_container" id="${id}"><div id="vocs_wrapper_${i}" data-number="${i + 1}" class="vocs_multiple_select_wrapper"></div></div>`;
     $('.vocs_overlay').append(wrapperTemplate);
 
-    //FIXME: does not work properly for fixed elements on scroll
+    //FIXME: on scroll does not work properly for fixed elements
     $('#vocs_wrapper_' + i).width((currentElement.dimensions.width <= 30) ? currentElement.dimensions.width + 10 : currentElement.dimensions.width);
     $('#vocs_wrapper_' + i).outerHeight(currentElement.dimensions.height);
     // FIXME: fix height position for wrapper
     $('#' + id).offset({top: currentElement.position.posTop - 5, left: currentElement.position.posLeft - 5});
 }
 
-export function buildSelectOptionsWrapper(currentElement) {
+export function buildSelectOptionsWrapper(elem) {
     const id = generateIdForSelectWrapper(1);
     const div = $('<div>', {class: 'vocs_select_options_container', id: id}).append(
-        currentElement.select.option.map( (option, i) =>
-                buildLiForSelectOption(i, option)
+        elem.select.option.map((option, i) =>
+            buildLiForSelectOption(i, option)
         ));
     $('.vocs_overlay').append(div);
     $('#' + id).offset({
-        top: currentElement.position.posTop + (currentElement.dimensions.height + 10),
-        left: currentElement.position.posLeft
+        top: elem.position.posTop + (elem.dimensions.height + 10),
+        left: elem.position.posLeft
     });
 }
 
 function buildLiForSelectOption(i, option) {
-    return`<li><span>${i + 1}</span>${option}</li>`;
+    return `<li><span>${i + 1}</span>${option}</li>`;
 }
 
 export function buildDateTimeMassageContainer(currentElement, msg, currentValue) {
@@ -61,12 +61,12 @@ export function buildDateTimeMassageContainer(currentElement, msg, currentValue)
     });
 }
 
-export function updateDateTimeMsgAndValue (msg, currentValue){
+export function updateDateTimeMsgAndValue(msg, currentValue) {
     $('.vocs_date_time_msg').text(msg);
     $('.vocs_date_time_current_value').text(currentValue);
 }
 
-export function extractElementName(userCommand, keyword) {
+export function extractElementName(userCommand) {
     /*if (keyword !== KEYWORDS_OBJECTS[0].keyword) {return undefined;}//'click' nicht verwendet*/
     let result = userCommand.split(/[ ,]+/);
     if (result.length > 1) {
@@ -110,13 +110,13 @@ function extractKeyword(userCommand) {
     return result[0];
 }
 
-export function getRecognizedElements(elements, userCommand) {
+export function getRecognizedElements(elements, name) {
     /**
      * TODO: optimize search for long strings with fuzzy
      */
-    /*let result = userCommand.match(/^(\S+)\s(.*)/).slice(1);*/
+    /*let result = name.match(/^(\S+)\s(.*)/).slice(1);*/
 
-    let fuzzy_result = fuzzySearchForElements(elements, userCommand);
+    let fuzzy_result = fuzzySearchForElements(elements, name);
     if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
         console.log('FUZZY found:');
         console.log(fuzzy_result);
@@ -128,12 +128,15 @@ export function getRecognizedElements(elements, userCommand) {
 export function scrollSelectContainerDown() {
     $('.vocs_select_options_container').animate({scrollTop: $('.vocs_select_options_container').scrollTop() + 250}, 'slow');
 }
+
 export function scrollSelectContainerUp() {
     $('.vocs_select_options_container').animate({scrollTop: $('.vocs_select_options_container').scrollTop() - 250}, 'slow');
 }
+
 export function scrollSelectContainerTop() {
     $('.vocs_select_options_container').animate({scrollTop: $('.vocs_select_options_container').scrollTop() + 250}, 'slow');
 }
+
 export function scrollSelectContainerBottom() {
     $('.vocs_select_options_container').animate({scrollTop: $('.vocs_select_options_container').scrollTop() + 250}, 'slow');
 }
@@ -143,52 +146,64 @@ export function checkNumberInterval(number, max) {
 }
 
 export function setDay(day) {
-    if (!checkNumberInterval(parseInt(day), 31)){return undefined;}
-    if(day.length === 1){
+    if (!checkNumberInterval(parseInt(day), 31)) {
+        return undefined;
+    }
+    if (day.length === 1) {
         day = '0' + day;
     }
     return day;
 }
 
 export function setWeek(week) {
-    if (!checkNumberInterval(parseInt(week), 53)){return undefined;}
-    if(week.length === 1){
+    if (!checkNumberInterval(parseInt(week), 53)) {
+        return undefined;
+    }
+    if (week.length === 1) {
         week = '0' + week;
     }
     return week;
 }
 
 export function setMonth(month) {
-    if (!checkNumberInterval(parseInt(month), 12)){return undefined;}
-    if(month.length === 1){
+    if (!checkNumberInterval(parseInt(month), 12)) {
+        return undefined;
+    }
+    if (month.length === 1) {
         month = '0' + month;
     }
     return month;
 }
 
 export function setYear(year) {
-    if (!checkNumberInterval(parseInt(year), 5000)){return undefined;}
-    if(year.length === 1){
+    if (!checkNumberInterval(parseInt(year), 5000)) {
+        return undefined;
+    }
+    if (year.length === 1) {
         year = '000' + year;
-    } else if (year.length === 2){
+    } else if (year.length === 2) {
         year = '00' + year;
-    } else if (year.length === 3){
+    } else if (year.length === 3) {
         year = '0' + year;
     }
     return year;
 }
 
 export function setSecondOrMinutes(value) {
-    if (!checkNumberInterval(parseInt(value), 59)){return undefined;}
-    if(value.length === 1){
+    if (!checkNumberInterval(parseInt(value), 59)) {
+        return undefined;
+    }
+    if (value.length === 1) {
         value = '0' + value;
     }
     return value;
 }
 
 export function setHour(hour) {
-    if (!checkNumberInterval(parseInt(hour), 23)){return undefined;}
-    if(hour.length === 1){
+    if (!checkNumberInterval(parseInt(hour), 23)) {
+        return undefined;
+    }
+    if (hour.length === 1) {
         hour = '0' + hour;
     }
     return hour;
@@ -198,17 +213,27 @@ export function setNumber(elem, number) {
     let el = elem.elem;
     let min, max;
 
-    if (el.min){min = parseInt(el.min);}
-    if (el.max){max = parseInt(el.max);}
+    if (el.min) {
+        min = parseInt(el.min);
+    }
+    if (el.max) {
+        max = parseInt(el.max);
+    }
 
-    if (min && !max){
-        if (number < min){return undefined;}
+    if (min && !max) {
+        if (number < min) {
+            return undefined;
+        }
     }
-    if (min && max){
-        if (number < min || number > max ){return undefined;}
+    if (min && max) {
+        if (number < min || number > max) {
+            return undefined;
+        }
     }
-    if (!min && max){
-        if (number > max ){return undefined;}
+    if (!min && max) {
+        if (number > max) {
+            return undefined;
+        }
     }
 
     return number;
