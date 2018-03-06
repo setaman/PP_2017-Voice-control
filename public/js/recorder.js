@@ -1,11 +1,12 @@
 let analyser;
 let recorder;
 let isRecording = false;
-import Recorder from './_recorder_';
-import performUserAction from './controller';
+import Recorder from './_recorder';
+//import performUserAction from './controller';
 
 export default function startRecord() {
 
+    //set up Web Speech API
     try {
         navigator.getUserMedia = (navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
@@ -15,23 +16,28 @@ export default function startRecord() {
         if (!navigator.getUserMedia) {
             console.log('getUserMedia is not implemented in this browser');
         } else {
+            //Nur Audio wird aufgenommen
             navigator.getUserMedia({audio: true},
                 function (stream) {
-
+                    //AudioContext wird initialisiert
                     let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    //Processing Nodes
                     let gainNode = audioContext.createGain();
                     analyser = audioContext.createAnalyser();
                     let source;
 
                     console.log('Start Audio Record');
+                    //Audioquelle - Mikrofon
                     source = audioContext.createMediaStreamSource(stream);
+                    //Nodes verbinden
                     source.connect(analyser);
                     analyser.connect(gainNode);
                     gainNode.connect(audioContext.destination);
+                    // Lautstärke auf 0 setzen, damit die Aufnahme nicht ausgegeben wird
                     gainNode.gain.value = 0;
-
+                    //Recorder Library
                     recorder = new Recorder(source);
-
+                    //Detect Sound
                     watchForSound();
 
                 }, function (err) {
@@ -44,6 +50,10 @@ export default function startRecord() {
     }
 }
 
+/**
+ * Audio an Server Senden
+ * @param audio - Binärdatei
+ */
 function sendAudioToServer(audio) {
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -56,12 +66,15 @@ function sendAudioToServer(audio) {
             }
         }
     };
-    xhr.open("POST", "http://localhost:3000/recognizer", true);
+    xhr.open("POST", "http://localhost:3000/audio", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send(audio);
 }
 
+/**
+ * Aufnahme wird anhand der Frequenz detected (alpha-Version)
+ * */
 function watchForSound() {
     let detectSound = function () {
         requestAnimationFrame(detectSound);
@@ -74,6 +87,7 @@ function watchForSound() {
             if (!isRecording) {
                 isRecording = !isRecording;
                 console.log('...Starting recorder');
+                //Audio wird aufgenommen
                 recorder.record();
                 setTimeOut();
             }
@@ -91,7 +105,9 @@ function setTimeOut() {
         }
     }, 2000);
 }
-
+/**
+ * Recorder stopen und WAVE-Datei speichern
+ */
 function stopRecorder() {
     recorder.stop();
     recorder.exportWAV(function (audio) {
@@ -101,13 +117,8 @@ function stopRecorder() {
         audioDownload.download = 'wave';
         audioDownload.innerHTML = 'download';
         console.log(audio);
+        //Datei an Server senden
         sendAudioToServer(audio);
         recorder.clear();
     });
 }
-
-
-
-
-
-

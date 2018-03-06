@@ -37,27 +37,6 @@ const REG_EXP_CLEAR = /^(clear)$/;
 const REG_EXP_DELETE = /^(delete)$/;
 const REG_EXP_INFO = /^(info)$/;
 const REG_EXP_NUMBER = /^[0-9]+$/;
-
-/*let KEYWORDS_ENG = [
-    {CLICK, REG_EXP_CLICK},
-    {OFF, REG_EXP_OFF},
-    {UP ,
-    DOWN,
-    BOTTOM,
-    TOP,
-    STOP,
-    SHOW,
-    DELETE,
-    CLEAR,
-    INFO
-];*/
-
-/*let KEYWORDS_OBJECTS = [];
-for (let i of KEYWORDS_ENG){
-    k.push({keyword: i});
-}
-console.error(k);*/
-
 /**
  * Keywords object needed for fuzzy search
  */

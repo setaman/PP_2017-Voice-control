@@ -101,20 +101,20 @@ export function getLabel(elem) {
             }
         }
     }
-    /*
-        selectedLabels = null;
-    */
+    //Label unmittelbar vor dem Element
     selectedLabels = $(elem).prev();
     if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
         return selectedLabels[0];
     }
     selectedLabels = null;
+    //Label unmittelbar nach dem Element
     selectedLabels = $(elem).next();
     if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
         return selectedLabels[0];
     }
     //TODO: check, ob die Regel korrekt ist
     selectedLabels = null;
+    //Element vom Label umschlossen
     selectedLabels = $(elem).parent('label').eq(0);
     if ($(selectedLabels).is('label') && selectedLabels.text().trim().length > 0) {
         return selectedLabels[0];
@@ -123,7 +123,7 @@ export function getLabel(elem) {
 }
 
 /**
- * Die Strings werden vereinheitlicht: getrimmt, klein geschieben und alle unnötigen Whitespaces entfernt. Gilt füe Alle
+ * Die Strings werden vereinheitlicht: getrimmt, klein geschrieben und alle unnötigen Whitespaces entfernt. Gilt für alle
  * Strings, die extrahiert werden
  * @param elem - HTML Element
  * @returns {*} Textinhlat des Elements oder @undefined
@@ -183,7 +183,7 @@ function getOptionsValues(elem) {
 
 export function getTypeOfElement(element) {
     let clickable = CLICK_SELECTORS + ',' + CHECK_SELECTORS;
-    let focusable = FOCUS_SELECTORS /*+ ',' + SEARCH_SELECTORS*/;
+    let focusable = FOCUS_SELECTORS;
     let selectable = SELECT_SELECTORS;
     let dateime = DATE_TIME_SELECTORS;
 

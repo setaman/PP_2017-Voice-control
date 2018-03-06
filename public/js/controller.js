@@ -41,12 +41,11 @@ import {fuzzySearchForKeywords} from "./fuzzy_search";
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 //import '../css/vocs_styles.css'
-import speechRecognition from './visualizer';
+import visualize from './visualizer';
 
 let currentElements = [],
     currentMultipleElements = [],
     currentInputField,
-    currentInput,
     currentSelect,
     currentMode = MODE_NO_MODE,
     currentKeyword,
@@ -64,17 +63,14 @@ let day,
     currentValue = '';
 
 
-//speechRecognition();
+visualize(); //Visualization
 
-let systemState = $('#vocs_text_status');
-let OnRecognition = $('#vocs_text_onrecognition');
+let systemState = $('#vocs_text_status'); //UI Ausgabe
+let OnRecognition = $('#vocs_text_onrecognition');//UI Ausgabe
 
+//Testing Input
 $('#search').click(function () {
     performUserAction($('#search-input').val());
-});
-
-$('#hide').click(function () {
-    $('.select_').click();
 });
 
 /*$('html, body').click(function () {
@@ -82,7 +78,7 @@ $('#hide').click(function () {
 });*/
 
 /*******************************************************************************************************************
- * Main function
+ * Main function, hier wird die wichtigste Funktionalität abgewickelt
  * @param input - recognized User command
  */
 export function performUserAction(input) {
@@ -91,41 +87,45 @@ export function performUserAction(input) {
 
     let userCommand = input.toString().toLowerCase().trim(); //normalisiere den String
 
-    currentKeyword = getRecognizedKeyword(userCommand);
-    currentElementName = extractElementName(userCommand, currentKeyword);
+    currentKeyword = getRecognizedKeyword(userCommand);//extrahiere das Keyword
+    currentElementName = extractElementName(userCommand, currentKeyword);//extrahiere den Elementnamen
 
+    //Kontrollausgabe
     console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentElementName !== '') ? currentElementName : 'no search string'));
 
+    //Prüfe, ob STOP eingegeben wurde
     if (currentKeyword && !currentElementName && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
         changeInputMode(MODE_NO_MODE);
         return;
     }
-
+    //Ablauf nach dem aktuellen Modus, eins der Modi wird ausgeführt, nachdem Ein element mit dem entsprechenden Typ identifiziert wurde
     switch (currentMode) {
-        case MODE_NO_MODE:
+        case MODE_NO_MODE: //Initialmodus
             if (!currentKeyword) {
-                return;
+                return; //kein Keyword eingegeben
             }
-            choiceAction(currentKeyword, currentElementName);
-
+            chooseAction(currentKeyword, currentElementName);//Führe ein Event aus
+            //Ein Element muss gesteuert werden, dabei wurden aber mehrere identifiziert
             if (currentElements.length > 1) {
-                multipleElementsSelected();
+                multipleElementsSelected(); //markiere Elemente
                 provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
             }
             console.log(currentElements);
             break;
-        case MODE_MULTIPLE:
+        case MODE_MULTIPLE: //Mehrere Elemente identifiziert, eine Zahl wird erwartert als Eingabe
             try {
-                if (!REG_EXP_NUMBER.test(userCommand)) {
-                    userCommand = wordsToNumbers(userCommand, {fuzzy: true});
+                if (!REG_EXP_NUMBER.test(userCommand)) { //Prüfe, ob die Zahl in numerischer Form ist
+                    userCommand = wordsToNumbers(userCommand, {fuzzy: true}); //sonst konvertiere - five --> 5
                 }
-                if (!checkNumberInterval(userCommand, currentMultipleElements.length)) {
-                    return;
+                if (!checkNumberInterval(userCommand, currentMultipleElements.length)) {//Prüfe, ob die Zahl im vorgegebenen Interval liegt
+                    provideSystemStatus('Wrong Number', `enter a Number between 1 and ${currentMultipleElements.length}`);
+                    return; //Falls nicht, mach nichts
                 }
-                $('.vocs_overlay').remove();
-                let elem = currentMultipleElements[parseInt(userCommand) - 1];
-                handleElement(elem);
-                currentMultipleElements = [];
+                //Sonst entferne Markierung
+                $('.vocs_overlay').remove();//Entferne den Container
+                let elem = currentMultipleElements[parseInt(userCommand) - 1];//Gib das entsprechende Element, Position im Array: Eingabe - 1
+                handleElement(elem);//entscheide, was mit dem Element gemacht wird
+                currentMultipleElements = [];//lösche die gesamelten Elemente
                 provideSystemStatus('You choose:', userCommand);
 
             } catch (e) {
@@ -133,76 +133,75 @@ export function performUserAction(input) {
                 console.error('Error im MULTIPLE mode: ' + e);
             }
             break;
-        case MODE_TYPE:
+        case MODE_TYPE: //Texteingabe Modus
             if (!currentInputField) {
-                return;
+                return; //kein Eingabefeld initialisiert, mach nichts
             }
             if (REG_EXP_CLEAR.test(currentKeyword) && !currentElementName) {
-                executeClearText(currentInputField);
+                executeClearText(currentInputField); // CLEAR eingegeben, lösche den gesamten Text
                 return;
             }
             if (REG_EXP_DELETE.test(currentKeyword) && !currentElementName) {
-                executeDeleteText(currentInputField);
+                executeDeleteText(currentInputField); // DELETE eingegeben, lösche das letzte Wort
                 return;
             }
-            if ((currentKeyword && currentElementName) && (currentKeyword === currentElementName)) {
-                userCommand = currentKeyword;
+            if ((currentKeyword && currentElementName) && (currentKeyword === currentElementName) && (REG_EXP_DELETE.test(currentKeyword)
+                    || REG_EXP_STOP.test(currentKeyword) || REG_EXP_CLEAR.test(currentKeyword))) {
+                userCommand = currentKeyword; //STOP, CLEAR, oder DELETE muss dem Eingabefeld als Eingabe hinzugefügt werden
             }
-            executeSetText(currentInputField, userCommand);
+            executeSetText(currentInputField, userCommand); //Texteingabe ausführen
             break;
-        case MODE_SELECT:
+        case MODE_SELECT: //Optionauswahl Modus
             if (!currentSelect) {
-                return;
+                return;//kein Auswahlmenü initialisiert, mach nichts
             }
             if (REG_EXP_DOWN.test(currentKeyword) || REG_EXP_UP.test(currentKeyword)) {
-                choiceAction(currentKeyword, currentElementName);
+                chooseAction(currentKeyword, currentElementName); // Auswahlfesnter hoch/runterscrollen
                 return;
             }
             if (REG_EXP_CLEAR.test(currentKeyword)) {
-                executeClearSelection(currentSelect);
+                executeClearSelection(currentSelect); //Auswahl aufheben
                 return;
             }
-            if (!REG_EXP_NUMBER.test(userCommand)) {
+            if (!REG_EXP_NUMBER.test(userCommand)) { //Prüfe, ob die Zahl in numerischer Form ist
                 userCommand = wordsToNumbers(userCommand, {fuzzy: true});
             }
             if (!checkNumberInterval(userCommand, currentSelect.select.value.length)) {
                 return;
             }
             try {
-                executeSelection(currentSelect, currentSelect.select.value[parseInt(userCommand) - 1]);
-                changeInputMode(MODE_NO_MODE);
-                $('.vocs_overlay').remove();
+                executeSelection(currentSelect, currentSelect.select.value[parseInt(userCommand) - 1]); //Option auswählen
+                changeInputMode(MODE_NO_MODE); //Modus --> MODE_NO_MODE
+                $('.vocs_overlay').remove(); //Container entfernen
             } catch (e) {
                 console.log(e);
                 $('.vocs_overlay').remove();
             }
             break;
-        case MODE_DATE_TIME:
+        case MODE_DATE_TIME: //Datums-Zeiteingabe Modus
             if (!currentDateTime && !userCommand) {
-                return;
+                return; // Eingabefeld nicht initialisiert
             }
+            //Komplette Eingabe Entfernen
             if (REG_EXP_CLEAR.test(currentKeyword) && !currentElementName) {
-                $('.vocs_overlay').remove();
-                clearDateTimeValues();
-                executeClearText(currentDateTime);
-                handleDateTime(currentDateTime, undefined);
+                $('.vocs_overlay').remove(); //Container entfernen
+                clearDateTimeValues(); // eingegebene Daten löschen
+                executeClearText(currentDateTime); // Eingabe im Eingabefeld entfernen
+                handleDateTime(currentDateTime, undefined); // Die Eigabe neu beginnen
                 return;
             }
-            if (!REG_EXP_NUMBER.test(userCommand)) {
+            if (!REG_EXP_NUMBER.test(userCommand)) {//Prüfe, ob die Zahl in numerischer Form ist
                 userCommand = wordsToNumbers(userCommand, {fuzzy: true});
             }
             try {
-                if (!REG_EXP_NUMBER.test(userCommand)) {
-                    return;
-                }
-                handleDateTime(currentDateTime, userCommand);
+                handleDateTime(currentDateTime, userCommand); //Eingabe fortzetzen
                 return;
             } catch (e) {
                 console.warn(e);
             }
             break;
         default:
-            clearCurrentElements();
+            clearCurrentElements(); // entferne Daten des aktuellen Ablaufs
             break;
     }
     clearCurrentElements();
@@ -214,42 +213,47 @@ export function performUserAction(input) {
  * Main function end
  ******************************************************************************************************************/
 
-function choiceAction(keyword, elementName) {
+/**
+ * Hier werden Elemente gesamelt oder ein bestimmtes Event wird ausgeführt
+ * @param keyword - das erkannte Keyword
+ * @param elementName - der erkannte Elementname
+ */
+function chooseAction(keyword, elementName) {
     if (keyword && elementName) {
         if (REG_EXP_CLICK.test(keyword)) {
-            currentElements.push(...searchForElements(elementName));
+            currentElements.push(...searchForElements(elementName)); //sammle Elemente
             if (currentElements.length === 1) {
-                handleElement(currentElements[0]);
+                handleElement(currentElements[0]); //entscheide, was mit dem Element gemacht wird
             } else if (currentElements.length === 0) {
                 provideSystemStatus(STATE_NO_MATCH, 'Please try again');
                 console.error('-------------No element found------------------');
 
             }
         }
-    } else if (keyword && !elementName) {
+    } else if (keyword && !elementName) { // Keyword isoliert als einzelnes Wort eingegeben
         switch (true) {
             case REG_EXP_DOWN.test(keyword):
                 if (currentSelect) {
-                    scrollSelectContainerDown();
+                    scrollSelectContainerDown(); //Auswahlmenü-Fenster runterscrollen
                 } else {
-                    scrollDown();
+                    scrollDown();//Browserfenster runterscrollen
                 }
                 break;
             case REG_EXP_UP.test(keyword):
                 if (currentSelect) {
-                    scrollSelectContainerUp();
+                    scrollSelectContainerUp();//Auswahlmenü-Fenster hochscrollen
                 } else {
-                    scrollUp();
+                    scrollUp();//Browserfenster hochscrollen
                 }
                 break;
             case REG_EXP_TOP.test(keyword):
-                scrollToTop();
+                scrollToTop(); //Browserfenster zum Anfang scrollen
                 break;
             case REG_EXP_BOTTOM.test(keyword):
-                scrollToBottom();
+                scrollToBottom(); //Browserfenster zum Ende scrollen
                 break;
             case REG_EXP_SHOW.test(keyword):
-                currentElements.push(...getElements());
+                currentElements.push(...getElements()); //Sammle alle steuerbaren Elemente
                 break;
             case REG_EXP_OFF.test(keyword):
                 /**
@@ -257,44 +261,59 @@ function choiceAction(keyword, elementName) {
                  */
                 break;
             case REG_EXP_INFO.test(keyword):
-            /**
-             * TODO: implement this(not relevant)
-             */
+                /**
+                 * TODO: implement this(not relevant)
+                 */
             default:
         }
     }
 }
 
-//Entscheide was mit dem @elem passieren muss
+/**
+ *Anhand des Elementttypes wird bestimmte Logik ausgeführt
+ * @param elem - im elemet.js erstelltes Element-Objekt
+ */
 function handleElement(elem) {
     if (elem.type === TYPE_FOCUSABLE) {
-        setInputField(elem);
+        setInputField(elem); //Texteingabefeld
     } else if (elem.type === TYPE_SELECTABLE) {
-        setCustomSelectContainer(elem);
+        setCustomSelectContainer(elem); //Auswahlmenü
     } else if (elem.type === TYPE_DATE_TIME) {
-        handleDateTime(elem);
-    } else {
-        executeClick(elem);
+        handleDateTime(elem); //Datums-, Zeit- oder Zahleingabefeld
+    } else { //Eine Schaltfläche (diverse Buttons und Links)
+        executeClick(elem); //direkt wird ein Click-Event ausgeführt
         changeInputMode(MODE_NO_MODE);
     }
 }
 
+/**
+ * Texteingabefeld wird initialisiert
+ * @param elem - im elemet.js erstelltes Element-Objekt
+ */
 function setInputField(elem) {
-    currentInputField = elem;
-    changeInputMode(MODE_TYPE);
-    executeFocus(elem);
+    currentInputField = elem; //Texteingabefeld global initialisieren
+    changeInputMode(MODE_TYPE); // Modus --> MODE_TYPE
+    executeFocus(elem); //Focus-Event ausführen
 }
 
+/**
+ * Auswahlmenü wird initialisiert und Auswahlfenster wird erstellt
+ * @param elem - im elemet.js erstelltes Element-Objekt
+ */
 function setCustomSelectContainer(elem) {
-    $('body').prepend('<div class="vocs_overlay"></div>');
-    buildSelectOptionsWrapper(elem);
-    currentSelect = elem;
-    changeInputMode(MODE_SELECT);
+    $('body').prepend('<div class="vocs_overlay"></div>'); //Container der Webseite hinzufügen
+    buildSelectOptionsWrapper(elem); //Fenster mit Optionen erstellen
+    currentSelect = elem; //Auswahlmenü global initialisieren
+    changeInputMode(MODE_SELECT); // Modus --> MODE_SELECT
     elem.elem.focus(); //Select fokussieren
 }
 
+/**
+ * Mehrere Elemente wurden identifiziert und werden mit einer Zahl markiert
+ */
 function multipleElementsSelected() {
-    $('body').prepend('<div class="vocs_overlay"></div>');
+    $('body').prepend('<div class="vocs_overlay"></div>'); //Container hinzufügen
+    //Alle Elemente im Array werden markiert
     for (let i = 0; i < currentElements.length; i++) {
         if (currentElements[i].label) {//FIXME: why do i do this???
             buildMultipleWrapper(i, currentElements[i]);
@@ -306,21 +325,26 @@ function multipleElementsSelected() {
     }
 }
 
+/**
+ * Hier wird das Fenster für Eingabe der Zeit/Zahl/Datums erstellt und mit Daten gefüllt
+ * @param elem - im elemet.js erstelltes Element-Objekt
+ * @param msg - Ausgabe im Fenster (was soll der Benutzer als Nächstes eingeben)
+ * @param currentValue - aktuell eingegebene Daten, zur Kontrolle
+ */
 function setDateTime(elem, msg, currentValue) {
-    $('body').prepend('<div class="vocs_overlay"></div>');
+    $('body').prepend('<div class="vocs_overlay"></div>'); // Container erstellen
     changeInputMode(MODE_DATE_TIME);
-    buildDateTimeMassageContainer(elem, msg, currentValue);
-    currentDateTime = elem;
+    buildDateTimeMassageContainer(elem, msg, currentValue); // Fenster erstellen
+    currentDateTime = elem; // Eingabefeld initialisieren
 }
 
 /**
- * Eingabe der Datum un der Uhrzeit, für unterschiedliche Input-Typen ist untr. Logik nötig, die Daten werden nacheinander
+ * Eingabe der Datum un der Uhrzeiten/Zahlen, für unterschiedliche Input-Typen ist untr. Logik vorgesehen, die Daten werden nacheinander
  * gefüllt und in dem value-Attribut hinzugefügt
- * @param elem - HTML - Element, <input type="date time week...">
+ * @param elem - im elemet.js erstelltes Element-Objekt
  * @param input - Benutzereingabe, undefined in der ersten Runde, dann muss eine Zahl sein
  */
 function handleDateTime(elem, input) {
-    console.error('current value: ' + input);
     let value,
         newValue,
         type;
@@ -330,27 +354,27 @@ function handleDateTime(elem, input) {
     }
     type = elem.elem.type;
     elem.elem.focus();
-
+    //Für jeden Input werden unterschiedliche Daten eingegeben
     switch (type) {
         case 'datetime-local':
-            console.warn('type: ' + type);
+            //Wenn @input undefined ist, bedeutes es, dass es die Erste runde ist und das Fenster wird erstellt
             if (!value) {
-                setDateTime(elem, 'Set DAY', currentValue);
+                setDateTime(elem, 'Set DAY', currentValue); //Erstelle Fenster
                 return;
             }
-            if (!day) {
-                day = setDay(value);
+            if (!day) { //Tag wurde noch nicht eingegeben
+                day = setDay(value); //prüfen und setze die Eingabe
                 if (day) {
                     currentValue += 'D' + day;
-                    updateDateTimeMsgAndValue('Set MOTH', currentValue);
-                    newValue = '0001-01-' + day + 'T01:01:01';
-                    $(elem.elem).val(newValue);
+                    updateDateTimeMsgAndValue('Set MOTH', currentValue); //updatete die Ausgabe im Fenster
+                    newValue = '0001-01-' + day + 'T01:01:01'; //@value muss immer in einer vom Inputtyp abhängiger Form eingegeben
+                    $(elem.elem).val(newValue); //setze die Eingabe im Inutfeld
                 } else {
-                    updateDateTimeMsgAndValue('Set DAY', 'Please provide valid value');
+                    updateDateTimeMsgAndValue('Set DAY', 'Please provide valid value');// nicht valide Eingabe
                 }
                 return;
             }
-            if (!month) {
+            if (!month) {//Monat noch nicht eingegeben, setze Monat
                 month = setMonth(value);
                 if (month) {
                     currentValue += ' M' + month;
@@ -362,7 +386,7 @@ function handleDateTime(elem, input) {
                 }
                 return;
             }
-            if (!year) {
+            if (!year) {//Jahr noch nicht eingegeben, setze Jahr usw. usw....
                 year = setYear(value);
                 if (year) {
                     currentValue += ' Y' + year;
@@ -573,6 +597,11 @@ function handleDateTime(elem, input) {
     }
 }
 
+/**
+ * Ausgabe im UI anzeigen (alpha)
+ * @param state - Systemzustand
+ * @param textOnRecognition - Ausgabetext
+ */
 export function provideSystemStatus(state, textOnRecognition) {
     if (textOnRecognition.length > 35) {
         let limitedRecognitionText = textOnRecognition.slice(textOnRecognition.length - 35, textOnRecognition.length);
@@ -583,14 +612,14 @@ export function provideSystemStatus(state, textOnRecognition) {
     $(systemState).text(state);
 }
 
-function clearUI() {
+/*function clearUI() {
     setTimeout(function () {
         $(OnRecognition).text('');
         $(systemState).text('Say something');
         console.log('Reset UI');
     }, 5000);
 
-}
+}*/
 
 function clearCurrentElements() {
     clearDateTimeValues();
@@ -598,13 +627,17 @@ function clearCurrentElements() {
     currentKeyword = undefined;
 }
 
+/**
+ * Moduswechsel
+ * @param newInputMode - neuer Modus
+ */
 function changeInputMode(newInputMode) {
     currentMode = newInputMode;
     if (currentMode === MODE_NO_MODE) {
-        $('.vocs_overlay').remove();
+        $('.vocs_overlay').remove();//Container entfernen
         if (currentInputField) {
-            currentInputField.elem.blur();
-            currentInputField = null;
+            currentInputField.elem.blur();//Focus aufheben
+            currentInputField = null;//aktuelles Element löschen
         }
         if (currentDateTime) {
             currentDateTime.elem.blur();
@@ -619,6 +652,9 @@ function changeInputMode(newInputMode) {
     console.log('------Current MODE------: ' + currentMode);
 }
 
+/**
+ * Datum/Zeit/Zahl -Eingaben löschen
+ */
 function clearDateTimeValues() {
     day = undefined;
     week = undefined;

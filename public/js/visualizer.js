@@ -1,4 +1,9 @@
-export default function speechRecognition() {
+/**
+ * **********************************************
+ * Nicht Projektrelevant                       **
+ * **********************************************
+ */
+export default function visualize() {
 
     $('#startRecord').click(function () {
         /*if (typeof (Storage) !== 'undefined') {
@@ -88,7 +93,7 @@ export default function speechRecognition() {
                     visualize();
                     voiceMute();
 
-                    rec = new MediaRecorder(stream);
+                    /*rec = new MediaRecorder(stream);
 
                     rec.ondataavailable = e => {
                         audioChunks.push(e.data);
@@ -106,7 +111,7 @@ export default function speechRecognition() {
                             audioDownload.innerHTML = 'download';
                             audioChunks = [];
                         }
-                    }
+                    }*/
                 },
                 // Error callback
                 function (err) {

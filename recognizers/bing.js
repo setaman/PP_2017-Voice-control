@@ -1,5 +1,8 @@
 let request = require("request");
 
+/**
+ * HTTP Request an Microsoft ASR, beispielhaft
+ */
 module.exports.doRequest = function (req, res) {
 
     let audio = req.body;

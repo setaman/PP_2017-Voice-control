@@ -6,7 +6,6 @@ let semanticui = require('./routes/semanticui');
 let foundation = require('./routes/foundation');
 let recognizer = require('./routes/recognizer');
 let test = require('./routes/test');
-let config = require('./routes/config');
 let helmet = require('helmet');
 let resourceMonitorMiddleware = require('express-watcher').resourceMonitorMiddleware;
 let express = require('express');
@@ -23,13 +22,13 @@ app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({limit: '5mb', extended: false, parameterLimit: 100000 }));
 app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(path.join(__dirname + '/dist')));
-
+//Testseiten
 app.use('/', index);
 app.use('/test', test);
 app.use('/semanticui', semanticui);
 app.use('/foundation', foundation);
-app.use('/recognizer',recognizer);
-app.use('/config',recognizer);
+//Sende audio an ASR
+app.use('/audio',recognizer);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -6,7 +6,6 @@ module.exports.doRequest = function (req, res) {
         headers: {
             'Ocp-Apim-Subscription-Key': 'd3982e6ce0c54fef8e0fd89d4b9c0584',
             'Content-Type': "audio/wav; codec=audio/pcm; samplerate=16000",
-            'Host': "speech.platform.bing.com",
             'Host': "speech.platform.bing.com"
         },
         method: 'post',

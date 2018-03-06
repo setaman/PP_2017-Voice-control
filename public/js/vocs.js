@@ -9,9 +9,9 @@ export default class Vocs {
             api: api
         };
         if (options.api === 'default'){
-            setupWebSpeechRecognitionAPI();
+            setupWebSpeechRecognitionAPI();// Web Speech API wird initialisiert
         }else{
-            startRecord(options.api);
+            startRecord(options.api);//Web Audio API wird initialisiert
         }
     }
 }
