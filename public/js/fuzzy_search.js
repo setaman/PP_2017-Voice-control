@@ -4,12 +4,13 @@ import Fuse from 'fuse.js/dist/fuse.min';
 
 let optionsForElements = {
     shouldSort: true,
+    tokenize: true,
     threshold: 0.6,
     location: 0,
     distance: 100,
     maxPatternLength: 32,
     minMatchCharLength: 1,
-    //FIXME: what about OPTION???
+    //FIXME: what about OPTION for selects???
     keys: ['text', 'label', 'value', 'placeholder']
 };
 
@@ -22,6 +23,16 @@ let optionsForKeywords = {
     minMatchCharLength: 2,
     keys: ['keyword'],
     id: 'keyword'
+};
+
+let optionsForVocs = {
+    threshold: 0.8,
+    location: 0,
+    distance: 500,
+    maxPatternLength: 10,
+    minMatchCharLength: 3,
+    keys: ['vocs'],
+    id: 'vocs'
 };
 
 /**
@@ -43,5 +54,10 @@ export function fuzzySearchForElements(list, searchString) {
  */
 export function fuzzySearchForKeywords(list, searchString) {
     let fuse = new Fuse(list, optionsForKeywords);
+    return fuse.search(searchString);
+}
+
+export function fuzzySearchForVocs(searchString) {
+    let fuse = new Fuse([{vocs:'vocs'}], optionsForVocs);
     return fuse.search(searchString);
 }

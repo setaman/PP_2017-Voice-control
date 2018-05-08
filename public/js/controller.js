@@ -36,7 +36,7 @@ import {
     updateDateTimeMsgAndValue,
     getRecognizedKeyword
 } from "./helper";
-import {fuzzySearchForKeywords} from "./fuzzy_search";
+import {fuzzySearchForKeywords, fuzzySearchForVocs} from "./fuzzy_search";
 
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
@@ -70,7 +70,9 @@ let OnRecognition = $('#vocs_text_onrecognition');//UI Ausgabe
 
 //Testing Input
 $('#search').click(function () {
-    performUserAction($('#search-input').val());
+    console.warn(fuzzySearchForVocs($('#search-input').val())[0]);
+
+    //performUserAction($('#search-input').val());
 });
 
 /*$('html, body').click(function () {

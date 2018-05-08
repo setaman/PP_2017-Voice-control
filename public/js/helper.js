@@ -123,7 +123,7 @@ export function getRecognizedKeyword(userCommand) {
             return keyword;
         }
     });
-    //Sonst Keyword vermuten, aunscharfe Suche
+    //Sonst Keyword vermuten, unscharfe Suche
     try {
         let result = fuzzySearchForKeywords(KEYWORDS_OBJECTS, keyword);
         if (result && result.length > 0) {

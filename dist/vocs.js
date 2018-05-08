@@ -10954,9 +10954,9 @@ jQuery.nodeName = nodeName;
 // https://github.com/jrburke/requirejs/wiki/Updating-existing-libraries#wiki-anon
 
 if ( true ) {
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function() {
 		return jQuery;
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+	}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 }
 
@@ -13093,7 +13093,7 @@ function getRecognizedKeyword(userCommand) {
       //Keyword von der SE Software richtig erkannt
       return keyword;
     }
-  }); //Sonst Keyword vermuten, aunscharfe Suche
+  }); //Sonst Keyword vermuten, unscharfe Suche
 
   try {
     var result = (0, _fuzzy_search.fuzzySearchForKeywords)(_const.KEYWORDS_OBJECTS, keyword);
@@ -13301,6 +13301,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.fuzzySearchForElements = fuzzySearchForElements;
 exports.fuzzySearchForKeywords = fuzzySearchForKeywords;
+exports.fuzzySearchForVocs = fuzzySearchForVocs;
 
 var _fuse = _interopRequireDefault(__webpack_require__(52));
 
@@ -13309,12 +13310,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //siehe http://fusejs.io/
 var optionsForElements = {
   shouldSort: true,
+  tokenize: true,
   threshold: 0.6,
   location: 0,
   distance: 100,
   maxPatternLength: 32,
   minMatchCharLength: 1,
-  //FIXME: what about OPTION???
+  //FIXME: what about OPTION for selects???
   keys: ['text', 'label', 'value', 'placeholder']
 };
 var optionsForKeywords = {
@@ -13326,6 +13328,15 @@ var optionsForKeywords = {
   minMatchCharLength: 2,
   keys: ['keyword'],
   id: 'keyword'
+};
+var optionsForVocs = {
+  threshold: 0.8,
+  location: 0,
+  distance: 500,
+  maxPatternLength: 10,
+  minMatchCharLength: 3,
+  keys: ['vocs'],
+  id: 'vocs'
 };
 /**
  * Unscharfe Suche nach einem Element
@@ -13348,6 +13359,13 @@ function fuzzySearchForElements(list, searchString) {
 
 function fuzzySearchForKeywords(list, searchString) {
   var fuse = new _fuse.default(list, optionsForKeywords);
+  return fuse.search(searchString);
+}
+
+function fuzzySearchForVocs(searchString) {
+  var fuse = new _fuse.default([{
+    vocs: 'vocs'
+  }], optionsForVocs);
   return fuse.search(searchString);
 }
 
@@ -15532,6 +15550,8 @@ exports.default = setupWebSpeechRecognitionAPI;
 
 var _controller = __webpack_require__(49);
 
+var _fuzzy_search = __webpack_require__(29);
+
 /**
  *  Setup Google Speech Recognition
  */
@@ -15539,6 +15559,11 @@ function setupWebSpeechRecognitionAPI() {
   try {
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     var recognition = new SpeechRecognition();
+    var words = ['vocs'];
+    var grammar = '#JSGF V1.0; grammar actions; public <actions> = ' + words.join(' | ') + ';';
+    var speechRecognitionList = new webkitSpeechGrammarList();
+    speechRecognitionList.addFromString(grammar, 1);
+    recognition.grammars = speechRecognitionList;
     recognition.lang = 'en-US';
     recognition.interimResults = true;
     recognition.continuous = false;
@@ -15635,7 +15660,7 @@ var OnRecognition = $('#vocs_text_onrecognition'); //UI Ausgabe
 //Testing Input
 
 $('#search').click(function () {
-  performUserAction($('#search-input').val());
+  console.warn((0, _fuzzy_search.fuzzySearchForVocs)($('#search-input').val())[0]); //performUserAction($('#search-input').val());
 });
 /*$('html, body').click(function () {
     changeInputMode(MODE_NO_MODE);
@@ -22833,12 +22858,12 @@ function visualize() {
         visualize();
         voiceMute();
         /*rec = new MediaRecorder(stream);
-          rec.ondataavailable = e => {
+         rec.ondataavailable = e => {
             audioChunks.push(e.data);
         };
         rec.onstop = function () {
-              isRecording = false;
-              if (audioChunks.length > 0) {
+             isRecording = false;
+             if (audioChunks.length > 0) {
                 let audio = new Blob(audioChunks, {type: 'audio/wave'});
                 recordedAudio.src = URL.createObjectURL(audio);
                 recordedAudio.controls = true;
