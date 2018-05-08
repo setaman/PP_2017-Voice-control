@@ -2,7 +2,6 @@
  * Created by Pastuh on 19.10.2017.
  */
 import {
-    REG_EXP_CLICK,
     REG_EXP_VOCS,
     REG_EXP_OFF,
     REG_EXP_CLEAR,
@@ -26,12 +25,12 @@ import {
     scrollDown,
     scrollToBottom,
     scrollToTop,
-    executeSetText, executeAction, executeSelection, executeFocus, executeSetDateTime, executeClearText,
+    executeSetText, executeSelection, executeFocus, executeSetDateTime, executeClearText,
     executeDeleteText, executeClearSelection, executeClick
 } from './actions';
 import {
     buildDateTimeMassageContainer,
-    buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, extractElementName,
+    buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, checkCommandLength,
     scrollSelectContainerDown,
     scrollSelectContainerUp, setDay, setHour, setMonth, setNumber, setSecondOrMinutes, setWeek, setYear,
     updateDateTimeMsgAndValue,
@@ -42,10 +41,6 @@ import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 //import '../css/vocs_styles.css'
 import visualize from './visualizer';
-import VocsActivator from "./activator";
-import {fuzzySearchForVocs} from "./fuzzy_search";
-
-let vocsActivator = new VocsActivator(false);
 
 let currentElements = [],
     currentMultipleElements = [],
@@ -54,7 +49,8 @@ let currentElements = [],
     currentMode = MODE_NO_MODE,
     currentKeyword,
     currentElementName,
-    currentDateTime;
+    currentDateTime,
+    vocsIsActivated = false;
 
 let day,
     week,
@@ -97,13 +93,15 @@ export function performUserAction(input) {
 
     let userCommand = input.toString().toLowerCase().trim(); //normalise string
 
-    currentKeyword = getRecognizedKeyword(userCommand);//extrahiere das Keyword
+    if (!vocsIsActivated) {
+        currentKeyword = getRecognizedKeyword(userCommand);//extrahiere das Keyword
+    }
 
     //Kontrollausgabe
-    console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentElementName !== '') ? currentElementName : 'no search string'));
+    console.log('Keyword: ' + currentKeyword + ' || Vocs is active: ' + vocsIsActivated);
 
     //Prüfe, ob STOP eingegeben wurde
-    if (vocsActivator.status !== true && currentKeyword && !currentElementName && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
+    if (!vocsIsActivated && currentKeyword && !currentElementName && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
         changeInputMode(MODE_NO_MODE);
         currentMultipleElements = [];
         return;
@@ -223,12 +221,11 @@ export function performUserAction(input) {
 /**
  * Hier werden Elemente gesamelt oder ein bestimmtes Event wird ausgeführt
  * @param keyword - das erkannte Keyword
- * @param elementName - der erkannte Elementname
+ * @param userCommand - der erkannte Elementname
  */
-function chooseAction(keyword, elementName) {
-    if (vocsActivator.status === true && elementName) {
-
-        currentElements.push(...searchForElements(elementName)); //sammle Elemente
+function chooseAction(keyword, userCommand) {
+    if (vocsIsActivated && userCommand) {
+        currentElements.push(...searchForElements(userCommand)); //sammle Elemente
         if (currentElements.length === 1) {
             handleElement(currentElements[0]); //entscheide, was mit dem Element gemacht wird
         } else if (currentElements.length === 0) {
@@ -236,12 +233,14 @@ function chooseAction(keyword, elementName) {
             console.error('-------------No element found------------------');
 
         }
-        vocsActivator.status = false;
+        vocsIsActivated = !vocsIsActivated;
 
-    } else if (keyword && elementName.length === 1) { // Keyword isoliert als einzelnes Wort eingegeben
+    } else if (keyword && checkCommandLength(userCommand) === 1) { // Keyword isoliert als einzelnes Wort eingegeben
         switch (true) {
             case REG_EXP_VOCS.test(keyword):
+                vocsIsActivated = !vocsIsActivated;
                 provideSystemStatus('', 'Vocs ist active');
+                deactivationInterval();
                 break;
             case REG_EXP_DOWN.test(keyword):
                 if (currentSelect) {
@@ -677,3 +676,16 @@ function clearDateTimeValues() {
     currentValue = '';
 }
 
+function deactivationInterval() {
+    let i = 0;
+    let interval = setInterval( () => {
+        i += 1;
+        if (i === 5 && vocsIsActivated){
+            vocsIsActivated = !vocsIsActivated;
+            console.error('!!!VOCS deactivated!!!');
+        } else if (!vocsIsActivated) {
+            i = 0;
+            clearInterval(interval);
+        }
+    }, 1000)
+}

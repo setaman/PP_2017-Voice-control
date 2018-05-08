@@ -1,8 +1,7 @@
 import {KEYWORDS_OBJECTS} from "./const";
 import {fuzzySearchForElements, fuzzySearchForKeywords, fuzzySearchForVocs} from "./fuzzy_search";
-import VocsActivator from "./activator";
 
-let vocsActivator = new VocsActivator(false);
+let vocsIsActive = false;
 
 function generateId(i) {
     return 'vocs_multiple_select_wrapper_' + i;
@@ -99,14 +98,10 @@ export function updateDateTimeMsgAndValue(msg, currentValue) {
  * @param userCommand - Benutzereingabe
  * @return {*} - Elementname oder undefined
  */
-export function extractElementName(userCommand) {
+export function checkCommandLength(userCommand) {
     /*if (keyword !== KEYWORDS_OBJECTS[0].keyword) {return undefined;}//'click' nicht verwendet*/
     let result = userCommand.split(/[ ,]+/); //Eingabe bei Leerzeichen splitten, //-> [click, awesome, select]
-    if (result.length > 1) {
-        result = userCommand.match(/^(\S+)\s(.*)/).slice(1); //->[click, awesome select]
-        return (result.length > 1) ? result[1] : undefined; //awesome select
-    }
-    return undefined;
+    return result.length;
 }
 
 /*function splitUserCommand(userCommand, keyword) {
@@ -123,10 +118,6 @@ export function getRecognizedKeyword(userCommand) {
     let vocsKeyword = fuzzySearchForVocs(keyword);
 
 
-    if (vocsActivator.status === false){
-        vocsKeyword = fuzzySearchForVocs(keyword);
-    }
-
     $.each(KEYWORDS_OBJECTS, (index, value) => {
         if (value.regExp.test(keyword)) {
             //Keyword von der SE Software richtig erkannt
@@ -139,7 +130,6 @@ export function getRecognizedKeyword(userCommand) {
         if (result && result.length > 0) {
             return result[0]; // berechnetes Keyword
         } else if (vocsKeyword.length > 0) {
-            vocsActivator.status = true;
             return vocsKeyword[0];
         }
         return undefined;// kein Keyword identifiziert
