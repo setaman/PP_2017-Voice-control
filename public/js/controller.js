@@ -677,15 +677,27 @@ function clearDateTimeValues() {
 }
 
 function deactivationInterval() {
+    showLogo();
     let i = 0;
     let interval = setInterval( () => {
         i += 1;
-        if (i === 5 && vocsIsActivated){
+        if (i === 10 && vocsIsActivated){
             vocsIsActivated = !vocsIsActivated;
             console.error('!!!VOCS deactivated!!!');
+            showLogo();
         } else if (!vocsIsActivated) {
             i = 0;
             clearInterval(interval);
+            showLogo();
         }
-    }, 1000)
+    }, 500)
+}
+
+function showLogo() {
+    let logo = $('#vocs_logo');
+    if (vocsIsActivated){
+        logo.show();
+    }else {
+        logo.hide();
+    }
 }
