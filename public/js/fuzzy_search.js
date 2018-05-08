@@ -26,9 +26,9 @@ let optionsForKeywords = {
 };
 
 let optionsForVocs = {
-    threshold: 0.8,
+    threshold: 0.75,
     location: 0,
-    distance: 500,
+    distance: 100,
     maxPatternLength: 10,
     minMatchCharLength: 3,
     keys: ['vocs'],

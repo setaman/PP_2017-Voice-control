@@ -13330,9 +13330,9 @@ var optionsForKeywords = {
   id: 'keyword'
 };
 var optionsForVocs = {
-  threshold: 0.8,
+  threshold: 0.75,
   location: 0,
-  distance: 500,
+  distance: 100,
   maxPatternLength: 10,
   minMatchCharLength: 3,
   keys: ['vocs'],
@@ -15581,6 +15581,7 @@ function setupWebSpeechRecognitionAPI() {
       if (recognitionResult) {
         if (event.results[0].isFinal) {
           (0, _controller.provideSystemStatus)('You Say', recognitionResult);
+          console.warn((0, _fuzzy_search.fuzzySearchForVocs)(recognitionResult));
           console.warn(recognitionResult);
           (0, _controller.performUserAction)(recognitionResult);
         }

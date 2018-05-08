@@ -34,6 +34,7 @@ export default function setupWebSpeechRecognitionAPI(){
             if (recognitionResult) {
                 if (event.results[0].isFinal) {
                     provideSystemStatus('You Say', recognitionResult);
+                    console.warn(fuzzySearchForVocs(recognitionResult));
                     console.warn(recognitionResult);
                     performUserAction(recognitionResult);
                 }
