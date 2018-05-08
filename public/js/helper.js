@@ -141,11 +141,6 @@ export function getRecognizedKeyword(userCommand) {
  */
 function extractKeyword(userCommand) {
     let result = userCommand.split(/[ ,]+/); // String bei Leerzeichen splitten, erzeugt [click, select];
-    //Just for better results hardcoded
-    if (result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need'
-        || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead' || result[0] === 'plague') {
-        return 'click';
-    }
     return result[0]; //click
 }
 

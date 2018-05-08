@@ -90,7 +90,7 @@ export function performUserAction(input) {
     let userCommand = input.toString().toLowerCase().trim(); //normalisiere den String
 
     currentKeyword = getRecognizedKeyword(userCommand);//extrahiere das Keyword
-    currentElementName = extractElementName(userCommand, currentKeyword);//extrahiere den Elementnamen
+    currentElementName = extractElementName(userCommand);//extrahiere den Elementnamen
 
     //Kontrollausgabe
     console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentElementName !== '') ? currentElementName : 'no search string'));
