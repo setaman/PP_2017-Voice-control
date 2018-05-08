@@ -17,9 +17,40 @@
     <link rel="stylesheet" href="/components/jquery-ui-dist/jquery-ui.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+    <style>
+        .tic{
+            position: fixed;
+            top: 40px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 100;
+        }
+        .ti {
+            color: #3c7eff;
+            padding: 10px;
+            font-size: 1.2em;
+            border: gray 2px solid;
+
+        }
+    </style>
+
 </head>
 <body>
+
 <div id="main">
+    <div class="tic">
+        <span class="ti">click buttons</span>
+        <span class="ti">down</span>
+        <span class="ti">show</span>
+        <span class="ti">32</span>
+        <span class="ti">click input</span>
+        <span class="ti">1</span>
+        <span class="ti">click comments</span>
+        <span class="ti">hello comments</span>
+        <span class="ti">stop</span>
+    </div>
+
+
     <div id="content" class="container">
         <div id="canvas">
             <canvas class="visualizer"></canvas>
@@ -1222,7 +1253,6 @@
         $('.dropdown-button').dropdown();
 
     });
-
 </script>
 <script src="/index.js" type="text/javascript"></script>
 <!--<script src="/vocs.js" type="text/javascript"></script>-->

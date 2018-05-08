@@ -74,7 +74,7 @@
 // Imports
 // --------------------------------------------------------------------
 
-var extend = __webpack_require__(21);
+var extend = __webpack_require__(22);
 
 // --------------------------------------------------------------------
 // Private Stuff
@@ -10954,9 +10954,9 @@ jQuery.nodeName = nodeName;
 // https://github.com/jrburke/requirejs/wiki/Updating-existing-libraries#wiki-anon
 
 if ( true ) {
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
 		return jQuery;
-	}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 }
 
@@ -11007,7 +11007,7 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.KEYWORDS_OBJECTS = exports.TYPE_DATE_TIME = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_DATE_TIME = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_UP = exports.REG_EXP_STOP = exports.REG_EXP_BOTTOM = exports.REG_EXP_CLEAR = exports.REG_EXP_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_OFF = exports.REG_EXP_CLICK = exports.STOP = exports.TOP = exports.BOTTOM = exports.UP = exports.DOWN = exports.CLEAR = exports.OFF = exports.CLICK = exports.REG_EXP_DELETE = exports.REG_EXP_INFO = exports.ALL_SELECTOR = exports.FOCUS_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.DATE_TIME_SELECTORS = exports.SELECT_SELECTORS = void 0;
+exports.KEYWORDS_OBJECTS = exports.TYPE_DATE_TIME = exports.TYPE_SELECTABLE = exports.TYPE_FOCUSABLE = exports.TYPE_CLICKABLE = exports.STATE_INACTIVE = exports.STATE_ACTIVE = exports.STATE_NO_MATCH = exports.STATE_YOU_SAY = exports.STATE_ERROR = exports.STATE_LISTENING = exports.MODE_MULTIPLE = exports.MODE_NO_MODE = exports.MODE_DATE_TIME = exports.MODE_SELECT = exports.MODE_TYPE = exports.REG_EXP_UP = exports.REG_EXP_STOP = exports.REG_EXP_BOTTOM = exports.REG_EXP_CLEAR = exports.REG_EXP_TOP = exports.STATE_MULTIPLE_MATCH = exports.REG_EXP_DOWN = exports.REG_EXP_NUMBER = exports.REG_EXP_SHOW = exports.REG_EXP_OFF = exports.REG_EXP_VOCS = exports.REG_EXP_CLICK = exports.STOP = exports.TOP = exports.BOTTOM = exports.UP = exports.DOWN = exports.CLEAR = exports.VOCS = exports.OFF = exports.CLICK = exports.REG_EXP_DELETE = exports.REG_EXP_INFO = exports.ALL_SELECTOR = exports.FOCUS_SELECTORS = exports.CLICK_SELECTORS = exports.SHOW = exports.CHECK_SELECTORS = exports.DATE_TIME_SELECTORS = exports.SELECT_SELECTORS = void 0;
 
 /**
  * Selectors
@@ -11028,6 +11028,8 @@ var ALL_SELECTOR = "".concat(CLICK_SELECTORS, ", ").concat(FOCUS_SELECTORS, ", "
  */
 
 exports.ALL_SELECTOR = ALL_SELECTOR;
+var VOCS = 'vocs';
+exports.VOCS = VOCS;
 var CLICK = 'click';
 exports.CLICK = CLICK;
 var OFF = 'off';
@@ -11052,6 +11054,8 @@ var INFO = 'info';
  * RegExp ENG
  */
 
+var REG_EXP_VOCS = /^(vocs)$/;
+exports.REG_EXP_VOCS = REG_EXP_VOCS;
 var REG_EXP_CLICK = /^(click)$/;
 exports.REG_EXP_CLICK = REG_EXP_CLICK;
 var REG_EXP_OFF = /^(off)$/;
@@ -11259,12 +11263,12 @@ module.exports = getMapData;
 // --------------------------------------------------------------------
 
 var Builder = __webpack_require__(130);
-var Grammar = __webpack_require__(20);
+var Grammar = __webpack_require__(21);
 var Namespace = __webpack_require__(41);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
 var pexprs = __webpack_require__(1);
-var util = __webpack_require__(23);
+var util = __webpack_require__(24);
 
 var isBuffer = __webpack_require__(172);
 
@@ -11847,6 +11851,86 @@ if (typeof Object.create === 'function') {
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fuzzySearchForElements = fuzzySearchForElements;
+exports.fuzzySearchForKeywords = fuzzySearchForKeywords;
+exports.fuzzySearchForVocs = fuzzySearchForVocs;
+
+var _fuse = _interopRequireDefault(__webpack_require__(52));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//siehe http://fusejs.io/
+var optionsForElements = {
+  shouldSort: true,
+  tokenize: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  //FIXME: what about OPTION for selects???
+  keys: ['text', 'label', 'value', 'placeholder']
+};
+var optionsForKeywords = {
+  shouldSort: true,
+  threshold: 0.5,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 2,
+  keys: ['keyword'],
+  id: 'keyword'
+};
+var optionsForVocs = {
+  threshold: 0.75,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 10,
+  minMatchCharLength: 3,
+  keys: ['vocs'],
+  id: 'vocs'
+};
+/**
+ * Unscharfe Suche nach einem Element
+ * @param list - Liste von Elementen
+ * @param searchString - Benutzereingabe
+ * @return {*|any[]} - Resultat der Suche, Alle berechneten Elemente
+ */
+
+function fuzzySearchForElements(list, searchString) {
+  var fuse = new _fuse.default(list, optionsForElements);
+  return fuse.search(searchString);
+}
+/**
+ * Unscharfe Suche nach einem Keyword
+ * @param list - Liste von Keywords
+ * @param searchString - Benutzereingabe
+ * @return {*|any[]} - Resultat der Suche, Alle berechneten Keywords
+ */
+
+
+function fuzzySearchForKeywords(list, searchString) {
+  var fuse = new _fuse.default(list, optionsForKeywords);
+  return fuse.search(searchString);
+}
+
+function fuzzySearchForVocs(searchString) {
+  var fuse = new _fuse.default([{
+    vocs: 'vocs'
+  }], optionsForVocs);
+  return fuse.search(searchString);
+}
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -11858,7 +11942,7 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -11867,7 +11951,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
@@ -11877,7 +11961,7 @@ module.exports = !__webpack_require__(6)(function () {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 /**
@@ -11909,7 +11993,7 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(37),
@@ -11944,10 +12028,10 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(19);
+var root = __webpack_require__(20);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -11956,7 +12040,7 @@ module.exports = Symbol;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var freeGlobal = __webpack_require__(91);
@@ -11971,7 +12055,7 @@ module.exports = root;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12331,7 +12415,7 @@ module.exports = Grammar;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -12370,7 +12454,7 @@ function extend(origin, add) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12382,7 +12466,7 @@ function extend(origin, add) {
 
 var assert = __webpack_require__(0).assert;
 var errors = __webpack_require__(2);
-var util = __webpack_require__(23);
+var util = __webpack_require__(24);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -12517,7 +12601,7 @@ module.exports = Interval;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12672,7 +12756,7 @@ exports.getLineAndColumnMessage = function(str, offset /* ...ranges */) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12682,7 +12766,7 @@ exports.getLineAndColumnMessage = function(str, offset /* ...ranges */) {
 // Imports
 // --------------------------------------------------------------------
 
-var Interval = __webpack_require__(22);
+var Interval = __webpack_require__(23);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -12751,7 +12835,7 @@ module.exports = InputStream;
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12762,8 +12846,8 @@ module.exports = InputStream;
 // --------------------------------------------------------------------
 
 var common = __webpack_require__(0);
-var util = __webpack_require__(23);
-var Interval = __webpack_require__(22);
+var util = __webpack_require__(24);
+var Interval = __webpack_require__(23);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -12868,7 +12952,7 @@ module.exports = MatchResult;
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12882,7 +12966,7 @@ module.exports = function (val) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 var g;
@@ -12909,7 +12993,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12941,7 +13025,13 @@ exports.setNumber = setNumber;
 
 var _const = __webpack_require__(4);
 
-var _fuzzy_search = __webpack_require__(29);
+var _fuzzy_search = __webpack_require__(13);
+
+var _activator = _interopRequireDefault(__webpack_require__(180));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var vocsActivator = new _activator.default(false);
 
 function generateId(i) {
   return 'vocs_multiple_select_wrapper_' + i;
@@ -13086,7 +13176,13 @@ function extractElementName(userCommand) {
 
 
 function getRecognizedKeyword(userCommand) {
-  var keyword = extractKeyword(userCommand); //extrahiere Keyword
+  var keyword = extractKeyword(userCommand); //extract Keyword
+
+  var vocsKeyword = (0, _fuzzy_search.fuzzySearchForVocs)(keyword);
+
+  if (vocsActivator.status === false) {
+    vocsKeyword = (0, _fuzzy_search.fuzzySearchForVocs)(keyword);
+  }
 
   $.each(_const.KEYWORDS_OBJECTS, function (index, value) {
     if (value.regExp.test(keyword)) {
@@ -13100,6 +13196,9 @@ function getRecognizedKeyword(userCommand) {
 
     if (result && result.length > 0) {
       return result[0]; // berechnetes Keyword
+    } else if (vocsKeyword.length > 0) {
+      vocsActivator.status = true;
+      return vocsKeyword[0];
     }
 
     return undefined; // kein Keyword identifiziert
@@ -13115,11 +13214,6 @@ function getRecognizedKeyword(userCommand) {
 
 function extractKeyword(userCommand) {
   var result = userCommand.split(/[ ,]+/); // String bei Leerzeichen splitten, erzeugt [click, select];
-  //Just for better results hardcoded
-
-  if (result[0] === 'sleep' || result[0] === 'please' || result[0] === 'keep' || result[0] === 'need' || result[0] === 'greek' || result[0] === 'leek' || result[0] === 'lead' || result[0] === 'plague') {
-    return 'click';
-  }
 
   return result[0]; //click
 }
@@ -13290,90 +13384,10 @@ function setNumber(elem, number) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.fuzzySearchForElements = fuzzySearchForElements;
-exports.fuzzySearchForKeywords = fuzzySearchForKeywords;
-exports.fuzzySearchForVocs = fuzzySearchForVocs;
-
-var _fuse = _interopRequireDefault(__webpack_require__(52));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//siehe http://fusejs.io/
-var optionsForElements = {
-  shouldSort: true,
-  tokenize: true,
-  threshold: 0.6,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
-  minMatchCharLength: 1,
-  //FIXME: what about OPTION for selects???
-  keys: ['text', 'label', 'value', 'placeholder']
-};
-var optionsForKeywords = {
-  shouldSort: true,
-  threshold: 0.5,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
-  minMatchCharLength: 2,
-  keys: ['keyword'],
-  id: 'keyword'
-};
-var optionsForVocs = {
-  threshold: 0.75,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 10,
-  minMatchCharLength: 3,
-  keys: ['vocs'],
-  id: 'vocs'
-};
-/**
- * Unscharfe Suche nach einem Element
- * @param list - Liste von Elementen
- * @param searchString - Benutzereingabe
- * @return {*|any[]} - Resultat der Suche, Alle berechneten Elemente
- */
-
-function fuzzySearchForElements(list, searchString) {
-  var fuse = new _fuse.default(list, optionsForElements);
-  return fuse.search(searchString);
-}
-/**
- * Unscharfe Suche nach einem Keyword
- * @param list - Liste von Keywords
- * @param searchString - Benutzereingabe
- * @return {*|any[]} - Resultat der Suche, Alle berechneten Keywords
- */
-
-
-function fuzzySearchForKeywords(list, searchString) {
-  var fuse = new _fuse.default(list, optionsForKeywords);
-  return fuse.search(searchString);
-}
-
-function fuzzySearchForVocs(searchString) {
-  var fuse = new _fuse.default([{
-    vocs: 'vocs'
-  }], optionsForVocs);
-  return fuse.search(searchString);
-}
-
-/***/ }),
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(13);
+var global = __webpack_require__(14);
 var core = __webpack_require__(5);
 var ctx = __webpack_require__(60);
 var hide = __webpack_require__(62);
@@ -13511,7 +13525,7 @@ module.exports = function (it) {
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(18),
+var Symbol = __webpack_require__(19),
     getRawTag = __webpack_require__(92),
     objectToString = __webpack_require__(93);
 
@@ -13718,7 +13732,7 @@ module.exports = Failure;
 // Imports
 // --------------------------------------------------------------------
 
-var extend = __webpack_require__(21);
+var extend = __webpack_require__(22);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -13781,7 +13795,7 @@ module.exports = Namespace;
 // Imports
 // --------------------------------------------------------------------
 
-var Interval = __webpack_require__(22);
+var Interval = __webpack_require__(23);
 var common = __webpack_require__(0);
 
 // --------------------------------------------------------------------
@@ -13968,9 +13982,9 @@ module.exports = Trace;
 var Symbol = __webpack_require__(153);  // eslint-disable-line no-undef
 var inherits = __webpack_require__(12);
 
-var InputStream = __webpack_require__(24);
+var InputStream = __webpack_require__(25);
 var IterationNode = __webpack_require__(11).IterationNode;
-var MatchResult = __webpack_require__(25);
+var MatchResult = __webpack_require__(26);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
 
@@ -14703,9 +14717,9 @@ module.exports = Semantics;
 // --------------------------------------------------------------------
 
 var pexprs = __webpack_require__(1);
-var MatchResult = __webpack_require__(25);
-var Grammar = __webpack_require__(20);
-var extend = __webpack_require__(21);
+var MatchResult = __webpack_require__(26);
+var Grammar = __webpack_require__(21);
+var extend = __webpack_require__(22);
 
 // --------------------------------------------------------------------
 // Operations
@@ -15534,7 +15548,7 @@ function stopRecorder() {
     }, {}]
   }, {}, [1])(1);
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
 
 /***/ }),
 /* 48 */
@@ -15550,7 +15564,7 @@ exports.default = setupWebSpeechRecognitionAPI;
 
 var _controller = __webpack_require__(49);
 
-var _fuzzy_search = __webpack_require__(29);
+var _fuzzy_search = __webpack_require__(13);
 
 /**
  *  Setup Google Speech Recognition
@@ -15622,9 +15636,7 @@ var _collector = __webpack_require__(50);
 
 var _actions = __webpack_require__(53);
 
-var _helper = __webpack_require__(28);
-
-var _fuzzy_search = __webpack_require__(29);
+var _helper = __webpack_require__(29);
 
 __webpack_require__(54);
 
@@ -15632,10 +15644,15 @@ var _wordsToNumbers = _interopRequireDefault(__webpack_require__(55));
 
 var _visualizer = _interopRequireDefault(__webpack_require__(178));
 
+var _activator = _interopRequireDefault(__webpack_require__(180));
+
+var _fuzzy_search = __webpack_require__(13);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+var vocsActivator = new _activator.default(false);
 var currentElements = [],
     currentMultipleElements = [],
     currentInputField,
@@ -15661,12 +15678,17 @@ var OnRecognition = $('#vocs_text_onrecognition'); //UI Ausgabe
 //Testing Input
 
 $('#search').click(function () {
-  console.warn((0, _fuzzy_search.fuzzySearchForVocs)($('#search-input').val())[0]); //performUserAction($('#search-input').val());
+  performUserAction($('#search-input').val());
 });
 /*$('html, body').click(function () {
     changeInputMode(MODE_NO_MODE);
 });*/
 
+$('.ti').each(function () {
+  $(this).click(function () {
+    performUserAction($(this).text());
+  });
+});
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt
  * @param input - recognized User command
@@ -15674,17 +15696,16 @@ $('#search').click(function () {
 
 function performUserAction(input) {
   var t0 = performance.now();
-  var userCommand = input.toString().toLowerCase().trim(); //normalisiere den String
+  var userCommand = input.toString().toLowerCase().trim(); //normalise string
 
   currentKeyword = (0, _helper.getRecognizedKeyword)(userCommand); //extrahiere das Keyword
-
-  currentElementName = (0, _helper.extractElementName)(userCommand, currentKeyword); //extrahiere den Elementnamen
   //Kontrollausgabe
 
   console.log('Keyword: ' + currentKeyword + ' || Search String: ' + (currentElementName !== '' ? currentElementName : 'no search string')); //Prüfe, ob STOP eingegeben wurde
 
-  if (currentKeyword && !currentElementName && (_const.REG_EXP_STOP.test(currentKeyword) || _const.REG_EXP_STOP.test((0, _helper.getRecognizedKeyword)(currentKeyword)))) {
+  if (vocsActivator.status !== true && currentKeyword && !currentElementName && (_const.REG_EXP_STOP.test(currentKeyword) || _const.REG_EXP_STOP.test((0, _helper.getRecognizedKeyword)(currentKeyword)))) {
     changeInputMode(_const.MODE_NO_MODE);
+    currentMultipleElements = [];
     return;
   } //Ablauf nach dem aktuellen Modus, eins der Modi wird ausgeführt, nachdem Ein element mit dem entsprechenden Typ identifiziert wurde
 
@@ -15692,11 +15713,7 @@ function performUserAction(input) {
   switch (currentMode) {
     case _const.MODE_NO_MODE:
       //Initialmodus
-      if (!currentKeyword) {
-        return; //kein Keyword eingegeben
-      }
-
-      chooseAction(currentKeyword, currentElementName); //Führe ein Event aus
+      chooseAction(currentKeyword, userCommand); //Führe ein Event aus
       //Ein Element muss gesteuert werden, dabei wurden aber mehrere identifiziert
 
       if (currentElements.length > 1) {
@@ -15869,23 +15886,27 @@ function performUserAction(input) {
 function chooseAction(keyword, elementName) {
   var _currentElements2;
 
-  if (keyword && elementName) {
-    if (_const.REG_EXP_CLICK.test(keyword)) {
-      var _currentElements;
+  if (vocsActivator.status === true && elementName) {
+    var _currentElements;
 
-      (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _collector.searchForElements)(elementName))); //sammle Elemente
+    (_currentElements = currentElements).push.apply(_currentElements, _toConsumableArray((0, _collector.searchForElements)(elementName))); //sammle Elemente
 
 
-      if (currentElements.length === 1) {
-        handleElement(currentElements[0]); //entscheide, was mit dem Element gemacht wird
-      } else if (currentElements.length === 0) {
-        provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
-        console.error('-------------No element found------------------');
-      }
+    if (currentElements.length === 1) {
+      handleElement(currentElements[0]); //entscheide, was mit dem Element gemacht wird
+    } else if (currentElements.length === 0) {
+      provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
+      console.error('-------------No element found------------------');
     }
-  } else if (keyword && !elementName) {
+
+    vocsActivator.status = false;
+  } else if (keyword && elementName.length === 1) {
     // Keyword isoliert als einzelnes Wort eingegeben
     switch (true) {
+      case _const.REG_EXP_VOCS.test(keyword):
+        provideSystemStatus('', 'Vocs ist active');
+        break;
+
       case _const.REG_EXP_DOWN.test(keyword):
         if (currentSelect) {
           (0, _helper.scrollSelectContainerDown)(); //Auswahlmenü-Fenster runterscrollen
@@ -16451,7 +16472,7 @@ var _element = __webpack_require__(51);
 
 var _const = __webpack_require__(4);
 
-var _helper = __webpack_require__(28);
+var _helper = __webpack_require__(29);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -17403,7 +17424,7 @@ module.exports = function (it) {
 
 var dP = __webpack_require__(63);
 var createDesc = __webpack_require__(68);
-module.exports = __webpack_require__(15) ? function (object, key, value) {
+module.exports = __webpack_require__(16) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
 } : function (object, key, value) {
   object[key] = value;
@@ -17420,7 +17441,7 @@ var IE8_DOM_DEFINE = __webpack_require__(65);
 var toPrimitive = __webpack_require__(67);
 var dP = Object.defineProperty;
 
-exports.f = __webpack_require__(15) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+exports.f = __webpack_require__(16) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
@@ -17437,7 +17458,7 @@ exports.f = __webpack_require__(15) ? Object.defineProperty : function definePro
 /* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
@@ -17448,7 +17469,7 @@ module.exports = function (it) {
 /* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(15) && !__webpack_require__(6)(function () {
+module.exports = !__webpack_require__(16) && !__webpack_require__(6)(function () {
   return Object.defineProperty(__webpack_require__(66)('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
@@ -17457,8 +17478,8 @@ module.exports = !__webpack_require__(15) && !__webpack_require__(6)(function ()
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14);
-var document = __webpack_require__(13).document;
+var isObject = __webpack_require__(15);
+var document = __webpack_require__(14).document;
 // typeof document.createElement is 'object' in old IE
 var is = isObject(document) && isObject(document.createElement);
 module.exports = function (it) {
@@ -17471,7 +17492,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function (it, S) {
@@ -17652,7 +17673,7 @@ module.exports = function (key) {
 /* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(13);
+var global = __webpack_require__(14);
 var SHARED = '__core-js_shared__';
 var store = global[SHARED] || (global[SHARED] = {});
 module.exports = function (key) {
@@ -17849,7 +17870,7 @@ module.exports = baseGet;
 /* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(16),
+var isArray = __webpack_require__(17),
     isKey = __webpack_require__(90),
     stringToPath = __webpack_require__(95),
     toString = __webpack_require__(125);
@@ -17876,8 +17897,8 @@ module.exports = castPath;
 /* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(16),
-    isSymbol = __webpack_require__(17);
+var isArray = __webpack_require__(17),
+    isSymbol = __webpack_require__(18);
 
 /** Used to match property names within property paths. */
 var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
@@ -17916,13 +17937,13 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
 
 /***/ }),
 /* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(18);
+var Symbol = __webpack_require__(19);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -18428,7 +18449,7 @@ module.exports = isMasked;
 /* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(19);
+var root = __webpack_require__(20);
 
 /** Used to detect overreaching core-js shims. */
 var coreJsData = root['__core-js_shared__'];
@@ -18829,7 +18850,7 @@ module.exports = listCacheSet;
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(38),
-    root = __webpack_require__(19);
+    root = __webpack_require__(20);
 
 /* Built-in method references that are verified to be native. */
 var Map = getNative(root, 'Map');
@@ -18992,10 +19013,10 @@ module.exports = toString;
 /* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(18),
+var Symbol = __webpack_require__(19),
     arrayMap = __webpack_require__(127),
-    isArray = __webpack_require__(16),
-    isSymbol = __webpack_require__(17);
+    isArray = __webpack_require__(17),
+    isSymbol = __webpack_require__(18);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -19062,7 +19083,7 @@ module.exports = arrayMap;
 /* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSymbol = __webpack_require__(17);
+var isSymbol = __webpack_require__(18);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -19295,8 +19316,8 @@ module.exports = Builder;
 // Imports
 // --------------------------------------------------------------------
 
-var Grammar = __webpack_require__(20);
-var InputStream = __webpack_require__(24);
+var Grammar = __webpack_require__(21);
+var InputStream = __webpack_require__(25);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
 var pexprs = __webpack_require__(1);
@@ -21551,8 +21572,8 @@ module.exports = Matcher;
 // Imports
 // --------------------------------------------------------------------
 
-var InputStream = __webpack_require__(24);
-var MatchResult = __webpack_require__(25);
+var InputStream = __webpack_require__(25);
+var MatchResult = __webpack_require__(26);
 var PosInfo = __webpack_require__(152);
 var Trace = __webpack_require__(42);
 var pexprs = __webpack_require__(1);
@@ -22373,7 +22394,7 @@ module.exports = function () {
 "use strict";
 
 
-var isValue = __webpack_require__(26);
+var isValue = __webpack_require__(27);
 
 var keys = Object.keys;
 
@@ -22400,7 +22421,7 @@ module.exports = function () {};
 "use strict";
 
 
-var isValue = __webpack_require__(26);
+var isValue = __webpack_require__(27);
 
 module.exports = function (value) {
 	if (!isValue(value)) throw new TypeError("Cannot use null or undefined");
@@ -22415,7 +22436,7 @@ module.exports = function (value) {
 "use strict";
 
 
-var isValue = __webpack_require__(26);
+var isValue = __webpack_require__(27);
 
 var forEach = Array.prototype.forEach, create = Object.create;
 
@@ -22859,12 +22880,12 @@ function visualize() {
         visualize();
         voiceMute();
         /*rec = new MediaRecorder(stream);
-         rec.ondataavailable = e => {
+          rec.ondataavailable = e => {
             audioChunks.push(e.data);
         };
         rec.onstop = function () {
-             isRecording = false;
-             if (audioChunks.length > 0) {
+              isRecording = false;
+              if (audioChunks.length > 0) {
                 let audio = new Blob(audioChunks, {type: 'audio/wave'});
                 recordedAudio.src = URL.createObjectURL(audio);
                 recordedAudio.controls = true;
@@ -22965,6 +22986,59 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.onload = function () {
   _vocs.default.initRecognizer({});
 };
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var VocsActivator =
+/*#__PURE__*/
+function () {
+  function VocsActivator(isActive) {
+    _classCallCheck(this, VocsActivator);
+
+    this.isActive = isActive;
+  }
+
+  _createClass(VocsActivator, [{
+    key: "status",
+    get: function get() {
+      return this.isActive;
+    },
+    set: function set(newStatus) {
+      var _this = this;
+
+      this.isActive = newStatus;
+
+      if (this.isActive) {
+        setTimeout(function () {
+          if (_this.isActive) {
+            _this.isActive = false;
+            console.error('!!!VOCS deactivated!!!');
+          }
+        }, 10000);
+      }
+    }
+  }]);
+
+  return VocsActivator;
+}();
+
+exports.default = VocsActivator;
 
 /***/ })
 /******/ ]);

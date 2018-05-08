@@ -1,5 +1,8 @@
 import {KEYWORDS_OBJECTS} from "./const";
-import {fuzzySearchForElements, fuzzySearchForKeywords} from "./fuzzy_search";
+import {fuzzySearchForElements, fuzzySearchForKeywords, fuzzySearchForVocs} from "./fuzzy_search";
+import VocsActivator from "./activator";
+
+let vocsActivator = new VocsActivator(false);
 
 function generateId(i) {
     return 'vocs_multiple_select_wrapper_' + i;
@@ -116,7 +119,14 @@ export function extractElementName(userCommand) {
  * @return {*} - Keyword oder undefined
  */
 export function getRecognizedKeyword(userCommand) {
-    let keyword = extractKeyword(userCommand); //extrahiere Keyword
+    let keyword = extractKeyword(userCommand); //extract Keyword
+    let vocsKeyword = fuzzySearchForVocs(keyword);
+
+
+    if (vocsActivator.status === false){
+        vocsKeyword = fuzzySearchForVocs(keyword);
+    }
+
     $.each(KEYWORDS_OBJECTS, (index, value) => {
         if (value.regExp.test(keyword)) {
             //Keyword von der SE Software richtig erkannt
@@ -128,6 +138,9 @@ export function getRecognizedKeyword(userCommand) {
         let result = fuzzySearchForKeywords(KEYWORDS_OBJECTS, keyword);
         if (result && result.length > 0) {
             return result[0]; // berechnetes Keyword
+        } else if (vocsKeyword.length > 0) {
+            vocsActivator.status = true;
+            return vocsKeyword[0];
         }
         return undefined;// kein Keyword identifiziert
     } catch (e) {

@@ -3,6 +3,7 @@
  */
 import {
     REG_EXP_CLICK,
+    REG_EXP_VOCS,
     REG_EXP_OFF,
     REG_EXP_CLEAR,
     REG_EXP_DOWN,
@@ -36,12 +37,15 @@ import {
     updateDateTimeMsgAndValue,
     getRecognizedKeyword
 } from "./helper";
-import {fuzzySearchForKeywords, fuzzySearchForVocs} from "./fuzzy_search";
 
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 //import '../css/vocs_styles.css'
 import visualize from './visualizer';
+import VocsActivator from "./activator";
+import {fuzzySearchForVocs} from "./fuzzy_search";
+
+let vocsActivator = new VocsActivator(false);
 
 let currentElements = [],
     currentMultipleElements = [],
@@ -70,14 +74,18 @@ let OnRecognition = $('#vocs_text_onrecognition');//UI Ausgabe
 
 //Testing Input
 $('#search').click(function () {
-    console.warn(fuzzySearchForVocs($('#search-input').val())[0]);
-
-    //performUserAction($('#search-input').val());
+    performUserAction($('#search-input').val());
 });
 
 /*$('html, body').click(function () {
     changeInputMode(MODE_NO_MODE);
 });*/
+
+$('.ti').each(function () {
+    $(this).click(function () {
+        performUserAction($(this).text());
+    })
+});
 
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt
@@ -87,26 +95,23 @@ export function performUserAction(input) {
 
     let t0 = performance.now();
 
-    let userCommand = input.toString().toLowerCase().trim(); //normalisiere den String
+    let userCommand = input.toString().toLowerCase().trim(); //normalise string
 
     currentKeyword = getRecognizedKeyword(userCommand);//extrahiere das Keyword
-    currentElementName = extractElementName(userCommand);//extrahiere den Elementnamen
 
     //Kontrollausgabe
     console.log('Keyword: ' + currentKeyword + ' || Search String: ' + ((currentElementName !== '') ? currentElementName : 'no search string'));
 
     //Prüfe, ob STOP eingegeben wurde
-    if (currentKeyword && !currentElementName && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
+    if (vocsActivator.status !== true && currentKeyword && !currentElementName && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
         changeInputMode(MODE_NO_MODE);
+        currentMultipleElements = [];
         return;
     }
     //Ablauf nach dem aktuellen Modus, eins der Modi wird ausgeführt, nachdem Ein element mit dem entsprechenden Typ identifiziert wurde
     switch (currentMode) {
         case MODE_NO_MODE: //Initialmodus
-            if (!currentKeyword) {
-                return; //kein Keyword eingegeben
-            }
-            chooseAction(currentKeyword, currentElementName);//Führe ein Event aus
+            chooseAction(currentKeyword, userCommand);//Führe ein Event aus
             //Ein Element muss gesteuert werden, dabei wurden aber mehrere identifiziert
             if (currentElements.length > 1) {
                 multipleElementsSelected(); //markiere Elemente
@@ -148,7 +153,7 @@ export function performUserAction(input) {
                 return;
             }
             if ((currentKeyword && currentElementName) && (currentKeyword === currentElementName) && (REG_EXP_DELETE.test(currentKeyword)
-                    || REG_EXP_STOP.test(currentKeyword) || REG_EXP_CLEAR.test(currentKeyword))) {
+                || REG_EXP_STOP.test(currentKeyword) || REG_EXP_CLEAR.test(currentKeyword))) {
                 userCommand = currentKeyword; //STOP, CLEAR, oder DELETE muss dem Eingabefeld als Eingabe hinzugefügt werden
             }
             executeSetText(currentInputField, userCommand); //Texteingabe ausführen
@@ -221,19 +226,23 @@ export function performUserAction(input) {
  * @param elementName - der erkannte Elementname
  */
 function chooseAction(keyword, elementName) {
-    if (keyword && elementName) {
-        if (REG_EXP_CLICK.test(keyword)) {
-            currentElements.push(...searchForElements(elementName)); //sammle Elemente
-            if (currentElements.length === 1) {
-                handleElement(currentElements[0]); //entscheide, was mit dem Element gemacht wird
-            } else if (currentElements.length === 0) {
-                provideSystemStatus(STATE_NO_MATCH, 'Please try again');
-                console.error('-------------No element found------------------');
+    if (vocsActivator.status === true && elementName) {
 
-            }
+        currentElements.push(...searchForElements(elementName)); //sammle Elemente
+        if (currentElements.length === 1) {
+            handleElement(currentElements[0]); //entscheide, was mit dem Element gemacht wird
+        } else if (currentElements.length === 0) {
+            provideSystemStatus(STATE_NO_MATCH, 'Please try again');
+            console.error('-------------No element found------------------');
+
         }
-    } else if (keyword && !elementName) { // Keyword isoliert als einzelnes Wort eingegeben
+        vocsActivator.status = false;
+
+    } else if (keyword && elementName.length === 1) { // Keyword isoliert als einzelnes Wort eingegeben
         switch (true) {
+            case REG_EXP_VOCS.test(keyword):
+                provideSystemStatus('', 'Vocs ist active');
+                break;
             case REG_EXP_DOWN.test(keyword):
                 if (currentSelect) {
                     scrollSelectContainerDown(); //Auswahlmenü-Fenster runterscrollen
@@ -263,9 +272,9 @@ function chooseAction(keyword, elementName) {
                  */
                 break;
             case REG_EXP_INFO.test(keyword):
-                /**
-                 * TODO: implement this(not relevant)
-                 */
+            /**
+             * TODO: implement this(not relevant)
+             */
             default:
         }
     }

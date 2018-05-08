@@ -18,6 +18,7 @@ export default function setupWebSpeechRecognitionAPI(){
         recognition.lang = 'en-US';
         recognition.interimResults = true;
         recognition.continuous = false;
+
         recognition.start();
 
         recognition.onresult = event => {
