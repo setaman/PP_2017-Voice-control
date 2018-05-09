@@ -8,7 +8,7 @@
       <change beforePath="$PROJECT_DIR$/dist/vocs.js" afterPath="$PROJECT_DIR$/dist/vocs.js" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js.map" afterPath="$PROJECT_DIR$/dist/vocs.js.map" />
       <change beforePath="$PROJECT_DIR$/public/js/collector.js" afterPath="$PROJECT_DIR$/public/js/collector.js" />
-      <change beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
+      <change beforePath="$PROJECT_DIR$/public/js/webspeech.js" afterPath="$PROJECT_DIR$/public/js/webspeech.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -32,14 +32,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="collector.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="webspeech.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/js/webspeech.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="39" column="57" lean-forward="false" selection-start-line="39" selection-start-column="57" selection-end-line="39" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="collector.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/collector.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="116" column="77" lean-forward="false" selection-start-line="116" selection-start-column="77" selection-end-line="116" selection-end-column="77" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="36">
+              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -179,7 +187,6 @@
         <option value="$PROJECT_DIR$/public/js/visualizer.js" />
         <option value="$PROJECT_DIR$/public/js/actions.js" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/public/js/webspeech.js" />
         <option value="$PROJECT_DIR$/public/js/const.js" />
         <option value="$PROJECT_DIR$/public/js/helper.js" />
         <option value="$PROJECT_DIR$/public/js/fuzzy_search.js" />
@@ -190,6 +197,7 @@
         <option value="$PROJECT_DIR$/views/video.ejs" />
         <option value="$PROJECT_DIR$/views/index.ejs" />
         <option value="$PROJECT_DIR$/public/js/collector.js" />
+        <option value="$PROJECT_DIR$/public/js/webspeech.js" />
       </list>
     </option>
   </component>
@@ -636,14 +644,7 @@
       <workItem from="1520357711952" duration="8670000" />
       <workItem from="1525762763642" duration="832000" />
       <workItem from="1525763789955" duration="10102000" />
-      <workItem from="1525842830518" duration="16654000" />
-    </task>
-    <task id="LOCAL-00057" summary="save option of select in array">
-      <created>1516396530582</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1516396530582</updated>
+      <workItem from="1525842830518" duration="17505000" />
     </task>
     <task id="LOCAL-00058" summary="custom select builder function">
       <created>1516398866614</created>
@@ -981,11 +982,18 @@
       <option name="project" value="LOCAL" />
       <updated>1525862654207</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="some debugging">
+      <created>1525863807613</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1525863807613</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="707521000" />
+    <option name="totallyTimeSpent" value="708372000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1091,7 +1099,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="set date/time logic with validation implemented" />
     <MESSAGE value="debugging und testing date/time" />
     <MESSAGE value="little bag in handleDateTime() with string" />
     <MESSAGE value="Merge branch 'feature/WSC-5-vocs-object' into feature/WSC-4-all-new-features-branche&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;dist/bundle.js&#10;#&#9;dist/bundle.js.map&#10;#&#9;public/js/controller.js&#10;#&#9;views/index.ejs" />
@@ -1116,7 +1123,8 @@
     <MESSAGE value="2 rounds search added (not optimized)" />
     <MESSAGE value="test site for video added" />
     <MESSAGE value="naturally searching optimized" />
-    <option name="LAST_COMMIT_MESSAGE" value="naturally searching optimized" />
+    <MESSAGE value="some debugging" />
+    <option name="LAST_COMMIT_MESSAGE" value="some debugging" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1290,6 +1298,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="16" column="1" lean-forward="false" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1313,16 +1322,6 @@
         <state relative-caret-position="558">
           <caret line="31" column="28" lean-forward="false" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/webspeech.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="25" column="36" lean-forward="false" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#68#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1436,11 +1435,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/collector.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="116" column="77" lean-forward="false" selection-start-line="116" selection-start-column="77" selection-end-line="116" selection-end-column="77" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="36">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/webspeech.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="39" column="57" lean-forward="false" selection-start-line="39" selection-start-column="57" selection-end-line="39" selection-end-column="57" />
+          <folding />
         </state>
       </provider>
     </entry>

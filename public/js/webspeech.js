@@ -44,7 +44,7 @@ export default function setupWebSpeechRecognitionAPI(){
         };
         recognition.addEventListener('end', recognition.start);
         recognition.onerror = e => {
-            if(e.error === 'no-speech'){return;}
+            if(e.error === 'no-speech' || e.error === 'network'){return;}
             console.error('Error on recognition: ');
             console.error(e);
         };

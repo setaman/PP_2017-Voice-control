@@ -15597,7 +15597,7 @@ function setupWebSpeechRecognitionAPI() {
     recognition.addEventListener('end', recognition.start);
 
     recognition.onerror = function (e) {
-      if (e.error === 'no-speech') {
+      if (e.error === 'no-speech' || e.error === 'network') {
         return;
       }
 
@@ -16491,8 +16491,6 @@ exports.search = search;
 var _element = __webpack_require__(51);
 
 var _const = __webpack_require__(4);
-
-var _helper = __webpack_require__(29);
 
 var _fuzzy_search = __webpack_require__(13);
 

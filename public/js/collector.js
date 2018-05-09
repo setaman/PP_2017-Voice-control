@@ -1,6 +1,5 @@
 import {elementBuilder} from './element';
 import {ALL_SELECTOR} from './const';
-import {getRecognizedElements} from './helper';
 import {fuzzySearch} from './fuzzy_search';
 import keywordExtractor from 'keyword-extractor';
 
