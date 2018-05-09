@@ -62,7 +62,6 @@ export function search(name) {
     if (elements.length > 0) {
         for (let i = 0; i < elements.length; i++) {
             elem = elements[i];
-            //FIXME: why compareStrings(elem.text, name) ?
             if ((elem.text ? computeScore(elem.text, name) : false)
                 || (elem.value ? computeScore(elem.value, name) : false)
                 || (elem.placeholder ? computeScore(elem.placeholder, name) : false)
@@ -77,7 +76,6 @@ export function search(name) {
         if (elements.length > 0) {
             for (let i = 0; i < elements.length; i++) {
                 elem = elements[i];
-                //FIXME: why compareStrings(elem.text, name) ?
                 if ((elem.text ? computeScore(elem.text, name, true) : false)
                     || (elem.value ? computeScore(elem.value, name, true) : false)
                     || (elem.placeholder ? computeScore(elem.placeholder, name, true) : false)

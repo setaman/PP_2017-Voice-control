@@ -16565,7 +16565,7 @@ function search(name) {
 
   if (elements.length > 0) {
     for (var i = 0; i < elements.length; i++) {
-      elem = elements[i]; //FIXME: why compareStrings(elem.text, name) ?
+      elem = elements[i];
 
       if ((elem.text ? computeScore(elem.text, name) : false) || (elem.value ? computeScore(elem.value, name) : false) || (elem.placeholder ? computeScore(elem.placeholder, name) : false) || (elem.label ? computeScore(elem.label, name) : false) || (elem.select.selected ? computeScore(elem.select.selected, name) : false)) {
         foundedElements.push(elem);
@@ -16576,7 +16576,7 @@ function search(name) {
   if (foundedElements.length === 0) {
     if (elements.length > 0) {
       for (var _i = 0; _i < elements.length; _i++) {
-        elem = elements[_i]; //FIXME: why compareStrings(elem.text, name) ?
+        elem = elements[_i];
 
         if ((elem.text ? computeScore(elem.text, name, true) : false) || (elem.value ? computeScore(elem.value, name, true) : false) || (elem.placeholder ? computeScore(elem.placeholder, name, true) : false) || (elem.label ? computeScore(elem.label, name, true) : false) || (elem.select.selected ? computeScore(elem.select.selected, name, true) : false)) {
           foundedElements.push(elem);

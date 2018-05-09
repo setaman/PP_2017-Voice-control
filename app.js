@@ -6,6 +6,7 @@ let semanticui = require('./routes/semanticui');
 let foundation = require('./routes/foundation');
 let recognizer = require('./routes/recognizer');
 let test = require('./routes/test');
+let video = require('./routes/video');
 let helmet = require('helmet');
 let resourceMonitorMiddleware = require('express-watcher').resourceMonitorMiddleware;
 let express = require('express');
@@ -27,6 +28,7 @@ app.use('/', index);
 app.use('/test', test);
 app.use('/semanticui', semanticui);
 app.use('/foundation', foundation);
+app.use('/video', video);
 //Sende audio an ASR
 app.use('/audio',recognizer);
 
