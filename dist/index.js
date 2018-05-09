@@ -16617,7 +16617,7 @@ function compareStrings(textContent, name) {
     return false;
   }
 
-  return 1 ? textContent.toString().toLowerCase().trim().search(name) >= 0 : 0;
+  return textContent.toString().toLowerCase().trim().search(name) >= 0 ? 1 : 0;
 }
 
 function computeScore(text, userInput, second) {

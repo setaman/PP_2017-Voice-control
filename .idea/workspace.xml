@@ -2,16 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/public/images/vocs_logo2.png" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/dist/index.js" afterPath="$PROJECT_DIR$/dist/index.js" />
       <change beforePath="$PROJECT_DIR$/dist/index.js.map" afterPath="$PROJECT_DIR$/dist/index.js.map" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js" afterPath="$PROJECT_DIR$/dist/vocs.js" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js.map" afterPath="$PROJECT_DIR$/dist/vocs.js.map" />
       <change beforePath="$PROJECT_DIR$/public/js/collector.js" afterPath="$PROJECT_DIR$/public/js/collector.js" />
-      <change beforePath="$PROJECT_DIR$/public/js/element.js" afterPath="$PROJECT_DIR$/public/js/element.js" />
       <change beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
-      <change beforePath="$PROJECT_DIR$/views/video.ejs" afterPath="$PROJECT_DIR$/views/video.ejs" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -35,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="collector.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="collector.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/collector.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1241">
-              <caret line="130" column="78" lean-forward="false" selection-start-line="130" selection-start-column="78" selection-end-line="130" selection-end-column="78" />
+            <state relative-caret-position="395">
+              <caret line="116" column="77" lean-forward="false" selection-start-line="116" selection-start-column="77" selection-end-line="116" selection-end-column="77" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -57,11 +54,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="1210" column="65" lean-forward="false" selection-start-line="1210" selection-start-column="65" selection-end-line="1210" selection-end-column="65" />
+            <state relative-caret-position="-20737">
+              <caret line="42" column="35" lean-forward="false" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -190,9 +187,9 @@
         <option value="$PROJECT_DIR$/routes/video.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/public/js/element.js" />
-        <option value="$PROJECT_DIR$/public/js/collector.js" />
         <option value="$PROJECT_DIR$/views/video.ejs" />
         <option value="$PROJECT_DIR$/views/index.ejs" />
+        <option value="$PROJECT_DIR$/public/js/collector.js" />
       </list>
     </option>
   </component>
@@ -639,14 +636,7 @@
       <workItem from="1520357711952" duration="8670000" />
       <workItem from="1525762763642" duration="832000" />
       <workItem from="1525763789955" duration="10102000" />
-      <workItem from="1525842830518" duration="15495000" />
-    </task>
-    <task id="LOCAL-00056" summary="function for get options of select">
-      <created>1516317501095</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1516317501096</updated>
+      <workItem from="1525842830518" duration="16654000" />
     </task>
     <task id="LOCAL-00057" summary="save option of select in array">
       <created>1516396530582</created>
@@ -984,11 +974,18 @@
       <option name="project" value="LOCAL" />
       <updated>1525859807953</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="naturally searching optimized">
+      <created>1525862654206</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1525862654207</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="706362000" />
+    <option name="totallyTimeSpent" value="707521000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1094,7 +1091,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="test logic implemented for set date/time" />
     <MESSAGE value="set date/time logic with validation implemented" />
     <MESSAGE value="debugging und testing date/time" />
     <MESSAGE value="little bag in handleDateTime() with string" />
@@ -1119,7 +1115,8 @@
     <MESSAGE value="keyword extracting added for better search result" />
     <MESSAGE value="2 rounds search added (not optimized)" />
     <MESSAGE value="test site for video added" />
-    <option name="LAST_COMMIT_MESSAGE" value="test site for video added" />
+    <MESSAGE value="naturally searching optimized" />
+    <option name="LAST_COMMIT_MESSAGE" value="naturally searching optimized" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1413,16 +1410,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/collector.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1241">
-          <caret line="130" column="78" lean-forward="false" selection-start-line="130" selection-start-column="78" selection-end-line="130" selection-end-column="78" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/element.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -1441,9 +1428,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="1210" column="65" lean-forward="false" selection-start-line="1210" selection-start-column="65" selection-end-line="1210" selection-end-column="65" />
+        <state relative-caret-position="-20737">
+          <caret line="42" column="35" lean-forward="false" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/collector.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="116" column="77" lean-forward="false" selection-start-line="116" selection-start-column="77" selection-end-line="116" selection-end-column="77" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
