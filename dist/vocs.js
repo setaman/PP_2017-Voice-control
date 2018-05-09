@@ -16573,6 +16573,18 @@ function search(name) {
     }
   }
 
+  if (foundedElements.length === 0) {
+    if (elements.length > 0) {
+      for (var _i = 0; _i < elements.length; _i++) {
+        elem = elements[_i]; //FIXME: why compareStrings(elem.text, name) ?
+
+        if ((elem.text ? computeScore(elem.text, name, true) : false) || (elem.value ? computeScore(elem.value, name, true) : false) || (elem.placeholder ? computeScore(elem.placeholder, name, true) : false) || (elem.label ? computeScore(elem.label, name, true) : false) || (elem.select.selected ? computeScore(elem.select.selected, name, true) : false)) {
+          foundedElements.push(elem);
+        }
+      }
+    }
+  }
+
   return foundedElements;
 }
 /**
@@ -16588,7 +16600,7 @@ function compareStrings(textContent, name) {
   return 1 ? textContent.toString().toLowerCase().trim().search(name) >= 0 : 0;
 }
 
-function computeScore(text, userInput) {
+function computeScore(text, userInput, second) {
   var score = 0;
   text = normalizeStringFoSearch(text);
   userInput = normalizeStringFoSearch(userInput);
@@ -16596,10 +16608,15 @@ function computeScore(text, userInput) {
 
   for (var i = 0; i < text.length; i++) {
     for (var j = 0; j < userInput.length; j++) {
-      if ((0, _fuzzy_search.fuzzySearch)(text[i], userInput[j]).length > 0) {
-        score += (0, _fuzzy_search.fuzzySearch)(text[i], userInput[j]).length;
-      } //if (compareStrings(text[i], userInput[j]) > 0 ) { score += compareStrings(text[i], userInput[j]); }
-
+      if (second) {
+        if ((0, _fuzzy_search.fuzzySearch)(text[i], userInput[j]).length > 0) {
+          score += (0, _fuzzy_search.fuzzySearch)(text[i], userInput[j]).length;
+        }
+      } else {
+        if (compareStrings(text[i], userInput[j]) > 0) {
+          score += compareStrings(text[i], userInput[j]);
+        }
+      }
     }
 
     console.log('Current score for:' + text[i] + ' is ' + score);
