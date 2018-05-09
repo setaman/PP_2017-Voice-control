@@ -16509,6 +16509,7 @@ var keywordsExtractorOptions = {
   remove_duplicates: false
 };
 var elements = [];
+var score = 0;
 /**
  * Elemente werden zur weiteren Aussortierung gesammelt
  */
@@ -16562,12 +16563,17 @@ function searchForElements(elementName) {
 function search(name) {
   var foundedElements = [];
   var elem;
+  var highestScore = [];
 
   if (elements.length > 0) {
     for (var i = 0; i < elements.length; i++) {
       elem = elements[i];
 
       if ((elem.text ? computeScore(elem.text, name) : false) || (elem.value ? computeScore(elem.value, name) : false) || (elem.placeholder ? computeScore(elem.placeholder, name) : false) || (elem.label ? computeScore(elem.label, name) : false) || (elem.select.selected ? computeScore(elem.select.selected, name) : false)) {
+        elem.score = score;
+        highestScore.push(score);
+        console.log('Current score:' + score);
+        score = 0;
         foundedElements.push(elem);
       }
     }
@@ -16579,9 +16585,23 @@ function search(name) {
         elem = elements[_i];
 
         if ((elem.text ? computeScore(elem.text, name, true) : false) || (elem.value ? computeScore(elem.value, name, true) : false) || (elem.placeholder ? computeScore(elem.placeholder, name, true) : false) || (elem.label ? computeScore(elem.label, name, true) : false) || (elem.select.selected ? computeScore(elem.select.selected, name, true) : false)) {
+          elem.score = score;
+          highestScore.push(score);
+          console.log('Current score:' + score);
+          score = 0;
           foundedElements.push(elem);
         }
       }
+    }
+  }
+
+  highestScore = Math.max.apply(Math, _toConsumableArray(highestScore));
+
+  for (var _i2 = 0; _i2 < foundedElements.length; _i2++) {
+    elem = foundedElements[_i2];
+
+    if (elem.score < highestScore) {
+      foundedElements.splice(_i2, 1);
     }
   }
 
@@ -16601,28 +16621,27 @@ function compareStrings(textContent, name) {
 }
 
 function computeScore(text, userInput, second) {
-  var score = 0;
+  var currentScore = 0;
   text = normalizeStringFoSearch(text);
-  userInput = normalizeStringFoSearch(userInput);
-  console.warn('Text:' + text + ' || Input: ' + userInput);
+  userInput = normalizeStringFoSearch(userInput); //console.warn('Text:' + text + ' || Input: ' +  userInput);
 
   for (var i = 0; i < text.length; i++) {
     for (var j = 0; j < userInput.length; j++) {
       if (second) {
         if ((0, _fuzzy_search.fuzzySearch)(text[i], userInput[j]).length > 0) {
-          score += (0, _fuzzy_search.fuzzySearch)(text[i], userInput[j]).length;
+          currentScore += (0, _fuzzy_search.fuzzySearch)(text[i], userInput[j]).length;
         }
       } else {
         if (compareStrings(text[i], userInput[j]) > 0) {
-          score += compareStrings(text[i], userInput[j]);
+          currentScore += compareStrings(text[i], userInput[j]);
         }
       }
-    }
+    } //console.log('Current score for:' + text[i] + ' is ' + score);
 
-    console.log('Current score for:' + text[i] + ' is ' + score);
   }
 
-  return score > 0;
+  score = currentScore;
+  return currentScore > 0;
 }
 
 function normalizeStringFoSearch(string) {
@@ -16680,6 +16699,8 @@ function buildElement(elem) {
     //Dimensionen eines Elements
     type: getTypeOfElement(elem),
     //TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE oder TYPE_DATE_TIME
+    score: 0,
+    //Score needed for searching
     select: {
       //benötigte Daten eines Selects
       option: getOptions(elem),

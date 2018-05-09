@@ -12,6 +12,7 @@ let keywordsExtractorOptions = {
 };
 
 let elements = [];
+let score = 0;
 
 /**
  * Elemente werden zur weiteren Aussortierung gesammelt
@@ -58,6 +59,7 @@ export function searchForElements(elementName) {
 export function search(name) {
     let foundedElements = [];
     let elem;
+    let highestScore = [];
 
     if (elements.length > 0) {
         for (let i = 0; i < elements.length; i++) {
@@ -67,7 +69,11 @@ export function search(name) {
                 || (elem.placeholder ? computeScore(elem.placeholder, name) : false)
                 || (elem.label ? computeScore(elem.label, name) : false)
                 || (elem.select.selected ? computeScore(elem.select.selected, name) : false)) {
+                elem.score = score;
+                highestScore.push(score);
+                console.log('Current score:' + score);
 
+                score = 0;
                 foundedElements.push(elem);
             }
         }
@@ -81,10 +87,21 @@ export function search(name) {
                     || (elem.placeholder ? computeScore(elem.placeholder, name, true) : false)
                     || (elem.label ? computeScore(elem.label, name, true) : false)
                     || (elem.select.selected ? computeScore(elem.select.selected, name, true) : false)) {
+                    elem.score = score;
+                    highestScore.push(score);
+                    console.log('Current score:' + score);
+                    score = 0;
 
                     foundedElements.push(elem);
                 }
             }
+        }
+    }
+    highestScore = Math.max(...highestScore);
+    for (let i = 0; i < foundedElements.length; i++) {
+        elem = foundedElements[i];
+        if(elem.score < highestScore) {
+            foundedElements.splice(i, 1);
         }
     }
     return foundedElements;
@@ -101,22 +118,23 @@ function compareStrings(textContent, name) {
 }
 
 function computeScore(text, userInput, second) {
-    let score = 0;
+    let currentScore = 0;
     text = normalizeStringFoSearch(text);
     userInput = normalizeStringFoSearch(userInput);
-    console.warn('Text:' + text + ' || Input: ' +  userInput);
+    //console.warn('Text:' + text + ' || Input: ' +  userInput);
 
     for (let i = 0; i < text.length; i++ ) {
         for (let j = 0; j < userInput.length; j++ ) {
             if (second) {
-                if (fuzzySearch(text[i], userInput[j]).length > 0 ) { score += fuzzySearch(text[i], userInput[j]).length; }
+                if (fuzzySearch(text[i], userInput[j]).length > 0 ) { currentScore += fuzzySearch(text[i], userInput[j]).length; }
             } else {
-                if (compareStrings(text[i], userInput[j]) > 0 ) { score += compareStrings(text[i], userInput[j]); }
+                if (compareStrings(text[i], userInput[j]) > 0 ) { currentScore += compareStrings(text[i], userInput[j]); }
             }
         }
-        console.log('Current score for:' + text[i] + ' is ' + score);
+        //console.log('Current score for:' + text[i] + ' is ' + score);
     }
-    return score > 0;
+    score = currentScore;
+    return currentScore > 0;
 }
 
 function normalizeStringFoSearch(string) {

@@ -31,6 +31,7 @@ function buildElement(elem) {
         position: getPosition(currentLabel ? currentLabel : elem), //POSITION eines Elements im Browserfenster
         dimensions: getDimensions(currentLabel ? currentLabel : elem), //Dimensionen eines Elements
         type: getTypeOfElement(elem), //TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE oder TYPE_DATE_TIME
+        score: 0, //Score needed for searching
         select: { //benötigte Daten eines Selects
             option: getOptions(elem), // Optionen
             value: getOptionsValues(elem), //Value der Optionen
