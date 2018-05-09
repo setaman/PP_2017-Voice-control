@@ -61,3 +61,8 @@ export function fuzzySearchForVocs(searchString) {
     let fuse = new Fuse([{vocs:'vocs'}], optionsForVocs);
     return fuse.search(searchString);
 }
+
+export function fuzzySearch(elementString, userInput) {
+    let fuse = new Fuse([{text: elementString}], optionsForElements);
+    return fuse.search(userInput);
+}

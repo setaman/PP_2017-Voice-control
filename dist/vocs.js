@@ -74,7 +74,7 @@
 // Imports
 // --------------------------------------------------------------------
 
-var extend = __webpack_require__(21);
+var extend = __webpack_require__(22);
 
 // --------------------------------------------------------------------
 // Private Stuff
@@ -274,7 +274,7 @@ exports.unexpectedObjToString = function(obj) {
 // Imports
 // --------------------------------------------------------------------
 
-var UnicodeCategories = __webpack_require__(133);
+var UnicodeCategories = __webpack_require__(150);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
 var inherits = __webpack_require__(12);
@@ -491,22 +491,22 @@ exports.UnicodeChar = UnicodeChar;
 // Extensions
 // --------------------------------------------------------------------
 
-__webpack_require__(134);
-__webpack_require__(135);
-__webpack_require__(136);
-__webpack_require__(137);
-__webpack_require__(138);
-__webpack_require__(139);
-__webpack_require__(140);
-__webpack_require__(141);
-__webpack_require__(142);
-__webpack_require__(143);
-__webpack_require__(144);
-__webpack_require__(145);
-__webpack_require__(146);
-__webpack_require__(147);
-__webpack_require__(148);
-__webpack_require__(149);
+__webpack_require__(151);
+__webpack_require__(152);
+__webpack_require__(153);
+__webpack_require__(154);
+__webpack_require__(155);
+__webpack_require__(156);
+__webpack_require__(157);
+__webpack_require__(158);
+__webpack_require__(159);
+__webpack_require__(160);
+__webpack_require__(161);
+__webpack_require__(162);
+__webpack_require__(163);
+__webpack_require__(164);
+__webpack_require__(165);
+__webpack_require__(166);
 
 
 /***/ }),
@@ -10954,9 +10954,9 @@ jQuery.nodeName = nodeName;
 // https://github.com/jrburke/requirejs/wiki/Updating-existing-libraries#wiki-anon
 
 if ( true ) {
-	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function() {
 		return jQuery;
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+	}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 }
 
@@ -11202,7 +11202,7 @@ module.exports = nativeCreate;
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(115);
+var eq = __webpack_require__(132);
 
 /**
  * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -11229,7 +11229,7 @@ module.exports = assocIndexOf;
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isKeyable = __webpack_require__(121);
+var isKeyable = __webpack_require__(138);
 
 /**
  * Gets the data for `map`.
@@ -11262,15 +11262,15 @@ module.exports = getMapData;
 // Imports
 // --------------------------------------------------------------------
 
-var Builder = __webpack_require__(130);
-var Grammar = __webpack_require__(20);
+var Builder = __webpack_require__(147);
+var Grammar = __webpack_require__(21);
 var Namespace = __webpack_require__(41);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
 var pexprs = __webpack_require__(1);
-var util = __webpack_require__(23);
+var util = __webpack_require__(24);
 
-var isBuffer = __webpack_require__(172);
+var isBuffer = __webpack_require__(189);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -11615,7 +11615,7 @@ module.exports = {
   ohmGrammar: null,  // Initialized below, after Grammar.BuiltInRules.
   pexprs: pexprs,
   util: util,
-  extras: __webpack_require__(173)
+  extras: __webpack_require__(190)
 };
 
 // Stuff for testing, etc.
@@ -11624,14 +11624,14 @@ module.exports._setDocumentInterfaceForTesting = function(doc) { documentInterfa
 
 // Late initialization for stuff that is bootstrapped.
 
-Grammar.BuiltInRules = __webpack_require__(175);
+Grammar.BuiltInRules = __webpack_require__(192);
 
 var Semantics = __webpack_require__(43);
-var operationsAndAttributesGrammar = __webpack_require__(176);
+var operationsAndAttributesGrammar = __webpack_require__(193);
 Semantics.initBuiltInSemantics(Grammar.BuiltInRules);
 Semantics.initPrototypeParser(operationsAndAttributesGrammar);  // requires BuiltInSemantics
 
-module.exports.ohmGrammar = ohmGrammar = __webpack_require__(177);
+module.exports.ohmGrammar = ohmGrammar = __webpack_require__(194);
 Grammar.initApplicationParser(ohmGrammar, buildGrammar);
 
 
@@ -11851,6 +11851,94 @@ if (typeof Object.create === 'function') {
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fuzzySearchForElements = fuzzySearchForElements;
+exports.fuzzySearchForKeywords = fuzzySearchForKeywords;
+exports.fuzzySearchForVocs = fuzzySearchForVocs;
+exports.fuzzySearch = fuzzySearch;
+
+var _fuse = _interopRequireDefault(__webpack_require__(52));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//siehe http://fusejs.io/
+var optionsForElements = {
+  shouldSort: true,
+  tokenize: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  //FIXME: what about OPTION for selects???
+  keys: ['text', 'label', 'value', 'placeholder']
+};
+var optionsForKeywords = {
+  shouldSort: true,
+  threshold: 0.5,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 2,
+  keys: ['keyword'],
+  id: 'keyword'
+};
+var optionsForVocs = {
+  threshold: 0.75,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 10,
+  minMatchCharLength: 3,
+  keys: ['vocs'],
+  id: 'vocs'
+};
+/**
+ * Unscharfe Suche nach einem Element
+ * @param list - Liste von Elementen
+ * @param searchString - Benutzereingabe
+ * @return {*|any[]} - Resultat der Suche, Alle berechneten Elemente
+ */
+
+function fuzzySearchForElements(list, searchString) {
+  var fuse = new _fuse.default(list, optionsForElements);
+  return fuse.search(searchString);
+}
+/**
+ * Unscharfe Suche nach einem Keyword
+ * @param list - Liste von Keywords
+ * @param searchString - Benutzereingabe
+ * @return {*|any[]} - Resultat der Suche, Alle berechneten Keywords
+ */
+
+
+function fuzzySearchForKeywords(list, searchString) {
+  var fuse = new _fuse.default(list, optionsForKeywords);
+  return fuse.search(searchString);
+}
+
+function fuzzySearchForVocs(searchString) {
+  var fuse = new _fuse.default([{
+    vocs: 'vocs'
+  }], optionsForVocs);
+  return fuse.search(searchString);
+}
+
+function fuzzySearch(elementString, userInput) {
+  var fuse = new _fuse.default([{
+    text: elementString
+  }], optionsForElements);
+  return fuse.search(userInput);
+}
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -11862,7 +11950,7 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -11871,7 +11959,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
@@ -11881,7 +11969,7 @@ module.exports = !__webpack_require__(6)(function () {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 /**
@@ -11913,11 +12001,11 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(37),
-    isObjectLike = __webpack_require__(94);
+    isObjectLike = __webpack_require__(111);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -11948,10 +12036,10 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(19);
+var root = __webpack_require__(20);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -11960,10 +12048,10 @@ module.exports = Symbol;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var freeGlobal = __webpack_require__(91);
+var freeGlobal = __webpack_require__(108);
 
 /** Detect free variable `self`. */
 var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -11975,7 +12063,7 @@ module.exports = root;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11985,8 +12073,8 @@ module.exports = root;
 // Imports
 // --------------------------------------------------------------------
 
-var CaseInsensitiveTerminal = __webpack_require__(132);
-var Matcher = __webpack_require__(150);
+var CaseInsensitiveTerminal = __webpack_require__(149);
+var Matcher = __webpack_require__(167);
 var Semantics = __webpack_require__(43);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
@@ -12335,7 +12423,7 @@ module.exports = Grammar;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -12374,7 +12462,7 @@ function extend(origin, add) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12386,7 +12474,7 @@ function extend(origin, add) {
 
 var assert = __webpack_require__(0).assert;
 var errors = __webpack_require__(2);
-var util = __webpack_require__(23);
+var util = __webpack_require__(24);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -12521,7 +12609,7 @@ module.exports = Interval;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12676,7 +12764,7 @@ exports.getLineAndColumnMessage = function(str, offset /* ...ranges */) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12686,7 +12774,7 @@ exports.getLineAndColumnMessage = function(str, offset /* ...ranges */) {
 // Imports
 // --------------------------------------------------------------------
 
-var Interval = __webpack_require__(22);
+var Interval = __webpack_require__(23);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -12755,7 +12843,7 @@ module.exports = InputStream;
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12766,8 +12854,8 @@ module.exports = InputStream;
 // --------------------------------------------------------------------
 
 var common = __webpack_require__(0);
-var util = __webpack_require__(23);
-var Interval = __webpack_require__(22);
+var util = __webpack_require__(24);
+var Interval = __webpack_require__(23);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -12872,13 +12960,13 @@ module.exports = MatchResult;
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _undefined = __webpack_require__(163)(); // Support ES3 engines
+var _undefined = __webpack_require__(180)(); // Support ES3 engines
 
 module.exports = function (val) {
  return (val !== _undefined) && (val !== null);
@@ -12886,7 +12974,7 @@ module.exports = function (val) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 var g;
@@ -12913,7 +13001,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12945,7 +13033,7 @@ exports.setNumber = setNumber;
 
 var _const = __webpack_require__(4);
 
-var _fuzzy_search = __webpack_require__(29);
+var _fuzzy_search = __webpack_require__(13);
 
 var vocsIsActive = false;
 
@@ -13288,93 +13376,13 @@ function setNumber(elem, number) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.fuzzySearchForElements = fuzzySearchForElements;
-exports.fuzzySearchForKeywords = fuzzySearchForKeywords;
-exports.fuzzySearchForVocs = fuzzySearchForVocs;
-
-var _fuse = _interopRequireDefault(__webpack_require__(52));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//siehe http://fusejs.io/
-var optionsForElements = {
-  shouldSort: true,
-  tokenize: true,
-  threshold: 0.6,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
-  minMatchCharLength: 1,
-  //FIXME: what about OPTION for selects???
-  keys: ['text', 'label', 'value', 'placeholder']
-};
-var optionsForKeywords = {
-  shouldSort: true,
-  threshold: 0.5,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
-  minMatchCharLength: 2,
-  keys: ['keyword'],
-  id: 'keyword'
-};
-var optionsForVocs = {
-  threshold: 0.75,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 10,
-  minMatchCharLength: 3,
-  keys: ['vocs'],
-  id: 'vocs'
-};
-/**
- * Unscharfe Suche nach einem Element
- * @param list - Liste von Elementen
- * @param searchString - Benutzereingabe
- * @return {*|any[]} - Resultat der Suche, Alle berechneten Elemente
- */
-
-function fuzzySearchForElements(list, searchString) {
-  var fuse = new _fuse.default(list, optionsForElements);
-  return fuse.search(searchString);
-}
-/**
- * Unscharfe Suche nach einem Keyword
- * @param list - Liste von Keywords
- * @param searchString - Benutzereingabe
- * @return {*|any[]} - Resultat der Suche, Alle berechneten Keywords
- */
-
-
-function fuzzySearchForKeywords(list, searchString) {
-  var fuse = new _fuse.default(list, optionsForKeywords);
-  return fuse.search(searchString);
-}
-
-function fuzzySearchForVocs(searchString) {
-  var fuse = new _fuse.default([{
-    vocs: 'vocs'
-  }], optionsForVocs);
-  return fuse.search(searchString);
-}
-
-/***/ }),
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(13);
+var global = __webpack_require__(14);
 var core = __webpack_require__(5);
-var ctx = __webpack_require__(60);
-var hide = __webpack_require__(62);
+var ctx = __webpack_require__(77);
+var hide = __webpack_require__(79);
 var PROTOTYPE = 'prototype';
 
 var $export = function (type, name, source) {
@@ -13439,8 +13447,8 @@ module.exports = $export;
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(70);
-var enumBugKeys = __webpack_require__(79);
+var $keys = __webpack_require__(87);
+var enumBugKeys = __webpack_require__(96);
 
 module.exports = Object.keys || function keys(O) {
   return $keys(O, enumBugKeys);
@@ -13464,7 +13472,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(72);
+var cof = __webpack_require__(89);
 // eslint-disable-next-line no-prototype-builtins
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
   return cof(it) == 'String' ? it.split('') : Object(it);
@@ -13509,9 +13517,9 @@ module.exports = function (it) {
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(18),
-    getRawTag = __webpack_require__(92),
-    objectToString = __webpack_require__(93);
+var Symbol = __webpack_require__(19),
+    getRawTag = __webpack_require__(109),
+    objectToString = __webpack_require__(110);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -13543,8 +13551,8 @@ module.exports = baseGetTag;
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsNative = __webpack_require__(102),
-    getValue = __webpack_require__(107);
+var baseIsNative = __webpack_require__(119),
+    getValue = __webpack_require__(124);
 
 /**
  * Gets the native function at `key` of `object`.
@@ -13716,7 +13724,7 @@ module.exports = Failure;
 // Imports
 // --------------------------------------------------------------------
 
-var extend = __webpack_require__(21);
+var extend = __webpack_require__(22);
 
 // --------------------------------------------------------------------
 // Private stuff
@@ -13779,7 +13787,7 @@ module.exports = Namespace;
 // Imports
 // --------------------------------------------------------------------
 
-var Interval = __webpack_require__(22);
+var Interval = __webpack_require__(23);
 var common = __webpack_require__(0);
 
 // --------------------------------------------------------------------
@@ -13963,12 +13971,12 @@ module.exports = Trace;
 // Imports
 // --------------------------------------------------------------------
 
-var Symbol = __webpack_require__(153);  // eslint-disable-line no-undef
+var Symbol = __webpack_require__(170);  // eslint-disable-line no-undef
 var inherits = __webpack_require__(12);
 
-var InputStream = __webpack_require__(24);
+var InputStream = __webpack_require__(25);
 var IterationNode = __webpack_require__(11).IterationNode;
-var MatchResult = __webpack_require__(25);
+var MatchResult = __webpack_require__(26);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
 
@@ -14701,9 +14709,9 @@ module.exports = Semantics;
 // --------------------------------------------------------------------
 
 var pexprs = __webpack_require__(1);
-var MatchResult = __webpack_require__(25);
-var Grammar = __webpack_require__(20);
-var extend = __webpack_require__(21);
+var MatchResult = __webpack_require__(26);
+var Grammar = __webpack_require__(21);
+var extend = __webpack_require__(22);
 
 // --------------------------------------------------------------------
 // Operations
@@ -15532,7 +15540,7 @@ function stopRecorder() {
     }, {}]
   }, {}, [1])(1);
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
 
 /***/ }),
 /* 48 */
@@ -15548,7 +15556,7 @@ exports.default = setupWebSpeechRecognitionAPI;
 
 var _controller = __webpack_require__(49);
 
-var _fuzzy_search = __webpack_require__(29);
+var _fuzzy_search = __webpack_require__(13);
 
 /**
  *  Setup Google Speech Recognition
@@ -15618,15 +15626,15 @@ var _const = __webpack_require__(4);
 
 var _collector = __webpack_require__(50);
 
-var _actions = __webpack_require__(53);
+var _actions = __webpack_require__(70);
 
-var _helper = __webpack_require__(28);
+var _helper = __webpack_require__(29);
 
-__webpack_require__(54);
+__webpack_require__(71);
 
-var _wordsToNumbers = _interopRequireDefault(__webpack_require__(55));
+var _wordsToNumbers = _interopRequireDefault(__webpack_require__(72));
 
-var _visualizer = _interopRequireDefault(__webpack_require__(178));
+var _visualizer = _interopRequireDefault(__webpack_require__(195));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16442,7 +16450,7 @@ function deactivationInterval() {
   var interval = setInterval(function () {
     i += 1;
 
-    if (i === 10 && vocsIsActivated) {
+    if (i === 20 && vocsIsActivated) {
       vocsIsActivated = !vocsIsActivated;
       console.error('!!!VOCS deactivated!!!');
       showLogo();
@@ -16484,10 +16492,22 @@ var _element = __webpack_require__(51);
 
 var _const = __webpack_require__(4);
 
-var _helper = __webpack_require__(28);
+var _helper = __webpack_require__(29);
+
+var _fuzzy_search = __webpack_require__(13);
+
+var _keywordExtractor = _interopRequireDefault(__webpack_require__(53));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+var keywordsExtractorOptions = {
+  language: "english",
+  remove_digits: true,
+  return_changed_case: true,
+  remove_duplicates: false
+};
 var elements = [];
 /**
  * Elemente werden zur weiteren Aussortierung gesammelt
@@ -16496,7 +16516,8 @@ var elements = [];
 function collectElements() {
   var _elements;
 
-  elements = []; //Benutzerdefinierte Element-Objekte werden erzeugt
+  //reset array
+  elements = []; //create custom Element-Objects
 
   (_elements = elements).push.apply(_elements, _toConsumableArray((0, _element.elementBuilder)(_const.ALL_SELECTOR)));
 
@@ -16520,15 +16541,14 @@ function getElements() {
 
 
 function searchForElements(elementName) {
-  //Elemente sammeln
-  collectElements(); //Nach einem Element suchen
+  //collect Elements
+  collectElements(); //search for needed element
 
   var result = search(elementName);
-
-  if (result.length === 0) {
-    //Kein Element identifiziert, verwende fuzzy search
-    return (0, _helper.getRecognizedElements)(elements, elementName);
-  }
+  /*if (result.length === 0) {
+      //no Element found, try with fuzzy search
+      return getRecognizedElements(elements, elementName);
+  }*/
 
   return result;
 }
@@ -16547,7 +16567,7 @@ function search(name) {
     for (var i = 0; i < elements.length; i++) {
       elem = elements[i]; //FIXME: why compareStrings(elem.text, name) ?
 
-      if (compareStrings(elem.text, name) || (elem.value ? compareStrings(elem.value, name) : false) || (elem.placeholder ? compareStrings(elem.placeholder, name) : false) || (elem.label ? compareStrings(elem.label, name) : false) || compareStrings(elem.select.selected, name)) {
+      if ((elem.text ? computeScore(elem.text, name) : false) || (elem.value ? computeScore(elem.value, name) : false) || (elem.placeholder ? computeScore(elem.placeholder, name) : false) || (elem.label ? computeScore(elem.label, name) : false) || (elem.select.selected ? computeScore(elem.select.selected, name) : false)) {
         foundedElements.push(elem);
       }
     }
@@ -16565,7 +16585,37 @@ function compareStrings(textContent, name) {
     return false;
   }
 
-  return textContent.toString().toLowerCase().trim().search(name) >= 0;
+  return 1 ? textContent.toString().toLowerCase().trim().search(name) >= 0 : 0;
+}
+
+function computeScore(text, userInput) {
+  var score = 0;
+  text = normalizeStringFoSearch(text);
+  userInput = normalizeStringFoSearch(userInput);
+  console.warn('Text:' + text + ' || Input: ' + userInput);
+
+  for (var i = 0; i < text.length; i++) {
+    for (var j = 0; j < userInput.length; j++) {
+      if ((0, _fuzzy_search.fuzzySearch)(text[i], userInput[j]).length > 0) {
+        score += (0, _fuzzy_search.fuzzySearch)(text[i], userInput[j]).length;
+      } //if (compareStrings(text[i], userInput[j]) > 0 ) { score += compareStrings(text[i], userInput[j]); }
+
+    }
+
+    console.log('Current score for:' + text[i] + ' is ' + score);
+  }
+
+  return score > 0;
+}
+
+function normalizeStringFoSearch(string) {
+  var res = _keywordExtractor.default.extract(string, keywordsExtractorOptions);
+
+  if (res.length > 0) {
+    return res;
+  }
+
+  return string.split(/[ ,]+/);
 }
 
 /***/ }),
@@ -16866,6 +16916,7847 @@ function isVisible(elem) {
 /* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(54);
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _ = __webpack_require__(55);
+_.str = __webpack_require__(56);
+var supported_languages = ["danish","dutch","english","french","galician","german","italian","polish","portuguese","russian","spanish","swedish"];
+var stopwords = __webpack_require__(57);
+
+function _extract(str, options){
+    if(_.isEmpty(str)){
+        return [];
+    }
+    if(_.isEmpty(options)){
+        options = {
+            remove_digits: true,
+            return_changed_case: true
+        };
+    }
+    var return_changed_case = options.return_changed_case;
+    var return_chained_words = options.return_chained_words;
+    var remove_digits = options.remove_digits;
+    var _language = options.language || "english";
+    var _remove_duplicates = options.remove_duplicates || false;
+    var return_max_ngrams = options.return_max_ngrams;
+
+    if(supported_languages.indexOf(_language) < 0){
+        throw new Error("Language must be one of ["+supported_languages.join(",")+"]");
+    }
+
+    //  strip any HTML and trim whitespace
+    var text = _.str.trim(_.str.stripTags(str));
+    if(_.isEmpty(text)){
+        return [];
+    }else{
+        var words = text.split(/\s/);
+        var unchanged_words = [];
+        var low_words = [];
+        //  change the case of all the words
+        for(var x = 0;x < words.length; x++){
+            var w = words[x].match(/https?:\/\/.*[\r\n]*/g) ? words[x] : words[x].replace(/\.|,|;|!|\?|\(|\)|:|"|^'|'$|“|”|‘|’/g,'');
+            //  remove periods, question marks, exclamation points, commas, and semi-colons
+            //  if this is a short result, make sure it's not a single character or something 'odd'
+            if(w.length === 1){
+                w = w.replace(/-|_|@|&|#/g,'');
+            }
+            //  if it's a number, remove it
+            var digits_match = w.match(/\d/g);
+            if(remove_digits && digits_match && digits_match.length === w.length){
+                w = "";
+            }
+            if(w.length > 0){
+                low_words.push(w.toLowerCase());
+                unchanged_words.push(w);
+            }
+        }
+        var results = [];
+        var _stopwords = options.stopwords || _getStopwords({ language: _language });
+        var _last_result_word_index = 0;
+        var _start_result_word_index = 0;
+	var _unbroken_word_chain = false;
+        for(var y = 0; y < low_words.length; y++){
+
+            if(_stopwords.indexOf(low_words[y]) < 0){
+                
+                if(_last_result_word_index !== y - 1){
+                    _start_result_word_index = y;
+                    _unbroken_word_chain = false; 
+		} else {
+	            _unbroken_word_chain = true;
+		}
+                var result_word = return_changed_case && !unchanged_words[y].match(/https?:\/\/.*[\r\n]*/g) ? low_words[y] : unchanged_words[y];
+                
+                if (return_max_ngrams && _unbroken_word_chain && !return_chained_words && return_max_ngrams > (y - _start_result_word_index) && _last_result_word_index === y - 1){
+                    var change_pos = results.length - 1 < 0 ? 0 : results.length - 1;
+                    results[change_pos] = results[change_pos] ? results[change_pos] + ' ' + result_word : result_word;
+                } else if (return_chained_words && _last_result_word_index === y - 1) {
+                  var change_pos = results.length - 1 < 0 ? 0 : results.length - 1;
+                  results[change_pos] = results[change_pos] ? results[change_pos] + ' ' + result_word : result_word;
+                } else {
+                  results.push(result_word);
+                }
+
+                _last_result_word_index = y;
+            } else {
+		_unbroken_word_chain = false;
+	    }
+        }
+
+        if(_remove_duplicates) {
+            results= _.uniq(results, function (item) {
+                return item;
+            });
+        }
+
+        return results;
+    }
+}
+
+function _getStopwords(options){
+    options = options || {};
+
+    var _language = options.language || "english";
+    if(supported_languages.indexOf(_language) < 0){
+        throw new Error("Language must be one of ["+supported_languages.join(",")+"]");
+    }
+
+    return stopwords[_language];
+}
+
+module.exports = {
+    extract:_extract,
+    getStopwords: _getStopwords
+};
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.7.0
+//     http://underscorejs.org
+//     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+//     Underscore may be freely distributed under the MIT license.
+
+(function() {
+
+  // Baseline setup
+  // --------------
+
+  // Establish the root object, `window` in the browser, or `exports` on the server.
+  var root = this;
+
+  // Save the previous value of the `_` variable.
+  var previousUnderscore = root._;
+
+  // Save bytes in the minified (but not gzipped) version:
+  var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
+
+  // Create quick reference variables for speed access to core prototypes.
+  var
+    push             = ArrayProto.push,
+    slice            = ArrayProto.slice,
+    concat           = ArrayProto.concat,
+    toString         = ObjProto.toString,
+    hasOwnProperty   = ObjProto.hasOwnProperty;
+
+  // All **ECMAScript 5** native function implementations that we hope to use
+  // are declared here.
+  var
+    nativeIsArray      = Array.isArray,
+    nativeKeys         = Object.keys,
+    nativeBind         = FuncProto.bind;
+
+  // Create a safe reference to the Underscore object for use below.
+  var _ = function(obj) {
+    if (obj instanceof _) return obj;
+    if (!(this instanceof _)) return new _(obj);
+    this._wrapped = obj;
+  };
+
+  // Export the Underscore object for **Node.js**, with
+  // backwards-compatibility for the old `require()` API. If we're in
+  // the browser, add `_` as a global object.
+  if (true) {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = _;
+    }
+    exports._ = _;
+  } else {
+    root._ = _;
+  }
+
+  // Current version.
+  _.VERSION = '1.7.0';
+
+  // Internal function that returns an efficient (for current engines) version
+  // of the passed-in callback, to be repeatedly applied in other Underscore
+  // functions.
+  var createCallback = function(func, context, argCount) {
+    if (context === void 0) return func;
+    switch (argCount == null ? 3 : argCount) {
+      case 1: return function(value) {
+        return func.call(context, value);
+      };
+      case 2: return function(value, other) {
+        return func.call(context, value, other);
+      };
+      case 3: return function(value, index, collection) {
+        return func.call(context, value, index, collection);
+      };
+      case 4: return function(accumulator, value, index, collection) {
+        return func.call(context, accumulator, value, index, collection);
+      };
+    }
+    return function() {
+      return func.apply(context, arguments);
+    };
+  };
+
+  // A mostly-internal function to generate callbacks that can be applied
+  // to each element in a collection, returning the desired result — either
+  // identity, an arbitrary callback, a property matcher, or a property accessor.
+  _.iteratee = function(value, context, argCount) {
+    if (value == null) return _.identity;
+    if (_.isFunction(value)) return createCallback(value, context, argCount);
+    if (_.isObject(value)) return _.matches(value);
+    return _.property(value);
+  };
+
+  // Collection Functions
+  // --------------------
+
+  // The cornerstone, an `each` implementation, aka `forEach`.
+  // Handles raw objects in addition to array-likes. Treats all
+  // sparse array-likes as if they were dense.
+  _.each = _.forEach = function(obj, iteratee, context) {
+    if (obj == null) return obj;
+    iteratee = createCallback(iteratee, context);
+    var i, length = obj.length;
+    if (length === +length) {
+      for (i = 0; i < length; i++) {
+        iteratee(obj[i], i, obj);
+      }
+    } else {
+      var keys = _.keys(obj);
+      for (i = 0, length = keys.length; i < length; i++) {
+        iteratee(obj[keys[i]], keys[i], obj);
+      }
+    }
+    return obj;
+  };
+
+  // Return the results of applying the iteratee to each element.
+  _.map = _.collect = function(obj, iteratee, context) {
+    if (obj == null) return [];
+    iteratee = _.iteratee(iteratee, context);
+    var keys = obj.length !== +obj.length && _.keys(obj),
+        length = (keys || obj).length,
+        results = Array(length),
+        currentKey;
+    for (var index = 0; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      results[index] = iteratee(obj[currentKey], currentKey, obj);
+    }
+    return results;
+  };
+
+  var reduceError = 'Reduce of empty array with no initial value';
+
+  // **Reduce** builds up a single result from a list of values, aka `inject`,
+  // or `foldl`.
+  _.reduce = _.foldl = _.inject = function(obj, iteratee, memo, context) {
+    if (obj == null) obj = [];
+    iteratee = createCallback(iteratee, context, 4);
+    var keys = obj.length !== +obj.length && _.keys(obj),
+        length = (keys || obj).length,
+        index = 0, currentKey;
+    if (arguments.length < 3) {
+      if (!length) throw new TypeError(reduceError);
+      memo = obj[keys ? keys[index++] : index++];
+    }
+    for (; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      memo = iteratee(memo, obj[currentKey], currentKey, obj);
+    }
+    return memo;
+  };
+
+  // The right-associative version of reduce, also known as `foldr`.
+  _.reduceRight = _.foldr = function(obj, iteratee, memo, context) {
+    if (obj == null) obj = [];
+    iteratee = createCallback(iteratee, context, 4);
+    var keys = obj.length !== + obj.length && _.keys(obj),
+        index = (keys || obj).length,
+        currentKey;
+    if (arguments.length < 3) {
+      if (!index) throw new TypeError(reduceError);
+      memo = obj[keys ? keys[--index] : --index];
+    }
+    while (index--) {
+      currentKey = keys ? keys[index] : index;
+      memo = iteratee(memo, obj[currentKey], currentKey, obj);
+    }
+    return memo;
+  };
+
+  // Return the first value which passes a truth test. Aliased as `detect`.
+  _.find = _.detect = function(obj, predicate, context) {
+    var result;
+    predicate = _.iteratee(predicate, context);
+    _.some(obj, function(value, index, list) {
+      if (predicate(value, index, list)) {
+        result = value;
+        return true;
+      }
+    });
+    return result;
+  };
+
+  // Return all the elements that pass a truth test.
+  // Aliased as `select`.
+  _.filter = _.select = function(obj, predicate, context) {
+    var results = [];
+    if (obj == null) return results;
+    predicate = _.iteratee(predicate, context);
+    _.each(obj, function(value, index, list) {
+      if (predicate(value, index, list)) results.push(value);
+    });
+    return results;
+  };
+
+  // Return all the elements for which a truth test fails.
+  _.reject = function(obj, predicate, context) {
+    return _.filter(obj, _.negate(_.iteratee(predicate)), context);
+  };
+
+  // Determine whether all of the elements match a truth test.
+  // Aliased as `all`.
+  _.every = _.all = function(obj, predicate, context) {
+    if (obj == null) return true;
+    predicate = _.iteratee(predicate, context);
+    var keys = obj.length !== +obj.length && _.keys(obj),
+        length = (keys || obj).length,
+        index, currentKey;
+    for (index = 0; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      if (!predicate(obj[currentKey], currentKey, obj)) return false;
+    }
+    return true;
+  };
+
+  // Determine if at least one element in the object matches a truth test.
+  // Aliased as `any`.
+  _.some = _.any = function(obj, predicate, context) {
+    if (obj == null) return false;
+    predicate = _.iteratee(predicate, context);
+    var keys = obj.length !== +obj.length && _.keys(obj),
+        length = (keys || obj).length,
+        index, currentKey;
+    for (index = 0; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      if (predicate(obj[currentKey], currentKey, obj)) return true;
+    }
+    return false;
+  };
+
+  // Determine if the array or object contains a given value (using `===`).
+  // Aliased as `include`.
+  _.contains = _.include = function(obj, target) {
+    if (obj == null) return false;
+    if (obj.length !== +obj.length) obj = _.values(obj);
+    return _.indexOf(obj, target) >= 0;
+  };
+
+  // Invoke a method (with arguments) on every item in a collection.
+  _.invoke = function(obj, method) {
+    var args = slice.call(arguments, 2);
+    var isFunc = _.isFunction(method);
+    return _.map(obj, function(value) {
+      return (isFunc ? method : value[method]).apply(value, args);
+    });
+  };
+
+  // Convenience version of a common use case of `map`: fetching a property.
+  _.pluck = function(obj, key) {
+    return _.map(obj, _.property(key));
+  };
+
+  // Convenience version of a common use case of `filter`: selecting only objects
+  // containing specific `key:value` pairs.
+  _.where = function(obj, attrs) {
+    return _.filter(obj, _.matches(attrs));
+  };
+
+  // Convenience version of a common use case of `find`: getting the first object
+  // containing specific `key:value` pairs.
+  _.findWhere = function(obj, attrs) {
+    return _.find(obj, _.matches(attrs));
+  };
+
+  // Return the maximum element (or element-based computation).
+  _.max = function(obj, iteratee, context) {
+    var result = -Infinity, lastComputed = -Infinity,
+        value, computed;
+    if (iteratee == null && obj != null) {
+      obj = obj.length === +obj.length ? obj : _.values(obj);
+      for (var i = 0, length = obj.length; i < length; i++) {
+        value = obj[i];
+        if (value > result) {
+          result = value;
+        }
+      }
+    } else {
+      iteratee = _.iteratee(iteratee, context);
+      _.each(obj, function(value, index, list) {
+        computed = iteratee(value, index, list);
+        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
+          result = value;
+          lastComputed = computed;
+        }
+      });
+    }
+    return result;
+  };
+
+  // Return the minimum element (or element-based computation).
+  _.min = function(obj, iteratee, context) {
+    var result = Infinity, lastComputed = Infinity,
+        value, computed;
+    if (iteratee == null && obj != null) {
+      obj = obj.length === +obj.length ? obj : _.values(obj);
+      for (var i = 0, length = obj.length; i < length; i++) {
+        value = obj[i];
+        if (value < result) {
+          result = value;
+        }
+      }
+    } else {
+      iteratee = _.iteratee(iteratee, context);
+      _.each(obj, function(value, index, list) {
+        computed = iteratee(value, index, list);
+        if (computed < lastComputed || computed === Infinity && result === Infinity) {
+          result = value;
+          lastComputed = computed;
+        }
+      });
+    }
+    return result;
+  };
+
+  // Shuffle a collection, using the modern version of the
+  // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
+  _.shuffle = function(obj) {
+    var set = obj && obj.length === +obj.length ? obj : _.values(obj);
+    var length = set.length;
+    var shuffled = Array(length);
+    for (var index = 0, rand; index < length; index++) {
+      rand = _.random(0, index);
+      if (rand !== index) shuffled[index] = shuffled[rand];
+      shuffled[rand] = set[index];
+    }
+    return shuffled;
+  };
+
+  // Sample **n** random values from a collection.
+  // If **n** is not specified, returns a single random element.
+  // The internal `guard` argument allows it to work with `map`.
+  _.sample = function(obj, n, guard) {
+    if (n == null || guard) {
+      if (obj.length !== +obj.length) obj = _.values(obj);
+      return obj[_.random(obj.length - 1)];
+    }
+    return _.shuffle(obj).slice(0, Math.max(0, n));
+  };
+
+  // Sort the object's values by a criterion produced by an iteratee.
+  _.sortBy = function(obj, iteratee, context) {
+    iteratee = _.iteratee(iteratee, context);
+    return _.pluck(_.map(obj, function(value, index, list) {
+      return {
+        value: value,
+        index: index,
+        criteria: iteratee(value, index, list)
+      };
+    }).sort(function(left, right) {
+      var a = left.criteria;
+      var b = right.criteria;
+      if (a !== b) {
+        if (a > b || a === void 0) return 1;
+        if (a < b || b === void 0) return -1;
+      }
+      return left.index - right.index;
+    }), 'value');
+  };
+
+  // An internal function used for aggregate "group by" operations.
+  var group = function(behavior) {
+    return function(obj, iteratee, context) {
+      var result = {};
+      iteratee = _.iteratee(iteratee, context);
+      _.each(obj, function(value, index) {
+        var key = iteratee(value, index, obj);
+        behavior(result, value, key);
+      });
+      return result;
+    };
+  };
+
+  // Groups the object's values by a criterion. Pass either a string attribute
+  // to group by, or a function that returns the criterion.
+  _.groupBy = group(function(result, value, key) {
+    if (_.has(result, key)) result[key].push(value); else result[key] = [value];
+  });
+
+  // Indexes the object's values by a criterion, similar to `groupBy`, but for
+  // when you know that your index values will be unique.
+  _.indexBy = group(function(result, value, key) {
+    result[key] = value;
+  });
+
+  // Counts instances of an object that group by a certain criterion. Pass
+  // either a string attribute to count by, or a function that returns the
+  // criterion.
+  _.countBy = group(function(result, value, key) {
+    if (_.has(result, key)) result[key]++; else result[key] = 1;
+  });
+
+  // Use a comparator function to figure out the smallest index at which
+  // an object should be inserted so as to maintain order. Uses binary search.
+  _.sortedIndex = function(array, obj, iteratee, context) {
+    iteratee = _.iteratee(iteratee, context, 1);
+    var value = iteratee(obj);
+    var low = 0, high = array.length;
+    while (low < high) {
+      var mid = low + high >>> 1;
+      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
+    }
+    return low;
+  };
+
+  // Safely create a real, live array from anything iterable.
+  _.toArray = function(obj) {
+    if (!obj) return [];
+    if (_.isArray(obj)) return slice.call(obj);
+    if (obj.length === +obj.length) return _.map(obj, _.identity);
+    return _.values(obj);
+  };
+
+  // Return the number of elements in an object.
+  _.size = function(obj) {
+    if (obj == null) return 0;
+    return obj.length === +obj.length ? obj.length : _.keys(obj).length;
+  };
+
+  // Split a collection into two arrays: one whose elements all satisfy the given
+  // predicate, and one whose elements all do not satisfy the predicate.
+  _.partition = function(obj, predicate, context) {
+    predicate = _.iteratee(predicate, context);
+    var pass = [], fail = [];
+    _.each(obj, function(value, key, obj) {
+      (predicate(value, key, obj) ? pass : fail).push(value);
+    });
+    return [pass, fail];
+  };
+
+  // Array Functions
+  // ---------------
+
+  // Get the first element of an array. Passing **n** will return the first N
+  // values in the array. Aliased as `head` and `take`. The **guard** check
+  // allows it to work with `_.map`.
+  _.first = _.head = _.take = function(array, n, guard) {
+    if (array == null) return void 0;
+    if (n == null || guard) return array[0];
+    if (n < 0) return [];
+    return slice.call(array, 0, n);
+  };
+
+  // Returns everything but the last entry of the array. Especially useful on
+  // the arguments object. Passing **n** will return all the values in
+  // the array, excluding the last N. The **guard** check allows it to work with
+  // `_.map`.
+  _.initial = function(array, n, guard) {
+    return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
+  };
+
+  // Get the last element of an array. Passing **n** will return the last N
+  // values in the array. The **guard** check allows it to work with `_.map`.
+  _.last = function(array, n, guard) {
+    if (array == null) return void 0;
+    if (n == null || guard) return array[array.length - 1];
+    return slice.call(array, Math.max(array.length - n, 0));
+  };
+
+  // Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
+  // Especially useful on the arguments object. Passing an **n** will return
+  // the rest N values in the array. The **guard**
+  // check allows it to work with `_.map`.
+  _.rest = _.tail = _.drop = function(array, n, guard) {
+    return slice.call(array, n == null || guard ? 1 : n);
+  };
+
+  // Trim out all falsy values from an array.
+  _.compact = function(array) {
+    return _.filter(array, _.identity);
+  };
+
+  // Internal implementation of a recursive `flatten` function.
+  var flatten = function(input, shallow, strict, output) {
+    if (shallow && _.every(input, _.isArray)) {
+      return concat.apply(output, input);
+    }
+    for (var i = 0, length = input.length; i < length; i++) {
+      var value = input[i];
+      if (!_.isArray(value) && !_.isArguments(value)) {
+        if (!strict) output.push(value);
+      } else if (shallow) {
+        push.apply(output, value);
+      } else {
+        flatten(value, shallow, strict, output);
+      }
+    }
+    return output;
+  };
+
+  // Flatten out an array, either recursively (by default), or just one level.
+  _.flatten = function(array, shallow) {
+    return flatten(array, shallow, false, []);
+  };
+
+  // Return a version of the array that does not contain the specified value(s).
+  _.without = function(array) {
+    return _.difference(array, slice.call(arguments, 1));
+  };
+
+  // Produce a duplicate-free version of the array. If the array has already
+  // been sorted, you have the option of using a faster algorithm.
+  // Aliased as `unique`.
+  _.uniq = _.unique = function(array, isSorted, iteratee, context) {
+    if (array == null) return [];
+    if (!_.isBoolean(isSorted)) {
+      context = iteratee;
+      iteratee = isSorted;
+      isSorted = false;
+    }
+    if (iteratee != null) iteratee = _.iteratee(iteratee, context);
+    var result = [];
+    var seen = [];
+    for (var i = 0, length = array.length; i < length; i++) {
+      var value = array[i];
+      if (isSorted) {
+        if (!i || seen !== value) result.push(value);
+        seen = value;
+      } else if (iteratee) {
+        var computed = iteratee(value, i, array);
+        if (_.indexOf(seen, computed) < 0) {
+          seen.push(computed);
+          result.push(value);
+        }
+      } else if (_.indexOf(result, value) < 0) {
+        result.push(value);
+      }
+    }
+    return result;
+  };
+
+  // Produce an array that contains the union: each distinct element from all of
+  // the passed-in arrays.
+  _.union = function() {
+    return _.uniq(flatten(arguments, true, true, []));
+  };
+
+  // Produce an array that contains every item shared between all the
+  // passed-in arrays.
+  _.intersection = function(array) {
+    if (array == null) return [];
+    var result = [];
+    var argsLength = arguments.length;
+    for (var i = 0, length = array.length; i < length; i++) {
+      var item = array[i];
+      if (_.contains(result, item)) continue;
+      for (var j = 1; j < argsLength; j++) {
+        if (!_.contains(arguments[j], item)) break;
+      }
+      if (j === argsLength) result.push(item);
+    }
+    return result;
+  };
+
+  // Take the difference between one array and a number of other arrays.
+  // Only the elements present in just the first array will remain.
+  _.difference = function(array) {
+    var rest = flatten(slice.call(arguments, 1), true, true, []);
+    return _.filter(array, function(value){
+      return !_.contains(rest, value);
+    });
+  };
+
+  // Zip together multiple lists into a single array -- elements that share
+  // an index go together.
+  _.zip = function(array) {
+    if (array == null) return [];
+    var length = _.max(arguments, 'length').length;
+    var results = Array(length);
+    for (var i = 0; i < length; i++) {
+      results[i] = _.pluck(arguments, i);
+    }
+    return results;
+  };
+
+  // Converts lists into objects. Pass either a single array of `[key, value]`
+  // pairs, or two parallel arrays of the same length -- one of keys, and one of
+  // the corresponding values.
+  _.object = function(list, values) {
+    if (list == null) return {};
+    var result = {};
+    for (var i = 0, length = list.length; i < length; i++) {
+      if (values) {
+        result[list[i]] = values[i];
+      } else {
+        result[list[i][0]] = list[i][1];
+      }
+    }
+    return result;
+  };
+
+  // Return the position of the first occurrence of an item in an array,
+  // or -1 if the item is not included in the array.
+  // If the array is large and already in sort order, pass `true`
+  // for **isSorted** to use binary search.
+  _.indexOf = function(array, item, isSorted) {
+    if (array == null) return -1;
+    var i = 0, length = array.length;
+    if (isSorted) {
+      if (typeof isSorted == 'number') {
+        i = isSorted < 0 ? Math.max(0, length + isSorted) : isSorted;
+      } else {
+        i = _.sortedIndex(array, item);
+        return array[i] === item ? i : -1;
+      }
+    }
+    for (; i < length; i++) if (array[i] === item) return i;
+    return -1;
+  };
+
+  _.lastIndexOf = function(array, item, from) {
+    if (array == null) return -1;
+    var idx = array.length;
+    if (typeof from == 'number') {
+      idx = from < 0 ? idx + from + 1 : Math.min(idx, from + 1);
+    }
+    while (--idx >= 0) if (array[idx] === item) return idx;
+    return -1;
+  };
+
+  // Generate an integer Array containing an arithmetic progression. A port of
+  // the native Python `range()` function. See
+  // [the Python documentation](http://docs.python.org/library/functions.html#range).
+  _.range = function(start, stop, step) {
+    if (arguments.length <= 1) {
+      stop = start || 0;
+      start = 0;
+    }
+    step = step || 1;
+
+    var length = Math.max(Math.ceil((stop - start) / step), 0);
+    var range = Array(length);
+
+    for (var idx = 0; idx < length; idx++, start += step) {
+      range[idx] = start;
+    }
+
+    return range;
+  };
+
+  // Function (ahem) Functions
+  // ------------------
+
+  // Reusable constructor function for prototype setting.
+  var Ctor = function(){};
+
+  // Create a function bound to a given object (assigning `this`, and arguments,
+  // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
+  // available.
+  _.bind = function(func, context) {
+    var args, bound;
+    if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
+    if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
+    args = slice.call(arguments, 2);
+    bound = function() {
+      if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
+      Ctor.prototype = func.prototype;
+      var self = new Ctor;
+      Ctor.prototype = null;
+      var result = func.apply(self, args.concat(slice.call(arguments)));
+      if (_.isObject(result)) return result;
+      return self;
+    };
+    return bound;
+  };
+
+  // Partially apply a function by creating a version that has had some of its
+  // arguments pre-filled, without changing its dynamic `this` context. _ acts
+  // as a placeholder, allowing any combination of arguments to be pre-filled.
+  _.partial = function(func) {
+    var boundArgs = slice.call(arguments, 1);
+    return function() {
+      var position = 0;
+      var args = boundArgs.slice();
+      for (var i = 0, length = args.length; i < length; i++) {
+        if (args[i] === _) args[i] = arguments[position++];
+      }
+      while (position < arguments.length) args.push(arguments[position++]);
+      return func.apply(this, args);
+    };
+  };
+
+  // Bind a number of an object's methods to that object. Remaining arguments
+  // are the method names to be bound. Useful for ensuring that all callbacks
+  // defined on an object belong to it.
+  _.bindAll = function(obj) {
+    var i, length = arguments.length, key;
+    if (length <= 1) throw new Error('bindAll must be passed function names');
+    for (i = 1; i < length; i++) {
+      key = arguments[i];
+      obj[key] = _.bind(obj[key], obj);
+    }
+    return obj;
+  };
+
+  // Memoize an expensive function by storing its results.
+  _.memoize = function(func, hasher) {
+    var memoize = function(key) {
+      var cache = memoize.cache;
+      var address = hasher ? hasher.apply(this, arguments) : key;
+      if (!_.has(cache, address)) cache[address] = func.apply(this, arguments);
+      return cache[address];
+    };
+    memoize.cache = {};
+    return memoize;
+  };
+
+  // Delays a function for the given number of milliseconds, and then calls
+  // it with the arguments supplied.
+  _.delay = function(func, wait) {
+    var args = slice.call(arguments, 2);
+    return setTimeout(function(){
+      return func.apply(null, args);
+    }, wait);
+  };
+
+  // Defers a function, scheduling it to run after the current call stack has
+  // cleared.
+  _.defer = function(func) {
+    return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
+  };
+
+  // Returns a function, that, when invoked, will only be triggered at most once
+  // during a given window of time. Normally, the throttled function will run
+  // as much as it can, without ever going more than once per `wait` duration;
+  // but if you'd like to disable the execution on the leading edge, pass
+  // `{leading: false}`. To disable execution on the trailing edge, ditto.
+  _.throttle = function(func, wait, options) {
+    var context, args, result;
+    var timeout = null;
+    var previous = 0;
+    if (!options) options = {};
+    var later = function() {
+      previous = options.leading === false ? 0 : _.now();
+      timeout = null;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    };
+    return function() {
+      var now = _.now();
+      if (!previous && options.leading === false) previous = now;
+      var remaining = wait - (now - previous);
+      context = this;
+      args = arguments;
+      if (remaining <= 0 || remaining > wait) {
+        clearTimeout(timeout);
+        timeout = null;
+        previous = now;
+        result = func.apply(context, args);
+        if (!timeout) context = args = null;
+      } else if (!timeout && options.trailing !== false) {
+        timeout = setTimeout(later, remaining);
+      }
+      return result;
+    };
+  };
+
+  // Returns a function, that, as long as it continues to be invoked, will not
+  // be triggered. The function will be called after it stops being called for
+  // N milliseconds. If `immediate` is passed, trigger the function on the
+  // leading edge, instead of the trailing.
+  _.debounce = function(func, wait, immediate) {
+    var timeout, args, context, timestamp, result;
+
+    var later = function() {
+      var last = _.now() - timestamp;
+
+      if (last < wait && last > 0) {
+        timeout = setTimeout(later, wait - last);
+      } else {
+        timeout = null;
+        if (!immediate) {
+          result = func.apply(context, args);
+          if (!timeout) context = args = null;
+        }
+      }
+    };
+
+    return function() {
+      context = this;
+      args = arguments;
+      timestamp = _.now();
+      var callNow = immediate && !timeout;
+      if (!timeout) timeout = setTimeout(later, wait);
+      if (callNow) {
+        result = func.apply(context, args);
+        context = args = null;
+      }
+
+      return result;
+    };
+  };
+
+  // Returns the first function passed as an argument to the second,
+  // allowing you to adjust arguments, run code before and after, and
+  // conditionally execute the original function.
+  _.wrap = function(func, wrapper) {
+    return _.partial(wrapper, func);
+  };
+
+  // Returns a negated version of the passed-in predicate.
+  _.negate = function(predicate) {
+    return function() {
+      return !predicate.apply(this, arguments);
+    };
+  };
+
+  // Returns a function that is the composition of a list of functions, each
+  // consuming the return value of the function that follows.
+  _.compose = function() {
+    var args = arguments;
+    var start = args.length - 1;
+    return function() {
+      var i = start;
+      var result = args[start].apply(this, arguments);
+      while (i--) result = args[i].call(this, result);
+      return result;
+    };
+  };
+
+  // Returns a function that will only be executed after being called N times.
+  _.after = function(times, func) {
+    return function() {
+      if (--times < 1) {
+        return func.apply(this, arguments);
+      }
+    };
+  };
+
+  // Returns a function that will only be executed before being called N times.
+  _.before = function(times, func) {
+    var memo;
+    return function() {
+      if (--times > 0) {
+        memo = func.apply(this, arguments);
+      } else {
+        func = null;
+      }
+      return memo;
+    };
+  };
+
+  // Returns a function that will be executed at most one time, no matter how
+  // often you call it. Useful for lazy initialization.
+  _.once = _.partial(_.before, 2);
+
+  // Object Functions
+  // ----------------
+
+  // Retrieve the names of an object's properties.
+  // Delegates to **ECMAScript 5**'s native `Object.keys`
+  _.keys = function(obj) {
+    if (!_.isObject(obj)) return [];
+    if (nativeKeys) return nativeKeys(obj);
+    var keys = [];
+    for (var key in obj) if (_.has(obj, key)) keys.push(key);
+    return keys;
+  };
+
+  // Retrieve the values of an object's properties.
+  _.values = function(obj) {
+    var keys = _.keys(obj);
+    var length = keys.length;
+    var values = Array(length);
+    for (var i = 0; i < length; i++) {
+      values[i] = obj[keys[i]];
+    }
+    return values;
+  };
+
+  // Convert an object into a list of `[key, value]` pairs.
+  _.pairs = function(obj) {
+    var keys = _.keys(obj);
+    var length = keys.length;
+    var pairs = Array(length);
+    for (var i = 0; i < length; i++) {
+      pairs[i] = [keys[i], obj[keys[i]]];
+    }
+    return pairs;
+  };
+
+  // Invert the keys and values of an object. The values must be serializable.
+  _.invert = function(obj) {
+    var result = {};
+    var keys = _.keys(obj);
+    for (var i = 0, length = keys.length; i < length; i++) {
+      result[obj[keys[i]]] = keys[i];
+    }
+    return result;
+  };
+
+  // Return a sorted list of the function names available on the object.
+  // Aliased as `methods`
+  _.functions = _.methods = function(obj) {
+    var names = [];
+    for (var key in obj) {
+      if (_.isFunction(obj[key])) names.push(key);
+    }
+    return names.sort();
+  };
+
+  // Extend a given object with all the properties in passed-in object(s).
+  _.extend = function(obj) {
+    if (!_.isObject(obj)) return obj;
+    var source, prop;
+    for (var i = 1, length = arguments.length; i < length; i++) {
+      source = arguments[i];
+      for (prop in source) {
+        if (hasOwnProperty.call(source, prop)) {
+            obj[prop] = source[prop];
+        }
+      }
+    }
+    return obj;
+  };
+
+  // Return a copy of the object only containing the whitelisted properties.
+  _.pick = function(obj, iteratee, context) {
+    var result = {}, key;
+    if (obj == null) return result;
+    if (_.isFunction(iteratee)) {
+      iteratee = createCallback(iteratee, context);
+      for (key in obj) {
+        var value = obj[key];
+        if (iteratee(value, key, obj)) result[key] = value;
+      }
+    } else {
+      var keys = concat.apply([], slice.call(arguments, 1));
+      obj = new Object(obj);
+      for (var i = 0, length = keys.length; i < length; i++) {
+        key = keys[i];
+        if (key in obj) result[key] = obj[key];
+      }
+    }
+    return result;
+  };
+
+   // Return a copy of the object without the blacklisted properties.
+  _.omit = function(obj, iteratee, context) {
+    if (_.isFunction(iteratee)) {
+      iteratee = _.negate(iteratee);
+    } else {
+      var keys = _.map(concat.apply([], slice.call(arguments, 1)), String);
+      iteratee = function(value, key) {
+        return !_.contains(keys, key);
+      };
+    }
+    return _.pick(obj, iteratee, context);
+  };
+
+  // Fill in a given object with default properties.
+  _.defaults = function(obj) {
+    if (!_.isObject(obj)) return obj;
+    for (var i = 1, length = arguments.length; i < length; i++) {
+      var source = arguments[i];
+      for (var prop in source) {
+        if (obj[prop] === void 0) obj[prop] = source[prop];
+      }
+    }
+    return obj;
+  };
+
+  // Create a (shallow-cloned) duplicate of an object.
+  _.clone = function(obj) {
+    if (!_.isObject(obj)) return obj;
+    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+  };
+
+  // Invokes interceptor with the obj, and then returns obj.
+  // The primary purpose of this method is to "tap into" a method chain, in
+  // order to perform operations on intermediate results within the chain.
+  _.tap = function(obj, interceptor) {
+    interceptor(obj);
+    return obj;
+  };
+
+  // Internal recursive comparison function for `isEqual`.
+  var eq = function(a, b, aStack, bStack) {
+    // Identical objects are equal. `0 === -0`, but they aren't identical.
+    // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
+    if (a === b) return a !== 0 || 1 / a === 1 / b;
+    // A strict comparison is necessary because `null == undefined`.
+    if (a == null || b == null) return a === b;
+    // Unwrap any wrapped objects.
+    if (a instanceof _) a = a._wrapped;
+    if (b instanceof _) b = b._wrapped;
+    // Compare `[[Class]]` names.
+    var className = toString.call(a);
+    if (className !== toString.call(b)) return false;
+    switch (className) {
+      // Strings, numbers, regular expressions, dates, and booleans are compared by value.
+      case '[object RegExp]':
+      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
+      case '[object String]':
+        // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
+        // equivalent to `new String("5")`.
+        return '' + a === '' + b;
+      case '[object Number]':
+        // `NaN`s are equivalent, but non-reflexive.
+        // Object(NaN) is equivalent to NaN
+        if (+a !== +a) return +b !== +b;
+        // An `egal` comparison is performed for other numeric values.
+        return +a === 0 ? 1 / +a === 1 / b : +a === +b;
+      case '[object Date]':
+      case '[object Boolean]':
+        // Coerce dates and booleans to numeric primitive values. Dates are compared by their
+        // millisecond representations. Note that invalid dates with millisecond representations
+        // of `NaN` are not equivalent.
+        return +a === +b;
+    }
+    if (typeof a != 'object' || typeof b != 'object') return false;
+    // Assume equality for cyclic structures. The algorithm for detecting cyclic
+    // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
+    var length = aStack.length;
+    while (length--) {
+      // Linear search. Performance is inversely proportional to the number of
+      // unique nested structures.
+      if (aStack[length] === a) return bStack[length] === b;
+    }
+    // Objects with different constructors are not equivalent, but `Object`s
+    // from different frames are.
+    var aCtor = a.constructor, bCtor = b.constructor;
+    if (
+      aCtor !== bCtor &&
+      // Handle Object.create(x) cases
+      'constructor' in a && 'constructor' in b &&
+      !(_.isFunction(aCtor) && aCtor instanceof aCtor &&
+        _.isFunction(bCtor) && bCtor instanceof bCtor)
+    ) {
+      return false;
+    }
+    // Add the first object to the stack of traversed objects.
+    aStack.push(a);
+    bStack.push(b);
+    var size, result;
+    // Recursively compare objects and arrays.
+    if (className === '[object Array]') {
+      // Compare array lengths to determine if a deep comparison is necessary.
+      size = a.length;
+      result = size === b.length;
+      if (result) {
+        // Deep compare the contents, ignoring non-numeric properties.
+        while (size--) {
+          if (!(result = eq(a[size], b[size], aStack, bStack))) break;
+        }
+      }
+    } else {
+      // Deep compare objects.
+      var keys = _.keys(a), key;
+      size = keys.length;
+      // Ensure that both objects contain the same number of properties before comparing deep equality.
+      result = _.keys(b).length === size;
+      if (result) {
+        while (size--) {
+          // Deep compare each member
+          key = keys[size];
+          if (!(result = _.has(b, key) && eq(a[key], b[key], aStack, bStack))) break;
+        }
+      }
+    }
+    // Remove the first object from the stack of traversed objects.
+    aStack.pop();
+    bStack.pop();
+    return result;
+  };
+
+  // Perform a deep comparison to check if two objects are equal.
+  _.isEqual = function(a, b) {
+    return eq(a, b, [], []);
+  };
+
+  // Is a given array, string, or object empty?
+  // An "empty" object has no enumerable own-properties.
+  _.isEmpty = function(obj) {
+    if (obj == null) return true;
+    if (_.isArray(obj) || _.isString(obj) || _.isArguments(obj)) return obj.length === 0;
+    for (var key in obj) if (_.has(obj, key)) return false;
+    return true;
+  };
+
+  // Is a given value a DOM element?
+  _.isElement = function(obj) {
+    return !!(obj && obj.nodeType === 1);
+  };
+
+  // Is a given value an array?
+  // Delegates to ECMA5's native Array.isArray
+  _.isArray = nativeIsArray || function(obj) {
+    return toString.call(obj) === '[object Array]';
+  };
+
+  // Is a given variable an object?
+  _.isObject = function(obj) {
+    var type = typeof obj;
+    return type === 'function' || type === 'object' && !!obj;
+  };
+
+  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
+  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
+    _['is' + name] = function(obj) {
+      return toString.call(obj) === '[object ' + name + ']';
+    };
+  });
+
+  // Define a fallback version of the method in browsers (ahem, IE), where
+  // there isn't any inspectable "Arguments" type.
+  if (!_.isArguments(arguments)) {
+    _.isArguments = function(obj) {
+      return _.has(obj, 'callee');
+    };
+  }
+
+  // Optimize `isFunction` if appropriate. Work around an IE 11 bug.
+  if (true) {
+    _.isFunction = function(obj) {
+      return typeof obj == 'function' || false;
+    };
+  }
+
+  // Is a given object a finite number?
+  _.isFinite = function(obj) {
+    return isFinite(obj) && !isNaN(parseFloat(obj));
+  };
+
+  // Is the given value `NaN`? (NaN is the only number which does not equal itself).
+  _.isNaN = function(obj) {
+    return _.isNumber(obj) && obj !== +obj;
+  };
+
+  // Is a given value a boolean?
+  _.isBoolean = function(obj) {
+    return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
+  };
+
+  // Is a given value equal to null?
+  _.isNull = function(obj) {
+    return obj === null;
+  };
+
+  // Is a given variable undefined?
+  _.isUndefined = function(obj) {
+    return obj === void 0;
+  };
+
+  // Shortcut function for checking if an object has a given property directly
+  // on itself (in other words, not on a prototype).
+  _.has = function(obj, key) {
+    return obj != null && hasOwnProperty.call(obj, key);
+  };
+
+  // Utility Functions
+  // -----------------
+
+  // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
+  // previous owner. Returns a reference to the Underscore object.
+  _.noConflict = function() {
+    root._ = previousUnderscore;
+    return this;
+  };
+
+  // Keep the identity function around for default iteratees.
+  _.identity = function(value) {
+    return value;
+  };
+
+  _.constant = function(value) {
+    return function() {
+      return value;
+    };
+  };
+
+  _.noop = function(){};
+
+  _.property = function(key) {
+    return function(obj) {
+      return obj[key];
+    };
+  };
+
+  // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
+  _.matches = function(attrs) {
+    var pairs = _.pairs(attrs), length = pairs.length;
+    return function(obj) {
+      if (obj == null) return !length;
+      obj = new Object(obj);
+      for (var i = 0; i < length; i++) {
+        var pair = pairs[i], key = pair[0];
+        if (pair[1] !== obj[key] || !(key in obj)) return false;
+      }
+      return true;
+    };
+  };
+
+  // Run a function **n** times.
+  _.times = function(n, iteratee, context) {
+    var accum = Array(Math.max(0, n));
+    iteratee = createCallback(iteratee, context, 1);
+    for (var i = 0; i < n; i++) accum[i] = iteratee(i);
+    return accum;
+  };
+
+  // Return a random integer between min and max (inclusive).
+  _.random = function(min, max) {
+    if (max == null) {
+      max = min;
+      min = 0;
+    }
+    return min + Math.floor(Math.random() * (max - min + 1));
+  };
+
+  // A (possibly faster) way to get the current timestamp as an integer.
+  _.now = Date.now || function() {
+    return new Date().getTime();
+  };
+
+   // List of HTML entities for escaping.
+  var escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '`': '&#x60;'
+  };
+  var unescapeMap = _.invert(escapeMap);
+
+  // Functions for escaping and unescaping strings to/from HTML interpolation.
+  var createEscaper = function(map) {
+    var escaper = function(match) {
+      return map[match];
+    };
+    // Regexes for identifying a key that needs to be escaped
+    var source = '(?:' + _.keys(map).join('|') + ')';
+    var testRegexp = RegExp(source);
+    var replaceRegexp = RegExp(source, 'g');
+    return function(string) {
+      string = string == null ? '' : '' + string;
+      return testRegexp.test(string) ? string.replace(replaceRegexp, escaper) : string;
+    };
+  };
+  _.escape = createEscaper(escapeMap);
+  _.unescape = createEscaper(unescapeMap);
+
+  // If the value of the named `property` is a function then invoke it with the
+  // `object` as context; otherwise, return it.
+  _.result = function(object, property) {
+    if (object == null) return void 0;
+    var value = object[property];
+    return _.isFunction(value) ? object[property]() : value;
+  };
+
+  // Generate a unique integer id (unique within the entire client session).
+  // Useful for temporary DOM ids.
+  var idCounter = 0;
+  _.uniqueId = function(prefix) {
+    var id = ++idCounter + '';
+    return prefix ? prefix + id : id;
+  };
+
+  // By default, Underscore uses ERB-style template delimiters, change the
+  // following template settings to use alternative delimiters.
+  _.templateSettings = {
+    evaluate    : /<%([\s\S]+?)%>/g,
+    interpolate : /<%=([\s\S]+?)%>/g,
+    escape      : /<%-([\s\S]+?)%>/g
+  };
+
+  // When customizing `templateSettings`, if you don't want to define an
+  // interpolation, evaluation or escaping regex, we need one that is
+  // guaranteed not to match.
+  var noMatch = /(.)^/;
+
+  // Certain characters need to be escaped so that they can be put into a
+  // string literal.
+  var escapes = {
+    "'":      "'",
+    '\\':     '\\',
+    '\r':     'r',
+    '\n':     'n',
+    '\u2028': 'u2028',
+    '\u2029': 'u2029'
+  };
+
+  var escaper = /\\|'|\r|\n|\u2028|\u2029/g;
+
+  var escapeChar = function(match) {
+    return '\\' + escapes[match];
+  };
+
+  // JavaScript micro-templating, similar to John Resig's implementation.
+  // Underscore templating handles arbitrary delimiters, preserves whitespace,
+  // and correctly escapes quotes within interpolated code.
+  // NB: `oldSettings` only exists for backwards compatibility.
+  _.template = function(text, settings, oldSettings) {
+    if (!settings && oldSettings) settings = oldSettings;
+    settings = _.defaults({}, settings, _.templateSettings);
+
+    // Combine delimiters into one regular expression via alternation.
+    var matcher = RegExp([
+      (settings.escape || noMatch).source,
+      (settings.interpolate || noMatch).source,
+      (settings.evaluate || noMatch).source
+    ].join('|') + '|$', 'g');
+
+    // Compile the template source, escaping string literals appropriately.
+    var index = 0;
+    var source = "__p+='";
+    text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
+      source += text.slice(index, offset).replace(escaper, escapeChar);
+      index = offset + match.length;
+
+      if (escape) {
+        source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'";
+      } else if (interpolate) {
+        source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
+      } else if (evaluate) {
+        source += "';\n" + evaluate + "\n__p+='";
+      }
+
+      // Adobe VMs need the match returned to produce the correct offest.
+      return match;
+    });
+    source += "';\n";
+
+    // If a variable is not specified, place data values in local scope.
+    if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
+
+    source = "var __t,__p='',__j=Array.prototype.join," +
+      "print=function(){__p+=__j.call(arguments,'');};\n" +
+      source + 'return __p;\n';
+
+    try {
+      var render = new Function(settings.variable || 'obj', '_', source);
+    } catch (e) {
+      e.source = source;
+      throw e;
+    }
+
+    var template = function(data) {
+      return render.call(this, data, _);
+    };
+
+    // Provide the compiled source as a convenience for precompilation.
+    var argument = settings.variable || 'obj';
+    template.source = 'function(' + argument + '){\n' + source + '}';
+
+    return template;
+  };
+
+  // Add a "chain" function. Start chaining a wrapped Underscore object.
+  _.chain = function(obj) {
+    var instance = _(obj);
+    instance._chain = true;
+    return instance;
+  };
+
+  // OOP
+  // ---------------
+  // If Underscore is called as a function, it returns a wrapped object that
+  // can be used OO-style. This wrapper holds altered versions of all the
+  // underscore functions. Wrapped objects may be chained.
+
+  // Helper function to continue chaining intermediate results.
+  var result = function(obj) {
+    return this._chain ? _(obj).chain() : obj;
+  };
+
+  // Add your own custom functions to the Underscore object.
+  _.mixin = function(obj) {
+    _.each(_.functions(obj), function(name) {
+      var func = _[name] = obj[name];
+      _.prototype[name] = function() {
+        var args = [this._wrapped];
+        push.apply(args, arguments);
+        return result.call(this, func.apply(_, args));
+      };
+    });
+  };
+
+  // Add all of the Underscore functions to the wrapper object.
+  _.mixin(_);
+
+  // Add all mutator Array functions to the wrapper.
+  _.each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
+    var method = ArrayProto[name];
+    _.prototype[name] = function() {
+      var obj = this._wrapped;
+      method.apply(obj, arguments);
+      if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
+      return result.call(this, obj);
+    };
+  });
+
+  // Add all accessor Array functions to the wrapper.
+  _.each(['concat', 'join', 'slice'], function(name) {
+    var method = ArrayProto[name];
+    _.prototype[name] = function() {
+      return result.call(this, method.apply(this._wrapped, arguments));
+    };
+  });
+
+  // Extracts the result from a wrapped and chained object.
+  _.prototype.value = function() {
+    return this._wrapped;
+  };
+
+  // AMD registration happens at the end for compatibility with AMD loaders
+  // that may not enforce next-turn semantics on modules. Even though general
+  // practice for AMD registration is to be anonymous, underscore registers
+  // as a named module because, like jQuery, it is a base library that is
+  // popular enough to be bundled in a third party lib, but not be part of
+  // an AMD load request. Those cases could generate an error when an
+  // anonymous define() is called outside of a loader request.
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+      return _;
+    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  }
+}.call(this));
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//  Underscore.string
+//  (c) 2010 Esa-Matti Suuronen <esa-matti aet suuronen dot org>
+//  Underscore.string is freely distributable under the terms of the MIT license.
+//  Documentation: https://github.com/epeli/underscore.string
+//  Some code is borrowed from MooTools and Alexandru Marasteanu.
+//  Version '2.3.2'
+
+!function(root, String){
+  'use strict';
+
+  // Defining helper functions.
+
+  var nativeTrim = String.prototype.trim;
+  var nativeTrimRight = String.prototype.trimRight;
+  var nativeTrimLeft = String.prototype.trimLeft;
+
+  var parseNumber = function(source) { return source * 1 || 0; };
+
+  var strRepeat = function(str, qty){
+    if (qty < 1) return '';
+    var result = '';
+    while (qty > 0) {
+      if (qty & 1) result += str;
+      qty >>= 1, str += str;
+    }
+    return result;
+  };
+
+  var slice = [].slice;
+
+  var defaultToWhiteSpace = function(characters) {
+    if (characters == null)
+      return '\\s';
+    else if (characters.source)
+      return characters.source;
+    else
+      return '[' + _s.escapeRegExp(characters) + ']';
+  };
+
+  // Helper for toBoolean
+  function boolMatch(s, matchers) {
+    var i, matcher, down = s.toLowerCase();
+    matchers = [].concat(matchers);
+    for (i = 0; i < matchers.length; i += 1) {
+      matcher = matchers[i];
+      if (!matcher) continue;
+      if (matcher.test && matcher.test(s)) return true;
+      if (matcher.toLowerCase() === down) return true;
+    }
+  }
+
+  var escapeChars = {
+    lt: '<',
+    gt: '>',
+    quot: '"',
+    amp: '&',
+    apos: "'"
+  };
+
+  var reversedEscapeChars = {};
+  for(var key in escapeChars) reversedEscapeChars[escapeChars[key]] = key;
+  reversedEscapeChars["'"] = '#39';
+
+  // sprintf() for JavaScript 0.7-beta1
+  // http://www.diveintojavascript.com/projects/javascript-sprintf
+  //
+  // Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com>
+  // All rights reserved.
+
+  var sprintf = (function() {
+    function get_type(variable) {
+      return Object.prototype.toString.call(variable).slice(8, -1).toLowerCase();
+    }
+
+    var str_repeat = strRepeat;
+
+    var str_format = function() {
+      if (!str_format.cache.hasOwnProperty(arguments[0])) {
+        str_format.cache[arguments[0]] = str_format.parse(arguments[0]);
+      }
+      return str_format.format.call(null, str_format.cache[arguments[0]], arguments);
+    };
+
+    str_format.format = function(parse_tree, argv) {
+      var cursor = 1, tree_length = parse_tree.length, node_type = '', arg, output = [], i, k, match, pad, pad_character, pad_length;
+      for (i = 0; i < tree_length; i++) {
+        node_type = get_type(parse_tree[i]);
+        if (node_type === 'string') {
+          output.push(parse_tree[i]);
+        }
+        else if (node_type === 'array') {
+          match = parse_tree[i]; // convenience purposes only
+          if (match[2]) { // keyword argument
+            arg = argv[cursor];
+            for (k = 0; k < match[2].length; k++) {
+              if (!arg.hasOwnProperty(match[2][k])) {
+                throw new Error(sprintf('[_.sprintf] property "%s" does not exist', match[2][k]));
+              }
+              arg = arg[match[2][k]];
+            }
+          } else if (match[1]) { // positional argument (explicit)
+            arg = argv[match[1]];
+          }
+          else { // positional argument (implicit)
+            arg = argv[cursor++];
+          }
+
+          if (/[^s]/.test(match[8]) && (get_type(arg) != 'number')) {
+            throw new Error(sprintf('[_.sprintf] expecting number but found %s', get_type(arg)));
+          }
+          switch (match[8]) {
+            case 'b': arg = arg.toString(2); break;
+            case 'c': arg = String.fromCharCode(arg); break;
+            case 'd': arg = parseInt(arg, 10); break;
+            case 'e': arg = match[7] ? arg.toExponential(match[7]) : arg.toExponential(); break;
+            case 'f': arg = match[7] ? parseFloat(arg).toFixed(match[7]) : parseFloat(arg); break;
+            case 'o': arg = arg.toString(8); break;
+            case 's': arg = ((arg = String(arg)) && match[7] ? arg.substring(0, match[7]) : arg); break;
+            case 'u': arg = Math.abs(arg); break;
+            case 'x': arg = arg.toString(16); break;
+            case 'X': arg = arg.toString(16).toUpperCase(); break;
+          }
+          arg = (/[def]/.test(match[8]) && match[3] && arg >= 0 ? '+'+ arg : arg);
+          pad_character = match[4] ? match[4] == '0' ? '0' : match[4].charAt(1) : ' ';
+          pad_length = match[6] - String(arg).length;
+          pad = match[6] ? str_repeat(pad_character, pad_length) : '';
+          output.push(match[5] ? arg + pad : pad + arg);
+        }
+      }
+      return output.join('');
+    };
+
+    str_format.cache = {};
+
+    str_format.parse = function(fmt) {
+      var _fmt = fmt, match = [], parse_tree = [], arg_names = 0;
+      while (_fmt) {
+        if ((match = /^[^\x25]+/.exec(_fmt)) !== null) {
+          parse_tree.push(match[0]);
+        }
+        else if ((match = /^\x25{2}/.exec(_fmt)) !== null) {
+          parse_tree.push('%');
+        }
+        else if ((match = /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fosuxX])/.exec(_fmt)) !== null) {
+          if (match[2]) {
+            arg_names |= 1;
+            var field_list = [], replacement_field = match[2], field_match = [];
+            if ((field_match = /^([a-z_][a-z_\d]*)/i.exec(replacement_field)) !== null) {
+              field_list.push(field_match[1]);
+              while ((replacement_field = replacement_field.substring(field_match[0].length)) !== '') {
+                if ((field_match = /^\.([a-z_][a-z_\d]*)/i.exec(replacement_field)) !== null) {
+                  field_list.push(field_match[1]);
+                }
+                else if ((field_match = /^\[(\d+)\]/.exec(replacement_field)) !== null) {
+                  field_list.push(field_match[1]);
+                }
+                else {
+                  throw new Error('[_.sprintf] huh?');
+                }
+              }
+            }
+            else {
+              throw new Error('[_.sprintf] huh?');
+            }
+            match[2] = field_list;
+          }
+          else {
+            arg_names |= 2;
+          }
+          if (arg_names === 3) {
+            throw new Error('[_.sprintf] mixing positional and named placeholders is not (yet) supported');
+          }
+          parse_tree.push(match);
+        }
+        else {
+          throw new Error('[_.sprintf] huh?');
+        }
+        _fmt = _fmt.substring(match[0].length);
+      }
+      return parse_tree;
+    };
+
+    return str_format;
+  })();
+
+
+
+  // Defining underscore.string
+
+  var _s = {
+
+    VERSION: '2.3.0',
+
+    isBlank: function(str){
+      if (str == null) str = '';
+      return (/^\s*$/).test(str);
+    },
+
+    stripTags: function(str){
+      if (str == null) return '';
+      return String(str).replace(/<\/?[^>]+>/g, '');
+    },
+
+    capitalize : function(str){
+      str = str == null ? '' : String(str);
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    },
+
+    chop: function(str, step){
+      if (str == null) return [];
+      str = String(str);
+      step = ~~step;
+      return step > 0 ? str.match(new RegExp('.{1,' + step + '}', 'g')) : [str];
+    },
+
+    clean: function(str){
+      return _s.strip(str).replace(/\s+/g, ' ');
+    },
+
+    count: function(str, substr){
+      if (str == null || substr == null) return 0;
+
+      str = String(str);
+      substr = String(substr);
+
+      var count = 0,
+        pos = 0,
+        length = substr.length;
+
+      while (true) {
+        pos = str.indexOf(substr, pos);
+        if (pos === -1) break;
+        count++;
+        pos += length;
+      }
+
+      return count;
+    },
+
+    chars: function(str) {
+      if (str == null) return [];
+      return String(str).split('');
+    },
+
+    swapCase: function(str) {
+      if (str == null) return '';
+      return String(str).replace(/\S/g, function(c){
+        return c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
+      });
+    },
+
+    escapeHTML: function(str) {
+      if (str == null) return '';
+      return String(str).replace(/[&<>"']/g, function(m){ return '&' + reversedEscapeChars[m] + ';'; });
+    },
+
+    unescapeHTML: function(str) {
+      if (str == null) return '';
+      return String(str).replace(/\&([^;]+);/g, function(entity, entityCode){
+        var match;
+
+        if (entityCode in escapeChars) {
+          return escapeChars[entityCode];
+        } else if (match = entityCode.match(/^#x([\da-fA-F]+)$/)) {
+          return String.fromCharCode(parseInt(match[1], 16));
+        } else if (match = entityCode.match(/^#(\d+)$/)) {
+          return String.fromCharCode(~~match[1]);
+        } else {
+          return entity;
+        }
+      });
+    },
+
+    escapeRegExp: function(str){
+      if (str == null) return '';
+      return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
+    },
+
+    splice: function(str, i, howmany, substr){
+      var arr = _s.chars(str);
+      arr.splice(~~i, ~~howmany, substr);
+      return arr.join('');
+    },
+
+    insert: function(str, i, substr){
+      return _s.splice(str, i, 0, substr);
+    },
+
+    include: function(str, needle){
+      if (needle === '') return true;
+      if (str == null) return false;
+      return String(str).indexOf(needle) !== -1;
+    },
+
+    join: function() {
+      var args = slice.call(arguments),
+        separator = args.shift();
+
+      if (separator == null) separator = '';
+
+      return args.join(separator);
+    },
+
+    lines: function(str) {
+      if (str == null) return [];
+      return String(str).split("\n");
+    },
+
+    reverse: function(str){
+      return _s.chars(str).reverse().join('');
+    },
+
+    startsWith: function(str, starts){
+      if (starts === '') return true;
+      if (str == null || starts == null) return false;
+      str = String(str); starts = String(starts);
+      return str.length >= starts.length && str.slice(0, starts.length) === starts;
+    },
+
+    endsWith: function(str, ends){
+      if (ends === '') return true;
+      if (str == null || ends == null) return false;
+      str = String(str); ends = String(ends);
+      return str.length >= ends.length && str.slice(str.length - ends.length) === ends;
+    },
+
+    succ: function(str){
+      if (str == null) return '';
+      str = String(str);
+      return str.slice(0, -1) + String.fromCharCode(str.charCodeAt(str.length-1) + 1);
+    },
+
+    titleize: function(str){
+      if (str == null) return '';
+      str  = String(str).toLowerCase();
+      return str.replace(/(?:^|\s|-)\S/g, function(c){ return c.toUpperCase(); });
+    },
+
+    camelize: function(str){
+      return _s.trim(str).replace(/[-_\s]+(.)?/g, function(match, c){ return c ? c.toUpperCase() : ""; });
+    },
+
+    underscored: function(str){
+      return _s.trim(str).replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();
+    },
+
+    dasherize: function(str){
+      return _s.trim(str).replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase();
+    },
+
+    classify: function(str){
+      return _s.titleize(String(str).replace(/[\W_]/g, ' ')).replace(/\s/g, '');
+    },
+
+    humanize: function(str){
+      return _s.capitalize(_s.underscored(str).replace(/_id$/,'').replace(/_/g, ' '));
+    },
+
+    trim: function(str, characters){
+      if (str == null) return '';
+      if (!characters && nativeTrim) return nativeTrim.call(str);
+      characters = defaultToWhiteSpace(characters);
+      return String(str).replace(new RegExp('\^' + characters + '+|' + characters + '+$', 'g'), '');
+    },
+
+    ltrim: function(str, characters){
+      if (str == null) return '';
+      if (!characters && nativeTrimLeft) return nativeTrimLeft.call(str);
+      characters = defaultToWhiteSpace(characters);
+      return String(str).replace(new RegExp('^' + characters + '+'), '');
+    },
+
+    rtrim: function(str, characters){
+      if (str == null) return '';
+      if (!characters && nativeTrimRight) return nativeTrimRight.call(str);
+      characters = defaultToWhiteSpace(characters);
+      return String(str).replace(new RegExp(characters + '+$'), '');
+    },
+
+    truncate: function(str, length, truncateStr){
+      if (str == null) return '';
+      str = String(str); truncateStr = truncateStr || '...';
+      length = ~~length;
+      return str.length > length ? str.slice(0, length) + truncateStr : str;
+    },
+
+    /**
+     * _s.prune: a more elegant version of truncate
+     * prune extra chars, never leaving a half-chopped word.
+     * @author github.com/rwz
+     */
+    prune: function(str, length, pruneStr){
+      if (str == null) return '';
+
+      str = String(str); length = ~~length;
+      pruneStr = pruneStr != null ? String(pruneStr) : '...';
+
+      if (str.length <= length) return str;
+
+      var tmpl = function(c){ return c.toUpperCase() !== c.toLowerCase() ? 'A' : ' '; },
+        template = str.slice(0, length+1).replace(/.(?=\W*\w*$)/g, tmpl); // 'Hello, world' -> 'HellAA AAAAA'
+
+      if (template.slice(template.length-2).match(/\w\w/))
+        template = template.replace(/\s*\S+$/, '');
+      else
+        template = _s.rtrim(template.slice(0, template.length-1));
+
+      return (template+pruneStr).length > str.length ? str : str.slice(0, template.length)+pruneStr;
+    },
+
+    words: function(str, delimiter) {
+      if (_s.isBlank(str)) return [];
+      return _s.trim(str, delimiter).split(delimiter || /\s+/);
+    },
+
+    pad: function(str, length, padStr, type) {
+      str = str == null ? '' : String(str);
+      length = ~~length;
+
+      var padlen  = 0;
+
+      if (!padStr)
+        padStr = ' ';
+      else if (padStr.length > 1)
+        padStr = padStr.charAt(0);
+
+      switch(type) {
+        case 'right':
+          padlen = length - str.length;
+          return str + strRepeat(padStr, padlen);
+        case 'both':
+          padlen = length - str.length;
+          return strRepeat(padStr, Math.ceil(padlen/2)) + str
+                  + strRepeat(padStr, Math.floor(padlen/2));
+        default: // 'left'
+          padlen = length - str.length;
+          return strRepeat(padStr, padlen) + str;
+        }
+    },
+
+    lpad: function(str, length, padStr) {
+      return _s.pad(str, length, padStr);
+    },
+
+    rpad: function(str, length, padStr) {
+      return _s.pad(str, length, padStr, 'right');
+    },
+
+    lrpad: function(str, length, padStr) {
+      return _s.pad(str, length, padStr, 'both');
+    },
+
+    sprintf: sprintf,
+
+    vsprintf: function(fmt, argv){
+      argv.unshift(fmt);
+      return sprintf.apply(null, argv);
+    },
+
+    toNumber: function(str, decimals) {
+      if (!str) return 0;
+      str = _s.trim(str);
+      if (!str.match(/^-?\d+(?:\.\d+)?$/)) return NaN;
+      return parseNumber(parseNumber(str).toFixed(~~decimals));
+    },
+
+    numberFormat : function(number, dec, dsep, tsep) {
+      if (isNaN(number) || number == null) return '';
+
+      number = number.toFixed(~~dec);
+      tsep = typeof tsep == 'string' ? tsep : ',';
+
+      var parts = number.split('.'), fnums = parts[0],
+        decimals = parts[1] ? (dsep || '.') + parts[1] : '';
+
+      return fnums.replace(/(\d)(?=(?:\d{3})+$)/g, '$1' + tsep) + decimals;
+    },
+
+    strRight: function(str, sep){
+      if (str == null) return '';
+      str = String(str); sep = sep != null ? String(sep) : sep;
+      var pos = !sep ? -1 : str.indexOf(sep);
+      return ~pos ? str.slice(pos+sep.length, str.length) : str;
+    },
+
+    strRightBack: function(str, sep){
+      if (str == null) return '';
+      str = String(str); sep = sep != null ? String(sep) : sep;
+      var pos = !sep ? -1 : str.lastIndexOf(sep);
+      return ~pos ? str.slice(pos+sep.length, str.length) : str;
+    },
+
+    strLeft: function(str, sep){
+      if (str == null) return '';
+      str = String(str); sep = sep != null ? String(sep) : sep;
+      var pos = !sep ? -1 : str.indexOf(sep);
+      return ~pos ? str.slice(0, pos) : str;
+    },
+
+    strLeftBack: function(str, sep){
+      if (str == null) return '';
+      str += ''; sep = sep != null ? ''+sep : sep;
+      var pos = str.lastIndexOf(sep);
+      return ~pos ? str.slice(0, pos) : str;
+    },
+
+    toSentence: function(array, separator, lastSeparator, serial) {
+      separator = separator || ', ';
+      lastSeparator = lastSeparator || ' and ';
+      var a = array.slice(), lastMember = a.pop();
+
+      if (array.length > 2 && serial) lastSeparator = _s.rtrim(separator) + lastSeparator;
+
+      return a.length ? a.join(separator) + lastSeparator + lastMember : lastMember;
+    },
+
+    toSentenceSerial: function() {
+      var args = slice.call(arguments);
+      args[3] = true;
+      return _s.toSentence.apply(_s, args);
+    },
+
+    slugify: function(str) {
+      if (str == null) return '';
+
+      var from  = "ąàáäâãåæăćęèéëêìíïîłńòóöôõøśșțùúüûñçżź",
+          to    = "aaaaaaaaaceeeeeiiiilnoooooosstuuuunczz",
+          regex = new RegExp(defaultToWhiteSpace(from), 'g');
+
+      str = String(str).toLowerCase().replace(regex, function(c){
+        var index = from.indexOf(c);
+        return to.charAt(index) || '-';
+      });
+
+      return _s.dasherize(str.replace(/[^\w\s-]/g, ''));
+    },
+
+    surround: function(str, wrapper) {
+      return [wrapper, str, wrapper].join('');
+    },
+
+    quote: function(str, quoteChar) {
+      return _s.surround(str, quoteChar || '"');
+    },
+
+    unquote: function(str, quoteChar) {
+      quoteChar = quoteChar || '"';
+      if (str[0] === quoteChar && str[str.length-1] === quoteChar)
+        return str.slice(1,str.length-1);
+      else return str;
+    },
+
+    exports: function() {
+      var result = {};
+
+      for (var prop in this) {
+        if (!this.hasOwnProperty(prop) || prop.match(/^(?:include|contains|reverse)$/)) continue;
+        result[prop] = this[prop];
+      }
+
+      return result;
+    },
+
+    repeat: function(str, qty, separator){
+      if (str == null) return '';
+
+      qty = ~~qty;
+
+      // using faster implementation if separator is not needed;
+      if (separator == null) return strRepeat(String(str), qty);
+
+      // this one is about 300x slower in Google Chrome
+      for (var repeat = []; qty > 0; repeat[--qty] = str) {}
+      return repeat.join(separator);
+    },
+
+    naturalCmp: function(str1, str2){
+      if (str1 == str2) return 0;
+      if (!str1) return -1;
+      if (!str2) return 1;
+
+      var cmpRegex = /(\.\d+)|(\d+)|(\D+)/g,
+        tokens1 = String(str1).toLowerCase().match(cmpRegex),
+        tokens2 = String(str2).toLowerCase().match(cmpRegex),
+        count = Math.min(tokens1.length, tokens2.length);
+
+      for(var i = 0; i < count; i++) {
+        var a = tokens1[i], b = tokens2[i];
+
+        if (a !== b){
+          var num1 = parseInt(a, 10);
+          if (!isNaN(num1)){
+            var num2 = parseInt(b, 10);
+            if (!isNaN(num2) && num1 - num2)
+              return num1 - num2;
+          }
+          return a < b ? -1 : 1;
+        }
+      }
+
+      if (tokens1.length === tokens2.length)
+        return tokens1.length - tokens2.length;
+
+      return str1 < str2 ? -1 : 1;
+    },
+
+    levenshtein: function(str1, str2) {
+      if (str1 == null && str2 == null) return 0;
+      if (str1 == null) return String(str2).length;
+      if (str2 == null) return String(str1).length;
+
+      str1 = String(str1); str2 = String(str2);
+
+      var current = [], prev, value;
+
+      for (var i = 0; i <= str2.length; i++)
+        for (var j = 0; j <= str1.length; j++) {
+          if (i && j)
+            if (str1.charAt(j - 1) === str2.charAt(i - 1))
+              value = prev;
+            else
+              value = Math.min(current[j], current[j - 1], prev) + 1;
+          else
+            value = i + j;
+
+          prev = current[j];
+          current[j] = value;
+        }
+
+      return current.pop();
+    },
+
+    toBoolean: function(str, trueValues, falseValues) {
+      if (typeof str === "number") str = "" + str;
+      if (typeof str !== "string") return !!str;
+      str = _s.trim(str);
+      if (boolMatch(str, trueValues || ["true", "1"])) return true;
+      if (boolMatch(str, falseValues || ["false", "0"])) return false;
+    }
+  };
+
+  // Aliases
+
+  _s.strip    = _s.trim;
+  _s.lstrip   = _s.ltrim;
+  _s.rstrip   = _s.rtrim;
+  _s.center   = _s.lrpad;
+  _s.rjust    = _s.lpad;
+  _s.ljust    = _s.rpad;
+  _s.contains = _s.include;
+  _s.q        = _s.quote;
+  _s.toBool   = _s.toBoolean;
+
+  // Exporting
+
+  // CommonJS module is defined
+  if (true) {
+    if (typeof module !== 'undefined' && module.exports)
+      module.exports = _s;
+
+    exports._s = _s;
+  }
+
+  // Register as a named module with AMD.
+  if (true)
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function(){ return _s; }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+  // Integrate with Underscore.js if defined
+  // or create our own underscore object.
+  root._ = root._ || {};
+  root._.string = root._.str = _s;
+}(this, String);
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = {
+	danish: __webpack_require__(58).stopwords,
+	dutch: __webpack_require__(59).stopwords,
+	english: __webpack_require__(60).stopwords,
+	french: __webpack_require__(61).stopwords,
+	galician: __webpack_require__(62).stopwords,
+	german: __webpack_require__(63).stopwords,
+	italian: __webpack_require__(64).stopwords,
+	polish: __webpack_require__(65).stopwords,
+	portuguese: __webpack_require__(66).stopwords,
+	russian: __webpack_require__(67).stopwords,
+	spanish: __webpack_require__(68).stopwords,
+	swedish: __webpack_require__(69).stopwords
+};
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports) {
+
+// Danish stopwords
+// http://www.ranks.nl/stopwords/danish
+// https://github.com/dnohr
+
+module.exports = {
+    stopwords: [
+		"ad",
+		"af",
+		"aldrig",
+		"alle",
+		"alt",
+		"altid",
+		"anden",
+		"andet",
+		"andre",
+		"at",
+		"bagved",
+		"begge",
+		"blev",
+		"blive",
+		"bliver",
+		"da",
+		"de",
+		"dem",
+		"den",
+		"denne",
+		"der",
+		"deres",
+		"det",
+		"dette",
+		"dig",
+		"din",
+		"disse",
+		"dog",
+		"du",
+		"efter",
+		"ej",
+		"eller",
+		"en",
+		"end",
+		"endnu",
+		"ene",
+		"eneste",
+		"enhver",
+		"er",
+		"et",
+		"fem",
+		"fire",
+		"fjernt",
+		"flere",
+		"fleste",
+		"for",
+		"foran",
+		"fordi",
+		"forrige",
+		"fra",
+		"få",
+		"før",
+		"gennem",
+		"god",
+		"ham",
+		"han",
+		"hans",
+		"har",
+		"havde",
+		"have",
+		"hende",
+		"hendes",
+		"her",
+		"hos",
+		"hovfor",
+		"hun",
+		"hurtig",
+		"hvad",
+		"hvem",
+		"hver",
+		"hvilken",
+		"hvis",
+		"hvonår",
+		"hvor",
+		"hvordan",
+		"hvorfor",
+		"hvorhen",
+		"hvornår",
+		"i",
+		"ikke",
+		"imod",
+		"ind",
+		"ingen",
+		"intet",
+		"ja",
+		"jeg",
+		"jer",
+		"jeres",
+		"jo",
+		"kan",
+		"kom",
+		"kommer",
+		"kunne",
+		"langsom",
+		"lav",
+		"lidt",
+		"lille",
+		"man",
+		"mand",
+		"mange",
+		"med",
+		"meget",
+		"mellem",
+		"men",
+		"mens",
+		"mere",
+		"mig",
+		"min",
+		"mindre",
+		"mine",
+		"mit",
+		"mod",
+		"måske",
+		"ned",
+		"nede",
+		"nej",
+		"ni",
+		"nogen",
+		"noget",
+		"nogle",
+		"nok",
+		"nu",
+		"ny",
+		"nyt",
+		"når",
+		"nær",
+		"næste",
+		"næsten",
+		"og",
+		"også",
+		"om",
+		"op",
+		"oppe",
+		"os",
+		"otte",
+		"over",
+		"på",
+		"rask",
+		"sammen",
+		"se",
+		"seks",
+		"selv",
+		"ses",
+		"sig",
+		"sin",
+		"sine",
+		"sit",
+		"skal",
+		"skulle",
+		"som",
+		"stor",
+		"store",
+		"syv",
+		"sådan",
+		"temmelig",
+		"thi",
+		"ti",
+		"til",
+		"to",
+		"tre",
+		"ud",
+		"uden",
+		"udenfor",
+		"under",
+		"var",
+		"ved",
+		"vi",
+		"vil",
+		"ville",
+		"vor",
+		"være",
+		"været"
+    ]
+};
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports) {
+
+/**
+ * Created by jan on 9-3-15.
+ */
+// Dutch stopwords
+// via https://code.google.com/p/stop-words/
+
+
+
+module.exports = {
+    stopwords:[
+        "aan",
+        "af",
+        "al",
+        "als",
+        "bij",
+        "dan",
+        "dat",
+        "die",
+        "dit",
+        "een",
+        "en",
+        "er",
+        "had",
+        "heb",
+        "hem",
+        "het",
+        "hij",
+        "hoe",
+        "hun",
+        "ik",
+        "in",
+        "is",
+        "je",
+        "kan",
+        "me",
+        "men",
+        "met",
+        "mij",
+        "nog",
+        "nu",
+        "of",
+        "ons",
+        "ook",
+        "te",
+        "tot",
+        "uit",
+        "van",
+        "was",
+        "wat",
+        "we",
+        "wel",
+        "wij",
+        "zal",
+        "ze",
+        "zei",
+        "zij",
+        "zo",
+        "zou",
+        "aan",
+        "aangaande",
+        "aangezien",
+        "achter",
+        "achterna",
+        "afgelopen",
+        "al",
+        "aldaar",
+        "aldus",
+        "alhoewel",
+        "alias",
+        "alle",
+        "allebei",
+        "alleen",
+        "alsnog",
+        "altijd",
+        "altoos",
+        "ander",
+        "andere",
+        "anders",
+        "anderszins",
+        "behalve",
+        "behoudens",
+        "beide",
+        "beiden",
+        "ben",
+        "beneden",
+        "bent",
+        "bepaald",
+        "betreffende",
+        "bij",
+        "binnen",
+        "binnenin",
+        "boven",
+        "bovenal",
+        "bovendien",
+        "bovengenoemd",
+        "bovenstaand",
+        "bovenvermeld",
+        "buiten",
+        "daar",
+        "daarheen",
+        "daarin",
+        "daarna",
+        "daarnet",
+        "daarom",
+        "daarop",
+        "daarvanlangs",
+        "dan",
+        "dat",
+        "de",
+        "die",
+        "dikwijls",
+        "dit",
+        "door",
+        "doorgaand",
+        "dus",
+        "echter",
+        "eer",
+        "eerdat",
+        "eerder",
+        "eerlang",
+        "eerst",
+        "elk",
+        "elke",
+        "en",
+        "enig",
+        "enigszins",
+        "enkel",
+        "er",
+        "erdoor",
+        "even",
+        "eveneens",
+        "evenwel",
+        "gauw",
+        "gedurende",
+        "geen",
+        "gehad",
+        "gekund",
+        "geleden",
+        "gelijk",
+        "gemoeten",
+        "gemogen",
+        "geweest",
+        "gewoon",
+        "gewoonweg",
+        "haar",
+        "had",
+        "hadden",
+        "hare",
+        "heb",
+        "hebben",
+        "hebt",
+        "heeft",
+        "hem",
+        "hen",
+        "het",
+        "hierbeneden",
+        "hierboven",
+        "hij",
+        "hoe",
+        "hoewel",
+        "hun",
+        "hunne",
+        "ik",
+        "ikzelf",
+        "in",
+        "inmiddels",
+        "inzake",
+        "is",
+        "jezelf",
+        "jij",
+        "jijzelf",
+        "jou",
+        "jouw",
+        "jouwe",
+        "juist",
+        "jullie",
+        "kan",
+        "klaar",
+        "kon",
+        "konden",
+        "krachtens",
+        "kunnen",
+        "kunt",
+        "later",
+        "liever",
+        "maar",
+        "mag",
+        "meer",
+        "met",
+        "mezelf",
+        "mij",
+        "mijn",
+        "mijnent",
+        "mijner",
+        "mijzelf",
+        "misschien",
+        "mocht",
+        "mochten",
+        "moest",
+        "moesten",
+        "moet",
+        "moeten",
+        "mogen",
+        "na",
+        "naar",
+        "nadat",
+        "net",
+        "niet",
+        "noch",
+        "nog",
+        "nogal",
+        "nu",
+        "of",
+        "ofschoon",
+        "om",
+        "omdat",
+        "omhoog",
+        "omlaag",
+        "omstreeks",
+        "omtrent",
+        "omver",
+        "onder",
+        "ondertussen",
+        "ongeveer",
+        "ons",
+        "onszelf",
+        "onze",
+        "ook",
+        "op",
+        "opnieuw",
+        "opzij",
+        "over",
+        "overeind",
+        "overigens",
+        "pas",
+        "precies",
+        "reeds",
+        "rond",
+        "rondom",
+        "sedert",
+        "sinds",
+        "sindsdien",
+        "slechts",
+        "sommige",
+        "spoedig",
+        "steeds",
+        "tamelijk",
+        "tenzij",
+        "terwijl",
+        "thans",
+        "tijdens",
+        "toch",
+        "toen",
+        "toenmaals",
+        "toenmalig",
+        "tot",
+        "totdat",
+        "tussen",
+        "uit",
+        "uitgezonderd",
+        "vaakwat",
+        "van",
+        "vandaan",
+        "vanuit",
+        "vanwege",
+        "veeleer",
+        "verder",
+        "vervolgens",
+        "vol",
+        "volgens",
+        "voor",
+        "vooraf",
+        "vooral",
+        "vooralsnog",
+        "voorbij",
+        "voordat",
+        "voordezen",
+        "voordien",
+        "voorheen",
+        "voorop",
+        "vooruit",
+        "vrij",
+        "vroeg",
+        "waar",
+        "waarom",
+        "wanneer",
+        "want",
+        "waren",
+        "was",
+        "weer",
+        "weg",
+        "wegens",
+        "wel",
+        "weldra",
+        "welk",
+        "welke",
+        "wie",
+        "wiens",
+        "wier",
+        "wij",
+        "wijzelf",
+        "zal",
+        "ze",
+        "zelfs",
+        "zichzelf",
+        "zij",
+        "zijn",
+        "zijne",
+        "zo",
+        "zodra",
+        "zonder",
+        "zou",
+        "zouden",
+        "zowat",
+        "zulke",
+        "zullen",
+        "zult"
+    ]
+};
+
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports) {
+
+// via http://jmlr.org/papers/volume5/lewis04a/a11-smart-stop-list/english.stop
+module.exports = {
+    stopwords:[
+        "a",
+        "a's",
+        "able",
+        "about",
+        "above",
+        "according",
+        "accordingly",
+        "across",
+        "actually",
+        "after",
+        "afterwards",
+        "again",
+        "against",
+        "ain't",
+        "all",
+        "allow",
+        "allows",
+        "almost",
+        "alone",
+        "along",
+        "already",
+        "also",
+        "although",
+        "always",
+        "am",
+        "among",
+        "amongst",
+        "an",
+        "and",
+        "another",
+        "any",
+        "anybody",
+        "anyhow",
+        "anyone",
+        "anything",
+        "anyway",
+        "anyways",
+        "anywhere",
+        "apart",
+        "appear",
+        "appreciate",
+        "appropriate",
+        "are",
+        "aren't",
+        "around",
+        "as",
+        "aside",
+        "ask",
+        "asking",
+        "associated",
+        "at",
+        "available",
+        "away",
+        "awfully",
+        "b",
+        "be",
+        "became",
+        "because",
+        "become",
+        "becomes",
+        "becoming",
+        "been",
+        "before",
+        "beforehand",
+        "behind",
+        "being",
+        "believe",
+        "below",
+        "beside",
+        "besides",
+        "best",
+        "better",
+        "between",
+        "beyond",
+        "both",
+        "brief",
+        "but",
+        "by",
+        "c",
+        "c'mon",
+        "c's",
+        "came",
+        "can",
+        "can't",
+        "cannot",
+        "cant",
+        "cause",
+        "causes",
+        "certain",
+        "certainly",
+        "changes",
+        "clearly",
+        "co",
+        "com",
+        "come",
+        "comes",
+        "concerning",
+        "consequently",
+        "consider",
+        "considering",
+        "contain",
+        "containing",
+        "contains",
+        "corresponding",
+        "could",
+        "couldn't",
+        "course",
+        "currently",
+        "d",
+        "definitely",
+        "described",
+        "despite",
+        "did",
+        "didn't",
+        "different",
+        "do",
+        "does",
+        "doesn't",
+        "doing",
+        "don't",
+        "done",
+        "down",
+        "downwards",
+        "during",
+        "e",
+        "each",
+        "edu",
+        "eg",
+        "eight",
+        "either",
+        "else",
+        "elsewhere",
+        "enough",
+        "entirely",
+        "especially",
+        "et",
+        "etc",
+        "even",
+        "ever",
+        "every",
+        "everybody",
+        "everyone",
+        "everything",
+        "everywhere",
+        "ex",
+        "exactly",
+        "example",
+        "except",
+        "f",
+        "far",
+        "few",
+        "fifth",
+        "first",
+        "five",
+        "followed",
+        "following",
+        "follows",
+        "for",
+        "former",
+        "formerly",
+        "forth",
+        "four",
+        "from",
+        "further",
+        "furthermore",
+        "g",
+        "get",
+        "gets",
+        "getting",
+        "given",
+        "gives",
+        "go",
+        "goes",
+        "going",
+        "gone",
+        "got",
+        "gotten",
+        "greetings",
+        "h",
+        "had",
+        "hadn't",
+        "happens",
+        "hardly",
+        "has",
+        "hasn't",
+        "have",
+        "haven't",
+        "having",
+        "he",
+        "he's",
+        "hello",
+        "help",
+        "hence",
+        "her",
+        "here",
+        "here's",
+        "hereafter",
+        "hereby",
+        "herein",
+        "hereupon",
+        "hers",
+        "herself",
+        "hi",
+        "him",
+        "himself",
+        "his",
+        "hither",
+        "hopefully",
+        "how",
+        "howbeit",
+        "however",
+        "i",
+        "i'd",
+        "i'll",
+        "i'm",
+        "i've",
+        "ie",
+        "if",
+        "ignored",
+        "immediate",
+        "in",
+        "inasmuch",
+        "inc",
+        "indeed",
+        "indicate",
+        "indicated",
+        "indicates",
+        "inner",
+        "insofar",
+        "instead",
+        "into",
+        "inward",
+        "is",
+        "isn't",
+        "it",
+        "it'd",
+        "it'll",
+        "it's",
+        "its",
+        "itself",
+        "j",
+        "just",
+        "k",
+        "keep",
+        "keeps",
+        "kept",
+        "know",
+        "knows",
+        "known",
+        "l",
+        "last",
+        "lately",
+        "later",
+        "latter",
+        "latterly",
+        "least",
+        "less",
+        "lest",
+        "let",
+        "let's",
+        "like",
+        "liked",
+        "likely",
+        "little",
+        "look",
+        "looking",
+        "looks",
+        "ltd",
+        "m",
+        "mainly",
+        "many",
+        "may",
+        "maybe",
+        "me",
+        "mean",
+        "meanwhile",
+        "merely",
+        "might",
+        "more",
+        "moreover",
+        "most",
+        "mostly",
+        "much",
+        "must",
+        "my",
+        "myself",
+        "n",
+        "name",
+        "namely",
+        "nd",
+        "near",
+        "nearly",
+        "necessary",
+        "need",
+        "needs",
+        "neither",
+        "never",
+        "nevertheless",
+        "new",
+        "next",
+        "nine",
+        "no",
+        "nobody",
+        "non",
+        "none",
+        "noone",
+        "nor",
+        "normally",
+        "not",
+        "nothing",
+        "novel",
+        "now",
+        "nowhere",
+        "o",
+        "obviously",
+        "of",
+        "off",
+        "often",
+        "oh",
+        "ok",
+        "okay",
+        "old",
+        "on",
+        "once",
+        "one",
+        "ones",
+        "only",
+        "onto",
+        "or",
+        "other",
+        "others",
+        "otherwise",
+        "ought",
+        "our",
+        "ours",
+        "ourselves",
+        "out",
+        "outside",
+        "over",
+        "overall",
+        "own",
+        "p",
+        "particular",
+        "particularly",
+        "per",
+        "perhaps",
+        "placed",
+        "please",
+        "plus",
+        "possible",
+        "presumably",
+        "probably",
+        "provides",
+        "q",
+        "que",
+        "quite",
+        "qv",
+        "r",
+        "rather",
+        "rd",
+        "re",
+        "really",
+        "reasonably",
+        "regarding",
+        "regardless",
+        "regards",
+        "relatively",
+        "respectively",
+        "right",
+        "s",
+        "said",
+        "same",
+        "saw",
+        "say",
+        "saying",
+        "says",
+        "second",
+        "secondly",
+        "see",
+        "seeing",
+        "seem",
+        "seemed",
+        "seeming",
+        "seems",
+        "seen",
+        "self",
+        "selves",
+        "sensible",
+        "sent",
+        "serious",
+        "seriously",
+        "seven",
+        "several",
+        "shall",
+        "she",
+        "should",
+        "shouldn't",
+        "since",
+        "six",
+        "so",
+        "some",
+        "somebody",
+        "somehow",
+        "someone",
+        "something",
+        "sometime",
+        "sometimes",
+        "somewhat",
+        "somewhere",
+        "soon",
+        "sorry",
+        "specified",
+        "specify",
+        "specifying",
+        "still",
+        "sub",
+        "such",
+        "sup",
+        "sure",
+        "t",
+        "t's",
+        "take",
+        "taken",
+        "tell",
+        "tends",
+        "th",
+        "than",
+        "thank",
+        "thanks",
+        "thanx",
+        "that",
+        "that's",
+        "thats",
+        "the",
+        "their",
+        "theirs",
+        "them",
+        "themselves",
+        "then",
+        "thence",
+        "there",
+        "there's",
+        "thereafter",
+        "thereby",
+        "therefore",
+        "therein",
+        "theres",
+        "thereupon",
+        "these",
+        "they",
+        "they'd",
+        "they'll",
+        "they're",
+        "they've",
+        "think",
+        "third",
+        "this",
+        "thorough",
+        "thoroughly",
+        "those",
+        "though",
+        "three",
+        "through",
+        "throughout",
+        "thru",
+        "thus",
+        "to",
+        "together",
+        "too",
+        "took",
+        "toward",
+        "towards",
+        "tried",
+        "tries",
+        "truly",
+        "try",
+        "trying",
+        "twice",
+        "two",
+        "u",
+        "un",
+        "under",
+        "unfortunately",
+        "unless",
+        "unlikely",
+        "until",
+        "unto",
+        "up",
+        "upon",
+        "us",
+        "use",
+        "used",
+        "useful",
+        "uses",
+        "using",
+        "usually",
+        "uucp",
+        "v",
+        "value",
+        "various",
+        "very",
+        "via",
+        "viz",
+        "vs",
+        "w",
+        "want",
+        "wants",
+        "was",
+        "wasn't",
+        "way",
+        "we",
+        "we'd",
+        "we'll",
+        "we're",
+        "we've",
+        "welcome",
+        "well",
+        "went",
+        "were",
+        "weren't",
+        "what",
+        "what's",
+        "whatever",
+        "when",
+        "whence",
+        "whenever",
+        "where",
+        "where's",
+        "whereafter",
+        "whereas",
+        "whereby",
+        "wherein",
+        "whereupon",
+        "wherever",
+        "whether",
+        "which",
+        "while",
+        "whither",
+        "who",
+        "who's",
+        "whoever",
+        "whole",
+        "whom",
+        "whose",
+        "why",
+        "will",
+        "willing",
+        "wish",
+        "with",
+        "within",
+        "without",
+        "won't",
+        "wonder",
+        "would",
+        "would",
+        "wouldn't",
+        "x",
+        "y",
+        "yes",
+        "yet",
+        "you",
+        "you'd",
+        "you'll",
+        "you're",
+        "you've",
+        "your",
+        "yours",
+        "yourself",
+        "yourselves",
+        "z",
+        "zero"
+    ]
+};
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports) {
+
+/**
+ * Created by jan on 9-3-15.
+ */
+// French stopwords
+// via https://code.google.com/p/stop-words/
+
+module.exports = {
+    stopwords: [
+        "a",
+        "à",
+        "â",
+        "abord",
+        "afin",
+        "ah",
+        "ai",
+        "aie",
+        "ainsi",
+        "allaient",
+        "allo",
+        "allô",
+        "allons",
+        "après",
+        "assez",
+        "attendu",
+        "au",
+        "aucun",
+        "aucune",
+        "aujourd",
+        "aujourd'hui",
+        "auquel",
+        "aura",
+        "auront",
+        "aussi",
+        "autre",
+        "autres",
+        "aux",
+        "auxquelles",
+        "auxquels",
+        "avaient",
+        "avais",
+        "avait",
+        "avant",
+        "avec",
+        "avoir",
+        "ayant",
+        "b",
+        "bah",
+        "beaucoup",
+        "bien",
+        "bigre",
+        "boum",
+        "bravo",
+        "brrr",
+        "c",
+        "ça",
+        "car",
+        "ce",
+        "ceci",
+        "cela",
+        "celle",
+        "celle-ci",
+        "celle-là",
+        "celles",
+        "celles-ci",
+        "celles-là",
+        "celui",
+        "celui-ci",
+        "celui-là",
+        "cent",
+        "cependant",
+        "certain",
+        "certaine",
+        "certaines",
+        "certains",
+        "certes",
+        "ces",
+        "cet",
+        "cette",
+        "ceux",
+        "ceux-ci",
+        "ceux-là",
+        "chacun",
+        "chaque",
+        "cher",
+        "chère",
+        "chères",
+        "chers",
+        "chez",
+        "chiche",
+        "chut",
+        "ci",
+        "cinq",
+        "cinquantaine",
+        "cinquante",
+        "cinquantième",
+        "cinquième",
+        "clac",
+        "clic",
+        "combien",
+        "comme",
+        "comment",
+        "compris",
+        "concernant",
+        "contre",
+        "couic",
+        "crac",
+        "d",
+        "da",
+        "dans",
+        "de",
+        "debout",
+        "dedans",
+        "dehors",
+        "delà",
+        "depuis",
+        "derrière",
+        "des",
+        "dès",
+        "désormais",
+        "desquelles",
+        "desquels",
+        "dessous",
+        "dessus",
+        "deux",
+        "deuxième",
+        "deuxièmement",
+        "devant",
+        "devers",
+        "devra",
+        "différent",
+        "différente",
+        "différentes",
+        "différents",
+        "dire",
+        "divers",
+        "diverse",
+        "diverses",
+        "dix",
+        "dix-huit",
+        "dixième",
+        "dix-neuf",
+        "dix-sept",
+        "doit",
+        "doivent",
+        "donc",
+        "dont",
+        "douze",
+        "douzième",
+        "dring",
+        "du",
+        "duquel",
+        "durant",
+        "e",
+        "effet",
+        "eh",
+        "elle",
+        "elle-même",
+        "elles",
+        "elles-mêmes",
+        "en",
+        "encore",
+        "entre",
+        "envers",
+        "environ",
+        "es",
+        "ès",
+        "est",
+        "et",
+        "etant",
+        "étaient",
+        "étais",
+        "était",
+        "étant",
+        "etc",
+        "été",
+        "etre",
+        "être",
+        "eu",
+        "euh",
+        "eux",
+        "eux-mêmes",
+        "excepté",
+        "f",
+        "façon",
+        "fais",
+        "faisaient",
+        "faisant",
+        "fait",
+        "feront",
+        "fi",
+        "flac",
+        "floc",
+        "font",
+        "g",
+        "gens",
+        "h",
+        "ha",
+        "hé",
+        "hein",
+        "hélas",
+        "hem",
+        "hep",
+        "hi",
+        "ho",
+        "holà",
+        "hop",
+        "hormis",
+        "hors",
+        "hou",
+        "houp",
+        "hue",
+        "hui",
+        "huit",
+        "huitième",
+        "hum",
+        "hurrah",
+        "i",
+        "il",
+        "ils",
+        "importe",
+        "j",
+        "je",
+        "jusqu",
+        "jusque",
+        "k",
+        "l",
+        "la",
+        "là",
+        "laquelle",
+        "las",
+        "le",
+        "lequel",
+        "les",
+        "lès",
+        "lesquelles",
+        "lesquels",
+        "leur",
+        "leurs",
+        "longtemps",
+        "lorsque",
+        "lui",
+        "lui-même",
+        "m",
+        "ma",
+        "maint",
+        "mais",
+        "malgré",
+        "me",
+        "même",
+        "mêmes",
+        "merci",
+        "mes",
+        "mien",
+        "mienne",
+        "miennes",
+        "miens",
+        "mille",
+        "mince",
+        "moi",
+        "moi-même",
+        "moins",
+        "mon",
+        "moyennant",
+        "n",
+        "na",
+        "ne",
+        "néanmoins",
+        "neuf",
+        "neuvième",
+        "ni",
+        "nombreuses",
+        "nombreux",
+        "non",
+        "nos",
+        "notre",
+        "nôtre",
+        "nôtres",
+        "nous",
+        "nous-mêmes",
+        "nul",
+        "o",
+        "o|",
+        "ô",
+        "oh",
+        "ohé",
+        "olé",
+        "ollé",
+        "on",
+        "ont",
+        "onze",
+        "onzième",
+        "ore",
+        "ou",
+        "où",
+        "ouf",
+        "ouias",
+        "oust",
+        "ouste",
+        "outre",
+        "p",
+        "paf",
+        "pan",
+        "par",
+        "parmi",
+        "partant",
+        "particulier",
+        "particulière",
+        "particulièrement",
+        "pas",
+        "passé",
+        "pendant",
+        "personne",
+        "peu",
+        "peut",
+        "peuvent",
+        "peux",
+        "pff",
+        "pfft",
+        "pfut",
+        "pif",
+        "plein",
+        "plouf",
+        "plus",
+        "plusieurs",
+        "plutôt",
+        "pouah",
+        "pour",
+        "pourquoi",
+        "premier",
+        "première",
+        "premièrement",
+        "près",
+        "proche",
+        "psitt",
+        "puisque",
+        "q",
+        "qu",
+        "quand",
+        "quant",
+        "quanta",
+        "quant-à-soi",
+        "quarante",
+        "quatorze",
+        "quatre",
+        "quatre-vingt",
+        "quatrième",
+        "quatrièmement",
+        "que",
+        "quel",
+        "quelconque",
+        "quelle",
+        "quelles",
+        "quelque",
+        "quelques",
+        "quelqu'un",
+        "quels",
+        "qui",
+        "quiconque",
+        "quinze",
+        "quoi",
+        "quoique",
+        "r",
+        "revoici",
+        "revoilà",
+        "rien",
+        "s",
+        "sa",
+        "sacrebleu",
+        "sans",
+        "sapristi",
+        "sauf",
+        "se",
+        "seize",
+        "selon",
+        "sept",
+        "septième",
+        "sera",
+        "seront",
+        "ses",
+        "si",
+        "sien",
+        "sienne",
+        "siennes",
+        "siens",
+        "sinon",
+        "six",
+        "sixième",
+        "soi",
+        "soi-même",
+        "soit",
+        "soixante",
+        "son",
+        "sont",
+        "sous",
+        "stop",
+        "suis",
+        "suivant",
+        "sur",
+        "surtout",
+        "t",
+        "ta",
+        "tac",
+        "tant",
+        "te",
+        "té",
+        "tel",
+        "telle",
+        "tellement",
+        "telles",
+        "tels",
+        "tenant",
+        "tes",
+        "tic",
+        "tien",
+        "tienne",
+        "tiennes",
+        "tiens",
+        "toc",
+        "toi",
+        "toi-même",
+        "ton",
+        "touchant",
+        "toujours",
+        "tous",
+        "tout",
+        "toute",
+        "toutes",
+        "treize",
+        "trente",
+        "très",
+        "trois",
+        "troisième",
+        "troisièmement",
+        "trop",
+        "tsoin",
+        "tsouin",
+        "tu",
+        "u",
+        "un",
+        "une",
+        "unes",
+        "uns",
+        "v",
+        "va",
+        "vais",
+        "vas",
+        "vé",
+        "vers",
+        "via",
+        "vif",
+        "vifs",
+        "vingt",
+        "vivat",
+        "vive",
+        "vives",
+        "vlan",
+        "voici",
+        "voilà",
+        "vont",
+        "vos",
+        "votre",
+        "vôtre",
+        "vôtres",
+        "vous",
+        "vous-mêmes",
+        "vu",
+        "w",
+        "x",
+        "y",
+        "z",
+        "zut",
+        "﻿alors",
+        "aucuns",
+        "bon",
+        "devrait",
+        "dos",
+        "droite",
+        "début",
+        "essai",
+        "faites",
+        "fois",
+        "force",
+        "haut",
+        "ici",
+        "juste",
+        "maintenant",
+        "mine",
+        "mot",
+        "nommés",
+        "nouveaux",
+        "parce",
+        "parole",
+        "personnes",
+        "pièce",
+        "plupart",
+        "seulement",
+        "soyez",
+        "sujet",
+        "tandis",
+        "valeur",
+        "voie",
+        "voient",
+        "état",
+        "étions"
+
+    ]
+
+};
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports) {
+
+//  via http://www.ranks.nl/stopwords/galician
+module.exports = {
+    stopwords: [
+        'a',
+        'aínda',
+        'alí',
+        'aquel',
+        'aquela',
+        'aquelas',
+        'aqueles',
+        'aquilo',
+        'aquí',
+        'ao',
+        'aos',
+        'as',
+        'así',
+        'á',
+        'ben',
+        'cando',
+        'che',
+        'co',
+        'coa',
+        'comigo',
+        'con',
+        'connosco',
+        'contigo',
+        'convosco',
+        'coas',
+        'cos',
+        'cun',
+        'cuns',
+        'cunha',
+        'cunhas',
+        'da',
+        'dalgunha',
+        'dalgunhas',
+        'dalgún',
+        'dalgúns',
+        'das',
+        'de',
+        'del',
+        'dela',
+        'delas',
+        'deles',
+        'desde',
+        'deste',
+        'do',
+        'dos',
+        'dun',
+        'duns',
+        'dunha',
+        'dunhas',
+        'e',
+        'el',
+        'ela',
+        'elas',
+        'eles',
+        'en',
+        'era',
+        'eran',
+        'esa',
+        'esas',
+        'ese',
+        'eses',
+        'esta',
+        'estar',
+        'estaba',
+        'está',
+        'están',
+        'este',
+        'estes',
+        'estiven',
+        'estou',
+        'eu',
+        'é',
+        'facer',
+        'foi',
+        'foron',
+        'fun',
+        'había',
+        'hai',
+        'iso',
+        'isto',
+        'la',
+        'las',
+        'lle',
+        'lles',
+        'lo',
+        'los',
+        'mais',
+        'me',
+        'meu',
+        'meus',
+        'min',
+        'miña',
+        'miñas',
+        'moi',
+        'na',
+        'nas',
+        'neste',
+        'nin',
+        'no',
+        'non',
+        'nos',
+        'nosa',
+        'nosas',
+        'noso',
+        'nosos',
+        'nós',
+        'nun',
+        'nunha',
+        'nuns',
+        'nunhas',
+        'o',
+        'os',
+        'ou',
+        'ó',
+        'ós',
+        'para',
+        'pero',
+        'pode',
+        'pois',
+        'pola',
+        'polas',
+        'polo',
+        'polos',
+        'por',
+        'que',
+        'se',
+        'senón',
+        'ser',
+        'seu',
+        'seus',
+        'sexa',
+        'sido',
+        'sobre',
+        'súa',
+        'súas',
+        'tamén',
+        'tan',
+        'te',
+        'ten',
+        'teñen',
+        'teño',
+        'ter',
+        'teu',
+        'teus',
+        'ti',
+        'tido',
+        'tiña',
+        'tiven',
+        'túa',
+        'túas',
+        'un',
+        'unha',
+        'unhas',
+        'uns',
+        'vos',
+        'vosa',
+        'vosas',
+        'voso',
+        'vosos',
+        'vós'
+    ]
+};
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports) {
+
+/**
+ * Created by jan on 9-3-15.
+ */
+// German stopwords
+// via https://code.google.com/p/stop-words/
+module.exports = {
+    stopwords: [
+        "a",
+        "ab",
+        "aber",
+        "ach",
+        "acht",
+        "achte",
+        "achten",
+        "achter",
+        "achtes",
+        "ag",
+        "alle",
+        "allein",
+        "allem",
+        "allen",
+        "aller",
+        "allerdings",
+        "alles",
+        "allgemeinen",
+        "als",
+        "also",
+        "am",
+        "an",
+        "andere",
+        "anderen",
+        "andern",
+        "anders",
+        "au",
+        "auch",
+        "auf",
+        "aus",
+        "ausser",
+        "außer",
+        "ausserdem",
+        "außerdem",
+        "b",
+        "bald",
+        "bei",
+        "beide",
+        "beiden",
+        "beim",
+        "beispiel",
+        "bekannt",
+        "bereits",
+        "besonders",
+        "besser",
+        "besten",
+        "bin",
+        "bis",
+        "bisher",
+        "bist",
+        "c",
+        "d",
+        "da",
+        "dabei",
+        "dadurch",
+        "dafür",
+        "dagegen",
+        "daher",
+        "dahin",
+        "dahinter",
+        "damals",
+        "damit",
+        "danach",
+        "daneben",
+        "dank",
+        "dann",
+        "daran",
+        "darauf",
+        "daraus",
+        "darf",
+        "darfst",
+        "darin",
+        "darüber",
+        "darum",
+        "darunter",
+        "das",
+        "dasein",
+        "daselbst",
+        "dass",
+        "daß",
+        "dasselbe",
+        "davon",
+        "davor",
+        "dazu",
+        "dazwischen",
+        "dein",
+        "deine",
+        "deinem",
+        "deiner",
+        "dem",
+        "dementsprechend",
+        "demgegenüber",
+        "demgemäss",
+        "demgemäß",
+        "demselben",
+        "demzufolge",
+        "den",
+        "denen",
+        "denn",
+        "denselben",
+        "der",
+        "deren",
+        "derjenige",
+        "derjenigen",
+        "dermassen",
+        "dermaßen",
+        "derselbe",
+        "derselben",
+        "des",
+        "deshalb",
+        "desselben",
+        "dessen",
+        "deswegen",
+        "d.h",
+        "dich",
+        "die",
+        "diejenige",
+        "diejenigen",
+        "dies",
+        "diese",
+        "dieselbe",
+        "dieselben",
+        "diesem",
+        "diesen",
+        "dieser",
+        "dieses",
+        "dir",
+        "doch",
+        "dort",
+        "drei",
+        "drin",
+        "dritte",
+        "dritten",
+        "dritter",
+        "drittes",
+        "du",
+        "durch",
+        "durchaus",
+        "dürfen",
+        "dürft",
+        "durfte",
+        "durften",
+        "e",
+        "eben",
+        "ebenso",
+        "ehrlich",
+        "ei",
+        "ei,",
+        "eigen",
+        "eigene",
+        "eigenen",
+        "eigener",
+        "eigenes",
+        "ein",
+        "einander",
+        "eine",
+        "einem",
+        "einen",
+        "einer",
+        "eines",
+        "einige",
+        "einigen",
+        "einiger",
+        "einiges",
+        "einmal",
+        "eins",
+        "elf",
+        "en",
+        "ende",
+        "endlich",
+        "entweder",
+        "er",
+        "Ernst",
+        "erst",
+        "erste",
+        "ersten",
+        "erster",
+        "erstes",
+        "es",
+        "etwa",
+        "etwas",
+        "euch",
+        "f",
+        "früher",
+        "fünf",
+        "fünfte",
+        "fünften",
+        "fünfter",
+        "fünftes",
+        "für",
+        "g",
+        "gab",
+        "ganz",
+        "ganze",
+        "ganzen",
+        "ganzer",
+        "ganzes",
+        "gar",
+        "gedurft",
+        "gegen",
+        "gegenüber",
+        "gehabt",
+        "gehen",
+        "geht",
+        "gekannt",
+        "gekonnt",
+        "gemacht",
+        "gemocht",
+        "gemusst",
+        "genug",
+        "gerade",
+        "gern",
+        "gesagt",
+        "geschweige",
+        "gewesen",
+        "gewollt",
+        "geworden",
+        "gibt",
+        "ging",
+        "gleich",
+        "gott",
+        "gross",
+        "groß",
+        "grosse",
+        "große",
+        "grossen",
+        "großen",
+        "grosser",
+        "großer",
+        "grosses",
+        "großes",
+        "gut",
+        "gute",
+        "guter",
+        "gutes",
+        "h",
+        "habe",
+        "haben",
+        "habt",
+        "hast",
+        "hat",
+        "hatte",
+        "hätte",
+        "hatten",
+        "hätten",
+        "heisst",
+        "her",
+        "heute",
+        "hier",
+        "hin",
+        "hinter",
+        "hoch",
+        "i",
+        "ich",
+        "ihm",
+        "ihn",
+        "ihnen",
+        "ihr",
+        "ihre",
+        "ihrem",
+        "ihren",
+        "ihrer",
+        "ihres",
+        "im",
+        "immer",
+        "in",
+        "indem",
+        "infolgedessen",
+        "ins",
+        "irgend",
+        "ist",
+        "j",
+        "ja",
+        "jahr",
+        "jahre",
+        "jahren",
+        "je",
+        "jede",
+        "jedem",
+        "jeden",
+        "jeder",
+        "jedermann",
+        "jedermanns",
+        "jedoch",
+        "jemand",
+        "jemandem",
+        "jemanden",
+        "jene",
+        "jenem",
+        "jenen",
+        "jener",
+        "jenes",
+        "jetzt",
+        "k",
+        "kam",
+        "kann",
+        "kannst",
+        "kaum",
+        "kein",
+        "keine",
+        "keinem",
+        "keinen",
+        "keiner",
+        "kleine",
+        "kleinen",
+        "kleiner",
+        "kleines",
+        "kommen",
+        "kommt",
+        "können",
+        "könnt",
+        "konnte",
+        "könnte",
+        "konnten",
+        "kurz",
+        "l",
+        "lang",
+        "lange",
+        "leicht",
+        "leide",
+        "lieber",
+        "los",
+        "m",
+        "machen",
+        "macht",
+        "machte",
+        "mag",
+        "magst",
+        "mahn",
+        "man",
+        "manche",
+        "manchem",
+        "manchen",
+        "mancher",
+        "manches",
+        "mann",
+        "mehr",
+        "mein",
+        "meine",
+        "meinem",
+        "meinen",
+        "meiner",
+        "meines",
+        "mensch",
+        "menschen",
+        "mich",
+        "mir",
+        "mit",
+        "mittel",
+        "mochte",
+        "möchte",
+        "mochten",
+        "mögen",
+        "möglich",
+        "mögt",
+        "morgen",
+        "muss",
+        "muß",
+        "müssen",
+        "musst",
+        "müsst",
+        "musste",
+        "mussten",
+        "n",
+        "na",
+        "nach",
+        "nachdem",
+        "nahm",
+        "natürlich",
+        "neben",
+        "nein",
+        "neue",
+        "neuen",
+        "neun",
+        "neunte",
+        "neunten",
+        "neunter",
+        "neuntes",
+        "nicht",
+        "nichts",
+        "nie",
+        "niemand",
+        "niemandem",
+        "niemanden",
+        "noch",
+        "nun",
+        "nur",
+        "o",
+        "ob",
+        "oben",
+        "oder",
+        "offen",
+        "oft",
+        "ohne",
+        "Ordnung",
+        "p",
+        "q",
+        "r",
+        "recht",
+        "rechte",
+        "rechten",
+        "rechter",
+        "rechtes",
+        "richtig",
+        "rund",
+        "s",
+        "sa",
+        "sache",
+        "sagt",
+        "sagte",
+        "sah",
+        "satt",
+        "schlecht",
+        "Schluss",
+        "schon",
+        "sechs",
+        "sechste",
+        "sechsten",
+        "sechster",
+        "sechstes",
+        "sehr",
+        "sei",
+        "seid",
+        "seien",
+        "sein",
+        "seine",
+        "seinem",
+        "seinen",
+        "seiner",
+        "seines",
+        "seit",
+        "seitdem",
+        "selbst",
+        "sich",
+        "sie",
+        "sieben",
+        "siebente",
+        "siebenten",
+        "siebenter",
+        "siebentes",
+        "sind",
+        "so",
+        "solang",
+        "solche",
+        "solchem",
+        "solchen",
+        "solcher",
+        "solches",
+        "soll",
+        "sollen",
+        "sollte",
+        "sollten",
+        "sondern",
+        "sonst",
+        "sowie",
+        "später",
+        "statt",
+        "t",
+        "tag",
+        "tage",
+        "tagen",
+        "tat",
+        "teil",
+        "tel",
+        "tritt",
+        "trotzdem",
+        "tun",
+        "u",
+        "über",
+        "überhaupt",
+        "übrigens",
+        "uhr",
+        "um",
+        "und",
+        "und?",
+        "uns",
+        "unser",
+        "unsere",
+        "unserer",
+        "unter",
+        "v",
+        "vergangenen",
+        "viel",
+        "viele",
+        "vielem",
+        "vielen",
+        "vielleicht",
+        "vier",
+        "vierte",
+        "vierten",
+        "vierter",
+        "viertes",
+        "vom",
+        "von",
+        "vor",
+        "w",
+        "wahr?",
+        "während",
+        "währenddem",
+        "währenddessen",
+        "wann",
+        "war",
+        "wäre",
+        "waren",
+        "wart",
+        "warum",
+        "was",
+        "wegen",
+        "weil",
+        "weit",
+        "weiter",
+        "weitere",
+        "weiteren",
+        "weiteres",
+        "welche",
+        "welchem",
+        "welchen",
+        "welcher",
+        "welches",
+        "wem",
+        "wen",
+        "wenig",
+        "wenige",
+        "weniger",
+        "weniges",
+        "wenigstens",
+        "wenn",
+        "wer",
+        "werde",
+        "werden",
+        "werdet",
+        "wessen",
+        "wie",
+        "wieder",
+        "will",
+        "willst",
+        "wir",
+        "wird",
+        "wirklich",
+        "wirst",
+        "wo",
+        "wohl",
+        "wollen",
+        "wollt",
+        "wollte",
+        "wollten",
+        "worden",
+        "wurde",
+        "würde",
+        "wurden",
+        "würden",
+        "x",
+        "y",
+        "z",
+        "z.b",
+        "zehn",
+        "zehnte",
+        "zehnten",
+        "zehnter",
+        "zehntes",
+        "zeit",
+        "zu",
+        "zuerst",
+        "zugleich",
+        "zum",
+        "zunächst",
+        "zur",
+        "zurück",
+        "zusammen",
+        "zwanzig",
+        "zwar",
+        "zwei",
+        "zweite",
+        "zweiten",
+        "zweiter",
+        "zweites",
+        "zwischen",
+        "zwölf",
+        "﻿aber",
+        "euer",
+        "eure",
+        "hattest",
+        "hattet",
+        "jedes",
+        "mußt",
+        "müßt",
+        "sollst",
+        "sollt",
+        "soweit",
+        "weshalb",
+        "wieso",
+        "woher",
+        "wohin"
+    ]
+
+};
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports) {
+
+/**
+ * Created by jan on 9-3-15.
+ */
+// Italian stopwords
+// via https://code.google.com/p/stop-words/
+
+module.exports = {
+    stopwords: [
+        "a",
+        "adesso",
+        "ai",
+        "al",
+        "alla",
+        "allo",
+        "allora",
+        "altre",
+        "altri",
+        "altro",
+        "anche",
+        "ancora",
+        "avere",
+        "aveva",
+        "avevano",
+        "ben",
+        "buono",
+        "che",
+        "chi",
+        "cinque",
+        "comprare",
+        "con",
+        "consecutivi",
+        "consecutivo",
+        "cosa",
+        "cui",
+        "da",
+        "del",
+        "della",
+        "dello",
+        "dentro",
+        "deve",
+        "devo",
+        "di",
+        "doppio",
+        "due",
+        "e",
+        "ecco",
+        "fare",
+        "fine",
+        "fino",
+        "fra",
+        "gente",
+        "giu",
+        "ha",
+        "hai",
+        "hanno",
+        "ho",
+        "il",
+        "indietro",
+        "invece",
+        "io",
+        "la",
+        "lavoro",
+        "le",
+        "lei",
+        "lo",
+        "loro",
+        "lui",
+        "lungo",
+        "ma",
+        "me",
+        "meglio",
+        "molta",
+        "molti",
+        "molto",
+        "nei",
+        "nella",
+        "no",
+        "noi",
+        "nome",
+        "nostro",
+        "nove",
+        "nuovi",
+        "nuovo",
+        "o",
+        "oltre",
+        "ora",
+        "otto",
+        "peggio",
+        "pero",
+        "persone",
+        "piu",
+        "poco",
+        "primo",
+        "promesso",
+        "qua",
+        "quarto",
+        "quasi",
+        "quattro",
+        "quello",
+        "questo",
+        "qui",
+        "quindi",
+        "quinto",
+        "rispetto",
+        "sara",
+        "secondo",
+        "sei",
+        "sembra",
+        "sembrava",
+        "senza",
+        "sette",
+        "sia",
+        "siamo",
+        "siete",
+        "solo",
+        "sono",
+        "sopra",
+        "soprattutto",
+        "sotto",
+        "stati",
+        "stato",
+        "stesso",
+        "su",
+        "subito",
+        "sul",
+        "sulla",
+        "tanto",
+        "te",
+        "tempo",
+        "terzo",
+        "tra",
+        "tre",
+        "triplo",
+        "ultimo",
+        "un",
+        "una",
+        "uno",
+        "va",
+        "vai",
+        "voi",
+        "volte",
+        "vostro",
+        "a",
+        "abbastanza",
+        "accidenti",
+        "ad",
+        "affinche",
+        "agli",
+        "ahime",
+        "ahimÃ",
+        "alcuna",
+        "alcuni",
+        "alcuno",
+        "all",
+        "alle",
+        "altrimenti",
+        "altrui",
+        "anni",
+        "anno",
+        "ansa",
+        "assai",
+        "attesa",
+        "avanti",
+        "avendo",
+        "avente",
+        "aver",
+        "avete",
+        "avuta",
+        "avute",
+        "avuti",
+        "avuto",
+        "basta",
+        "bene",
+        "benissimo",
+        "berlusconi",
+        "brava",
+        "bravo",
+        "c",
+        "casa",
+        "caso",
+        "cento",
+        "certa",
+        "certe",
+        "certi",
+        "certo",
+        "chicchessia",
+        "chiunque",
+        "ci",
+        "ciascuna",
+        "ciascuno",
+        "cima",
+        "cio",
+        "ciÃ",
+        "cioe",
+        "cioÃ",
+        "circa",
+        "citta",
+        "cittÃ",
+        "codesta",
+        "codesti",
+        "codesto",
+        "cogli",
+        "coi",
+        "col",
+        "colei",
+        "coll",
+        "coloro",
+        "colui",
+        "come",
+        "concernente",
+        "consiglio",
+        "contro",
+        "cortesia",
+        "cos",
+        "cosi",
+        "cosÃ",
+        "d",
+        "dagli",
+        "dai",
+        "dal",
+        "dall",
+        "dalla",
+        "dalle",
+        "dallo",
+        "davanti",
+        "degli",
+        "dei",
+        "dell",
+        "delle",
+        "detto",
+        "dice",
+        "dietro",
+        "dire",
+        "dirimpetto",
+        "dopo",
+        "dove",
+        "dovra",
+        "dovrÃ",
+        "dunque",
+        "durante",
+        "Ã",
+        "ed",
+        "egli",
+        "ella",
+        "eppure",
+        "era",
+        "erano",
+        "esse",
+        "essendo",
+        "esser",
+        "essere",
+        "essi",
+        "ex",
+        "fa",
+        "fatto",
+        "favore",
+        "fin",
+        "finalmente",
+        "finche",
+        "forse",
+        "fuori",
+        "gia",
+        "giÃ",
+        "giacche",
+        "giorni",
+        "giorno",
+        "gli",
+        "gliela",
+        "gliele",
+        "glieli",
+        "glielo",
+        "gliene",
+        "governo",
+        "grande",
+        "grazie",
+        "gruppo",
+        "i",
+        "ieri",
+        "improvviso",
+        "in",
+        "infatti",
+        "insieme",
+        "intanto",
+        "intorno",
+        "l",
+        "lÃ",
+        "li",
+        "lontano",
+        "macche",
+        "magari",
+        "mai",
+        "male",
+        "malgrado",
+        "malissimo",
+        "medesimo",
+        "mediante",
+        "meno",
+        "mentre",
+        "mesi",
+        "mezzo",
+        "mi",
+        "mia",
+        "mie",
+        "miei",
+        "mila",
+        "miliardi",
+        "milioni",
+        "ministro",
+        "mio",
+        "moltissimo",
+        "mondo",
+        "nazionale",
+        "ne",
+        "negli",
+        "nel",
+        "nell",
+        "nelle",
+        "nello",
+        "nemmeno",
+        "neppure",
+        "nessuna",
+        "nessuno",
+        "niente",
+        "non",
+        "nondimeno",
+        "nostra",
+        "nostre",
+        "nostri",
+        "nulla",
+        "od",
+        "oggi",
+        "ogni",
+        "ognuna",
+        "ognuno",
+        "oppure",
+        "ore",
+        "osi",
+        "ossia",
+        "paese",
+        "parecchi",
+        "parecchie",
+        "parecchio",
+        "parte",
+        "partendo",
+        "peccato",
+        "per",
+        "perche",
+        "perchÃ",
+        "percio",
+        "perciÃ",
+        "perfino",
+        "perÃ",
+        "piedi",
+        "pieno",
+        "piglia",
+        "piÃ",
+        "po",
+        "pochissimo",
+        "poi",
+        "poiche",
+        "press",
+        "prima",
+        "proprio",
+        "puo",
+        "puÃ",
+        "pure",
+        "purtroppo",
+        "qualche",
+        "qualcuna",
+        "qualcuno",
+        "quale",
+        "quali",
+        "qualunque",
+        "quando",
+        "quanta",
+        "quante",
+        "quanti",
+        "quanto",
+        "quantunque",
+        "quel",
+        "quella",
+        "quelli",
+        "quest",
+        "questa",
+        "queste",
+        "questi",
+        "riecco",
+        "salvo",
+        "sarÃ",
+        "sarebbe",
+        "scopo",
+        "scorso",
+        "se",
+        "seguente",
+        "sempre",
+        "si",
+        "solito",
+        "sta",
+        "staranno",
+        "stata",
+        "state",
+        "sua",
+        "successivo",
+        "sue",
+        "sugli",
+        "sui",
+        "sull",
+        "sulle",
+        "sullo",
+        "suo",
+        "suoi",
+        "tale",
+        "talvolta",
+        "ti",
+        "torino",
+        "tranne",
+        "troppo",
+        "tu",
+        "tua",
+        "tue",
+        "tuo",
+        "tuoi",
+        "tutta",
+        "tuttavia",
+        "tutte",
+        "tutti",
+        "tutto",
+        "uguali",
+        "uomo",
+        "vale",
+        "varia",
+        "varie",
+        "vario",
+        "verso",
+        "vi",
+        "via",
+        "vicino",
+        "visto",
+        "vita",
+        "volta",
+        "vostra",
+        "vostre",
+        "vostri"
+    ]
+};
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports) {
+
+// via http://hackage.haskell.org/package/glider-nlp-0.1/docs/src/Glider-NLP-Language-Polish-StopWords.html
+module.exports = {
+    stopwords:[
+        "a",
+"aby",
+"ach",
+"acz",
+"aczkolwiek",
+"aj",
+"albo",
+"ale",
+"alez",
+"ależ",
+"ani",
+"az",
+"aż",
+"bardziej",
+"bardzo",
+"bo",
+"bowiem",
+"by",
+"byli",
+"bynajmniej",
+"byc",
+"być",
+"byl",
+"był",
+"byla",
+"bylo",
+"byly",
+"była",
+"było",
+"były",
+"bedzie",
+"będzie",
+"beda",
+"będą",
+"cali",
+"cala",
+"cała",
+"caly",
+"cały",
+"ci",
+"cie",
+"cię",
+"ciebie",
+"co",
+"cokolwiek",
+"cos",
+"coś",
+"czasami",
+"czasem",
+"czemu",
+"czy",
+"czyli",
+"daleko",
+"dla",
+"dlaczego",
+"dlatego",
+"do",
+"dobrze",
+"dokad",
+"dokąd",
+"dosc",
+"dość",
+"duzo",
+"dużo",
+"dwa",
+"dwaj",
+"dwie",
+"dwoje",
+"dzis",
+"dziś",
+"dzisiaj",
+"gdy",
+"gdyby",
+"gdyz",
+"gdyż",
+"gdzie",
+"gdziekolwiek",
+"gdzies",
+"gdzieś",
+"go",
+"i",
+"ich",
+"ile",
+"im",
+"inna",
+"inne",
+"inny",
+"innych",
+"iz",
+"iż",
+"ja",
+"ją",
+"jak",
+"jakas",
+"jakaś",
+"jakby",
+"jaki",
+"jakichs",
+"jakichś",
+"jakie",
+"jakis",
+"jakiś",
+"jakiz",
+"jakiż",
+"jakkolwiek",
+"jako",
+"jakos",
+"jakoś",
+"je",
+"jeden",
+"jedna",
+"jedno",
+"jednak",
+"jednakze",
+"jednakże",
+"jego",
+"jej",
+"jemu",
+"jest",
+"jestem",
+"jeszcze",
+"jesli",
+"jeśli",
+"jezeli",
+"jeżeli",
+"juz",
+"już",
+"kazdy",
+"każdy",
+"kiedy",
+"kilka",
+"kims",
+"kimś",
+"kto",
+"ktokolwiek",
+"ktos",
+"ktoś",
+"ktora",
+"ktore",
+"które",
+"ktorego",
+"ktorej",
+"ktory",
+"ktorych",
+"ktorym",
+"ktorzy",
+"która",
+"którego",
+"której",
+"który",
+"których",
+"którym",
+"którzy",
+"ku",
+"lat",
+"lecz",
+"lub",
+"ma",
+"mają",
+"mało",
+"mam",
+"mi",
+"mimo",
+"miedzy",
+"między",
+"mna",
+"mną",
+"mnie",
+"moga",
+"mogą",
+"moi",
+"moim",
+"moja",
+"moje",
+"moze",
+"może",
+"mozliwe",
+"mozna",
+"możliwe",
+"można",
+"moj",
+"mój",
+"mu",
+"musi",
+"my",
+"na",
+"nad",
+"nam",
+"nami",
+"nas",
+"nasi",
+"nasz",
+"nasza",
+"nasze",
+"naszego",
+"naszych",
+"natomiast",
+"natychmiast",
+"nawet",
+"nia",
+"nią",
+"nic",
+"nich",
+"nie",
+"niech",
+"niego",
+"niej",
+"niemu",
+"nigdy",
+"nim",
+"nimi",
+"niz",
+"niż",
+"no",
+"o",
+"obok",
+"od",
+"około",
+"on",
+"ona",
+"one",
+"oni",
+"ono",
+"oraz",
+"oto",
+"owszem",
+"pan",
+"pana",
+"pani",
+"po",
+"pod",
+"podczas",
+"pomimo",
+"ponad",
+"poniewaz",
+"ponieważ",
+"powinien",
+"powinna",
+"powinni",
+"powinno",
+"poza",
+"prawie",
+"przeciez",
+"przecież",
+"przed",
+"przede",
+"przedtem",
+"przez",
+"przy",
+"roku",
+"rowniez",
+"również",
+"sam",
+"sama",
+"są",
+"sie",
+"się",
+"skad",
+"skąd",
+"sobie",
+"soba",
+"sobą",
+"sposob",
+"sposób",
+"swoje",
+"ta",
+"tak",
+"taka",
+"taki",
+"takie",
+"takze",
+"także",
+"tam",
+"te",
+"tego",
+"tej",
+"ten",
+"teraz",
+"też",
+"to",
+"toba",
+"tobą",
+"tobie",
+"totez",
+"toteż",
+"trzeba",
+"tu",
+"tutaj",
+"twoi",
+"twoim",
+"twoja",
+"twoje",
+"twym",
+"twoj",
+"twój",
+"ty",
+"tych",
+"tylko",
+"tym",
+"u",
+"w",
+"wam",
+"wami",
+"was",
+"wasz",
+"wasza",
+"wasze",
+"we",
+"według",
+"wiele",
+"wielu",
+"więc",
+"więcej",
+"wszyscy",
+"wszystkich",
+"wszystkie",
+"wszystkim",
+"wszystko",
+"wtedy",
+"wy",
+"wlasnie",
+"właśnie",
+"z",
+"za",
+"zapewne",
+"zawsze",
+"ze",
+"znowu",
+"znow",
+"znów",
+"zostal",
+"został",
+"zaden",
+"zadna",
+"zadne",
+"zadnych",
+"ze",
+"zeby",
+"żaden",
+"żadna",
+"żadne",
+"żadnych",
+"że",
+"żeby"
+    ]
+};
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports) {
+
+/**
+ * Created by rodrigo on 01/10/15.
+ */
+
+//Portuguese (BRAZIL) stopwords
+// via https://sites.google.com/site/kevinbouge/stopwords-lists
+module.exports = {
+    stopwords: [
+        "a",
+        "à",
+        "adeus",
+        "agora",
+        "aí",
+        "ainda",
+        "além",
+        "algo",
+        "algumas",
+        "alguns",
+        "ali",
+        "ano",
+        "anos",
+        "antes",
+        "ao",
+        "aos",
+        "apenas",
+        "apoio",
+        "após",
+        "aquela",
+        "aquelas",
+        "aquele",
+        "aqueles",
+        "aqui",
+        "aquilo",
+        "área",
+        "as",
+        "às",
+        "assim",
+        "até",
+        "atrás",
+        "através",
+        "baixo",
+        "bastante",
+        "bem",
+        "boa",
+        "boas",
+        "bom",
+        "bons",
+        "breve",
+        "cá",
+        "cada",
+        "catorze",
+        "cedo",
+        "cento",
+        "certamente",
+        "certeza",
+        "cima",
+        "cinco",
+        "coisa",
+        "com",
+        "como",
+        "conselho",
+        "contra",
+        "custa",
+        "da",
+        "dá",
+        "dão",
+        "daquela",
+        "daquelas",
+        "daquele",
+        "daqueles",
+        "dar",
+        "das",
+        "de",
+        "debaixo",
+        "demais",
+        "dentro",
+        "depois",
+        "desde",
+        "dessa",
+        "dessas",
+        "desse",
+        "desses",
+        "desta",
+        "destas",
+        "deste",
+        "destes",
+        "deve",
+        "deverá",
+        "dez",
+        "dezanove",
+        "dezasseis",
+        "dezassete",
+        "dezoito",
+        "dia",
+        "diante",
+        "diz",
+        "dizem",
+        "dizer",
+        "do",
+        "dois",
+        "dos",
+        "doze",
+        "duas",
+        "dúvida",
+        "e",
+        "é",
+        "ela",
+        "elas",
+        "ele",
+        "eles",
+        "em",
+        "embora",
+        "entre",
+        "era",
+        "és",
+        "essa",
+        "essas",
+        "esse",
+        "esses",
+        "esta",
+        "está",
+        "estão",
+        "estar",
+        "estas",
+        "estás",
+        "estava",
+        "este",
+        "estes",
+        "esteve",
+        "estive",
+        "estivemos",
+        "estiveram",
+        "estiveste",
+        "estivestes",
+        "estou",
+        "eu",
+        "exemplo",
+        "faço",
+        "falta",
+        "favor",
+        "faz",
+        "fazeis",
+        "fazem",
+        "fazemos",
+        "fazer",
+        "fazes",
+        "fez",
+        "fim",
+        "final",
+        "foi",
+        "fomos",
+        "for",
+        "foram",
+        "forma",
+        "foste",
+        "fostes",
+        "fui",
+        "geral",
+        "grande",
+        "grandes",
+        "grupo",
+        "há",
+        "hoje",
+        "hora",
+        "horas",
+        "isso",
+        "isto",
+        "já",
+        "lá",
+        "lado",
+        "local",
+        "logo",
+        "longe",
+        "lugar",
+        "maior",
+        "maioria",
+        "mais",
+        "mal",
+        "mas",
+        "máximo",
+        "me",
+        "meio",
+        "menor",
+        "menos",
+        "mês",
+        "meses",
+        "meu",
+        "meus",
+        "mil",
+        "minha",
+        "minhas",
+        "momento",
+        "muito",
+        "muitos",
+        "na",
+        "nada",
+        "não",
+        "naquela",
+        "naquelas",
+        "naquele",
+        "naqueles",
+        "nas",
+        "nem",
+        "nenhuma",
+        "nessa",
+        "nessas",
+        "nesse",
+        "nesses",
+        "nesta",
+        "nestas",
+        "neste",
+        "nestes",
+        "nível",
+        "no",
+        "noite",
+        "nome",
+        "nos",
+        "nós",
+        "nossa",
+        "nossas",
+        "nosso",
+        "nossos",
+        "nova",
+        "novas",
+        "nove",
+        "novo",
+        "novos",
+        "num",
+        "numa",
+        "número",
+        "nunca",
+        "o",
+        "obra",
+        "obrigada",
+        "obrigado",
+        "oitava",
+        "oitavo",
+        "oito",
+        "onde",
+        "ontem",
+        "onze",
+        "os",
+        "ou",
+        "outra",
+        "outras",
+        "outro",
+        "outros",
+        "para",
+        "parece",
+        "parte",
+        "partir",
+        "paucas",
+        "pela",
+        "pelas",
+        "pelo",
+        "pelos",
+        "perto",
+        "pode",
+        "pôde",
+        "podem",
+        "poder",
+        "põe",
+        "põem",
+        "ponto",
+        "pontos",
+        "por",
+        "porque",
+        "porquê",
+        "posição",
+        "possível",
+        "possivelmente",
+        "posso",
+        "pouca",
+        "pouco",
+        "poucos",
+        "primeira",
+        "primeiras",
+        "primeiro",
+        "primeiros",
+        "própria",
+        "próprias",
+        "próprio",
+        "próprios",
+        "próxima",
+        "próximas",
+        "próximo",
+        "próximos",
+        "puderam",
+        "quáis",
+        "qual",
+        "quando",
+        "quanto",
+        "quarta",
+        "quarto",
+        "quatro",
+        "que",
+        "quê",
+        "quem",
+        "quer",
+        "quereis",
+        "querem",
+        "queremas",
+        "queres",
+        "quero",
+        "questão",
+        "quinta",
+        "quinto",
+        "quinze",
+        "relação",
+        "sabe",
+        "sabem",
+        "são",
+        "se",
+        "segunda",
+        "segundo",
+        "sei",
+        "seis",
+        "sem",
+        "sempre",
+        "ser",
+        "seria",
+        "sete",
+        "sétima",
+        "sétimo",
+        "seu",
+        "seus",
+        "sexta",
+        "sexto",
+        "sim",
+        "sistema",
+        "sob",
+        "sobre",
+        "sois",
+        "somos",
+        "sou",
+        "sua",
+        "suas",
+        "tal",
+        "talvez",
+        "também",
+        "tanta",
+        "tantas",
+        "tanto",
+        "tão",
+        "tarde",
+        "te",
+        "tem",
+        "têm",
+        "temos",
+        "tendes",
+        "tenho",
+        "tens",
+        "ter",
+        "terceira",
+        "terceiro",
+        "teu",
+        "teus",
+        "teve",
+        "tive",
+        "tivemos",
+        "tiveram",
+        "tiveste",
+        "tivestes",
+        "toda",
+        "todas",
+        "todo",
+        "todos",
+        "trabalho",
+        "três",
+        "treze",
+        "tu",
+        "tua",
+        "tuas",
+        "tudo",
+        "um",
+        "uma",
+        "umas",
+        "uns",
+        "vai",
+        "vais",
+        "vão",
+        "vários",
+        "vem",
+        "vêm",
+        "vens",
+        "ver",
+        "vez",
+        "vezes",
+        "viagem",
+        "vindo",
+        "vinte",
+        "você",
+        "vocês",
+        "vos",
+        "vós",
+        "vossa",
+        "vossas",
+        "vosso",
+        "vossos",
+        "zero"
+    ]
+};
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports) {
+
+/**
+ * Created by jan on 9-3-15.
+ */
+// Russian stopwords
+// via https://code.google.com/p/stop-words/
+
+module.exports = {
+    stopwords: [
+        "а",
+        "е",
+        "и",
+        "ж",
+        "м",
+        "о",
+        "на",
+        "не",
+        "ни",
+        "об",
+        "но",
+        "он",
+        "мне",
+        "мои",
+        "мож",
+        "она",
+        "они",
+        "оно",
+        "мной",
+        "много",
+        "многочисленное",
+        "многочисленная",
+        "многочисленные",
+        "многочисленный",
+        "мною",
+        "мой",
+        "мог",
+        "могут",
+        "можно",
+        "может",
+        "можхо",
+        "мор",
+        "моя",
+        "моё",
+        "мочь",
+        "над",
+        "нее",
+        "оба",
+        "нам",
+        "нем",
+        "нами",
+        "ними",
+        "мимо",
+        "немного",
+        "одной",
+        "одного",
+        "менее",
+        "однажды",
+        "однако",
+        "меня",
+        "нему",
+        "меньше",
+        "ней",
+        "наверху",
+        "него",
+        "ниже",
+        "мало",
+        "надо",
+        "один",
+        "одиннадцать",
+        "одиннадцатый",
+        "назад",
+        "наиболее",
+        "недавно",
+        "миллионов",
+        "недалеко",
+        "между",
+        "низко",
+        "меля",
+        "нельзя",
+        "нибудь",
+        "непрерывно",
+        "наконец",
+        "никогда",
+        "никуда",
+        "нас",
+        "наш",
+        "нет",
+        "нею",
+        "неё",
+        "них",
+        "мира",
+        "наша",
+        "наше",
+        "наши",
+        "ничего",
+        "начала",
+        "нередко",
+        "несколько",
+        "обычно",
+        "опять",
+        "около",
+        "мы",
+        "ну",
+        "нх",
+        "от",
+        "отовсюду",
+        "особенно",
+        "нужно",
+        "очень",
+        "отсюда",
+        "в",
+        "во",
+        "вон",
+        "вниз",
+        "внизу",
+        "вокруг",
+        "вот",
+        "восемнадцать",
+        "восемнадцатый",
+        "восемь",
+        "восьмой",
+        "вверх",
+        "вам",
+        "вами",
+        "важное",
+        "важная",
+        "важные",
+        "важный",
+        "вдали",
+        "везде",
+        "ведь",
+        "вас",
+        "ваш",
+        "ваша",
+        "ваше",
+        "ваши",
+        "впрочем",
+        "весь",
+        "вдруг",
+        "вы",
+        "все",
+        "второй",
+        "всем",
+        "всеми",
+        "времени",
+        "время",
+        "всему",
+        "всего",
+        "всегда",
+        "всех",
+        "всею",
+        "всю",
+        "вся",
+        "всё",
+        "всюду",
+        "г",
+        "год",
+        "говорил",
+        "говорит",
+        "года",
+        "году",
+        "где",
+        "да",
+        "ее",
+        "за",
+        "из",
+        "ли",
+        "же",
+        "им",
+        "до",
+        "по",
+        "ими",
+        "под",
+        "иногда",
+        "довольно",
+        "именно",
+        "долго",
+        "позже",
+        "более",
+        "должно",
+        "пожалуйста",
+        "значит",
+        "иметь",
+        "больше",
+        "пока",
+        "ему",
+        "имя",
+        "пор",
+        "пора",
+        "потом",
+        "потому",
+        "после",
+        "почему",
+        "почти",
+        "посреди",
+        "ей",
+        "два",
+        "две",
+        "двенадцать",
+        "двенадцатый",
+        "двадцать",
+        "двадцатый",
+        "двух",
+        "его",
+        "дел",
+        "или",
+        "без",
+        "день",
+        "занят",
+        "занята",
+        "занято",
+        "заняты",
+        "действительно",
+        "давно",
+        "девятнадцать",
+        "девятнадцатый",
+        "девять",
+        "девятый",
+        "даже",
+        "алло",
+        "жизнь",
+        "далеко",
+        "близко",
+        "здесь",
+        "дальше",
+        "для",
+        "лет",
+        "зато",
+        "даром",
+        "первый",
+        "перед",
+        "затем",
+        "зачем",
+        "лишь",
+        "десять",
+        "десятый",
+        "ею",
+        "её",
+        "их",
+        "бы",
+        "еще",
+        "при",
+        "был",
+        "про",
+        "процентов",
+        "против",
+        "просто",
+        "бывает",
+        "бывь",
+        "если",
+        "люди",
+        "была",
+        "были",
+        "было",
+        "будем",
+        "будет",
+        "будете",
+        "будешь",
+        "прекрасно",
+        "буду",
+        "будь",
+        "будто",
+        "будут",
+        "ещё",
+        "пятнадцать",
+        "пятнадцатый",
+        "друго",
+        "другое",
+        "другой",
+        "другие",
+        "другая",
+        "других",
+        "есть",
+        "пять",
+        "быть",
+        "лучше",
+        "пятый",
+        "к",
+        "ком",
+        "конечно",
+        "кому",
+        "кого",
+        "когда",
+        "которой",
+        "которого",
+        "которая",
+        "которые",
+        "который",
+        "которых",
+        "кем",
+        "каждое",
+        "каждая",
+        "каждые",
+        "каждый",
+        "кажется",
+        "как",
+        "какой",
+        "какая",
+        "кто",
+        "кроме",
+        "куда",
+        "кругом",
+        "с",
+        "т",
+        "у",
+        "я",
+        "та",
+        "те",
+        "уж",
+        "со",
+        "то",
+        "том",
+        "снова",
+        "тому",
+        "совсем",
+        "того",
+        "тогда",
+        "тоже",
+        "собой",
+        "тобой",
+        "собою",
+        "тобою",
+        "сначала",
+        "только",
+        "уметь",
+        "тот",
+        "тою",
+        "хорошо",
+        "хотеть",
+        "хочешь",
+        "хоть",
+        "хотя",
+        "свое",
+        "свои",
+        "твой",
+        "своей",
+        "своего",
+        "своих",
+        "свою",
+        "твоя",
+        "твоё",
+        "раз",
+        "уже",
+        "сам",
+        "там",
+        "тем",
+        "чем",
+        "сама",
+        "сами",
+        "теми",
+        "само",
+        "рано",
+        "самом",
+        "самому",
+        "самой",
+        "самого",
+        "семнадцать",
+        "семнадцатый",
+        "самим",
+        "самими",
+        "самих",
+        "саму",
+        "семь",
+        "чему",
+        "раньше",
+        "сейчас",
+        "чего",
+        "сегодня",
+        "себе",
+        "тебе",
+        "сеаой",
+        "человек",
+        "разве",
+        "теперь",
+        "себя",
+        "тебя",
+        "седьмой",
+        "спасибо",
+        "слишком",
+        "так",
+        "такое",
+        "такой",
+        "такие",
+        "также",
+        "такая",
+        "сих",
+        "тех",
+        "чаще",
+        "четвертый",
+        "через",
+        "часто",
+        "шестой",
+        "шестнадцать",
+        "шестнадцатый",
+        "шесть",
+        "четыре",
+        "четырнадцать",
+        "четырнадцатый",
+        "сколько",
+        "сказал",
+        "сказала",
+        "сказать",
+        "ту",
+        "ты",
+        "три",
+        "эта",
+        "эти",
+        "что",
+        "это",
+        "чтоб",
+        "этом",
+        "этому",
+        "этой",
+        "этого",
+        "чтобы",
+        "этот",
+        "стал",
+        "туда",
+        "этим",
+        "этими",
+        "рядом",
+        "тринадцать",
+        "тринадцатый",
+        "этих",
+        "третий",
+        "тут",
+        "эту",
+        "суть",
+        "чуть",
+        "тысяч"
+    ]
+};
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports) {
+
+//  via https://stop-words.googlecode.com/svn/trunk/stop-words/stop-words/stop-words-spanish.txt
+module.exports = {
+    stopwords: [
+        '0',
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '_',
+        'a',
+        'actualmente',
+        'acuerdo',
+        'adelante',
+        'ademas',
+        'además',
+        'adrede',
+        'afirmó',
+        'agregó',
+        'ahi',
+        'ahora',
+        'ahí',
+        'al',
+        'algo',
+        'alguna',
+        'algunas',
+        'alguno',
+        'algunos',
+        'algún',
+        'alli',
+        'allí',
+        'alrededor',
+        'ambos',
+        'ampleamos',
+        'antano',
+        'antaño',
+        'ante',
+        'anterior',
+        'antes',
+        'apenas',
+        'aproximadamente',
+        'aquel',
+        'aquella',
+        'aquellas',
+        'aquello',
+        'aquellos',
+        'aqui',
+        'aquél',
+        'aquélla',
+        'aquéllas',
+        'aquéllos',
+        'aquí',
+        'arriba',
+        'arribaabajo',
+        'aseguró',
+        'asi',
+        'así',
+        'atras',
+        'aun',
+        'aunque',
+        'ayer',
+        'añadió',
+        'aún',
+        'b',
+        'bajo',
+        'bastante',
+        'bien',
+        'breve',
+        'buen',
+        'buena',
+        'buenas',
+        'bueno',
+        'buenos',
+        'c',
+        'cada',
+        'casi',
+        'cerca',
+        'cierta',
+        'ciertas',
+        'cierto',
+        'ciertos',
+        'cinco',
+        'claro',
+        'comentó',
+        'como',
+        'con',
+        'conmigo',
+        'conocer',
+        'conseguimos',
+        'conseguir',
+        'considera',
+        'consideró',
+        'consigo',
+        'consigue',
+        'consiguen',
+        'consigues',
+        'contigo',
+        'contra',
+        'cosas',
+        'creo',
+        'cual',
+        'cuales',
+        'cualquier',
+        'cuando',
+        'cuanta',
+        'cuantas',
+        'cuanto',
+        'cuantos',
+        'cuatro',
+        'cuenta',
+        'cuál',
+        'cuáles',
+        'cuándo',
+        'cuánta',
+        'cuántas',
+        'cuánto',
+        'cuántos',
+        'cómo',
+        'd',
+        'da',
+        'dado',
+        'dan',
+        'dar',
+        'de',
+        'debajo',
+        'debe',
+        'deben',
+        'debido',
+        'decir',
+        'dejó',
+        'del',
+        'delante',
+        'demasiado',
+        'demás',
+        'dentro',
+        'deprisa',
+        'desde',
+        'despacio',
+        'despues',
+        'después',
+        'detras',
+        'detrás',
+        'dia',
+        'dias',
+        'dice',
+        'dicen',
+        'dicho',
+        'dieron',
+        'diferente',
+        'diferentes',
+        'dijeron',
+        'dijo',
+        'dio',
+        'donde',
+        'dos',
+        'durante',
+        'día',
+        'días',
+        'dónde',
+        'e',
+        'ejemplo',
+        'el',
+        'ella',
+        'ellas',
+        'ello',
+        'ellos',
+        'embargo',
+        'empleais',
+        'emplean',
+        'emplear',
+        'empleas',
+        'empleo',
+        'en',
+        'encima',
+        'encuentra',
+        'enfrente',
+        'enseguida',
+        'entonces',
+        'entre',
+        'era',
+        'erais',
+        'eramos',
+        'eran',
+        'eras',
+        'eres',
+        'es',
+        'esa',
+        'esas',
+        'ese',
+        'eso',
+        'esos',
+        'esta',
+        'estaba',
+        'estabais',
+        'estaban',
+        'estabas',
+        'estad',
+        'estada',
+        'estadas',
+        'estado',
+        'estados',
+        'estais',
+        'estamos',
+        'estan',
+        'estando',
+        'estar',
+        'estaremos',
+        'estará',
+        'estarán',
+        'estarás',
+        'estaré',
+        'estaréis',
+        'estaría',
+        'estaríais',
+        'estaríamos',
+        'estarían',
+        'estarías',
+        'estas',
+        'este',
+        'estemos',
+        'esto',
+        'estos',
+        'estoy',
+        'estuve',
+        'estuviera',
+        'estuvierais',
+        'estuvieran',
+        'estuvieras',
+        'estuvieron',
+        'estuviese',
+        'estuvieseis',
+        'estuviesen',
+        'estuvieses',
+        'estuvimos',
+        'estuviste',
+        'estuvisteis',
+        'estuviéramos',
+        'estuviésemos',
+        'estuvo',
+        'está',
+        'estábamos',
+        'estáis',
+        'están',
+        'estás',
+        'esté',
+        'estéis',
+        'estén',
+        'estés',
+        'ex',
+        'excepto',
+        'existe',
+        'existen',
+        'explicó',
+        'expresó',
+        'f',
+        'fin',
+        'final',
+        'fue',
+        'fuera',
+        'fuerais',
+        'fueran',
+        'fueras',
+        'fueron',
+        'fuese',
+        'fueseis',
+        'fuesen',
+        'fueses',
+        'fui',
+        'fuimos',
+        'fuiste',
+        'fuisteis',
+        'fuéramos',
+        'fuésemos',
+        'g',
+        'general',
+        'gran',
+        'grandes',
+        'gueno',
+        'h',
+        'ha',
+        'haber',
+        'habia',
+        'habida',
+        'habidas',
+        'habido',
+        'habidos',
+        'habiendo',
+        'habla',
+        'hablan',
+        'habremos',
+        'habrá',
+        'habrán',
+        'habrás',
+        'habré',
+        'habréis',
+        'habría',
+        'habríais',
+        'habríamos',
+        'habrían',
+        'habrías',
+        'habéis',
+        'había',
+        'habíais',
+        'habíamos',
+        'habían',
+        'habías',
+        'hace',
+        'haceis',
+        'hacemos',
+        'hacen',
+        'hacer',
+        'hacerlo',
+        'haces',
+        'hacia',
+        'haciendo',
+        'hago',
+        'han',
+        'has',
+        'hasta',
+        'hay',
+        'haya',
+        'hayamos',
+        'hayan',
+        'hayas',
+        'hayáis',
+        'he',
+        'hecho',
+        'hemos',
+        'hicieron',
+        'hizo',
+        'horas',
+        'hoy',
+        'hube',
+        'hubiera',
+        'hubierais',
+        'hubieran',
+        'hubieras',
+        'hubieron',
+        'hubiese',
+        'hubieseis',
+        'hubiesen',
+        'hubieses',
+        'hubimos',
+        'hubiste',
+        'hubisteis',
+        'hubiéramos',
+        'hubiésemos',
+        'hubo',
+        'i',
+        'igual',
+        'incluso',
+        'indicó',
+        'informo',
+        'informó',
+        'intenta',
+        'intentais',
+        'intentamos',
+        'intentan',
+        'intentar',
+        'intentas',
+        'intento',
+        'ir',
+        'j',
+        'junto',
+        'k',
+        'l',
+        'la',
+        'lado',
+        'largo',
+        'las',
+        'le',
+        'lejos',
+        'les',
+        'llegó',
+        'lleva',
+        'llevar',
+        'lo',
+        'los',
+        'luego',
+        'lugar',
+        'm',
+        'mal',
+        'manera',
+        'manifestó',
+        'mas',
+        'mayor',
+        'me',
+        'mediante',
+        'medio',
+        'mejor',
+        'mencionó',
+        'menos',
+        'menudo',
+        'mi',
+        'mia',
+        'mias',
+        'mientras',
+        'mio',
+        'mios',
+        'mis',
+        'misma',
+        'mismas',
+        'mismo',
+        'mismos',
+        'modo',
+        'momento',
+        'mucha',
+        'muchas',
+        'mucho',
+        'muchos',
+        'muy',
+        'más',
+        'mí',
+        'mía',
+        'mías',
+        'mío',
+        'míos',
+        'n',
+        'nada',
+        'nadie',
+        'ni',
+        'ninguna',
+        'ningunas',
+        'ninguno',
+        'ningunos',
+        'ningún',
+        'no',
+        'nos',
+        'nosotras',
+        'nosotros',
+        'nuestra',
+        'nuestras',
+        'nuestro',
+        'nuestros',
+        'nueva',
+        'nuevas',
+        'nuevo',
+        'nuevos',
+        'nunca',
+        'o',
+        'ocho',
+        'os',
+        'otra',
+        'otras',
+        'otro',
+        'otros',
+        'p',
+        'pais',
+        'para',
+        'parece',
+        'parte',
+        'partir',
+        'pasada',
+        'pasado',
+        'paìs',
+        'peor',
+        'pero',
+        'pesar',
+        'poca',
+        'pocas',
+        'poco',
+        'pocos',
+        'podeis',
+        'podemos',
+        'poder',
+        'podria',
+        'podriais',
+        'podriamos',
+        'podrian',
+        'podrias',
+        'podrá',
+        'podrán',
+        'podría',
+        'podrían',
+        'poner',
+        'por',
+        'por qué',
+        'porque',
+        'posible',
+        'primer',
+        'primera',
+        'primero',
+        'primeros',
+        'principalmente',
+        'pronto',
+        'propia',
+        'propias',
+        'propio',
+        'propios',
+        'proximo',
+        'próximo',
+        'próximos',
+        'pudo',
+        'pueda',
+        'puede',
+        'pueden',
+        'puedo',
+        'pues',
+        'q',
+        'qeu',
+        'que',
+        'quedó',
+        'queremos',
+        'quien',
+        'quienes',
+        'quiere',
+        'quiza',
+        'quizas',
+        'quizá',
+        'quizás',
+        'quién',
+        'quiénes',
+        'qué',
+        'r',
+        'raras',
+        'realizado',
+        'realizar',
+        'realizó',
+        'repente',
+        'respecto',
+        's',
+        'sabe',
+        'sabeis',
+        'sabemos',
+        'saben',
+        'saber',
+        'sabes',
+        'sal',
+        'salvo',
+        'se',
+        'sea',
+        'seamos',
+        'sean',
+        'seas',
+        'segun',
+        'segunda',
+        'segundo',
+        'según',
+        'seis',
+        'ser',
+        'sera',
+        'seremos',
+        'será',
+        'serán',
+        'serás',
+        'seré',
+        'seréis',
+        'sería',
+        'seríais',
+        'seríamos',
+        'serían',
+        'serías',
+        'seáis',
+        'señaló',
+        'si',
+        'sido',
+        'siempre',
+        'siendo',
+        'siete',
+        'sigue',
+        'siguiente',
+        'sin',
+        'sino',
+        'sobre',
+        'sois',
+        'sola',
+        'solamente',
+        'solas',
+        'solo',
+        'solos',
+        'somos',
+        'son',
+        'soy',
+        'soyos',
+        'su',
+        'supuesto',
+        'sus',
+        'suya',
+        'suyas',
+        'suyo',
+        'suyos',
+        'sé',
+        'sí',
+        'sólo',
+        't',
+        'tal',
+        'tambien',
+        'también',
+        'tampoco',
+        'tan',
+        'tanto',
+        'tarde',
+        'te',
+        'temprano',
+        'tendremos',
+        'tendrá',
+        'tendrán',
+        'tendrás',
+        'tendré',
+        'tendréis',
+        'tendría',
+        'tendríais',
+        'tendríamos',
+        'tendrían',
+        'tendrías',
+        'tened',
+        'teneis',
+        'tenemos',
+        'tener',
+        'tenga',
+        'tengamos',
+        'tengan',
+        'tengas',
+        'tengo',
+        'tengáis',
+        'tenida',
+        'tenidas',
+        'tenido',
+        'tenidos',
+        'teniendo',
+        'tenéis',
+        'tenía',
+        'teníais',
+        'teníamos',
+        'tenían',
+        'tenías',
+        'tercera',
+        'ti',
+        'tiempo',
+        'tiene',
+        'tienen',
+        'tienes',
+        'toda',
+        'todas',
+        'todavia',
+        'todavía',
+        'todo',
+        'todos',
+        'total',
+        'trabaja',
+        'trabajais',
+        'trabajamos',
+        'trabajan',
+        'trabajar',
+        'trabajas',
+        'trabajo',
+        'tras',
+        'trata',
+        'través',
+        'tres',
+        'tu',
+        'tus',
+        'tuve',
+        'tuviera',
+        'tuvierais',
+        'tuvieran',
+        'tuvieras',
+        'tuvieron',
+        'tuviese',
+        'tuvieseis',
+        'tuviesen',
+        'tuvieses',
+        'tuvimos',
+        'tuviste',
+        'tuvisteis',
+        'tuviéramos',
+        'tuviésemos',
+        'tuvo',
+        'tuya',
+        'tuyas',
+        'tuyo',
+        'tuyos',
+        'tú',
+        'u',
+        'ultimo',
+        'un',
+        'una',
+        'unas',
+        'uno',
+        'unos',
+        'usa',
+        'usais',
+        'usamos',
+        'usan',
+        'usar',
+        'usas',
+        'uso',
+        'usted',
+        'ustedes',
+        'v',
+        'va',
+        'vais',
+        'valor',
+        'vamos',
+        'van',
+        'varias',
+        'varios',
+        'vaya',
+        'veces',
+        'ver',
+        'verdad',
+        'verdadera',
+        'verdadero',
+        'vez',
+        'vosotras',
+        'vosotros',
+        'voy',
+        'vuestra',
+        'vuestras',
+        'vuestro',
+        'vuestros',
+        'w',
+        'x',
+        'y',
+        'ya',
+        'yo',
+        'z',
+        'él',
+        'éramos',
+        'ésa',
+        'ésas',
+        'ése',
+        'ésos',
+        'ésta',
+        'éstas',
+        'éste',
+        'éstos',
+        'última',
+        'últimas',
+        'último',
+        'últimos'
+    ]
+
+};
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports) {
+
+/**
+ * Created by jan on 9-3-15.
+ */
+// Swedish stopwords
+// http://www.ranks.nl/stopwords/swedish
+// https://github.com/AlexGustafsson
+
+module.exports = {
+    stopwords: [
+        "aderton",
+        "adertonde",
+        "adjö",
+        "aldrig",
+        "alla",
+        "allas",
+        "allt",
+        "alltid",
+        "alltså",
+        "än",
+        "andra",
+        "andras",
+        "annan",
+        "annat",
+        "ännu",
+        "artonde",
+        "artonn",
+        "åtminstone",
+        "att",
+        "åtta",
+        "åttio",
+        "åttionde",
+        "åttonde",
+        "av",
+        "även",
+        "båda",
+        "bådas",
+        "bakom",
+        "bara",
+        "bäst",
+        "bättre",
+        "behöva",
+        "behövas",
+        "behövde",
+        "behövt",
+        "beslut",
+        "beslutat",
+        "beslutit",
+        "bland",
+        "blev",
+        "bli",
+        "blir",
+        "blivit",
+        "bort",
+        "borta",
+        "bra",
+        "då",
+        "dag",
+        "dagar",
+        "dagarna",
+        "dagen",
+        "där",
+        "därför",
+        "de",
+        "del",
+        "delen",
+        "dem",
+        "den",
+        "deras",
+        "dess",
+        "det",
+        "detta",
+        "dig",
+        "din",
+        "dina",
+        "dit",
+        "ditt",
+        "dock",
+        "du",
+        "efter",
+        "eftersom",
+        "elfte",
+        "eller",
+        "elva",
+        "en",
+        "enkel",
+        "enkelt",
+        "enkla",
+        "enligt",
+        "er",
+        "era",
+        "ert",
+        "ett",
+        "ettusen",
+        "få",
+        "fanns",
+        "får",
+        "fått",
+        "fem",
+        "femte",
+        "femtio",
+        "femtionde",
+        "femton",
+        "femtonde",
+        "fick",
+        "fin",
+        "finnas",
+        "finns",
+        "fjärde",
+        "fjorton",
+        "fjortonde",
+        "fler",
+        "flera",
+        "flesta",
+        "följande",
+        "för",
+        "före",
+        "förlåt",
+        "förra",
+        "första",
+        "fram",
+        "framför",
+        "från",
+        "fyra",
+        "fyrtio",
+        "fyrtionde",
+        "gå",
+        "gälla",
+        "gäller",
+        "gällt",
+        "går",
+        "gärna",
+        "gått",
+        "genast",
+        "genom",
+        "gick",
+        "gjorde",
+        "gjort",
+        "god",
+        "goda",
+        "godare",
+        "godast",
+        "gör",
+        "göra",
+        "gott",
+        "ha",
+        "hade",
+        "haft",
+        "han",
+        "hans",
+        "har",
+        "här",
+        "heller",
+        "hellre",
+        "helst",
+        "helt",
+        "henne",
+        "hennes",
+        "hit",
+        "hög",
+        "höger",
+        "högre",
+        "högst",
+        "hon",
+        "honom",
+        "hundra",
+        "hundraen",
+        "hundraett",
+        "hur",
+        "i",
+        "ibland",
+        "idag",
+        "igår",
+        "igen",
+        "imorgon",
+        "in",
+        "inför",
+        "inga",
+        "ingen",
+        "ingenting",
+        "inget",
+        "innan",
+        "inne",
+        "inom",
+        "inte",
+        "inuti",
+        "ja",
+        "jag",
+        "jämfört",
+        "kan",
+        "kanske",
+        "knappast",
+        "kom",
+        "komma",
+        "kommer",
+        "kommit",
+        "kr",
+        "kunde",
+        "kunna",
+        "kunnat",
+        "kvar",
+        "länge",
+        "längre",
+        "långsam",
+        "långsammare",
+        "långsammast",
+        "långsamt",
+        "längst",
+        "långt",
+        "lätt",
+        "lättare",
+        "lättast",
+        "legat",
+        "ligga",
+        "ligger",
+        "lika",
+        "likställd",
+        "likställda",
+        "lilla",
+        "lite",
+        "liten",
+        "litet",
+        "man",
+        "många",
+        "måste",
+        "med",
+        "mellan",
+        "men",
+        "mer",
+        "mera",
+        "mest",
+        "mig",
+        "min",
+        "mina",
+        "mindre",
+        "minst",
+        "mitt",
+        "mittemot",
+        "möjlig",
+        "möjligen",
+        "möjligt",
+        "möjligtvis",
+        "mot",
+        "mycket",
+        "någon",
+        "någonting",
+        "något",
+        "några",
+        "när",
+        "nästa",
+        "ned",
+        "nederst",
+        "nedersta",
+        "nedre",
+        "nej",
+        "ner",
+        "ni",
+        "nio",
+        "nionde",
+        "nittio",
+        "nittionde",
+        "nitton",
+        "nittonde",
+        "nödvändig",
+        "nödvändiga",
+        "nödvändigt",
+        "nödvändigtvis",
+        "nog",
+        "noll",
+        "nr",
+        "nu",
+        "nummer",
+        "och",
+        "också",
+        "ofta",
+        "oftast",
+        "olika",
+        "olikt",
+        "om",
+        "oss",
+        "över",
+        "övermorgon",
+        "överst",
+        "övre",
+        "på",
+        "rakt",
+        "rätt",
+        "redan",
+        "redigera",
+        "så",
+        "sade",
+        "säga",
+        "säger",
+        "sagt",
+        "samma",
+        "sämre",
+        "sämst",
+        "se",
+        "sedan",
+        "senare",
+        "senast",
+        "sent",
+        "sex",
+        "sextio",
+        "sextionde",
+        "sexton",
+        "sextonde",
+        "sig",
+        "sin",
+        "sina",
+        "sist",
+        "sista",
+        "siste",
+        "sitt",
+        "sjätte",
+        "sju",
+        "sjunde",
+        "sjuttio",
+        "sjuttionde",
+        "sjutton",
+        "sjuttonde",
+        "ska",
+        "skall",
+        "skulle",
+        "slutligen",
+        "små",
+        "smått",
+        "snart",
+        "som",
+        "stor",
+        "stora",
+        "större",
+        "störst",
+        "stort",
+        "tack",
+        "tidig",
+        "tidigare",
+        "tidigast",
+        "tidigt",
+        "till",
+        "tills",
+        "tillsammans",
+        "tio",
+        "tionde",
+        "tjugo",
+        "tjugoen",
+        "tjugoett",
+        "tjugonde",
+        "tjugotre",
+        "tjugotvå",
+        "tjungo",
+        "tolfte",
+        "tolv",
+        "tre",
+        "tredje",
+        "trettio",
+        "trettionde",
+        "tretton",
+        "trettonde",
+        "två",
+        "tvåhundra",
+        "under",
+        "upp",
+        "ur",
+        "ursäkt",
+        "ut",
+        "utan",
+        "utanför",
+        "ute",
+        "vad",
+        "vänster",
+        "vänstra",
+        "vår",
+        "vara",
+        "våra",
+        "varför",
+        "varifrån",
+        "varit",
+        "varken",
+        "värre",
+        "varsågod",
+        "vart",
+        "vårt",
+        "vem",
+        "vems",
+        "verkligen",
+        "vi",
+        "vid",
+        "vidare",
+        "viktig",
+        "viktigare",
+        "viktigast",
+        "viktigt",
+        "vilka",
+        "vilken",
+        "vilket",
+        "vill",
+        "är",
+        "år",
+
+        "även",
+        "dessa",
+        "wikitext",
+        "wikipedia",
+        "tyngre",
+        "tung",
+        "tyngst",
+        "kall",
+        "var",
+        "minimum",
+        "min",
+        "max",
+        "maximum",
+        "ökning",
+        "öka",
+        "kallar",
+        "hjälp",
+        "använder",
+        "betydligt",
+        "sätt",
+        "denna",
+        "detta",
+        "det",
+        "hjälpa",
+        "används",
+        "består",
+        "tränger",
+        "igenom",
+        "denna",
+        "utöka",
+        "utarmat",
+        "ungefär",
+        "sprids",
+        "betydligt",
+        "omgivande",
+        "via",
+        "huvudartikel",
+        "exempel",
+        "exempelvis",
+        "vanligt",
+        "per",
+        "största",
+        "stor",
+        "ord",
+        "ordet",
+        "kallas",
+        "påbörjad",
+        "höra",
+        "främst",
+        "ihop",
+        "antalet",
+        "the",
+        "uttryck",
+        "uttrycket",
+        "ändra",
+        "presenteras",
+        "presenterades",
+        "tänka",
+        "delar",
+        "söka",
+        "hämta",
+        "innehåll",
+        "definera",
+        "använda",
+        "pekar",
+        "istället",
+        "stället",
+        "pekar",
+        "standard",
+        "vanligaste",
+        "heter",
+        "precist",
+        "felaktigt",
+        "källor",
+        "höga",
+        "mottagare",
+        "eng",
+        "bildade",
+        "bytte",
+        "bildades",
+        "grundades",
+        "svar",
+        "betyder",
+        "betydelse",
+        "möjligheter",
+        "möjlig",
+        "möjlighet",
+        "syfte",
+        "gamla",
+        "tioårig",
+        "år",
+        "övergångsperiod",
+        "ersättas",
+        "användes",
+        "används",
+        "utgörs",
+        "drygt",
+        "alla",
+        "allt",
+        "alltså",
+        "andra",
+        "att",
+        "bara",
+        "bli",
+        "blir",
+        "borde",
+        "bra",
+        "mitt",
+        "ser",
+        "dem",
+        "den",
+        "denna",
+        "det",
+        "detta",
+        "dig",
+        "din",
+        "dock",
+        "dom",
+        "där",
+        "edit",
+        "efter",
+        "eftersom",
+        "eller",
+        "ett",
+        "fast",
+        "fel",
+        "fick",
+        "finns",
+        "fram",
+        "från",
+        "får",
+        "fått",
+        "för",
+        "första",
+        "genom",
+        "ger",
+        "går",
+        "gör",
+        "göra",
+        "hade",
+        "han",
+        "har",
+        "hela",
+        "helt",
+        "honom",
+        "hur",
+        "här",
+        "iaf",
+        "igen",
+        "ingen",
+        "inget",
+        "inte",
+        "jag",
+        "kan",
+        "kanske",
+        "kommer",
+        "lika",
+        "lite",
+        "man",
+        "med",
+        "men",
+        "mer",
+        "mig",
+        "min",
+        "mot",
+        "mycket",
+        "många",
+        "måste",
+        "nog",
+        "när",
+        "någon",
+        "något",
+        "några",
+        "nån",
+        "nåt",
+        "och",
+        "också",
+        "rätt",
+        "samma",
+        "sedan",
+        "sen",
+        "sig",
+        "sin",
+        "själv",
+        "ska",
+        "skulle",
+        "som",
+        "sätt",
+        "tar",
+        "till",
+        "tror",
+        "tycker",
+        "typ",
+        "upp",
+        "utan",
+        "vad",
+        "var",
+        "vara",
+        "vet",
+        "vid",
+        "vilket",
+        "vill",
+        "väl",
+        "även",
+        "över",
+        "förekommer",
+        "varierar",
+        "representera",
+        "representerar",
+        "itu",
+        "påbörjades",
+        "le",
+        "åtgärder",
+        "åtgärd",
+        "sådant",
+        "särskilt",
+        "eftersom",
+        "som",
+        "efter",
+        "syftet",
+        "syfte",
+        "ersatts",
+        "ersätts",
+        "ersatt",
+        "ersätt",
+        "tagits",
+        "byter",
+        "benämningar",
+        "ler",
+        "ärvs",
+        "ärv",
+        "ärvd",
+        "januari",
+        "februari",
+        "mars",
+        "april",
+        "maj",
+        "juni",
+        "juli",
+        "augusti",
+        "september",
+        "oktober",
+        "november",
+        "december",
+        "on",
+        "övriga",
+        "använts",
+        "använd",
+        "används",
+        "använt",
+        "syftar",
+        "ex",
+        "svårt",
+        "svår",
+        "lätt",
+        "lätta",
+        "lättast",
+        "lättare",
+        "svårare",
+        "svårast",
+        "list",
+        "användningsområde",
+        "användningsområden",
+        "vissa",
+        "ii",
+        "hembyggda",
+        "krav",
+        "lugnt",
+        "ändå",
+        "stycken",
+        "styck",
+        "långa",
+        "korta",
+        "små",
+        "stora",
+        "smala",
+        "tjocka",
+        "början",
+        "tungt",
+        "lätt",
+        "tim",
+        "st",
+        "kg",
+        "km",
+        "tid",
+        "ny",
+        "gammal",
+        "nyare",
+        "antal",
+        "snabbare",
+        "började",
+        "ansvar",
+        "ansvarar",
+        "både",
+        "ca",
+        "låg",
+        "hög",
+        "ro",
+        "ton",
+        "kap",
+        "of",
+        "and",
+        "vars",
+        "kr/km",
+        "rör",
+        "gällande",
+        "placeras",
+        "placerades",
+        "täckt",
+        "samt",
+        "hos",
+        "sådana",
+        "endast",
+        "tillstånd",
+        "beror",
+        "på",
+        "marken",
+        "minska",
+        "orsaker",
+        "lösningar",
+        "problem",
+        "namn",
+        "förväntas",
+        "förväntan",
+        "förväntats",
+        "varning",
+        "utfärdas",
+        "utfärda",
+        "km/h",
+        "nådde",
+        "stod",
+        "området",
+        "områden",
+        "källa",
+        "behövs",
+        "drabbade",
+        "drabbat",
+        "which",
+        "top",
+        "that",
+        "lägre",
+        "allmänt",
+        "drog",
+        "drar",
+        "enorma",
+        "ända",
+        "enda",
+        "officiella",
+        "bekräftats",
+        "bekräftas",
+        "fall",
+        "sjunker",
+        "nedåt",
+        "värms",
+        "samtidigt",
+        "efterföljd",
+        "problematik",
+        "uppåt",
+        "utom",
+        "förutom",
+        "hörnet",
+        "söt",
+        "salt",
+        "svag",
+        "stark",
+        "ren",
+        "smutsig",
+        "förr",
+        "tiden",
+        "mångdag",
+        "tisdag",
+        "onsdag",
+        "torsdag",
+        "fredag",
+        "lördag",
+        "söndag",
+        "måndagar",
+        "tisdagar",
+        "onsdagar",
+        "torsdagar",
+        "fredagar",
+        "lördagar",
+        "söndagar",
+        "efterlikna",
+        "som",
+        "lik",
+        "bergis",
+        "bekymmer",
+        "så",
+        "lista",
+        "dig",
+        "dej",
+        "mig",
+        "mej",
+        "fri",
+        "vanlig",
+        "ovanlig",
+        "sällan",
+        "ofta",
+        "avskiljs",
+        "use",
+        "släkte",
+        "släktet",
+        "släkt",
+        "kategori",
+        "kategoriseras",
+        "rensas",
+        "renas",
+        "timmar",
+        "minuter",
+        "sekunder"
+    ]
+};
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
@@ -17064,7 +24955,7 @@ function scrollToBottom() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 54 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! jQuery UI - v1.12.1 - 2016-09-14
@@ -17085,13 +24976,13 @@ this.isMultiLine=o||!a&&this._isContentEditable(this.element),this.valueMethod=t
 this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:function(t,e){function i(t,e,i){return function(s){i._trigger(t,s,e._uiHash(e))}}this.reverting=!1;var s,n=[];if(!this._noFinalSort&&this.currentItem.parent().length&&this.placeholder.before(this.currentItem),this._noFinalSort=null,this.helper[0]===this.currentItem[0]){for(s in this._storedCSS)("auto"===this._storedCSS[s]||"static"===this._storedCSS[s])&&(this._storedCSS[s]="");this.currentItem.css(this._storedCSS),this._removeClass(this.currentItem,"ui-sortable-helper")}else this.currentItem.show();for(this.fromOutside&&!e&&n.push(function(t){this._trigger("receive",t,this._uiHash(this.fromOutside))}),!this.fromOutside&&this.domPosition.prev===this.currentItem.prev().not(".ui-sortable-helper")[0]&&this.domPosition.parent===this.currentItem.parent()[0]||e||n.push(function(t){this._trigger("update",t,this._uiHash())}),this!==this.currentContainer&&(e||(n.push(function(t){this._trigger("remove",t,this._uiHash())}),n.push(function(t){return function(e){t._trigger("receive",e,this._uiHash(this))}}.call(this,this.currentContainer)),n.push(function(t){return function(e){t._trigger("update",e,this._uiHash(this))}}.call(this,this.currentContainer)))),s=this.containers.length-1;s>=0;s--)e||n.push(i("deactivate",this,this.containers[s])),this.containers[s].containerCache.over&&(n.push(i("out",this,this.containers[s])),this.containers[s].containerCache.over=0);if(this.storedCursor&&(this.document.find("body").css("cursor",this.storedCursor),this.storedStylesheet.remove()),this._storedOpacity&&this.helper.css("opacity",this._storedOpacity),this._storedZIndex&&this.helper.css("zIndex","auto"===this._storedZIndex?"":this._storedZIndex),this.dragging=!1,e||this._trigger("beforeStop",t,this._uiHash()),this.placeholder[0].parentNode.removeChild(this.placeholder[0]),this.cancelHelperRemoval||(this.helper[0]!==this.currentItem[0]&&this.helper.remove(),this.helper=null),!e){for(s=0;n.length>s;s++)n[s].call(this,t);this._trigger("stop",t,this._uiHash())}return this.fromOutside=!1,!this.cancelHelperRemoval},_trigger:function(){t.Widget.prototype._trigger.apply(this,arguments)===!1&&this.cancel()},_uiHash:function(e){var i=e||this;return{helper:i.helper,placeholder:i.placeholder||t([]),position:i.position,originalPosition:i.originalPosition,offset:i.positionAbs,item:i.currentItem,sender:e?e.element:null}}}),t.widget("ui.spinner",{version:"1.12.1",defaultElement:"<input>",widgetEventPrefix:"spin",options:{classes:{"ui-spinner":"ui-corner-all","ui-spinner-down":"ui-corner-br","ui-spinner-up":"ui-corner-tr"},culture:null,icons:{down:"ui-icon-triangle-1-s",up:"ui-icon-triangle-1-n"},incremental:!0,max:null,min:null,numberFormat:null,page:10,step:1,change:null,spin:null,start:null,stop:null},_create:function(){this._setOption("max",this.options.max),this._setOption("min",this.options.min),this._setOption("step",this.options.step),""!==this.value()&&this._value(this.element.val(),!0),this._draw(),this._on(this._events),this._refresh(),this._on(this.window,{beforeunload:function(){this.element.removeAttr("autocomplete")}})},_getCreateOptions:function(){var e=this._super(),i=this.element;return t.each(["min","max","step"],function(t,s){var n=i.attr(s);null!=n&&n.length&&(e[s]=n)}),e},_events:{keydown:function(t){this._start(t)&&this._keydown(t)&&t.preventDefault()},keyup:"_stop",focus:function(){this.previous=this.element.val()},blur:function(t){return this.cancelBlur?(delete this.cancelBlur,void 0):(this._stop(),this._refresh(),this.previous!==this.element.val()&&this._trigger("change",t),void 0)},mousewheel:function(t,e){if(e){if(!this.spinning&&!this._start(t))return!1;this._spin((e>0?1:-1)*this.options.step,t),clearTimeout(this.mousewheelTimer),this.mousewheelTimer=this._delay(function(){this.spinning&&this._stop(t)},100),t.preventDefault()}},"mousedown .ui-spinner-button":function(e){function i(){var e=this.element[0]===t.ui.safeActiveElement(this.document[0]);e||(this.element.trigger("focus"),this.previous=s,this._delay(function(){this.previous=s}))}var s;s=this.element[0]===t.ui.safeActiveElement(this.document[0])?this.previous:this.element.val(),e.preventDefault(),i.call(this),this.cancelBlur=!0,this._delay(function(){delete this.cancelBlur,i.call(this)}),this._start(e)!==!1&&this._repeat(null,t(e.currentTarget).hasClass("ui-spinner-up")?1:-1,e)},"mouseup .ui-spinner-button":"_stop","mouseenter .ui-spinner-button":function(e){return t(e.currentTarget).hasClass("ui-state-active")?this._start(e)===!1?!1:(this._repeat(null,t(e.currentTarget).hasClass("ui-spinner-up")?1:-1,e),void 0):void 0},"mouseleave .ui-spinner-button":"_stop"},_enhance:function(){this.uiSpinner=this.element.attr("autocomplete","off").wrap("<span>").parent().append("<a></a><a></a>")},_draw:function(){this._enhance(),this._addClass(this.uiSpinner,"ui-spinner","ui-widget ui-widget-content"),this._addClass("ui-spinner-input"),this.element.attr("role","spinbutton"),this.buttons=this.uiSpinner.children("a").attr("tabIndex",-1).attr("aria-hidden",!0).button({classes:{"ui-button":""}}),this._removeClass(this.buttons,"ui-corner-all"),this._addClass(this.buttons.first(),"ui-spinner-button ui-spinner-up"),this._addClass(this.buttons.last(),"ui-spinner-button ui-spinner-down"),this.buttons.first().button({icon:this.options.icons.up,showLabel:!1}),this.buttons.last().button({icon:this.options.icons.down,showLabel:!1}),this.buttons.height()>Math.ceil(.5*this.uiSpinner.height())&&this.uiSpinner.height()>0&&this.uiSpinner.height(this.uiSpinner.height())},_keydown:function(e){var i=this.options,s=t.ui.keyCode;switch(e.keyCode){case s.UP:return this._repeat(null,1,e),!0;case s.DOWN:return this._repeat(null,-1,e),!0;case s.PAGE_UP:return this._repeat(null,i.page,e),!0;case s.PAGE_DOWN:return this._repeat(null,-i.page,e),!0}return!1},_start:function(t){return this.spinning||this._trigger("start",t)!==!1?(this.counter||(this.counter=1),this.spinning=!0,!0):!1},_repeat:function(t,e,i){t=t||500,clearTimeout(this.timer),this.timer=this._delay(function(){this._repeat(40,e,i)},t),this._spin(e*this.options.step,i)},_spin:function(t,e){var i=this.value()||0;this.counter||(this.counter=1),i=this._adjustValue(i+t*this._increment(this.counter)),this.spinning&&this._trigger("spin",e,{value:i})===!1||(this._value(i),this.counter++)},_increment:function(e){var i=this.options.incremental;return i?t.isFunction(i)?i(e):Math.floor(e*e*e/5e4-e*e/500+17*e/200+1):1},_precision:function(){var t=this._precisionOf(this.options.step);return null!==this.options.min&&(t=Math.max(t,this._precisionOf(this.options.min))),t},_precisionOf:function(t){var e=""+t,i=e.indexOf(".");return-1===i?0:e.length-i-1},_adjustValue:function(t){var e,i,s=this.options;return e=null!==s.min?s.min:0,i=t-e,i=Math.round(i/s.step)*s.step,t=e+i,t=parseFloat(t.toFixed(this._precision())),null!==s.max&&t>s.max?s.max:null!==s.min&&s.min>t?s.min:t},_stop:function(t){this.spinning&&(clearTimeout(this.timer),clearTimeout(this.mousewheelTimer),this.counter=0,this.spinning=!1,this._trigger("stop",t))},_setOption:function(t,e){var i,s,n;return"culture"===t||"numberFormat"===t?(i=this._parse(this.element.val()),this.options[t]=e,this.element.val(this._format(i)),void 0):(("max"===t||"min"===t||"step"===t)&&"string"==typeof e&&(e=this._parse(e)),"icons"===t&&(s=this.buttons.first().find(".ui-icon"),this._removeClass(s,null,this.options.icons.up),this._addClass(s,null,e.up),n=this.buttons.last().find(".ui-icon"),this._removeClass(n,null,this.options.icons.down),this._addClass(n,null,e.down)),this._super(t,e),void 0)},_setOptionDisabled:function(t){this._super(t),this._toggleClass(this.uiSpinner,null,"ui-state-disabled",!!t),this.element.prop("disabled",!!t),this.buttons.button(t?"disable":"enable")},_setOptions:r(function(t){this._super(t)}),_parse:function(t){return"string"==typeof t&&""!==t&&(t=window.Globalize&&this.options.numberFormat?Globalize.parseFloat(t,10,this.options.culture):+t),""===t||isNaN(t)?null:t},_format:function(t){return""===t?"":window.Globalize&&this.options.numberFormat?Globalize.format(t,this.options.numberFormat,this.options.culture):t},_refresh:function(){this.element.attr({"aria-valuemin":this.options.min,"aria-valuemax":this.options.max,"aria-valuenow":this._parse(this.element.val())})},isValid:function(){var t=this.value();return null===t?!1:t===this._adjustValue(t)},_value:function(t,e){var i;""!==t&&(i=this._parse(t),null!==i&&(e||(i=this._adjustValue(i)),t=this._format(i))),this.element.val(t),this._refresh()},_destroy:function(){this.element.prop("disabled",!1).removeAttr("autocomplete role aria-valuemin aria-valuemax aria-valuenow"),this.uiSpinner.replaceWith(this.element)},stepUp:r(function(t){this._stepUp(t)}),_stepUp:function(t){this._start()&&(this._spin((t||1)*this.options.step),this._stop())},stepDown:r(function(t){this._stepDown(t)}),_stepDown:function(t){this._start()&&(this._spin((t||1)*-this.options.step),this._stop())},pageUp:r(function(t){this._stepUp((t||1)*this.options.page)}),pageDown:r(function(t){this._stepDown((t||1)*this.options.page)}),value:function(t){return arguments.length?(r(this._value).call(this,t),void 0):this._parse(this.element.val())},widget:function(){return this.uiSpinner}}),t.uiBackCompat!==!1&&t.widget("ui.spinner",t.ui.spinner,{_enhance:function(){this.uiSpinner=this.element.attr("autocomplete","off").wrap(this._uiSpinnerHtml()).parent().append(this._buttonHtml())},_uiSpinnerHtml:function(){return"<span>"},_buttonHtml:function(){return"<a></a><a></a>"}}),t.ui.spinner,t.widget("ui.tabs",{version:"1.12.1",delay:300,options:{active:null,classes:{"ui-tabs":"ui-corner-all","ui-tabs-nav":"ui-corner-all","ui-tabs-panel":"ui-corner-bottom","ui-tabs-tab":"ui-corner-top"},collapsible:!1,event:"click",heightStyle:"content",hide:null,show:null,activate:null,beforeActivate:null,beforeLoad:null,load:null},_isLocal:function(){var t=/#.*$/;return function(e){var i,s;i=e.href.replace(t,""),s=location.href.replace(t,"");try{i=decodeURIComponent(i)}catch(n){}try{s=decodeURIComponent(s)}catch(n){}return e.hash.length>1&&i===s}}(),_create:function(){var e=this,i=this.options;this.running=!1,this._addClass("ui-tabs","ui-widget ui-widget-content"),this._toggleClass("ui-tabs-collapsible",null,i.collapsible),this._processTabs(),i.active=this._initialActive(),t.isArray(i.disabled)&&(i.disabled=t.unique(i.disabled.concat(t.map(this.tabs.filter(".ui-state-disabled"),function(t){return e.tabs.index(t)}))).sort()),this.active=this.options.active!==!1&&this.anchors.length?this._findActive(i.active):t(),this._refresh(),this.active.length&&this.load(i.active)},_initialActive:function(){var e=this.options.active,i=this.options.collapsible,s=location.hash.substring(1);return null===e&&(s&&this.tabs.each(function(i,n){return t(n).attr("aria-controls")===s?(e=i,!1):void 0}),null===e&&(e=this.tabs.index(this.tabs.filter(".ui-tabs-active"))),(null===e||-1===e)&&(e=this.tabs.length?0:!1)),e!==!1&&(e=this.tabs.index(this.tabs.eq(e)),-1===e&&(e=i?!1:0)),!i&&e===!1&&this.anchors.length&&(e=0),e},_getCreateEventData:function(){return{tab:this.active,panel:this.active.length?this._getPanelForTab(this.active):t()}},_tabKeydown:function(e){var i=t(t.ui.safeActiveElement(this.document[0])).closest("li"),s=this.tabs.index(i),n=!0;if(!this._handlePageNav(e)){switch(e.keyCode){case t.ui.keyCode.RIGHT:case t.ui.keyCode.DOWN:s++;break;case t.ui.keyCode.UP:case t.ui.keyCode.LEFT:n=!1,s--;break;case t.ui.keyCode.END:s=this.anchors.length-1;break;case t.ui.keyCode.HOME:s=0;break;case t.ui.keyCode.SPACE:return e.preventDefault(),clearTimeout(this.activating),this._activate(s),void 0;case t.ui.keyCode.ENTER:return e.preventDefault(),clearTimeout(this.activating),this._activate(s===this.options.active?!1:s),void 0;default:return}e.preventDefault(),clearTimeout(this.activating),s=this._focusNextTab(s,n),e.ctrlKey||e.metaKey||(i.attr("aria-selected","false"),this.tabs.eq(s).attr("aria-selected","true"),this.activating=this._delay(function(){this.option("active",s)},this.delay))}},_panelKeydown:function(e){this._handlePageNav(e)||e.ctrlKey&&e.keyCode===t.ui.keyCode.UP&&(e.preventDefault(),this.active.trigger("focus"))},_handlePageNav:function(e){return e.altKey&&e.keyCode===t.ui.keyCode.PAGE_UP?(this._activate(this._focusNextTab(this.options.active-1,!1)),!0):e.altKey&&e.keyCode===t.ui.keyCode.PAGE_DOWN?(this._activate(this._focusNextTab(this.options.active+1,!0)),!0):void 0},_findNextTab:function(e,i){function s(){return e>n&&(e=0),0>e&&(e=n),e}for(var n=this.tabs.length-1;-1!==t.inArray(s(),this.options.disabled);)e=i?e+1:e-1;return e},_focusNextTab:function(t,e){return t=this._findNextTab(t,e),this.tabs.eq(t).trigger("focus"),t},_setOption:function(t,e){return"active"===t?(this._activate(e),void 0):(this._super(t,e),"collapsible"===t&&(this._toggleClass("ui-tabs-collapsible",null,e),e||this.options.active!==!1||this._activate(0)),"event"===t&&this._setupEvents(e),"heightStyle"===t&&this._setupHeightStyle(e),void 0)},_sanitizeSelector:function(t){return t?t.replace(/[!"$%&'()*+,.\/:;<=>?@\[\]\^`{|}~]/g,"\\$&"):""},refresh:function(){var e=this.options,i=this.tablist.children(":has(a[href])");e.disabled=t.map(i.filter(".ui-state-disabled"),function(t){return i.index(t)}),this._processTabs(),e.active!==!1&&this.anchors.length?this.active.length&&!t.contains(this.tablist[0],this.active[0])?this.tabs.length===e.disabled.length?(e.active=!1,this.active=t()):this._activate(this._findNextTab(Math.max(0,e.active-1),!1)):e.active=this.tabs.index(this.active):(e.active=!1,this.active=t()),this._refresh()},_refresh:function(){this._setOptionDisabled(this.options.disabled),this._setupEvents(this.options.event),this._setupHeightStyle(this.options.heightStyle),this.tabs.not(this.active).attr({"aria-selected":"false","aria-expanded":"false",tabIndex:-1}),this.panels.not(this._getPanelForTab(this.active)).hide().attr({"aria-hidden":"true"}),this.active.length?(this.active.attr({"aria-selected":"true","aria-expanded":"true",tabIndex:0}),this._addClass(this.active,"ui-tabs-active","ui-state-active"),this._getPanelForTab(this.active).show().attr({"aria-hidden":"false"})):this.tabs.eq(0).attr("tabIndex",0)},_processTabs:function(){var e=this,i=this.tabs,s=this.anchors,n=this.panels;this.tablist=this._getList().attr("role","tablist"),this._addClass(this.tablist,"ui-tabs-nav","ui-helper-reset ui-helper-clearfix ui-widget-header"),this.tablist.on("mousedown"+this.eventNamespace,"> li",function(e){t(this).is(".ui-state-disabled")&&e.preventDefault()}).on("focus"+this.eventNamespace,".ui-tabs-anchor",function(){t(this).closest("li").is(".ui-state-disabled")&&this.blur()}),this.tabs=this.tablist.find("> li:has(a[href])").attr({role:"tab",tabIndex:-1}),this._addClass(this.tabs,"ui-tabs-tab","ui-state-default"),this.anchors=this.tabs.map(function(){return t("a",this)[0]}).attr({role:"presentation",tabIndex:-1}),this._addClass(this.anchors,"ui-tabs-anchor"),this.panels=t(),this.anchors.each(function(i,s){var n,o,a,r=t(s).uniqueId().attr("id"),h=t(s).closest("li"),l=h.attr("aria-controls");e._isLocal(s)?(n=s.hash,a=n.substring(1),o=e.element.find(e._sanitizeSelector(n))):(a=h.attr("aria-controls")||t({}).uniqueId()[0].id,n="#"+a,o=e.element.find(n),o.length||(o=e._createPanel(a),o.insertAfter(e.panels[i-1]||e.tablist)),o.attr("aria-live","polite")),o.length&&(e.panels=e.panels.add(o)),l&&h.data("ui-tabs-aria-controls",l),h.attr({"aria-controls":a,"aria-labelledby":r}),o.attr("aria-labelledby",r)}),this.panels.attr("role","tabpanel"),this._addClass(this.panels,"ui-tabs-panel","ui-widget-content"),i&&(this._off(i.not(this.tabs)),this._off(s.not(this.anchors)),this._off(n.not(this.panels)))},_getList:function(){return this.tablist||this.element.find("ol, ul").eq(0)},_createPanel:function(e){return t("<div>").attr("id",e).data("ui-tabs-destroy",!0)},_setOptionDisabled:function(e){var i,s,n;for(t.isArray(e)&&(e.length?e.length===this.anchors.length&&(e=!0):e=!1),n=0;s=this.tabs[n];n++)i=t(s),e===!0||-1!==t.inArray(n,e)?(i.attr("aria-disabled","true"),this._addClass(i,null,"ui-state-disabled")):(i.removeAttr("aria-disabled"),this._removeClass(i,null,"ui-state-disabled"));this.options.disabled=e,this._toggleClass(this.widget(),this.widgetFullName+"-disabled",null,e===!0)},_setupEvents:function(e){var i={};e&&t.each(e.split(" "),function(t,e){i[e]="_eventHandler"}),this._off(this.anchors.add(this.tabs).add(this.panels)),this._on(!0,this.anchors,{click:function(t){t.preventDefault()}}),this._on(this.anchors,i),this._on(this.tabs,{keydown:"_tabKeydown"}),this._on(this.panels,{keydown:"_panelKeydown"}),this._focusable(this.tabs),this._hoverable(this.tabs)},_setupHeightStyle:function(e){var i,s=this.element.parent();"fill"===e?(i=s.height(),i-=this.element.outerHeight()-this.element.height(),this.element.siblings(":visible").each(function(){var e=t(this),s=e.css("position");"absolute"!==s&&"fixed"!==s&&(i-=e.outerHeight(!0))}),this.element.children().not(this.panels).each(function(){i-=t(this).outerHeight(!0)}),this.panels.each(function(){t(this).height(Math.max(0,i-t(this).innerHeight()+t(this).height()))}).css("overflow","auto")):"auto"===e&&(i=0,this.panels.each(function(){i=Math.max(i,t(this).height("").height())}).height(i))},_eventHandler:function(e){var i=this.options,s=this.active,n=t(e.currentTarget),o=n.closest("li"),a=o[0]===s[0],r=a&&i.collapsible,h=r?t():this._getPanelForTab(o),l=s.length?this._getPanelForTab(s):t(),c={oldTab:s,oldPanel:l,newTab:r?t():o,newPanel:h};e.preventDefault(),o.hasClass("ui-state-disabled")||o.hasClass("ui-tabs-loading")||this.running||a&&!i.collapsible||this._trigger("beforeActivate",e,c)===!1||(i.active=r?!1:this.tabs.index(o),this.active=a?t():o,this.xhr&&this.xhr.abort(),l.length||h.length||t.error("jQuery UI Tabs: Mismatching fragment identifier."),h.length&&this.load(this.tabs.index(o),e),this._toggle(e,c))},_toggle:function(e,i){function s(){o.running=!1,o._trigger("activate",e,i)}function n(){o._addClass(i.newTab.closest("li"),"ui-tabs-active","ui-state-active"),a.length&&o.options.show?o._show(a,o.options.show,s):(a.show(),s())}var o=this,a=i.newPanel,r=i.oldPanel;this.running=!0,r.length&&this.options.hide?this._hide(r,this.options.hide,function(){o._removeClass(i.oldTab.closest("li"),"ui-tabs-active","ui-state-active"),n()}):(this._removeClass(i.oldTab.closest("li"),"ui-tabs-active","ui-state-active"),r.hide(),n()),r.attr("aria-hidden","true"),i.oldTab.attr({"aria-selected":"false","aria-expanded":"false"}),a.length&&r.length?i.oldTab.attr("tabIndex",-1):a.length&&this.tabs.filter(function(){return 0===t(this).attr("tabIndex")}).attr("tabIndex",-1),a.attr("aria-hidden","false"),i.newTab.attr({"aria-selected":"true","aria-expanded":"true",tabIndex:0})},_activate:function(e){var i,s=this._findActive(e);s[0]!==this.active[0]&&(s.length||(s=this.active),i=s.find(".ui-tabs-anchor")[0],this._eventHandler({target:i,currentTarget:i,preventDefault:t.noop}))},_findActive:function(e){return e===!1?t():this.tabs.eq(e)},_getIndex:function(e){return"string"==typeof e&&(e=this.anchors.index(this.anchors.filter("[href$='"+t.ui.escapeSelector(e)+"']"))),e},_destroy:function(){this.xhr&&this.xhr.abort(),this.tablist.removeAttr("role").off(this.eventNamespace),this.anchors.removeAttr("role tabIndex").removeUniqueId(),this.tabs.add(this.panels).each(function(){t.data(this,"ui-tabs-destroy")?t(this).remove():t(this).removeAttr("role tabIndex aria-live aria-busy aria-selected aria-labelledby aria-hidden aria-expanded")}),this.tabs.each(function(){var e=t(this),i=e.data("ui-tabs-aria-controls");i?e.attr("aria-controls",i).removeData("ui-tabs-aria-controls"):e.removeAttr("aria-controls")}),this.panels.show(),"content"!==this.options.heightStyle&&this.panels.css("height","")},enable:function(e){var i=this.options.disabled;i!==!1&&(void 0===e?i=!1:(e=this._getIndex(e),i=t.isArray(i)?t.map(i,function(t){return t!==e?t:null}):t.map(this.tabs,function(t,i){return i!==e?i:null})),this._setOptionDisabled(i))},disable:function(e){var i=this.options.disabled;if(i!==!0){if(void 0===e)i=!0;else{if(e=this._getIndex(e),-1!==t.inArray(e,i))return;i=t.isArray(i)?t.merge([e],i).sort():[e]}this._setOptionDisabled(i)}},load:function(e,i){e=this._getIndex(e);var s=this,n=this.tabs.eq(e),o=n.find(".ui-tabs-anchor"),a=this._getPanelForTab(n),r={tab:n,panel:a},h=function(t,e){"abort"===e&&s.panels.stop(!1,!0),s._removeClass(n,"ui-tabs-loading"),a.removeAttr("aria-busy"),t===s.xhr&&delete s.xhr};this._isLocal(o[0])||(this.xhr=t.ajax(this._ajaxSettings(o,i,r)),this.xhr&&"canceled"!==this.xhr.statusText&&(this._addClass(n,"ui-tabs-loading"),a.attr("aria-busy","true"),this.xhr.done(function(t,e,n){setTimeout(function(){a.html(t),s._trigger("load",i,r),h(n,e)},1)}).fail(function(t,e){setTimeout(function(){h(t,e)},1)})))},_ajaxSettings:function(e,i,s){var n=this;return{url:e.attr("href").replace(/#.*$/,""),beforeSend:function(e,o){return n._trigger("beforeLoad",i,t.extend({jqXHR:e,ajaxSettings:o},s))}}},_getPanelForTab:function(e){var i=t(e).attr("aria-controls");return this.element.find(this._sanitizeSelector("#"+i))}}),t.uiBackCompat!==!1&&t.widget("ui.tabs",t.ui.tabs,{_processTabs:function(){this._superApply(arguments),this._addClass(this.tabs,"ui-tab")}}),t.ui.tabs,t.widget("ui.tooltip",{version:"1.12.1",options:{classes:{"ui-tooltip":"ui-corner-all ui-widget-shadow"},content:function(){var e=t(this).attr("title")||"";return t("<a>").text(e).html()},hide:!0,items:"[title]:not([disabled])",position:{my:"left top+15",at:"left bottom",collision:"flipfit flip"},show:!0,track:!1,close:null,open:null},_addDescribedBy:function(e,i){var s=(e.attr("aria-describedby")||"").split(/\s+/);s.push(i),e.data("ui-tooltip-id",i).attr("aria-describedby",t.trim(s.join(" ")))},_removeDescribedBy:function(e){var i=e.data("ui-tooltip-id"),s=(e.attr("aria-describedby")||"").split(/\s+/),n=t.inArray(i,s);-1!==n&&s.splice(n,1),e.removeData("ui-tooltip-id"),s=t.trim(s.join(" ")),s?e.attr("aria-describedby",s):e.removeAttr("aria-describedby")},_create:function(){this._on({mouseover:"open",focusin:"open"}),this.tooltips={},this.parents={},this.liveRegion=t("<div>").attr({role:"log","aria-live":"assertive","aria-relevant":"additions"}).appendTo(this.document[0].body),this._addClass(this.liveRegion,null,"ui-helper-hidden-accessible"),this.disabledTitles=t([])},_setOption:function(e,i){var s=this;this._super(e,i),"content"===e&&t.each(this.tooltips,function(t,e){s._updateContent(e.element)})},_setOptionDisabled:function(t){this[t?"_disable":"_enable"]()},_disable:function(){var e=this;t.each(this.tooltips,function(i,s){var n=t.Event("blur");n.target=n.currentTarget=s.element[0],e.close(n,!0)}),this.disabledTitles=this.disabledTitles.add(this.element.find(this.options.items).addBack().filter(function(){var e=t(this);return e.is("[title]")?e.data("ui-tooltip-title",e.attr("title")).removeAttr("title"):void 0}))},_enable:function(){this.disabledTitles.each(function(){var e=t(this);e.data("ui-tooltip-title")&&e.attr("title",e.data("ui-tooltip-title"))}),this.disabledTitles=t([])},open:function(e){var i=this,s=t(e?e.target:this.element).closest(this.options.items);s.length&&!s.data("ui-tooltip-id")&&(s.attr("title")&&s.data("ui-tooltip-title",s.attr("title")),s.data("ui-tooltip-open",!0),e&&"mouseover"===e.type&&s.parents().each(function(){var e,s=t(this);s.data("ui-tooltip-open")&&(e=t.Event("blur"),e.target=e.currentTarget=this,i.close(e,!0)),s.attr("title")&&(s.uniqueId(),i.parents[this.id]={element:this,title:s.attr("title")},s.attr("title",""))}),this._registerCloseHandlers(e,s),this._updateContent(s,e))},_updateContent:function(t,e){var i,s=this.options.content,n=this,o=e?e.type:null;return"string"==typeof s||s.nodeType||s.jquery?this._open(e,t,s):(i=s.call(t[0],function(i){n._delay(function(){t.data("ui-tooltip-open")&&(e&&(e.type=o),this._open(e,t,i))})}),i&&this._open(e,t,i),void 0)},_open:function(e,i,s){function n(t){l.of=t,a.is(":hidden")||a.position(l)}var o,a,r,h,l=t.extend({},this.options.position);if(s){if(o=this._find(i))return o.tooltip.find(".ui-tooltip-content").html(s),void 0;i.is("[title]")&&(e&&"mouseover"===e.type?i.attr("title",""):i.removeAttr("title")),o=this._tooltip(i),a=o.tooltip,this._addDescribedBy(i,a.attr("id")),a.find(".ui-tooltip-content").html(s),this.liveRegion.children().hide(),h=t("<div>").html(a.find(".ui-tooltip-content").html()),h.removeAttr("name").find("[name]").removeAttr("name"),h.removeAttr("id").find("[id]").removeAttr("id"),h.appendTo(this.liveRegion),this.options.track&&e&&/^mouse/.test(e.type)?(this._on(this.document,{mousemove:n}),n(e)):a.position(t.extend({of:i},this.options.position)),a.hide(),this._show(a,this.options.show),this.options.track&&this.options.show&&this.options.show.delay&&(r=this.delayedShow=setInterval(function(){a.is(":visible")&&(n(l.of),clearInterval(r))},t.fx.interval)),this._trigger("open",e,{tooltip:a})}},_registerCloseHandlers:function(e,i){var s={keyup:function(e){if(e.keyCode===t.ui.keyCode.ESCAPE){var s=t.Event(e);s.currentTarget=i[0],this.close(s,!0)}}};i[0]!==this.element[0]&&(s.remove=function(){this._removeTooltip(this._find(i).tooltip)}),e&&"mouseover"!==e.type||(s.mouseleave="close"),e&&"focusin"!==e.type||(s.focusout="close"),this._on(!0,i,s)},close:function(e){var i,s=this,n=t(e?e.currentTarget:this.element),o=this._find(n);return o?(i=o.tooltip,o.closing||(clearInterval(this.delayedShow),n.data("ui-tooltip-title")&&!n.attr("title")&&n.attr("title",n.data("ui-tooltip-title")),this._removeDescribedBy(n),o.hiding=!0,i.stop(!0),this._hide(i,this.options.hide,function(){s._removeTooltip(t(this))}),n.removeData("ui-tooltip-open"),this._off(n,"mouseleave focusout keyup"),n[0]!==this.element[0]&&this._off(n,"remove"),this._off(this.document,"mousemove"),e&&"mouseleave"===e.type&&t.each(this.parents,function(e,i){t(i.element).attr("title",i.title),delete s.parents[e]}),o.closing=!0,this._trigger("close",e,{tooltip:i}),o.hiding||(o.closing=!1)),void 0):(n.removeData("ui-tooltip-open"),void 0)},_tooltip:function(e){var i=t("<div>").attr("role","tooltip"),s=t("<div>").appendTo(i),n=i.uniqueId().attr("id");return this._addClass(s,"ui-tooltip-content"),this._addClass(i,"ui-tooltip","ui-widget ui-widget-content"),i.appendTo(this._appendTo(e)),this.tooltips[n]={element:e,tooltip:i}},_find:function(t){var e=t.data("ui-tooltip-id");return e?this.tooltips[e]:null},_removeTooltip:function(t){t.remove(),delete this.tooltips[t.attr("id")]},_appendTo:function(t){var e=t.closest(".ui-front, dialog");return e.length||(e=this.document[0].body),e},_destroy:function(){var e=this;t.each(this.tooltips,function(i,s){var n=t.Event("blur"),o=s.element;n.target=n.currentTarget=o[0],e.close(n,!0),t("#"+i).remove(),o.data("ui-tooltip-title")&&(o.attr("title")||o.attr("title",o.data("ui-tooltip-title")),o.removeData("ui-tooltip-title"))}),this.liveRegion.remove()}}),t.uiBackCompat!==!1&&t.widget("ui.tooltip",t.ui.tooltip,{options:{tooltipClass:null},_tooltip:function(){var t=this._superApply(arguments);return this.options.tooltipClass&&t.tooltip.addClass(this.options.tooltipClass),t}}),t.ui.tooltip});
 
 /***/ }),
-/* 55 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(56);
+module.exports = __webpack_require__(73);
 
 /***/ }),
-/* 56 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17101,21 +24992,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _assign = __webpack_require__(57);
+var _assign = __webpack_require__(74);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _keys = __webpack_require__(82);
+var _keys = __webpack_require__(99);
 
 var _keys2 = _interopRequireDefault(_keys);
 
 exports.wordsToNumbers = wordsToNumbers;
 
-var _itsSet = __webpack_require__(86);
+var _itsSet = __webpack_require__(103);
 
 var _itsSet2 = _interopRequireDefault(_itsSet);
 
-var _cljFuzzy = __webpack_require__(129);
+var _cljFuzzy = __webpack_require__(146);
 
 var _cljFuzzy2 = _interopRequireDefault(_cljFuzzy);
 
@@ -17371,35 +25262,35 @@ function wordsToNumbers(text, options) {
 exports.default = wordsToNumbers;
 
 /***/ }),
-/* 57 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(58), __esModule: true };
+module.exports = { "default": __webpack_require__(75), __esModule: true };
 
 /***/ }),
-/* 58 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(59);
+__webpack_require__(76);
 module.exports = __webpack_require__(5).Object.assign;
 
 
 /***/ }),
-/* 59 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
 var $export = __webpack_require__(30);
 
-$export($export.S + $export.F, 'Object', { assign: __webpack_require__(69) });
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__(86) });
 
 
 /***/ }),
-/* 60 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(61);
+var aFunction = __webpack_require__(78);
 module.exports = function (fn, that, length) {
   aFunction(fn);
   if (that === undefined) return fn;
@@ -17421,7 +25312,7 @@ module.exports = function (fn, that, length) {
 
 
 /***/ }),
-/* 61 */
+/* 78 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -17431,12 +25322,12 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 62 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(63);
-var createDesc = __webpack_require__(68);
-module.exports = __webpack_require__(15) ? function (object, key, value) {
+var dP = __webpack_require__(80);
+var createDesc = __webpack_require__(85);
+module.exports = __webpack_require__(16) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
 } : function (object, key, value) {
   object[key] = value;
@@ -17445,15 +25336,15 @@ module.exports = __webpack_require__(15) ? function (object, key, value) {
 
 
 /***/ }),
-/* 63 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(64);
-var IE8_DOM_DEFINE = __webpack_require__(65);
-var toPrimitive = __webpack_require__(67);
+var anObject = __webpack_require__(81);
+var IE8_DOM_DEFINE = __webpack_require__(82);
+var toPrimitive = __webpack_require__(84);
 var dP = Object.defineProperty;
 
-exports.f = __webpack_require__(15) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+exports.f = __webpack_require__(16) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
@@ -17467,10 +25358,10 @@ exports.f = __webpack_require__(15) ? Object.defineProperty : function definePro
 
 
 /***/ }),
-/* 64 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
@@ -17478,20 +25369,20 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 65 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(15) && !__webpack_require__(6)(function () {
-  return Object.defineProperty(__webpack_require__(66)('div'), 'a', { get: function () { return 7; } }).a != 7;
+module.exports = !__webpack_require__(16) && !__webpack_require__(6)(function () {
+  return Object.defineProperty(__webpack_require__(83)('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
 
 /***/ }),
-/* 66 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14);
-var document = __webpack_require__(13).document;
+var isObject = __webpack_require__(15);
+var document = __webpack_require__(14).document;
 // typeof document.createElement is 'object' in old IE
 var is = isObject(document) && isObject(document.createElement);
 module.exports = function (it) {
@@ -17500,11 +25391,11 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 67 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function (it, S) {
@@ -17518,7 +25409,7 @@ module.exports = function (it, S) {
 
 
 /***/ }),
-/* 68 */
+/* 85 */
 /***/ (function(module, exports) {
 
 module.exports = function (bitmap, value) {
@@ -17532,15 +25423,15 @@ module.exports = function (bitmap, value) {
 
 
 /***/ }),
-/* 69 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // 19.1.2.1 Object.assign(target, source, ...)
 var getKeys = __webpack_require__(31);
-var gOPS = __webpack_require__(80);
-var pIE = __webpack_require__(81);
+var gOPS = __webpack_require__(97);
+var pIE = __webpack_require__(98);
 var toObject = __webpack_require__(36);
 var IObject = __webpack_require__(33);
 var $assign = Object.assign;
@@ -17573,13 +25464,13 @@ module.exports = !$assign || __webpack_require__(6)(function () {
 
 
 /***/ }),
-/* 70 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__(71);
+var has = __webpack_require__(88);
 var toIObject = __webpack_require__(32);
-var arrayIndexOf = __webpack_require__(73)(false);
-var IE_PROTO = __webpack_require__(76)('IE_PROTO');
+var arrayIndexOf = __webpack_require__(90)(false);
+var IE_PROTO = __webpack_require__(93)('IE_PROTO');
 
 module.exports = function (object, names) {
   var O = toIObject(object);
@@ -17596,7 +25487,7 @@ module.exports = function (object, names) {
 
 
 /***/ }),
-/* 71 */
+/* 88 */
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -17606,7 +25497,7 @@ module.exports = function (it, key) {
 
 
 /***/ }),
-/* 72 */
+/* 89 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -17617,14 +25508,14 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 73 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(32);
-var toLength = __webpack_require__(74);
-var toAbsoluteIndex = __webpack_require__(75);
+var toLength = __webpack_require__(91);
+var toAbsoluteIndex = __webpack_require__(92);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIObject($this);
@@ -17646,7 +25537,7 @@ module.exports = function (IS_INCLUDES) {
 
 
 /***/ }),
-/* 74 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
@@ -17658,7 +25549,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 75 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(35);
@@ -17671,21 +25562,21 @@ module.exports = function (index, length) {
 
 
 /***/ }),
-/* 76 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__(77)('keys');
-var uid = __webpack_require__(78);
+var shared = __webpack_require__(94)('keys');
+var uid = __webpack_require__(95);
 module.exports = function (key) {
   return shared[key] || (shared[key] = uid(key));
 };
 
 
 /***/ }),
-/* 77 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(13);
+var global = __webpack_require__(14);
 var SHARED = '__core-js_shared__';
 var store = global[SHARED] || (global[SHARED] = {});
 module.exports = function (key) {
@@ -17694,7 +25585,7 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 78 */
+/* 95 */
 /***/ (function(module, exports) {
 
 var id = 0;
@@ -17705,7 +25596,7 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 79 */
+/* 96 */
 /***/ (function(module, exports) {
 
 // IE 8- don't enum bug keys
@@ -17715,42 +25606,42 @@ module.exports = (
 
 
 /***/ }),
-/* 80 */
+/* 97 */
 /***/ (function(module, exports) {
 
 exports.f = Object.getOwnPropertySymbols;
 
 
 /***/ }),
-/* 81 */
+/* 98 */
 /***/ (function(module, exports) {
 
 exports.f = {}.propertyIsEnumerable;
 
 
 /***/ }),
-/* 82 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(83), __esModule: true };
+module.exports = { "default": __webpack_require__(100), __esModule: true };
 
 /***/ }),
-/* 83 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(84);
+__webpack_require__(101);
 module.exports = __webpack_require__(5).Object.keys;
 
 
 /***/ }),
-/* 84 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
 var toObject = __webpack_require__(36);
 var $keys = __webpack_require__(31);
 
-__webpack_require__(85)('keys', function () {
+__webpack_require__(102)('keys', function () {
   return function keys(it) {
     return $keys(toObject(it));
   };
@@ -17758,7 +25649,7 @@ __webpack_require__(85)('keys', function () {
 
 
 /***/ }),
-/* 85 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
@@ -17774,7 +25665,7 @@ module.exports = function (KEY, exec) {
 
 
 /***/ }),
-/* 86 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17784,7 +25675,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _get2 = __webpack_require__(87);
+var _get2 = __webpack_require__(104);
 
 var _get3 = _interopRequireDefault(_get2);
 
@@ -17810,10 +25701,10 @@ function itsSet(val) {
 exports.default = itsSet;
 
 /***/ }),
-/* 87 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGet = __webpack_require__(88);
+var baseGet = __webpack_require__(105);
 
 /**
  * Gets the value at `path` of `object`. If the resolved value is
@@ -17849,11 +25740,11 @@ module.exports = get;
 
 
 /***/ }),
-/* 88 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var castPath = __webpack_require__(89),
-    toKey = __webpack_require__(128);
+var castPath = __webpack_require__(106),
+    toKey = __webpack_require__(145);
 
 /**
  * The base implementation of `_.get` without support for default values.
@@ -17879,13 +25770,13 @@ module.exports = baseGet;
 
 
 /***/ }),
-/* 89 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(16),
-    isKey = __webpack_require__(90),
-    stringToPath = __webpack_require__(95),
-    toString = __webpack_require__(125);
+var isArray = __webpack_require__(17),
+    isKey = __webpack_require__(107),
+    stringToPath = __webpack_require__(112),
+    toString = __webpack_require__(142);
 
 /**
  * Casts `value` to a path array if it's not one.
@@ -17906,11 +25797,11 @@ module.exports = castPath;
 
 
 /***/ }),
-/* 90 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(16),
-    isSymbol = __webpack_require__(17);
+var isArray = __webpack_require__(17),
+    isSymbol = __webpack_require__(18);
 
 /** Used to match property names within property paths. */
 var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
@@ -17941,7 +25832,7 @@ module.exports = isKey;
 
 
 /***/ }),
-/* 91 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -17949,13 +25840,13 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
 
 /***/ }),
-/* 92 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(18);
+var Symbol = __webpack_require__(19);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -18004,7 +25895,7 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 93 */
+/* 110 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -18032,7 +25923,7 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 94 */
+/* 111 */
 /***/ (function(module, exports) {
 
 /**
@@ -18067,10 +25958,10 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 95 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var memoizeCapped = __webpack_require__(96);
+var memoizeCapped = __webpack_require__(113);
 
 /** Used to match property names within property paths. */
 var reLeadingDot = /^\./,
@@ -18101,10 +25992,10 @@ module.exports = stringToPath;
 
 
 /***/ }),
-/* 96 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var memoize = __webpack_require__(97);
+var memoize = __webpack_require__(114);
 
 /** Used as the maximum memoize cache size. */
 var MAX_MEMOIZE_SIZE = 500;
@@ -18133,10 +26024,10 @@ module.exports = memoizeCapped;
 
 
 /***/ }),
-/* 97 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var MapCache = __webpack_require__(98);
+var MapCache = __webpack_require__(115);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -18212,14 +26103,14 @@ module.exports = memoize;
 
 
 /***/ }),
-/* 98 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var mapCacheClear = __webpack_require__(99),
-    mapCacheDelete = __webpack_require__(120),
-    mapCacheGet = __webpack_require__(122),
-    mapCacheHas = __webpack_require__(123),
-    mapCacheSet = __webpack_require__(124);
+var mapCacheClear = __webpack_require__(116),
+    mapCacheDelete = __webpack_require__(137),
+    mapCacheGet = __webpack_require__(139),
+    mapCacheHas = __webpack_require__(140),
+    mapCacheSet = __webpack_require__(141);
 
 /**
  * Creates a map cache object to store key-value pairs.
@@ -18250,12 +26141,12 @@ module.exports = MapCache;
 
 
 /***/ }),
-/* 99 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Hash = __webpack_require__(100),
-    ListCache = __webpack_require__(112),
-    Map = __webpack_require__(119);
+var Hash = __webpack_require__(117),
+    ListCache = __webpack_require__(129),
+    Map = __webpack_require__(136);
 
 /**
  * Removes all key-value entries from the map.
@@ -18277,14 +26168,14 @@ module.exports = mapCacheClear;
 
 
 /***/ }),
-/* 100 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var hashClear = __webpack_require__(101),
-    hashDelete = __webpack_require__(108),
-    hashGet = __webpack_require__(109),
-    hashHas = __webpack_require__(110),
-    hashSet = __webpack_require__(111);
+var hashClear = __webpack_require__(118),
+    hashDelete = __webpack_require__(125),
+    hashGet = __webpack_require__(126),
+    hashHas = __webpack_require__(127),
+    hashSet = __webpack_require__(128);
 
 /**
  * Creates a hash object.
@@ -18315,7 +26206,7 @@ module.exports = Hash;
 
 
 /***/ }),
-/* 101 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(7);
@@ -18336,13 +26227,13 @@ module.exports = hashClear;
 
 
 /***/ }),
-/* 102 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(103),
-    isMasked = __webpack_require__(104),
+var isFunction = __webpack_require__(120),
+    isMasked = __webpack_require__(121),
     isObject = __webpack_require__(39),
-    toSource = __webpack_require__(106);
+    toSource = __webpack_require__(123);
 
 /**
  * Used to match `RegExp`
@@ -18389,7 +26280,7 @@ module.exports = baseIsNative;
 
 
 /***/ }),
-/* 103 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(37),
@@ -18432,10 +26323,10 @@ module.exports = isFunction;
 
 
 /***/ }),
-/* 104 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var coreJsData = __webpack_require__(105);
+var coreJsData = __webpack_require__(122);
 
 /** Used to detect methods masquerading as native. */
 var maskSrcKey = (function() {
@@ -18458,10 +26349,10 @@ module.exports = isMasked;
 
 
 /***/ }),
-/* 105 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(19);
+var root = __webpack_require__(20);
 
 /** Used to detect overreaching core-js shims. */
 var coreJsData = root['__core-js_shared__'];
@@ -18470,7 +26361,7 @@ module.exports = coreJsData;
 
 
 /***/ }),
-/* 106 */
+/* 123 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -18502,7 +26393,7 @@ module.exports = toSource;
 
 
 /***/ }),
-/* 107 */
+/* 124 */
 /***/ (function(module, exports) {
 
 /**
@@ -18521,7 +26412,7 @@ module.exports = getValue;
 
 
 /***/ }),
-/* 108 */
+/* 125 */
 /***/ (function(module, exports) {
 
 /**
@@ -18544,7 +26435,7 @@ module.exports = hashDelete;
 
 
 /***/ }),
-/* 109 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(7);
@@ -18580,7 +26471,7 @@ module.exports = hashGet;
 
 
 /***/ }),
-/* 110 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(7);
@@ -18609,7 +26500,7 @@ module.exports = hashHas;
 
 
 /***/ }),
-/* 111 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(7);
@@ -18638,14 +26529,14 @@ module.exports = hashSet;
 
 
 /***/ }),
-/* 112 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var listCacheClear = __webpack_require__(113),
-    listCacheDelete = __webpack_require__(114),
-    listCacheGet = __webpack_require__(116),
-    listCacheHas = __webpack_require__(117),
-    listCacheSet = __webpack_require__(118);
+var listCacheClear = __webpack_require__(130),
+    listCacheDelete = __webpack_require__(131),
+    listCacheGet = __webpack_require__(133),
+    listCacheHas = __webpack_require__(134),
+    listCacheSet = __webpack_require__(135);
 
 /**
  * Creates an list cache object.
@@ -18676,7 +26567,7 @@ module.exports = ListCache;
 
 
 /***/ }),
-/* 113 */
+/* 130 */
 /***/ (function(module, exports) {
 
 /**
@@ -18695,7 +26586,7 @@ module.exports = listCacheClear;
 
 
 /***/ }),
-/* 114 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(8);
@@ -18736,7 +26627,7 @@ module.exports = listCacheDelete;
 
 
 /***/ }),
-/* 115 */
+/* 132 */
 /***/ (function(module, exports) {
 
 /**
@@ -18779,7 +26670,7 @@ module.exports = eq;
 
 
 /***/ }),
-/* 116 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(8);
@@ -18804,7 +26695,7 @@ module.exports = listCacheGet;
 
 
 /***/ }),
-/* 117 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(8);
@@ -18826,7 +26717,7 @@ module.exports = listCacheHas;
 
 
 /***/ }),
-/* 118 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(8);
@@ -18858,11 +26749,11 @@ module.exports = listCacheSet;
 
 
 /***/ }),
-/* 119 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(38),
-    root = __webpack_require__(19);
+    root = __webpack_require__(20);
 
 /* Built-in method references that are verified to be native. */
 var Map = getNative(root, 'Map');
@@ -18871,7 +26762,7 @@ module.exports = Map;
 
 
 /***/ }),
-/* 120 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(9);
@@ -18895,7 +26786,7 @@ module.exports = mapCacheDelete;
 
 
 /***/ }),
-/* 121 */
+/* 138 */
 /***/ (function(module, exports) {
 
 /**
@@ -18916,7 +26807,7 @@ module.exports = isKeyable;
 
 
 /***/ }),
-/* 122 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(9);
@@ -18938,7 +26829,7 @@ module.exports = mapCacheGet;
 
 
 /***/ }),
-/* 123 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(9);
@@ -18960,7 +26851,7 @@ module.exports = mapCacheHas;
 
 
 /***/ }),
-/* 124 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(9);
@@ -18988,10 +26879,10 @@ module.exports = mapCacheSet;
 
 
 /***/ }),
-/* 125 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseToString = __webpack_require__(126);
+var baseToString = __webpack_require__(143);
 
 /**
  * Converts `value` to a string. An empty string is returned for `null`
@@ -19022,13 +26913,13 @@ module.exports = toString;
 
 
 /***/ }),
-/* 126 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(18),
-    arrayMap = __webpack_require__(127),
-    isArray = __webpack_require__(16),
-    isSymbol = __webpack_require__(17);
+var Symbol = __webpack_require__(19),
+    arrayMap = __webpack_require__(144),
+    isArray = __webpack_require__(17),
+    isSymbol = __webpack_require__(18);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -19065,7 +26956,7 @@ module.exports = baseToString;
 
 
 /***/ }),
-/* 127 */
+/* 144 */
 /***/ (function(module, exports) {
 
 /**
@@ -19092,10 +26983,10 @@ module.exports = arrayMap;
 
 
 /***/ }),
-/* 128 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSymbol = __webpack_require__(17);
+var isSymbol = __webpack_require__(18);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -19119,7 +27010,7 @@ module.exports = toKey;
 
 
 /***/ }),
-/* 129 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* clj-fuzzy - v0.3.3 - Author: Yomguithereal (Guillaume Plique) - Repository: https://github.com/Yomguithereal/clj-fuzzy */
@@ -19131,7 +27022,7 @@ if(typeof Math.imul=="undefined"||Math.imul(4294967295,5)==0){Math.imul=function
 
 
 /***/ }),
-/* 130 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19141,7 +27032,7 @@ if(typeof Math.imul=="undefined"||Math.imul(4294967295,5)==0){Math.imul=function
 // Imports
 // --------------------------------------------------------------------
 
-var GrammarDecl = __webpack_require__(131);
+var GrammarDecl = __webpack_require__(148);
 var pexprs = __webpack_require__(1);
 
 // --------------------------------------------------------------------
@@ -19318,7 +27209,7 @@ module.exports = Builder;
 
 
 /***/ }),
-/* 131 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19328,8 +27219,8 @@ module.exports = Builder;
 // Imports
 // --------------------------------------------------------------------
 
-var Grammar = __webpack_require__(20);
-var InputStream = __webpack_require__(24);
+var Grammar = __webpack_require__(21);
+var InputStream = __webpack_require__(25);
 var common = __webpack_require__(0);
 var errors = __webpack_require__(2);
 var pexprs = __webpack_require__(1);
@@ -19507,7 +27398,7 @@ module.exports = GrammarDecl;
 
 
 /***/ }),
-/* 132 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19591,7 +27482,7 @@ module.exports = CaseInsensitiveTerminal;
 
 
 /***/ }),
-/* 133 */
+/* 150 */
 /***/ (function(module, exports) {
 
 // Based on https://github.com/mathiasbynens/unicode-9.0.0.
@@ -19628,7 +27519,7 @@ module.exports = {
 
 
 /***/ }),
-/* 134 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19680,7 +27571,7 @@ pexprs.Seq.prototype.allowsSkippingPrecedingSpace = function() {
 
 
 /***/ }),
-/* 135 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19774,7 +27665,7 @@ pexprs.Apply.prototype._assertAllApplicationsAreValid = function(ruleName, gramm
 
 
 /***/ }),
-/* 136 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19856,7 +27747,7 @@ pexprs.Apply.prototype.assertChoicesHaveUniformArity = function(ruleName) {
 
 
 /***/ }),
-/* 137 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19923,7 +27814,7 @@ pexprs.Apply.prototype.assertIteratedExprsAreNotNullable = function(grammar, rul
 
 
 /***/ }),
-/* 138 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20050,7 +27941,7 @@ pexprs.UnicodeChar.prototype.check = function(grammar, vals) {
 
 
 /***/ }),
-/* 139 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20437,7 +28328,7 @@ pexprs.UnicodeChar.prototype.eval = function(state) {
 
 
 /***/ }),
-/* 140 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20495,7 +28386,7 @@ pexprs.Lex.prototype.getArity = function() {
 
 
 /***/ }),
-/* 141 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20712,7 +28603,7 @@ pexprs.UnicodeChar.prototype.generateExample = function(
 
 
 /***/ }),
-/* 142 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20834,7 +28725,7 @@ pexprs.UnicodeChar.prototype.outputRecipe = function(formals, grammarInterval) {
 
 
 /***/ }),
-/* 143 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20907,7 +28798,7 @@ pexprs.Apply.prototype.introduceParams = function(formals) {
 
 
 /***/ }),
-/* 144 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20986,7 +28877,7 @@ pexprs.Apply.prototype._isNullable = function(grammar, memo) {
 
 
 /***/ }),
-/* 145 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21053,7 +28944,7 @@ pexprs.Apply.prototype.substituteParams = function(actuals) {
 
 
 /***/ }),
-/* 146 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21108,7 +28999,7 @@ pexprs.UnicodeChar.prototype.toDisplayString = function() {
 
 
 /***/ }),
-/* 147 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21302,7 +29193,7 @@ pexprs.Param.prototype.toArgumentNameList = function(firstArgIndex, noDupCheck) 
 
 
 /***/ }),
-/* 148 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21382,7 +29273,7 @@ pexprs.Iter.prototype.toFailure = function(grammar) {
 
 
 /***/ }),
-/* 149 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21471,7 +29362,7 @@ pexprs.UnicodeChar.prototype.toString = function() {
 
 
 /***/ }),
-/* 150 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21481,7 +29372,7 @@ pexprs.UnicodeChar.prototype.toString = function() {
 // Imports
 // --------------------------------------------------------------------
 
-var MatchState = __webpack_require__(151);
+var MatchState = __webpack_require__(168);
 
 var pexprs = __webpack_require__(1);
 
@@ -21574,7 +29465,7 @@ module.exports = Matcher;
 
 
 /***/ }),
-/* 151 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21584,9 +29475,9 @@ module.exports = Matcher;
 // Imports
 // --------------------------------------------------------------------
 
-var InputStream = __webpack_require__(24);
-var MatchResult = __webpack_require__(25);
-var PosInfo = __webpack_require__(152);
+var InputStream = __webpack_require__(25);
+var MatchResult = __webpack_require__(26);
+var PosInfo = __webpack_require__(169);
 var Trace = __webpack_require__(42);
 var pexprs = __webpack_require__(1);
 
@@ -21969,7 +29860,7 @@ module.exports = MatchState;
 
 
 /***/ }),
-/* 152 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22084,17 +29975,17 @@ module.exports = PosInfo;
 
 
 /***/ }),
-/* 153 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(154)() ? Symbol : __webpack_require__(155);
+module.exports = __webpack_require__(171)() ? Symbol : __webpack_require__(172);
 
 
 /***/ }),
-/* 154 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22118,7 +30009,7 @@ module.exports = function () {
 
 
 /***/ }),
-/* 155 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22126,8 +30017,8 @@ module.exports = function () {
 
 
 
-var d              = __webpack_require__(156)
-  , validateSymbol = __webpack_require__(170)
+var d              = __webpack_require__(173)
+  , validateSymbol = __webpack_require__(187)
 
   , create = Object.create, defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty, objPrototype = Object.prototype
@@ -22243,16 +30134,16 @@ defineProperty(HiddenSymbol.prototype, SymbolPolyfill.toPrimitive,
 
 
 /***/ }),
-/* 156 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assign        = __webpack_require__(157)
-  , normalizeOpts = __webpack_require__(165)
-  , isCallable    = __webpack_require__(166)
-  , contains      = __webpack_require__(167)
+var assign        = __webpack_require__(174)
+  , normalizeOpts = __webpack_require__(182)
+  , isCallable    = __webpack_require__(183)
+  , contains      = __webpack_require__(184)
 
   , d;
 
@@ -22313,19 +30204,19 @@ d.gs = function (dscr, get, set/*, options*/) {
 
 
 /***/ }),
-/* 157 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(158)()
+module.exports = __webpack_require__(175)()
 	? Object.assign
-	: __webpack_require__(159);
+	: __webpack_require__(176);
 
 
 /***/ }),
-/* 158 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22341,14 +30232,14 @@ module.exports = function () {
 
 
 /***/ }),
-/* 159 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var keys  = __webpack_require__(160)
-  , value = __webpack_require__(164)
+var keys  = __webpack_require__(177)
+  , value = __webpack_require__(181)
   , max   = Math.max;
 
 module.exports = function (dest, src /*, …srcn*/) {
@@ -22371,19 +30262,19 @@ module.exports = function (dest, src /*, …srcn*/) {
 
 
 /***/ }),
-/* 160 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(161)()
+module.exports = __webpack_require__(178)()
 	? Object.keys
-	: __webpack_require__(162);
+	: __webpack_require__(179);
 
 
 /***/ }),
-/* 161 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22400,13 +30291,13 @@ module.exports = function () {
 
 
 /***/ }),
-/* 162 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isValue = __webpack_require__(26);
+var isValue = __webpack_require__(27);
 
 var keys = Object.keys;
 
@@ -22416,7 +30307,7 @@ module.exports = function (object) {
 
 
 /***/ }),
-/* 163 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22427,13 +30318,13 @@ module.exports = function () {};
 
 
 /***/ }),
-/* 164 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isValue = __webpack_require__(26);
+var isValue = __webpack_require__(27);
 
 module.exports = function (value) {
 	if (!isValue(value)) throw new TypeError("Cannot use null or undefined");
@@ -22442,13 +30333,13 @@ module.exports = function (value) {
 
 
 /***/ }),
-/* 165 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isValue = __webpack_require__(26);
+var isValue = __webpack_require__(27);
 
 var forEach = Array.prototype.forEach, create = Object.create;
 
@@ -22469,7 +30360,7 @@ module.exports = function (opts1 /*, …options*/) {
 
 
 /***/ }),
-/* 166 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22483,19 +30374,19 @@ module.exports = function (obj) {
 
 
 /***/ }),
-/* 167 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(168)()
+module.exports = __webpack_require__(185)()
 	? String.prototype.contains
-	: __webpack_require__(169);
+	: __webpack_require__(186);
 
 
 /***/ }),
-/* 168 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22510,7 +30401,7 @@ module.exports = function () {
 
 
 /***/ }),
-/* 169 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22524,13 +30415,13 @@ module.exports = function (searchString/*, position*/) {
 
 
 /***/ }),
-/* 170 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isSymbol = __webpack_require__(171);
+var isSymbol = __webpack_require__(188);
 
 module.exports = function (value) {
 	if (!isSymbol(value)) throw new TypeError(value + " is not a symbol");
@@ -22539,7 +30430,7 @@ module.exports = function (value) {
 
 
 /***/ }),
-/* 171 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22555,7 +30446,7 @@ module.exports = function (x) {
 
 
 /***/ }),
-/* 172 */
+/* 189 */
 /***/ (function(module, exports) {
 
 /*!
@@ -22582,21 +30473,21 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 173 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 module.exports = {
-  VisitorFamily: __webpack_require__(174),
+  VisitorFamily: __webpack_require__(191),
   semanticsForToAST: __webpack_require__(44).semantics,
   toAST: __webpack_require__(44).helper
 };
 
 
 /***/ }),
-/* 174 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22773,7 +30664,7 @@ module.exports = VisitorFamily;
 
 
 /***/ }),
-/* 175 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ohm = __webpack_require__(10);
@@ -22781,7 +30672,7 @@ module.exports = ohm.makeRecipe(["grammar",{"source":"BuiltInRules {\n\n  alnum 
 
 
 /***/ }),
-/* 176 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ohm = __webpack_require__(10);
@@ -22789,7 +30680,7 @@ module.exports = ohm.makeRecipe(["grammar",{"source":"OperationsAndAttributes {\
 
 
 /***/ }),
-/* 177 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ohm = __webpack_require__(10);
@@ -22797,7 +30688,7 @@ module.exports = ohm.makeRecipe(["grammar",{"source":"Ohm {\n\n  Grammars\n    =
 
 
 /***/ }),
-/* 178 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22892,12 +30783,12 @@ function visualize() {
         visualize();
         voiceMute();
         /*rec = new MediaRecorder(stream);
-          rec.ondataavailable = e => {
+         rec.ondataavailable = e => {
             audioChunks.push(e.data);
         };
         rec.onstop = function () {
-              isRecording = false;
-              if (audioChunks.length > 0) {
+             isRecording = false;
+             if (audioChunks.length > 0) {
                 let audio = new Blob(audioChunks, {type: 'audio/wave'});
                 recordedAudio.src = URL.createObjectURL(audio);
                 recordedAudio.controls = true;

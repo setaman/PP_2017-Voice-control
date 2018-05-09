@@ -1,6 +1,15 @@
 import {elementBuilder} from './element';
 import {ALL_SELECTOR} from './const';
 import {getRecognizedElements} from './helper';
+import {fuzzySearch} from './fuzzy_search';
+import keywordExtractor from 'keyword-extractor';
+
+let keywordsExtractorOptions = {
+    language:"english",
+    remove_digits: true,
+    return_changed_case:true,
+    remove_duplicates: false
+};
 
 let elements = [];
 
@@ -8,8 +17,9 @@ let elements = [];
  * Elemente werden zur weiteren Aussortierung gesammelt
  */
 export function collectElements() {
+    //reset array
     elements = [];
-    //Benutzerdefinierte Element-Objekte werden erzeugt
+    //create custom Element-Objects
     elements.push(...elementBuilder(ALL_SELECTOR));
     console.log(elements);
 }
@@ -29,14 +39,14 @@ export function getElements() {
  * @returns {Array} - identifizierte Element-Objekte
  */
 export function searchForElements(elementName) {
-    //Elemente sammeln
+    //collect Elements
     collectElements();
-    //Nach einem Element suchen
+    //search for needed element
     let result = search(elementName);
-    if (result.length === 0) {
-        //Kein Element identifiziert, verwende fuzzy search
+    /*if (result.length === 0) {
+        //no Element found, try with fuzzy search
         return getRecognizedElements(elements, elementName);
-    }
+    }*/
     return result;
 }
 
@@ -53,11 +63,11 @@ export function search(name) {
         for (let i = 0; i < elements.length; i++) {
             elem = elements[i];
             //FIXME: why compareStrings(elem.text, name) ?
-            if (compareStrings(elem.text, name)
-                || (elem.value ? compareStrings(elem.value, name) : false)
-                || (elem.placeholder ? compareStrings(elem.placeholder, name) : false)
-                || (elem.label ? compareStrings(elem.label, name) : false)
-                || compareStrings(elem.select.selected, name)) {
+            if ((elem.text ? computeScore(elem.text, name) : false)
+                || (elem.value ? computeScore(elem.value, name) : false)
+                || (elem.placeholder ? computeScore(elem.placeholder, name) : false)
+                || (elem.label ? computeScore(elem.label, name) : false)
+                || (elem.select.selected ? computeScore(elem.select.selected, name) : false)) {
 
                 foundedElements.push(elem);
             }
@@ -73,5 +83,29 @@ function compareStrings(textContent, name) {
     if (!textContent || !name) {
         return false;
     }
-    return (textContent.toString().toLowerCase().trim().search(name) >= 0);
+    return  1 ? (textContent.toString().toLowerCase().trim().search(name) >= 0) : 0;
+}
+
+function computeScore(text, userInput) {
+    let score = 0;
+    text = normalizeStringFoSearch(text);
+    userInput = normalizeStringFoSearch(userInput);
+    console.warn('Text:' + text + ' || Input: ' +  userInput);
+
+    for (let i = 0; i < text.length; i++ ) {
+        for (let j = 0; j < userInput.length; j++ ) {
+            if (fuzzySearch(text[i], userInput[j]).length > 0 ) { score += fuzzySearch(text[i], userInput[j]).length; }
+            //if (compareStrings(text[i], userInput[j]) > 0 ) { score += compareStrings(text[i], userInput[j]); }
+        }
+        console.log('Current score for:' + text[i] + ' is ' + score);
+    }
+    return score > 0;
+}
+
+function normalizeStringFoSearch(string) {
+    let res = keywordExtractor.extract(string,keywordsExtractorOptions);
+    if (res.length > 0) {
+        return res;
+    }
+    return string.split(/[ ,]+/);
 }

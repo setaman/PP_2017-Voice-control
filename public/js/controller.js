@@ -681,7 +681,7 @@ function deactivationInterval() {
     let i = 0;
     let interval = setInterval( () => {
         i += 1;
-        if (i === 10 && vocsIsActivated){
+        if (i === 20 && vocsIsActivated){
             vocsIsActivated = !vocsIsActivated;
             console.error('!!!VOCS deactivated!!!');
             showLogo();
