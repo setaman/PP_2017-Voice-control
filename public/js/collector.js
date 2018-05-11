@@ -1,14 +1,15 @@
 import {elementBuilder} from './element';
 import {ALL_SELECTOR} from './const';
 import {fuzzySearch} from './fuzzy_search';
-import keywordExtractor from 'keyword-extractor';
+//import keywordExtractor from 'keyword-extractor';
+import sw from 'stopword';
 
-let keywordsExtractorOptions = {
+/*let keywordsExtractorOptions = {
     language:"english",
     remove_digits: true,
     return_changed_case:true,
     remove_duplicates: false
-};
+};*/
 
 let elements = [];
 let score = 0;
@@ -97,10 +98,12 @@ export function search(name) {
         }
     }
     highestScore = Math.max(...highestScore);
+    let sortedElements = [];
     for (let i = 0; i < foundedElements.length; i++) {
         elem = foundedElements[i];
         if(elem.score < highestScore) {
             foundedElements.splice(i, 1);
+            i--;
         }
     }
     return foundedElements;
@@ -120,7 +123,7 @@ function computeScore(text, userInput, second) {
     let currentScore = 0;
     text = normalizeStringFoSearch(text);
     userInput = normalizeStringFoSearch(userInput);
-    //console.warn('Text:' + text + ' || Input: ' +  userInput);
+    console.warn('Text:' + text + ' || Input: ' +  userInput);
 
     for (let i = 0; i < text.length; i++ ) {
         for (let j = 0; j < userInput.length; j++ ) {
@@ -137,9 +140,14 @@ function computeScore(text, userInput, second) {
 }
 
 function normalizeStringFoSearch(string) {
-    let res = keywordExtractor.extract(string,keywordsExtractorOptions);
+    string = string.split(/[ ,]+/);
+    string = sw.removeStopwords(string, sw.en);
+    if (string.length > 0) {
+        return string;
+    }
+    /*let res = keywordExtractor.extract(string,keywordsExtractorOptions);
     if (res.length > 0) {
         return res;
-    }
-    return string.split(/[ ,]+/);
+    }*/
+    return string;
 }

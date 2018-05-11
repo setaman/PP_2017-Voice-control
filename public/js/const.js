@@ -45,6 +45,8 @@ const REG_EXP_NUMBER = /^[0-9]+$/;
 const KEYWORDS_OBJECTS = [
     /*{keyword: CLICK,
         regExp: REG_EXP_CLICK},*/
+    {keyword: VOCS,
+        regExp: REG_EXP_VOCS},
     {keyword: STOP,
         regExp: REG_EXP_STOP},
     {keyword: UP,

@@ -35,7 +35,7 @@ import {
     scrollSelectContainerUp, setDay, setHour, setMonth, setNumber, setSecondOrMinutes, setWeek, setYear,
     updateDateTimeMsgAndValue
 } from "./helper";
-import {getCommandLength, getRecognizedKeyword} from './analyzer';
+import {getCommandLength, getRecognizedKeyword, extractElementName} from './analyzer';
 
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
@@ -92,16 +92,14 @@ export function performUserAction(input) {
     let t0 = performance.now();
 
     let userCommand = input.toString().toLowerCase().trim(); //normalise string
-
-    if (!vocsIsActivated) {
-        currentKeyword = getRecognizedKeyword(userCommand);//extrahiere das Keyword
-    }
+    currentKeyword = getRecognizedKeyword(userCommand);//extract keyword
+    currentElementName = extractElementName(userCommand, currentKeyword);//extract element name
 
     //Kontrollausgabe
-    console.log('Keyword: ' + currentKeyword + ' || Vocs is active: ' + vocsIsActivated);
+    console.log('Keyword: ' + currentKeyword + ' || Element name: ' + currentElementName);
 
     //Prüfe, ob STOP eingegeben wurde
-    if (!vocsIsActivated && currentKeyword && !currentElementName && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
+    if (currentKeyword && !currentElementName && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
         changeInputMode(MODE_NO_MODE);
         currentMultipleElements = [];
         return;
@@ -109,7 +107,7 @@ export function performUserAction(input) {
     //Ablauf nach dem aktuellen Modus, eins der Modi wird ausgeführt, nachdem Ein element mit dem entsprechenden Typ identifiziert wurde
     switch (currentMode) {
         case MODE_NO_MODE: //initial mode
-            chooseAction(currentKeyword, userCommand);//execute some event
+            chooseAction(currentKeyword, currentElementName);//execute some event
             //more than one elements identified
             if (currentElements.length > 1) {
                 multipleElementsSelected(); //highlight elements
@@ -221,21 +219,21 @@ export function performUserAction(input) {
 /**
  * Hier werden Elemente gesamelt oder ein bestimmtes Event wird ausgeführt
  * @param keyword - das erkannte Keyword
- * @param userCommand - der erkannte Elementname
+ * @param elementName - der erkannte Elementname
  */
-function chooseAction(keyword, userCommand) {
-    if (vocsIsActivated && userCommand) {
-        currentElements.push(...searchForElements(userCommand)); //sammle Elemente
-        if (currentElements.length === 1) {
-            handleElement(currentElements[0]); //entscheide, was mit dem Element gemacht wird
-        } else if (currentElements.length === 0) {
-            provideSystemStatus(STATE_NO_MATCH, 'Please try again');
-            console.error('-------------No element found------------------');
-
+function chooseAction(keyword, elementName) {
+    if (keyword && currentElementName) {
+        if (REG_EXP_VOCS.test(keyword)) {
+            currentElements.push(...searchForElements(elementName));
+            if (currentElements.length === 1) {
+                handleElement(currentElements[0]);
+            } else if (currentElements.length === 0) {
+                provideSystemStatus(STATE_NO_MATCH, 'Please try again');
+                console.error('-------------No element found------------------');
+            }
+            vocsIsActivated = true;
         }
-        vocsIsActivated = !vocsIsActivated;
-
-    } else if (keyword && getCommandLength(userCommand) === 1) { // Keyword isoliert als einzelnes Wort eingegeben
+    }else if (keyword && !elementName) { // Keyword isoliert als einzelnes Wort eingegeben
         switch (true) {
             case REG_EXP_VOCS.test(keyword):
                 vocsIsActivated = !vocsIsActivated;

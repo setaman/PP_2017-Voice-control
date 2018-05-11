@@ -4,6 +4,24 @@ import {KEYWORDS_OBJECTS} from "./const";
 /**
  * Elementname wird aus der Benutzereingabe extrahiert
  * @param userCommand - Benutzereingabe
+ * @param keyword - current keyword
+ * @return {*} - Elementname oder undefined
+ */
+export function extractElementName(userCommand, keyword) {
+/*
+    if (!KEYWORDS_OBJECTS[0].regExp.test(keyword) || keyword === undefined) {return undefined;}//'vocs' not identified
+*/
+    let result = userCommand.split(/[ ,]+/); //split input on spaces, //-> [vocs, click, awesome, select]
+    if (result.length > 1) {
+        result = userCommand.match(/^(\S+)\s(.*)/).slice(1); //->[vocs, click awesome select]
+        return (result.length > 1) ? result[1] : undefined; //click awesome select
+    }
+    return undefined;
+}
+
+/**
+ * Elementname wird aus der Benutzereingabe extrahiert
+ * @param userCommand - Benutzereingabe
  * @return {*} - Elementname oder undefined
  */
 export function getCommandLength(userCommand) {
@@ -51,8 +69,11 @@ export function getRecognizedKeyword(userCommand) {
  * Keyword wird extrahiert
  */
 function extractKeyword(userCommand) {
-    let result = userCommand.split(/[ ,]+/); // String bei Leerzeichen splitten, erzeugt [click, select];
-    return result[0]; //click
+    let result = userCommand.split(/[ ,]+/); // String bei Leerzeichen splitten, erzeugt [vocs, click, select];
+    if(result[0] === 'box' || result[0] === 'fox' || result[0] === 'books') {
+        return 'vocs';
+    }
+    return result[0]; //vocs
 }
 
 /**
@@ -61,11 +82,11 @@ function extractKeyword(userCommand) {
  * @param name - Elementname
  * @return {*} - berechnete Elemente
  */
-/*
+
 export function getRecognizedElements(elements, name) {
-    /!**
+    /**
      * TODO: optimize search for long strings with fuzzy
-     *!/
+     */
     let fuzzy_result = fuzzySearchForElements(elements, name);//unscharfe Suche
     if (fuzzy_result !== undefined && fuzzy_result.length > 0) {
         console.log('FUZZY found:');
@@ -73,4 +94,4 @@ export function getRecognizedElements(elements, name) {
         return fuzzy_result;
     }
     return [];
-}*/
+}
