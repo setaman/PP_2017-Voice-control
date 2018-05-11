@@ -30,12 +30,12 @@ import {
 } from './actions';
 import {
     buildDateTimeMassageContainer,
-    buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval, extractKeyword, checkCommandLength,
+    buildMultipleWrapper, buildSelectOptionsWrapper, checkNumberInterval,
     scrollSelectContainerDown,
     scrollSelectContainerUp, setDay, setHour, setMonth, setNumber, setSecondOrMinutes, setWeek, setYear,
-    updateDateTimeMsgAndValue,
-    getRecognizedKeyword
+    updateDateTimeMsgAndValue
 } from "./helper";
+import {getCommandLength, getRecognizedKeyword} from './analyzer';
 
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
@@ -108,19 +108,19 @@ export function performUserAction(input) {
     }
     //Ablauf nach dem aktuellen Modus, eins der Modi wird ausgeführt, nachdem Ein element mit dem entsprechenden Typ identifiziert wurde
     switch (currentMode) {
-        case MODE_NO_MODE: //Initialmodus
-            chooseAction(currentKeyword, userCommand);//Führe ein Event aus
-            //Ein Element muss gesteuert werden, dabei wurden aber mehrere identifiziert
+        case MODE_NO_MODE: //initial mode
+            chooseAction(currentKeyword, userCommand);//execute some event
+            //more than one elements identified
             if (currentElements.length > 1) {
-                multipleElementsSelected(); //markiere Elemente
+                multipleElementsSelected(); //highlight elements
                 provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
             }
             console.log(currentElements);
             break;
-        case MODE_MULTIPLE: //Mehrere Elemente identifiziert, eine Zahl wird erwartert als Eingabe
+        case MODE_MULTIPLE: //more than one elements identified, number input required
             try {
-                if (!REG_EXP_NUMBER.test(userCommand)) { //Prüfe, ob die Zahl in numerischer Form ist
-                    userCommand = wordsToNumbers(userCommand, {fuzzy: true}); //sonst konvertiere - five --> 5
+                if (!REG_EXP_NUMBER.test(userCommand)) { //check if input is numeric
+                    userCommand = wordsToNumbers(userCommand, {fuzzy: true}); //convert - five --> 5
                 }
                 if (!checkNumberInterval(userCommand, currentMultipleElements.length)) {//Prüfe, ob die Zahl im vorgegebenen Interval liegt
                     provideSystemStatus('Wrong Number', `enter a Number between 1 and ${currentMultipleElements.length}`);
@@ -235,7 +235,7 @@ function chooseAction(keyword, userCommand) {
         }
         vocsIsActivated = !vocsIsActivated;
 
-    } else if (keyword && checkCommandLength(userCommand) === 1) { // Keyword isoliert als einzelnes Wort eingegeben
+    } else if (keyword && getCommandLength(userCommand) === 1) { // Keyword isoliert als einzelnes Wort eingegeben
         switch (true) {
             case REG_EXP_VOCS.test(keyword):
                 vocsIsActivated = !vocsIsActivated;
