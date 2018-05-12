@@ -232,13 +232,13 @@ function chooseAction(keyword, elementName) {
                 console.error('-------------No element found------------------');
             }
             vocsIsActivated = true;
+            deactivationInterval();
         }
     }else if (keyword && !elementName) { // Keyword isoliert als einzelnes Wort eingegeben
         switch (true) {
             case REG_EXP_VOCS.test(keyword):
                 vocsIsActivated = !vocsIsActivated;
                 provideSystemStatus('', 'Vocs ist active');
-                deactivationInterval();
                 break;
             case REG_EXP_DOWN.test(keyword):
                 if (currentSelect) {
@@ -686,7 +686,8 @@ function deactivationInterval() {
         } else if (!vocsIsActivated) {
             i = 0;
             clearInterval(interval);
-            showLogo();
+            setTimeout( showLogo(), 500)
+            /*showLogo();*/
         }
     }, 500)
 }
