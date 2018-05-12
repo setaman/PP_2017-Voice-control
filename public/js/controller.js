@@ -17,7 +17,7 @@ import {
     STATE_MULTIPLE_MATCH,
     MODE_MULTIPLE,
     TYPE_FOCUSABLE, REG_EXP_SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE_TIME, MODE_DATE_TIME, REG_EXP_INFO,
-    REG_EXP_DELETE,
+    REG_EXP_DELETE, VOCS,
 } from './const';
 import {getElements, searchForElements} from './collector';
 import {
@@ -35,7 +35,7 @@ import {
     scrollSelectContainerUp, setDay, setHour, setMonth, setNumber, setSecondOrMinutes, setWeek, setYear,
     updateDateTimeMsgAndValue
 } from "./helper";
-import {getCommandLength, getRecognizedKeyword, extractElementName} from './analyzer';
+import {getRecognizedKeyword, extractElementName} from './analyzer';
 
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
@@ -50,7 +50,8 @@ let currentElements = [],
     currentKeyword,
     currentElementName,
     currentDateTime,
-    vocsIsActivated = false;
+    vocsIsActivated = false,
+    vocsIswaiting = false;
 
 let day,
     week,
@@ -89,6 +90,8 @@ $('.ti').each(function () {
  */
 export function performUserAction(input) {
 
+    showIndicator();
+
     let t0 = performance.now();
 
     let userCommand = input.toString().toLowerCase().trim(); //normalise string
@@ -98,22 +101,34 @@ export function performUserAction(input) {
     //Kontrollausgabe
     console.log('Keyword: ' + currentKeyword + ' || Element name: ' + currentElementName);
 
+    if(vocsIswaiting){
+        currentElementName = userCommand;
+        currentKeyword = VOCS;
+        vocsIswaiting = !vocsIswaiting;
+    }
+
+    if (REG_EXP_VOCS.test(currentKeyword) && !currentElementName && !vocsIswaiting) {
+        vocsIswaiting = !vocsIswaiting;
+        deactivationInterval();
+        return;
+    }
+
     //Prüfe, ob STOP eingegeben wurde
     if (currentKeyword && !currentElementName && (REG_EXP_STOP.test(currentKeyword) || REG_EXP_STOP.test(getRecognizedKeyword(currentKeyword)))) {
-        changeInputMode(MODE_NO_MODE);
-        currentMultipleElements = [];
+        stop();
         return;
     }
     //Ablauf nach dem aktuellen Modus, eins der Modi wird ausgeführt, nachdem Ein element mit dem entsprechenden Typ identifiziert wurde
     switch (currentMode) {
         case MODE_NO_MODE: //initial mode
             chooseAction(currentKeyword, currentElementName);//execute some event
+            console.log(currentElements);
             //more than one elements identified
             if (currentElements.length > 1) {
                 multipleElementsSelected(); //highlight elements
                 provideSystemStatus(STATE_MULTIPLE_MATCH, 'Please choose a NUMBER');
+                return;
             }
-            console.log(currentElements);
             break;
         case MODE_MULTIPLE: //more than one elements identified, number input required
             try {
@@ -121,20 +136,19 @@ export function performUserAction(input) {
                     userCommand = wordsToNumbers(userCommand, {fuzzy: true}); //convert - five --> 5
                 }
                 if (!checkNumberInterval(userCommand, currentMultipleElements.length)) {//Prüfe, ob die Zahl im vorgegebenen Interval liegt
-                    provideSystemStatus('Wrong Number', `enter a Number between 1 and ${currentMultipleElements.length}`);
+                    provideSystemStatus('Wrong Number', `Number between 1 and ${currentMultipleElements.length}`);
                     return; //Falls nicht, mach nichts
                 }
                 //Sonst entferne Markierung
                 $('.vocs_overlay').remove();//Entferne den Container
                 let elem = currentMultipleElements[parseInt(userCommand) - 1];//Gib das entsprechende Element, Position im Array: Eingabe - 1
                 handleElement(elem);//entscheide, was mit dem Element gemacht wird
-                currentMultipleElements = [];//lösche die gesamelten Elemente
                 provideSystemStatus('You choose:', userCommand);
-
             } catch (e) {
                 $('.vocs_overlay').remove();
                 console.error('Error im MULTIPLE mode: ' + e);
             }
+            currentMultipleElements = [];//lösche die gesamelten Elemente
             break;
         case MODE_TYPE: //Texteingabe Modus
             if (!currentInputField) {
@@ -174,12 +188,12 @@ export function performUserAction(input) {
             }
             try {
                 executeSelection(currentSelect, currentSelect.select.value[parseInt(userCommand) - 1]); //Option auswählen
-                changeInputMode(MODE_NO_MODE); //Modus --> MODE_NO_MODE
                 $('.vocs_overlay').remove(); //Container entfernen
             } catch (e) {
                 console.log(e);
                 $('.vocs_overlay').remove();
             }
+            stop();
             break;
         case MODE_DATE_TIME: //Datums-Zeiteingabe Modus
             if (!currentDateTime && !userCommand) {
@@ -202,14 +216,18 @@ export function performUserAction(input) {
             } catch (e) {
                 console.warn(e);
             }
+            stop();
             break;
         default:
-            clearCurrentElements(); // entferne Daten des aktuellen Ablaufs
+            stop(); // entferne Daten des aktuellen Ablaufs
             break;
     }
     clearCurrentElements();
     let t1 = performance.now();
     console.log('Execution time: ' + (t1 - t0) + ' mil');
+    console.log('CurrentElements on end: ');
+    console.log(currentElements);
+    console.log(currentMultipleElements);
 }
 
 /**
@@ -655,9 +673,7 @@ function changeInputMode(newInputMode) {
             currentSelect.elem.blur();
             currentSelect = null;
         }
-        clearCurrentElements();
     }
-    console.log('------Current MODE------: ' + currentMode);
 }
 
 /**
@@ -675,28 +691,36 @@ function clearDateTimeValues() {
 }
 
 function deactivationInterval() {
-    showLogo();
     let i = 0;
     let interval = setInterval( () => {
         i += 1;
-        if (i === 20 && vocsIsActivated){
+        if (i === 20 && (vocsIsActivated || vocsIswaiting)) {
+            if (vocsIswaiting) {vocsIswaiting = !vocsIswaiting;}
             vocsIsActivated = !vocsIsActivated;
             console.error('!!!VOCS deactivated!!!');
-            showLogo();
+            showIndicator();
         } else if (!vocsIsActivated) {
             i = 0;
+            showIndicator();
             clearInterval(interval);
-            setTimeout( showLogo(), 500)
-            /*showLogo();*/
         }
     }, 500)
 }
 
-function showLogo() {
+function stop() {
+    showIndicator();
+    changeInputMode(MODE_NO_MODE);
+    clearCurrentElements();
+    currentMultipleElements = [];
+    console.log('------Current MODE------: ' + currentMode);
+}
+function showIndicator() {
     let logo = $('#vocs_logo');
     if (vocsIsActivated){
         logo.show();
     }else {
-        logo.hide();
+        setTimeout(() => {
+            logo.hide();
+        }, 500);
     }
 }

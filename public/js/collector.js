@@ -98,7 +98,6 @@ export function search(name) {
         }
     }
     highestScore = Math.max(...highestScore);
-    let sortedElements = [];
     for (let i = 0; i < foundedElements.length; i++) {
         elem = foundedElements[i];
         if(elem.score < highestScore) {
@@ -123,8 +122,9 @@ function computeScore(text, userInput, second) {
     let currentScore = 0;
     text = normalizeStringFoSearch(text);
     userInput = normalizeStringFoSearch(userInput);
+/*
     console.warn('Text:' + text + ' || Input: ' +  userInput);
-
+    */
     for (let i = 0; i < text.length; i++ ) {
         for (let j = 0; j < userInput.length; j++ ) {
             if (second) {
@@ -133,7 +133,6 @@ function computeScore(text, userInput, second) {
                 if (compareStrings(text[i], userInput[j]) > 0 ) { currentScore += compareStrings(text[i], userInput[j]); }
             }
         }
-        //console.log('Current score for:' + text[i] + ' is ' + score);
     }
     score = currentScore;
     return currentScore > 0;

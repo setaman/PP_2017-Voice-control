@@ -24,18 +24,18 @@ function buildElement(elem) {
     let currentLabel = getLabel(elem);
     return {
         elem: elem, //HTML - Element
-        text: getText(elem), //Text - Inhalt
-        label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '), //LABEL - Text bei Inputs
-        value: getValueAttribute(elem), //VALUE - Attribut
-        placeholder: getPlaceholderAttribute(elem), //PLACEHOLDER - Attribut bei Eingabefeldern
-        position: getPosition(currentLabel ? currentLabel : elem), //POSITION eines Elements im Browserfenster
-        dimensions: getDimensions(currentLabel ? currentLabel : elem), //Dimensionen eines Elements
-        type: getTypeOfElement(elem), //TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE oder TYPE_DATE_TIME
+        text: getText(elem), //Text content
+        label: $(currentLabel).text().trim().toLowerCase().replace(/\s{2,}/g, ' '), //LABEL for input fields
+        value: getValueAttribute(elem), //VALUE attribute
+        placeholder: getPlaceholderAttribute(elem), //PLACEHOLDER attribute for input fields
+        position: getPosition(currentLabel ? currentLabel : elem), //POSITION from Element in browser window
+        dimensions: getDimensions(currentLabel ? currentLabel : elem), //Dimensions of an element
+        type: getTypeOfElement(elem), //TYPE_CLICKABLE, TYPE_FOCUSABLE, TYPE_SELECTABLE or TYPE_DATE_TIME
         score: 0, //Score needed for searching
-        select: { //benötigte Daten eines Selects
-            option: getOptions(elem), // Optionen
-            value: getOptionsValues(elem), //Value der Optionen
-            selected: getSelectedOption(elem) // aktuell selektierte Option
+        select: { //Select data
+            option: getOptions(elem), // options
+            value: getOptionsValues(elem), //Value of options
+            selected: getSelectedOption(elem) // current selected option
         }
     };
 }
@@ -90,11 +90,11 @@ export function getLabel(elem) {
     }
 
     if (element_id && selectedLabels && selectedLabels.length > 0) {
-        //Label gefunden
+        //Label founded
         if (selectedLabels.length === 1) {
             return selectedLabels[0];
         } else if (selectedLabels.length > 1) {
-            //Element hat mehrere Labels
+            //Element has many labels
             for (let i = 0; i < selectedLabels.length; i++) {
                 if (selectedLabels[i].textContent.trim().length > 0) {
                     return selectedLabels[i];
@@ -183,7 +183,9 @@ function getOptionsValues(elem) {
 }
 
 export function getTypeOfElement(element) {
+/*
     let clickable = CLICK_SELECTORS + ',' + CHECK_SELECTORS;
+*/
     let focusable = FOCUS_SELECTORS;
     let selectable = SELECT_SELECTORS;
     let dateime = DATE_TIME_SELECTORS;
@@ -193,9 +195,7 @@ export function getTypeOfElement(element) {
     let typeS = TYPE_SELECTABLE;
     let typeDT = TYPE_DATE_TIME;
 
-    if ($(element).is(clickable)) {
-        return typeC;
-    } else if ($(element).is(focusable)) {
+    if ($(element).is(focusable)) {
         return typeF;
     } else if ($(element).is(selectable)) {
         return typeS;
