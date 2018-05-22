@@ -5,8 +5,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        index:'.test-site/public/js/index-scripts/index.js',
-        vocs:'./public/js/vocs.js'
+        vocs: './public/js/vocs.js'
     },
     output: {
         filename: '[name].js',
@@ -39,15 +38,21 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 }
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    {loader: 'style-loader'},
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true
+                        }
+                    }
+                ]
             }
         ],
 
-        loaders: [
-            {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
-            }
-        ]
     }
 
 };

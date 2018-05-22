@@ -39,8 +39,8 @@ import {
 
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
-//import '../css/vocs_styles.css'
 import visualize from './visualizer';
+import './ui';
 
 let currentElements = [],
     currentMultipleElements = [],

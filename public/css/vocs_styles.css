@@ -19,9 +19,9 @@
 }
 .vocs_multiple_select_wrapper {
     padding: 10px 0 10px 0;
-    position:relative; !important;
-    box-shadow: 0 0 5px #2f2f2f; !important;
-    min-width: 70px; !important;
+    position:relative !important;
+    box-shadow: 0 0 5px #2f2f2f !important;
+    min-width: 70px !important;
     z-index: 2000;
     border: 3px solid #48b1ff;
     opacity: 0.7;
