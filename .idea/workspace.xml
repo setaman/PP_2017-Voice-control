@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/public/js/useri.js" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js" afterPath="$PROJECT_DIR$/dist/vocs.js" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js.map" afterPath="$PROJECT_DIR$/dist/vocs.js.map" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change beforePath="$PROJECT_DIR$/public/css/vocs_styles.css" afterPath="$PROJECT_DIR$/public/css/vocs_styles.css" />
       <change beforePath="$PROJECT_DIR$/public/js/controller.js" afterPath="$PROJECT_DIR$/public/js/controller.js" />
+      <change beforePath="$PROJECT_DIR$/public/js/useri.js" afterPath="$PROJECT_DIR$/public/js/useri.js" />
       <change beforePath="$PROJECT_DIR$/test-site" afterPath="$PROJECT_DIR$/test-site" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" afterPath="$PROJECT_DIR$/webpack.config.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -38,8 +34,8 @@
       <file leaf-file-name="useri.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/useri.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+            <state relative-caret-position="72">
+              <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -48,8 +44,8 @@
       <file leaf-file-name="controller.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="45" column="17" lean-forward="false" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="17" />
+            <state relative-caret-position="180">
+              <caret line="42" column="17" lean-forward="false" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
               <folding>
                 <element signature="e#44#461#0" expanded="true" />
               </folding>
@@ -177,11 +173,11 @@
         <option value="$PROJECT_DIR$/test-site/app.js" />
         <option value="$PROJECT_DIR$/test-site/test.js" />
         <option value="$PROJECT_DIR$/test-site/test-app.js" />
-        <option value="$PROJECT_DIR$/public/js/controller.js" />
         <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
         <option value="$PROJECT_DIR$/public/js/hui.js" />
         <option value="$PROJECT_DIR$/public/js/ui.js" />
+        <option value="$PROJECT_DIR$/public/js/controller.js" />
         <option value="$PROJECT_DIR$/public/js/useri.js" />
       </list>
     </option>
@@ -509,14 +505,7 @@
       <workItem from="1526463833736" duration="265000" />
       <workItem from="1526464186804" duration="944000" />
       <workItem from="1526967437559" duration="182000" />
-      <workItem from="1526968145019" duration="8175000" />
-    </task>
-    <task id="LOCAL-00063" summary="implement selecting options for native select element">
-      <created>1516575386931</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1516575386931</updated>
+      <workItem from="1526968145019" duration="8587000" />
     </task>
     <task id="LOCAL-00064" summary="scrolling for nested custom select container, search for selects optimized">
       <created>1516656124368</created>
@@ -854,11 +843,18 @@
       <option name="project" value="LOCAL" />
       <updated>1526987150355</updated>
     </task>
-    <option name="localTasksCounter" value="112" />
+    <task id="LOCAL-00112" summary="added ui template">
+      <created>1526989844526</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1526989844526</updated>
+    </task>
+    <option name="localTasksCounter" value="113" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="718004000" />
+    <option name="totallyTimeSpent" value="718416000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -880,7 +876,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32717392" sideWeight="0.50421494" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.54213196" sideWeight="0.49578503" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.54213196" sideWeight="0.49578503" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328934" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2822335" sideWeight="0.49789253" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -964,7 +960,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Merge branch 'feature/WSC-5-vocs-object' into feature/WSC-4-all-new-features-branche&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;dist/bundle.js&#10;#&#9;dist/bundle.js.map&#10;#&#9;public/js/controller.js&#10;#&#9;views/index.ejs" />
     <MESSAGE value="export main function" />
     <MESSAGE value="keywords now can be used only isolated" />
     <MESSAGE value="debugging for isolation" />
@@ -989,7 +984,8 @@
     <MESSAGE value="some debugging" />
     <MESSAGE value="restructure project: split project into vocs and testsite" />
     <MESSAGE value="edit webpack config" />
-    <option name="LAST_COMMIT_MESSAGE" value="edit webpack config" />
+    <MESSAGE value="added ui template" />
+    <option name="LAST_COMMIT_MESSAGE" value="added ui template" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1354,8 +1350,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="45" column="17" lean-forward="false" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="17" />
+        <state relative-caret-position="180">
+          <caret line="42" column="17" lean-forward="false" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
           <folding>
             <element signature="e#44#461#0" expanded="true" />
           </folding>
@@ -1364,8 +1360,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/useri.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        <state relative-caret-position="72">
+          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
           <folding />
         </state>
       </provider>
