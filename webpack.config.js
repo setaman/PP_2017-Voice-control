@@ -5,7 +5,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        index:'./public/js/index-scripts/index.js',
+        index:'.test-site/public/js/index-scripts/index.js',
         vocs:'./public/js/vocs.js'
     },
     output: {
@@ -24,10 +24,6 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             NODE_ENV: JSON.stringify(NODE_ENV)
-        }),
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
         }),
         new ExtractTextPlugin('[name].css')
     ],
