@@ -5050,15 +5050,12 @@ $('.ti').each(function () {
     performUserAction($(this).text());
   });
 });
-$(document).ready(function () {
-  console.error('Draw ui');
 
-  _useri.ui.drawUI();
+_useri.ui.drawUI();
 
-  _useri.ui.statusNoActive();
+_useri.ui.statusNoActive();
 
-  console.error(_useri.ui);
-});
+console.error(_useri.ui);
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt
  * @param input - recognized User command
@@ -30968,6 +30965,7 @@ var string_status_en = [{
     secondary: 'Please update your Browser'
   }
 }];
+var inputTextInterval = null;
 var uiTemplate = $("<div class=\"vocs_ui_container\">\n    <div class=\"vocs_ui\">\n        <div class=\"vocs_ui_control\">\n            <img class=\"vocs_ui_logo\" src=\"./public/images/vocs_ui_logo.svg\">\n            <img class=\"vocs_ui_icon\" src=\"./public/images/vocs_ui_start.svg\">\n        </div>\n        <div class=\"vocs_ui_info\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n        </div>\n        <div class=\"vocs_ui_display\">\n            <p class=\"vocs_ui_primary_text\">Your browser is not supported</p>\n            <p class=\"vocs_ui_secondary_text\">Please update your browser</p>\n        </div>\n        <div class=\"vocs_ui_size\">\n            <img class=\"vocs_ui_min\" src=\"./public/images/vocs_ui_min.svg\">\n            <img class=\"vocs_ui_resize\" src=\"./public/images/vocs_ui_resize.svg\">\n        </div>\n    </div>\n    <div class=\"vocs_ui_input\">\n        <p class=\"vocs_ui_input_text\">Your browser is not supported</p>\n    </div>\n  \n</div>");
 var strings = {
   status: []
@@ -30990,6 +30988,7 @@ function () {
     this.textInput;
     this.logo;
     this.icon;
+    this.textInputContainer;
   }
 
   _createClass(UI, [{
@@ -31016,22 +31015,24 @@ function () {
       this.textInput = $('.vocs_ui_input_text');
       this.logo = $('.vocs_ui_logo');
       this.icon = $('.vocs_ui_icon');
+      this.textInputContainer = $('.vocs_ui_input');
+      this.textInputContainer.hide();
     }
   }, {
     key: "showLoading",
     value: function showLoading() {
-      $(this.logo).addClass('rotation');
+      this.logo.addClass('vocs_logo_rotation');
     }
   }, {
     key: "hideLoading",
     value: function hideLoading() {
-      $(this.logo).removeClass('rotation');
+      $(this.logo).removeClass('vocs_logo_rotation');
     }
   }, {
     key: "statusNoActive",
     value: function statusNoActive() {
-      $(this.textPrimary).text(strings.status[0].primary);
-      $(this.textSecondary).text(strings.status[0].secondary);
+      this.textPrimary.text(strings.status[0].primary);
+      this.textSecondary.text(strings.status[0].secondary);
     }
   }, {
     key: "statusActive",
@@ -31048,12 +31049,32 @@ function () {
   }, {
     key: "setInputText",
     value: function setInputText(text) {
-      if (text.length > 35) {
+      var _this = this;
+
+      this.textInputContainer.show(500);
+
+      if (text.length > 100) {
         var limitedRecognitionText = text.slice(text.length - 35, text.length);
         this.textInput.text(limitedRecognitionText);
       } else {
         $(this.textInput).text(text);
       }
+
+      var i = 0;
+
+      if (inputTextInterval) {
+        clearInterval(inputTextInterval);
+      }
+
+      inputTextInterval = setInterval(function () {
+        i += 1;
+
+        if (i === 5) {
+          inputTextInterval = undefined;
+
+          _this.textInputContainer.hide(500);
+        }
+      }, 500);
     }
   }]);
 

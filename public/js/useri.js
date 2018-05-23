@@ -33,6 +33,7 @@ let string_status_en = [
     }
 ];
 
+let inputTextInterval = null;
 let uiTemplate = $(
     `<div class="vocs_ui_container">
     <div class="vocs_ui">
@@ -74,6 +75,7 @@ class UI {
         this.textInput;
         this.logo;
         this.icon;
+        this.textInputContainer;
     }
 
     showUI() {
@@ -97,19 +99,21 @@ class UI {
         this.textInput = $('.vocs_ui_input_text');
         this.logo = $('.vocs_ui_logo');
         this.icon = $('.vocs_ui_icon');
+        this.textInputContainer = $('.vocs_ui_input');
+        this.textInputContainer.hide();
     }
 
     showLoading() {
-        $(this.logo).addClass('rotation');
+        this.logo.addClass('vocs_logo_rotation');
     }
 
     hideLoading() {
-        $(this.logo).removeClass('rotation');
+        $(this.logo).removeClass('vocs_logo_rotation');
     }
 
     statusNoActive() {
-        $(this.textPrimary).text(strings.status[0].primary);
-        $(this.textSecondary).text(strings.status[0].secondary);
+        this.textPrimary.text(strings.status[0].primary);
+        this.textSecondary.text(strings.status[0].secondary);
     }
 
     statusActive() {
@@ -129,12 +133,26 @@ class UI {
     }
 
     setInputText(text) {
-        if (text.length > 35) {
+        this.textInputContainer.show(500);
+        if (text.length > 100) {
             let limitedRecognitionText = text.slice(text.length - 35, text.length);
             this.textInput.text(limitedRecognitionText);
         } else {
             $(this.textInput).text(text);
         }
+
+        let i = 0;
+
+        if (inputTextInterval) {
+            clearInterval(inputTextInterval);
+        }
+        inputTextInterval = setInterval(() => {
+            i += 1;
+            if (i === 5) {
+                inputTextInterval = undefined;
+                this.textInputContainer.hide(500);
+            }
+        }, 500)
     }
 }
 

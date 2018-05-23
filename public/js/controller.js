@@ -84,12 +84,11 @@ $('.ti').each(function () {
     })
 });
 
-$( document ).ready(() => {
-    console.error('Draw ui');
-    ui.drawUI();
-    ui.statusNoActive();
-    console.error(ui);
-});
+
+ui.drawUI();
+ui.statusNoActive();
+console.error(ui);
+
 
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt
@@ -687,9 +686,9 @@ function clearDateTimeValues() {
 function deactivationInterval() {
     showLogo();
     let i = 0;
-    let interval = setInterval( () => {
+    let interval = setInterval(() => {
         i += 1;
-        if (i === 20 && vocsIsActivated){
+        if (i === 20 && vocsIsActivated) {
             vocsIsActivated = !vocsIsActivated;
             console.error('!!!VOCS deactivated!!!');
             showLogo();
@@ -703,9 +702,9 @@ function deactivationInterval() {
 
 function showLogo() {
     let logo = $('#vocs_logo');
-    if (vocsIsActivated){
+    if (vocsIsActivated) {
         logo.show();
-    }else {
+    } else {
         logo.hide();
     }
 }
