@@ -123,7 +123,7 @@ class UI {
                 this.isActive = false;
                 this.liveIcon.hide(500);
                 this.startIcon.show(500);
-                this.statusNoActive();
+                this.statusNotActive();
             }else {
                 this.isActive = true;
                 this.statusActive();
@@ -141,9 +141,10 @@ class UI {
         $(this.logo).removeClass('vocs_logo_rotation');
     }
 
-    statusNoActive() {
+    statusNotActive() {
         this.hideStatusText();
         this.textPrimary.text(strings.status[0].status_noactive.primary);
+        this.textPrimary.css('color', 'white');
         this.textSecondary.text(strings.status[0].status_noactive.secondary);
         this.showStatusText();
     }

@@ -4389,7 +4389,7 @@ function () {
 
           _this.startIcon.show(500);
 
-          _this.statusNoActive();
+          _this.statusNotActive();
         } else {
           _this.isActive = true;
 
@@ -4412,10 +4412,11 @@ function () {
       $(this.logo).removeClass('vocs_logo_rotation');
     }
   }, {
-    key: "statusNoActive",
-    value: function statusNoActive() {
+    key: "statusNotActive",
+    value: function statusNotActive() {
       this.hideStatusText();
       this.textPrimary.text(strings.status[0].status_noactive.primary);
+      this.textPrimary.css('color', 'white');
       this.textSecondary.text(strings.status[0].status_noactive.secondary);
       this.showStatusText();
     }
@@ -5305,7 +5306,7 @@ $('.ti').each(function () {
 
 _useri.ui.drawUI();
 
-_useri.ui.statusNoActive();
+_useri.ui.statusNotActive();
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt
  * @param input - recognized User command
