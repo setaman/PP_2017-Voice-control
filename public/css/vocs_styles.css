@@ -167,6 +167,7 @@ Vocs ui
     transition: all 0.5s;
     width: 90px;
     border-radius: 37px;
+    border: transparent 2px solid;
     height: 100%;
     /*border: 2px solid #1891ff;*/
     /*box-shadow: 0 0 10px rgba(24, 145, 255, .7);*/
@@ -176,6 +177,10 @@ Vocs ui
     /*background: #005763;*/
     cursor: pointer;
     position: relative;
+    animation-name: vocs_ui_pulse;
+    animation-duration: 1.5s;
+    animation-iteration-count: 5;
+    animation-timing-function: linear;
 }
 
 .vocs_ui_control:hover {
@@ -190,9 +195,9 @@ Vocs ui
 }
 
 .vocs_logo_rotation {
-    -webkit-animation: rotation 1.5s infinite linear;
+    -webkit-animation: vocs_logo_rotation 1.5s infinite linear;
 }
-@-webkit-keyframes rotation {
+@-webkit-keyframes vocs_logo_rotation {
     from {
         -webkit-transform: rotate(0deg);
     }
@@ -202,7 +207,7 @@ Vocs ui
 }
 
 
-.vocs_ui_control .vocs_ui_icon {
+.vocs_ui_control .vocs_ui_start_icon {
     height: 70%;
     width: 70%;
     fill: #1891ff;
@@ -312,6 +317,34 @@ Vocs ui
 
 .vocs_ui_min:hover, .vocs_ui_resize:hover {
     background: rgba(0, 91, 122, 0.51);
+}
+
+.vocs_ui_live_icon {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: #bd3b3b;
+    animation-name: pulse;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    border-radius: 15px;
+    outline: none;
+    display: inline-block;
+    vertical-align: middle;
+    content: "";
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 3px 0 rgba(234, 68, 68, 0.6);
+    }
+    65% {
+        box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0.3);
+    }
+    90% {
+        box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0);
+    }
 }
 /*
 Vocs ui

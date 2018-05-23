@@ -4943,6 +4943,10 @@ function setupWebSpeechRecognitionAPI() {
     recognition.start();
 
     recognition.onresult = function (event) {
+      if (!_useri.ui.isActive) {
+        return;
+      }
+
       var recognitionResult = event.results[0][0].transcript;
       var transcript = Array.from(event.results).map(function (result) {
         return result[0];
@@ -4956,7 +4960,6 @@ function setupWebSpeechRecognitionAPI() {
         _useri.ui.setInputText(recognitionResult);
 
         if (event.results[0].isFinal) {
-          (0, _controller.provideSystemStatus)('You Say', recognitionResult);
           console.warn((0, _fuzzy_search.fuzzySearchForVocs)(recognitionResult));
           console.warn(recognitionResult);
           (0, _controller.performUserAction)(recognitionResult);
@@ -4975,6 +4978,8 @@ function setupWebSpeechRecognitionAPI() {
       console.error(e);
     };
   } catch (e) {
+    _useri.ui.statusError();
+
     console.error('Web Speech error: ' + e);
   }
 }
@@ -5054,12 +5059,11 @@ $('.ti').each(function () {
 _useri.ui.drawUI();
 
 _useri.ui.statusNoActive();
-
-console.error(_useri.ui);
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt
  * @param input - recognized User command
  */
+
 
 function performUserAction(input) {
   var t0 = performance.now();
@@ -5264,7 +5268,8 @@ function chooseAction(keyword, userCommand) {
     if (currentElements.length === 1) {
       handleElement(currentElements[0]); //entscheide, was mit dem Element gemacht wird
     } else if (currentElements.length === 0) {
-      provideSystemStatus(_const.STATE_NO_MATCH, 'Please try again');
+      _useri.ui.statusNoFound();
+
       console.error('-------------No element found------------------');
     }
 
@@ -30966,14 +30971,14 @@ var string_status_en = [{
   }
 }];
 var inputTextInterval = null;
-var uiTemplate = $("<div class=\"vocs_ui_container\">\n    <div class=\"vocs_ui\">\n        <div class=\"vocs_ui_control\">\n            <img class=\"vocs_ui_logo\" src=\"./public/images/vocs_ui_logo.svg\">\n            <img class=\"vocs_ui_icon\" src=\"./public/images/vocs_ui_start.svg\">\n        </div>\n        <div class=\"vocs_ui_info\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n        </div>\n        <div class=\"vocs_ui_display\">\n            <p class=\"vocs_ui_primary_text\">Your browser is not supported</p>\n            <p class=\"vocs_ui_secondary_text\">Please update your browser</p>\n        </div>\n        <div class=\"vocs_ui_size\">\n            <img class=\"vocs_ui_min\" src=\"./public/images/vocs_ui_min.svg\">\n            <img class=\"vocs_ui_resize\" src=\"./public/images/vocs_ui_resize.svg\">\n        </div>\n    </div>\n    <div class=\"vocs_ui_input\">\n        <p class=\"vocs_ui_input_text\">Your browser is not supported</p>\n    </div>\n  \n</div>");
+var uiTemplate = $("<div class=\"vocs_ui_container\">\n    <div class=\"vocs_ui\">\n        <div class=\"vocs_ui_control\">\n            <img class=\"vocs_ui_logo\" src=\"./public/images/vocs_ui_logo.svg\">\n            <img class=\"vocs_ui_start_icon\" src=\"./public/images/vocs_ui_start.svg\">\n            <span class=\"vocs_ui_live_icon\"></span>\n        </div>\n        <div class=\"vocs_ui_info\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n        </div>\n        <div class=\"vocs_ui_display\">\n            <p class=\"vocs_ui_primary_text\">Your browser is not supported</p>\n            <p class=\"vocs_ui_secondary_text\">Please update your browser</p>\n        </div>\n        <div class=\"vocs_ui_size\">\n            <img class=\"vocs_ui_min\" src=\"./public/images/vocs_ui_min.svg\">\n            <img class=\"vocs_ui_resize\" src=\"./public/images/vocs_ui_resize.svg\">\n        </div>\n    </div>\n    <div class=\"vocs_ui_input\">\n        <p class=\"vocs_ui_input_text\">Your browser is not supported</p>\n    </div>\n  \n</div>");
 var strings = {
   status: []
 };
 
 (_strings$status = strings.status).push.apply(_strings$status, string_status_en);
 
-console.log(strings);
+console.log(strings.status[0].status_noactive.primary);
 
 var UI =
 /*#__PURE__*/
@@ -30982,6 +30987,9 @@ function () {
     _classCallCheck(this, UI);
 
     this.isActive = false;
+    this.startButton;
+    this.startIcon;
+    this.liveIcon;
     this.uiContainer;
     this.textPrimary;
     this.textSecondary;
@@ -31007,16 +31015,37 @@ function () {
   }, {
     key: "drawUI",
     value: function drawUI() {
+      var _this = this;
+
       $('body').append(uiTemplate);
-      this.isActive = false;
       this.uiContainer = $('.vocs_ui_container');
+      this.startButton = $('.vocs_ui_control');
+      this.startIcon = $('.vocs_ui_start_icon');
+      this.liveIcon = $('.vocs_ui_live_icon');
       this.textPrimary = $('.vocs_ui_primary_text');
       this.textSecondary = $('.vocs_ui_secondary_text');
       this.textInput = $('.vocs_ui_input_text');
       this.logo = $('.vocs_ui_logo');
-      this.icon = $('.vocs_ui_icon');
       this.textInputContainer = $('.vocs_ui_input');
       this.textInputContainer.hide();
+      this.liveIcon.hide();
+      this.startButton.click(function () {
+        if (_this.isActive) {
+          _this.isActive = false;
+
+          _this.liveIcon.hide(500);
+
+          _this.startIcon.show(500);
+        } else {
+          _this.isActive = true;
+
+          _this.statusActive();
+
+          _this.startIcon.hide(500);
+
+          _this.liveIcon.show(500);
+        }
+      });
     }
   }, {
     key: "showLoading",
@@ -31031,25 +31060,41 @@ function () {
   }, {
     key: "statusNoActive",
     value: function statusNoActive() {
-      this.textPrimary.text(strings.status[0].primary);
-      this.textSecondary.text(strings.status[0].secondary);
+      this.textPrimary.text(strings.status[0].status_noactive.primary);
+      this.textSecondary.text(strings.status[0].status_noactive.secondary);
     }
   }, {
     key: "statusActive",
-    value: function statusActive() {}
+    value: function statusActive() {
+      this.textPrimary.text(strings.status[1].status_active.primary);
+      this.textPrimary.css('color', 'green');
+      this.textSecondary.text(strings.status[1].status_active.secondary);
+    }
   }, {
     key: "statusError",
-    value: function statusError() {}
+    value: function statusError() {
+      this.textPrimary.text(strings.status[2].status_error.primary);
+      this.textPrimary.css('color', 'red');
+      this.textSecondary.text(strings.status[2].status_error.secondary);
+    }
   }, {
     key: "statusNoFound",
-    value: function statusNoFound() {}
+    value: function statusNoFound() {
+      this.textPrimary.text(strings.status[3].status_nofound.primary);
+      this.textPrimary.css('color', 'yellow');
+      this.textSecondary.text(strings.status[3].status_nofound.secondary);
+    }
   }, {
     key: "statusNoSupport",
-    value: function statusNoSupport() {}
+    value: function statusNoSupport() {
+      this.textPrimary.text(strings.status[4].primary);
+      this.textPrimary.css('color', 'red');
+      this.textSecondary.text(strings.status[4].secondary);
+    }
   }, {
     key: "setInputText",
     value: function setInputText(text) {
-      var _this = this;
+      var _this2 = this;
 
       this.textInputContainer.show(500);
 
@@ -31072,7 +31117,7 @@ function () {
         if (i === 5) {
           inputTextInterval = undefined;
 
-          _this.textInputContainer.hide(500);
+          _this2.textInputContainer.hide(500);
         }
       }, 500);
     }
@@ -31124,7 +31169,7 @@ exports = module.exports = __webpack_require__(199)(false);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&subset=cyrillic);", ""]);
 
 // module
-exports.push([module.i, "/*   Full screen transparent overlay container for highlighting*/\r\n._3Un7tDSjz07M3890ABXm7r {\r\n    /*position: fixed;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;*/\r\n    background-color: transparent;\r\n    cursor: pointer;\r\n    z-index: 2000;\r\n}\r\n/*****************************************\r\n   highlighting for many selected Elements\r\n */\r\n._2VikNnKvE5wvO5Iab21XpY{\r\n    position: absolute;\r\n}\r\n._2vf9vtkXNvAd4vmLP8TpEk {\r\n    padding: 10px 0 10px 0;\r\n    position:relative !important;\r\n    box-shadow: 0 0 5px #2f2f2f !important;\r\n    min-width: 70px !important;\r\n    z-index: 2000;\r\n    border: 3px solid #48b1ff;\r\n    opacity: 0.7;\r\n}\r\n\r\n._2vf9vtkXNvAd4vmLP8TpEk[data-number]:after {\r\n    content:attr(data-number);\r\n    position:absolute;\r\n    top:-10px;\r\n    right:-10px;\r\n    font-size: 1.1em;\r\n    background: #474747;\r\n    color:white;\r\n    width:30px;\r\n    height:30px;\r\n    text-align:center;\r\n    line-height: 26px;\r\n    border: 2px solid white;\r\n    border-radius:50%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n}\r\n/*\r\n   highlighting for many selected Elements\r\n ***********************************************/\r\n\r\n/*****************************************\r\n   Custom select Container\r\n */\r\n._2Jbg0W8Hs2HD4RqOFLA_XI{\r\n    border: 3px solid #48b1ff;\r\n    position: absolute;\r\n   /* border: solid 2px #b8b8b8;*/\r\n    border-radius: 3px;\r\n    width: 200px;\r\n    max-height: 250px;\r\n    overflow: auto;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    -moz-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n}\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li{\r\n    height: 50px;\r\n    padding: 10px 0 10px 0;\r\n    list-style-type: none;\r\n    border-bottom: 1px solid #d5d5d5;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI span {\r\n    margin: 5px 10px 5px 5px;\r\n    font-size: 1.4em;\r\n    background: #1891ff;\r\n    color:white;\r\n    text-align:center;\r\n    border: 2px solid white;\r\n    border-radius: 20%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n    padding: 3px;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li:nth-child(even){\r\n    background: #efefef;\r\n}\r\n/*\r\n   Custom select Container\r\n ******************************************/\r\n\r\n/*****************************************\r\n   Container for Date/time\r\n */\r\n._1KQuv7_GDCVhZP8dlPcTUb {\r\n    position: absolute;\r\n    border: 3px solid #48b1ff;\r\n    border-radius: 3px;\r\n    max-height: 250px;\r\n    min-width: 200px;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    -moz-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n}\r\n\r\n._2I63HHT4PF4uabUCDHHmAZ {\r\n    font-weight: bold;\r\n    height: 40px;\r\n    padding: 10px;\r\n    border-bottom: 1px solid #d5d5d5;\r\n    background: #efefef\r\n\r\n}\r\n._2nU9o-f92x8MZTB48InUuf {\r\n    padding: 10px;\r\n    height: 40px;\r\n}\r\n/*\r\n   Container for Date/time\r\n ******************************************/\r\n/**********************************************************\r\nVocs ui\r\n */\r\n.izsA5af-VK70pYnlyNUWS {\r\n    transition: all .5s;\r\n    position: fixed;\r\n    left: 20px;\r\n    bottom: 20px;\r\n    font-family: 'Montserrat', sans-serif;\r\n    color: white;\r\n    /*opacity: 0.2;*/\r\n    filter: alpha(opacity=20);\r\n}\r\n\r\n.izsA5af-VK70pYnlyNUWS:hover {\r\n    opacity: 1;\r\n    filter: alpha(opacity=100);\r\n\r\n}\r\n\r\n._1Prg3Gl_GF_vjQRS0Y7MYA {\r\n    padding: 7px;\r\n    width: 600px;\r\n    height: 71px;\r\n    background: #02131D;\r\n    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    border: #1891ff 2px solid;\r\n    border-radius: 50px 10px 10px 50px;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    align-items: center;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk {\r\n    transition: all 0.5s;\r\n    width: 90px;\r\n    border-radius: 37px;\r\n    height: 100%;\r\n    /*border: 2px solid #1891ff;*/\r\n    /*box-shadow: 0 0 10px rgba(24, 145, 255, .7);*/\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    /*background: #005763;*/\r\n    cursor: pointer;\r\n    position: relative;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk:hover {\r\n    /*border: 2px solid #00D7FE;*/\r\n    box-shadow: 0 0 20px rgba(24, 145, 255, .8);\r\n    /*background: rgba(0, 215, 254, .2);*/\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk ._2Uj5fDSRV3fuaE_BerwiXN {\r\n    height: 100%;\r\n    width: 100%;\r\n}\r\n\r\n._1gFGPQKJXHDOQJPohsL72X {\r\n    -webkit-animation: _3p5KjkzbiJAxChM7v6Rte0 1.5s infinite linear;\r\n}\r\n@-webkit-keyframes _3p5KjkzbiJAxChM7v6Rte0 {\r\n    from {\r\n        -webkit-transform: rotate(0deg);\r\n    }\r\n    to {\r\n        -webkit-transform: rotate(359deg);\r\n    }\r\n}\r\n\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk ._3FOnSvqw76Fy772BECwJbs {\r\n    height: 70%;\r\n    width: 70%;\r\n    fill: #1891ff;\r\n    position: absolute;\r\n}\r\n\r\n._2c8qawjcDzRJybIjI1MIDd {\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    margin-left: 10px;\r\n    width: 50px;\r\n    height: 100%;\r\n}\r\n\r\n._2c8qawjcDzRJybIjI1MIDd img {\r\n    width: 100%;\r\n    height: 50%;\r\n}\r\n\r\n._1gLxdahFUn-VWTB2rRcWB0 {\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    border-radius: 5px;\r\n    margin-left: 10px;\r\n    border: 2px solid #00D7FE;\r\n    box-shadow: 0 0 10px rgba(0, 215, 254, .7);\r\n    width: 100%;\r\n    height: 100%;\r\n    background: #021e2a;\r\n}\r\n\r\n._2V8FAZp-XUg2Bsyi4Z7KWD, ._2VDB4pI95jjGOAr7UlwRMU {\r\n    margin: 5px 10px 5px 10px;\r\n    font-size: 1.2rem;\r\n}\r\n\r\n._2V8FAZp-XUg2Bsyi4Z7KWD:first-child {\r\n    font-weight: 500;\r\n}\r\n\r\n._20eTKhimOSamYE1Pn5M6pg {\r\n    padding: 0 10px;\r\n    background: #d5d5d5;\r\n    margin-top: 5px;\r\n    border-radius: 5px;\r\n    border: 2px solid gray;\r\n    height: 30px;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    justify-content: flex-start;\r\n    align-items: center;\r\n    color: gray;\r\n    font-weight: bold;\r\n    position: relative;\r\n}\r\n\r\n._20eTKhimOSamYE1Pn5M6pg:after {\r\n    content: '';\r\n    position: absolute;\r\n    top: 0;\r\n    left: 5%;\r\n    width: 0;\r\n    height: 0;\r\n    border: 8px solid transparent;\r\n    border-bottom-color: gray;\r\n    border-top: 0;\r\n    margin-left: -8px;\r\n    margin-top: -8px;\r\n}\r\n\r\n._3lWCYfxuSeivMXAGYeuoNu {\r\n    cursor: pointer;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin-left: 5px;\r\n    width: 25px;\r\n    height: 100%;\r\n}\r\n\r\n.HoC36CvVb4GjzkNIfv2gY{\r\n    padding: 5px 0;\r\n    transition: all 0.5s;\r\n    top: 0;\r\n    height: 20%;\r\n}\r\n._3nx6G8-zJjBnKHMfV3XvtP {\r\n    transition: all 0.5s;\r\n    height: 70%;\r\n}\r\n\r\n.HoC36CvVb4GjzkNIfv2gY:hover, ._3nx6G8-zJjBnKHMfV3XvtP:hover {\r\n    background: rgba(0, 91, 122, 0.51);\r\n}\r\n/*\r\nVocs ui\r\n *********************************************************/", ""]);
+exports.push([module.i, "/*   Full screen transparent overlay container for highlighting*/\r\n._3Un7tDSjz07M3890ABXm7r {\r\n    /*position: fixed;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;*/\r\n    background-color: transparent;\r\n    cursor: pointer;\r\n    z-index: 2000;\r\n}\r\n/*****************************************\r\n   highlighting for many selected Elements\r\n */\r\n._2VikNnKvE5wvO5Iab21XpY{\r\n    position: absolute;\r\n}\r\n._2vf9vtkXNvAd4vmLP8TpEk {\r\n    padding: 10px 0 10px 0;\r\n    position:relative !important;\r\n    box-shadow: 0 0 5px #2f2f2f !important;\r\n    min-width: 70px !important;\r\n    z-index: 2000;\r\n    border: 3px solid #48b1ff;\r\n    opacity: 0.7;\r\n}\r\n\r\n._2vf9vtkXNvAd4vmLP8TpEk[data-number]:after {\r\n    content:attr(data-number);\r\n    position:absolute;\r\n    top:-10px;\r\n    right:-10px;\r\n    font-size: 1.1em;\r\n    background: #474747;\r\n    color:white;\r\n    width:30px;\r\n    height:30px;\r\n    text-align:center;\r\n    line-height: 26px;\r\n    border: 2px solid white;\r\n    border-radius:50%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n}\r\n/*\r\n   highlighting for many selected Elements\r\n ***********************************************/\r\n\r\n/*****************************************\r\n   Custom select Container\r\n */\r\n._2Jbg0W8Hs2HD4RqOFLA_XI{\r\n    border: 3px solid #48b1ff;\r\n    position: absolute;\r\n   /* border: solid 2px #b8b8b8;*/\r\n    border-radius: 3px;\r\n    width: 200px;\r\n    max-height: 250px;\r\n    overflow: auto;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    -moz-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n}\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li{\r\n    height: 50px;\r\n    padding: 10px 0 10px 0;\r\n    list-style-type: none;\r\n    border-bottom: 1px solid #d5d5d5;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI span {\r\n    margin: 5px 10px 5px 5px;\r\n    font-size: 1.4em;\r\n    background: #1891ff;\r\n    color:white;\r\n    text-align:center;\r\n    border: 2px solid white;\r\n    border-radius: 20%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n    padding: 3px;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li:nth-child(even){\r\n    background: #efefef;\r\n}\r\n/*\r\n   Custom select Container\r\n ******************************************/\r\n\r\n/*****************************************\r\n   Container for Date/time\r\n */\r\n._1KQuv7_GDCVhZP8dlPcTUb {\r\n    position: absolute;\r\n    border: 3px solid #48b1ff;\r\n    border-radius: 3px;\r\n    max-height: 250px;\r\n    min-width: 200px;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    -moz-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n}\r\n\r\n._2I63HHT4PF4uabUCDHHmAZ {\r\n    font-weight: bold;\r\n    height: 40px;\r\n    padding: 10px;\r\n    border-bottom: 1px solid #d5d5d5;\r\n    background: #efefef\r\n\r\n}\r\n._2nU9o-f92x8MZTB48InUuf {\r\n    padding: 10px;\r\n    height: 40px;\r\n}\r\n/*\r\n   Container for Date/time\r\n ******************************************/\r\n/**********************************************************\r\nVocs ui\r\n */\r\n.izsA5af-VK70pYnlyNUWS {\r\n    transition: all .5s;\r\n    position: fixed;\r\n    left: 20px;\r\n    bottom: 20px;\r\n    font-family: 'Montserrat', sans-serif;\r\n    color: white;\r\n    /*opacity: 0.2;*/\r\n    filter: alpha(opacity=20);\r\n}\r\n\r\n.izsA5af-VK70pYnlyNUWS:hover {\r\n    opacity: 1;\r\n    filter: alpha(opacity=100);\r\n\r\n}\r\n\r\n._1Prg3Gl_GF_vjQRS0Y7MYA {\r\n    padding: 7px;\r\n    width: 600px;\r\n    height: 71px;\r\n    background: #02131D;\r\n    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    border: #1891ff 2px solid;\r\n    border-radius: 50px 10px 10px 50px;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    align-items: center;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk {\r\n    transition: all 0.5s;\r\n    width: 90px;\r\n    border-radius: 37px;\r\n    border: transparent 2px solid;\r\n    height: 100%;\r\n    /*border: 2px solid #1891ff;*/\r\n    /*box-shadow: 0 0 10px rgba(24, 145, 255, .7);*/\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    /*background: #005763;*/\r\n    cursor: pointer;\r\n    position: relative;\r\n    animation-name: _2xwEbWdeDQSdziMm0X21Xl;\r\n    animation-duration: 1.5s;\r\n    animation-iteration-count: 5;\r\n    animation-timing-function: linear;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk:hover {\r\n    /*border: 2px solid #00D7FE;*/\r\n    box-shadow: 0 0 20px rgba(24, 145, 255, .8);\r\n    /*background: rgba(0, 215, 254, .2);*/\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk ._2Uj5fDSRV3fuaE_BerwiXN {\r\n    height: 100%;\r\n    width: 100%;\r\n}\r\n\r\n._1gFGPQKJXHDOQJPohsL72X {\r\n    -webkit-animation: _1gFGPQKJXHDOQJPohsL72X 1.5s infinite linear;\r\n}\r\n@-webkit-keyframes _1gFGPQKJXHDOQJPohsL72X {\r\n    from {\r\n        -webkit-transform: rotate(0deg);\r\n    }\r\n    to {\r\n        -webkit-transform: rotate(359deg);\r\n    }\r\n}\r\n\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk .qQvTJ8ZNBhi4ivcao-f7p {\r\n    height: 70%;\r\n    width: 70%;\r\n    fill: #1891ff;\r\n    position: absolute;\r\n}\r\n\r\n._2c8qawjcDzRJybIjI1MIDd {\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    margin-left: 10px;\r\n    width: 50px;\r\n    height: 100%;\r\n}\r\n\r\n._2c8qawjcDzRJybIjI1MIDd img {\r\n    width: 100%;\r\n    height: 50%;\r\n}\r\n\r\n._1gLxdahFUn-VWTB2rRcWB0 {\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    border-radius: 5px;\r\n    margin-left: 10px;\r\n    border: 2px solid #00D7FE;\r\n    box-shadow: 0 0 10px rgba(0, 215, 254, .7);\r\n    width: 100%;\r\n    height: 100%;\r\n    background: #021e2a;\r\n}\r\n\r\n._2V8FAZp-XUg2Bsyi4Z7KWD, ._2VDB4pI95jjGOAr7UlwRMU {\r\n    margin: 5px 10px 5px 10px;\r\n    font-size: 1.2rem;\r\n}\r\n\r\n._2V8FAZp-XUg2Bsyi4Z7KWD:first-child {\r\n    font-weight: 500;\r\n}\r\n\r\n._20eTKhimOSamYE1Pn5M6pg {\r\n    padding: 0 10px;\r\n    background: #d5d5d5;\r\n    margin-top: 5px;\r\n    border-radius: 5px;\r\n    border: 2px solid gray;\r\n    height: 30px;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    justify-content: flex-start;\r\n    align-items: center;\r\n    color: gray;\r\n    font-weight: bold;\r\n    position: relative;\r\n}\r\n\r\n._20eTKhimOSamYE1Pn5M6pg:after {\r\n    content: '';\r\n    position: absolute;\r\n    top: 0;\r\n    left: 5%;\r\n    width: 0;\r\n    height: 0;\r\n    border: 8px solid transparent;\r\n    border-bottom-color: gray;\r\n    border-top: 0;\r\n    margin-left: -8px;\r\n    margin-top: -8px;\r\n}\r\n\r\n._3lWCYfxuSeivMXAGYeuoNu {\r\n    cursor: pointer;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin-left: 5px;\r\n    width: 25px;\r\n    height: 100%;\r\n}\r\n\r\n.HoC36CvVb4GjzkNIfv2gY{\r\n    padding: 5px 0;\r\n    transition: all 0.5s;\r\n    top: 0;\r\n    height: 20%;\r\n}\r\n._3nx6G8-zJjBnKHMfV3XvtP {\r\n    transition: all 0.5s;\r\n    height: 70%;\r\n}\r\n\r\n.HoC36CvVb4GjzkNIfv2gY:hover, ._3nx6G8-zJjBnKHMfV3XvtP:hover {\r\n    background: rgba(0, 91, 122, 0.51);\r\n}\r\n\r\n.GX4WZ--x4Z7mEu7sQ3CxA {\r\n    position: absolute;\r\n    width: 25px;\r\n    height: 25px;\r\n    background: #bd3b3b;\r\n    animation-name: _1SVKOzUfNAFVfTVJtjY1bq;\r\n    animation-duration: 1.5s;\r\n    animation-iteration-count: infinite;\r\n    animation-timing-function: linear;\r\n    border-radius: 15px;\r\n    outline: none;\r\n    display: inline-block;\r\n    vertical-align: middle;\r\n    content: \"\";\r\n}\r\n\r\n@keyframes _1SVKOzUfNAFVfTVJtjY1bq {\r\n    0% {\r\n        box-shadow: 0 0 3px 0 rgba(234, 68, 68, 0.6);\r\n    }\r\n    65% {\r\n        box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0.3);\r\n    }\r\n    90% {\r\n        box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0);\r\n    }\r\n}\r\n/*\r\nVocs ui\r\n *********************************************************/", ""]);
 
 // exports
 exports.locals = {
@@ -31138,10 +31183,10 @@ exports.locals = {
 	"vocs_ui_container": "izsA5af-VK70pYnlyNUWS",
 	"vocs_ui": "_1Prg3Gl_GF_vjQRS0Y7MYA",
 	"vocs_ui_control": "_3IU3ZMyNDvI_zCRnU8Mbgk",
+	"vocs_ui_pulse": "_2xwEbWdeDQSdziMm0X21Xl",
 	"vocs_ui_logo": "_2Uj5fDSRV3fuaE_BerwiXN",
 	"vocs_logo_rotation": "_1gFGPQKJXHDOQJPohsL72X",
-	"rotation": "_3p5KjkzbiJAxChM7v6Rte0",
-	"vocs_ui_icon": "_3FOnSvqw76Fy772BECwJbs",
+	"vocs_ui_start_icon": "qQvTJ8ZNBhi4ivcao-f7p",
 	"vocs_ui_info": "_2c8qawjcDzRJybIjI1MIDd",
 	"vocs_ui_display": "_1gLxdahFUn-VWTB2rRcWB0",
 	"vocs_ui_primary_text": "_2V8FAZp-XUg2Bsyi4Z7KWD",
@@ -31149,7 +31194,9 @@ exports.locals = {
 	"vocs_ui_input": "_20eTKhimOSamYE1Pn5M6pg",
 	"vocs_ui_size": "_3lWCYfxuSeivMXAGYeuoNu",
 	"vocs_ui_min": "HoC36CvVb4GjzkNIfv2gY",
-	"vocs_ui_resize": "_3nx6G8-zJjBnKHMfV3XvtP"
+	"vocs_ui_resize": "_3nx6G8-zJjBnKHMfV3XvtP",
+	"vocs_ui_live_icon": "GX4WZ--x4Z7mEu7sQ3CxA",
+	"pulse": "_1SVKOzUfNAFVfTVJtjY1bq"
 };
 
 /***/ }),

@@ -84,11 +84,8 @@ $('.ti').each(function () {
     })
 });
 
-
 ui.drawUI();
 ui.statusNoActive();
-console.error(ui);
-
 
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt
@@ -236,7 +233,7 @@ function chooseAction(keyword, userCommand) {
         if (currentElements.length === 1) {
             handleElement(currentElements[0]); //entscheide, was mit dem Element gemacht wird
         } else if (currentElements.length === 0) {
-            provideSystemStatus(STATE_NO_MATCH, 'Please try again');
+            ui.statusNoFound();
             console.error('-------------No element found------------------');
 
         }

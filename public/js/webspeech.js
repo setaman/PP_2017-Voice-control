@@ -24,7 +24,7 @@ export default function setupWebSpeechRecognitionAPI(){
         recognition.start();
 
         recognition.onresult = event => {
-
+            if (!ui.isActive) {return;}
             let recognitionResult = event.results[0][0].transcript;
 
             const transcript = Array.from(event.results)
@@ -37,7 +37,6 @@ export default function setupWebSpeechRecognitionAPI(){
             if (recognitionResult) {
                 ui.setInputText(recognitionResult);
                 if (event.results[0].isFinal) {
-                    provideSystemStatus('You Say', recognitionResult);
                     console.warn(fuzzySearchForVocs(recognitionResult));
                     console.warn(recognitionResult);
                     performUserAction(recognitionResult);
@@ -53,6 +52,7 @@ export default function setupWebSpeechRecognitionAPI(){
         };
     }
     catch (e) {
+        ui.statusError();
         console.error('Web Speech error: ' + e);
     }
 }
