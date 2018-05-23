@@ -48,10 +48,15 @@ let uiTemplate = $(
             <p class="vocs_ui_primary_text">Your browser is not supported</p>
             <p class="vocs_ui_secondary_text">Please update your browser</p>
         </div>
+        <div class="vocs_ui_size">
+            <img class="vocs_ui_min" src="./public/images/vocs_ui_min.svg">
+            <img class="vocs_ui_resize" src="./public/images/vocs_ui_resize.svg">
+        </div>
     </div>
     <div class="vocs_ui_input">
         <p class="vocs_ui_input_text">Your browser is not supported</p>
     </div>
+  
 </div>`);
 
 let strings = {
@@ -61,7 +66,7 @@ strings.status.push(...string_status_en);
 console.log(strings);
 
 class UI {
-    constructor () {
+    constructor() {
         this.isActive = false;
         this.uiContainer = $('vocs_ui_container');
         this.textPrimary = $('vocs_ui_primary_text');
@@ -95,20 +100,24 @@ class UI {
         $(this.logo).removeClass('rotation');
     }
 
-    statusNoActive(){
+    statusNoActive() {
         $(this.textPrimary).text(strings.status[0].primary);
         $(this.textSecondary).text(strings.status[0].secondary);
     }
-    statusActive(){
+
+    statusActive() {
 
     }
-    statusError(){
+
+    statusError() {
 
     }
-    statusNoFound(){
+
+    statusNoFound() {
 
     }
-    statusNoSupport(){
+
+    statusNoSupport() {
 
     }
 

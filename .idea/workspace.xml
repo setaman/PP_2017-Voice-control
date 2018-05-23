@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/public/images/vocs_ui_min.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/vocs_ui_resize.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/vocs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/vocs.js.map" afterDir="false" />
@@ -36,8 +38,8 @@
       <file leaf-file-name="useri.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/useri.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1024">
-              <caret line="74" column="36" selection-start-line="74" selection-start-column="36" selection-end-line="74" selection-end-column="36" />
+            <state relative-caret-position="484">
+              <caret line="55" column="31" lean-forward="true" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -63,8 +65,8 @@
       <file leaf-file-name="vocs_styles.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="738">
-              <caret line="183" column="40" selection-start-line="183" selection-start-column="4" selection-end-line="183" selection-end-column="42" />
+            <state relative-caret-position="694">
+              <caret line="297" column="2" lean-forward="true" selection-start-line="297" selection-start-column="2" selection-end-line="297" selection-end-column="2" />
             </state>
           </provider>
         </entry>
@@ -548,14 +550,7 @@
       <workItem from="1526056578431" duration="9669000" />
       <workItem from="1526117744203" duration="468000" />
       <workItem from="1526126570089" duration="12609000" />
-      <workItem from="1527072271805" duration="18697000" />
-    </task>
-    <task id="LOCAL-00066" summary="merge with WSC2">
-      <created>1517421254748</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1517421254748</updated>
+      <workItem from="1527072271805" duration="20214000" />
     </task>
     <task id="LOCAL-00067" summary="vocs class added">
       <created>1517435140393</created>
@@ -893,11 +888,18 @@
       <option name="project" value="LOCAL" />
       <updated>1527091025681</updated>
     </task>
-    <option name="localTasksCounter" value="115" />
+    <task id="LOCAL-00115" summary="changes for ui layout">
+      <created>1527097043910</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1527097043910</updated>
+    </task>
+    <option name="localTasksCounter" value="116" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="749815000" />
+    <option name="totallyTimeSpent" value="751332000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1012,7 +1014,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="search for labels optimized" />
     <MESSAGE value="search for labels optimized again" />
     <MESSAGE value="Merge branch 'hotfix/WSC-9-code-optimization' into feature/WSC-4-all-new-features-branche&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;public/js/element.js" />
     <MESSAGE value="'delete' for simple inputs implemented, also now with 'stop stop' 'stop' can be typed" />
@@ -1037,7 +1038,8 @@
     <MESSAGE value="vocs now can still waiting for user command after saying vocs" />
     <MESSAGE value="added vocs ui html and styling" />
     <MESSAGE value="added vocs ui controller class" />
-    <option name="LAST_COMMIT_MESSAGE" value="added vocs ui controller class" />
+    <MESSAGE value="changes for ui layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes for ui layout" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1321,6 +1323,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/useri.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="55" column="31" lean-forward="true" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Test.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -1328,17 +1337,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/useri.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1024">
-          <caret line="74" column="36" selection-start-line="74" selection-start-column="36" selection-end-line="74" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="738">
-          <caret line="183" column="40" selection-start-line="183" selection-start-column="4" selection-end-line="183" selection-end-column="42" />
+        <state relative-caret-position="694">
+          <caret line="297" column="2" lean-forward="true" selection-start-line="297" selection-start-column="2" selection-end-line="297" selection-end-column="2" />
         </state>
       </provider>
     </entry>
