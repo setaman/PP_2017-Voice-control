@@ -41,8 +41,7 @@ import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 import visualize from './visualizer';
 import {ui} from './useri';
-
-ui.drawUI();
+import Vocs from "./vocs";
 
 let currentElements = [],
     currentMultipleElements = [],
@@ -83,6 +82,13 @@ $('.ti').each(function () {
     $(this).click(function () {
         performUserAction($(this).text());
     })
+});
+
+$( document ).ready(() => {
+    console.error('Draw ui');
+    ui.drawUI();
+    ui.statusNoActive();
+    console.error(ui);
 });
 
 /*******************************************************************************************************************

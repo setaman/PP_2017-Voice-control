@@ -269,6 +269,21 @@ Vocs ui
     align-items: center;
     color: gray;
     font-weight: bold;
+    position: relative;
+}
+
+.vocs_ui_input:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-bottom-color: gray;
+    border-top: 0;
+    margin-left: -8px;
+    margin-top: -8px;
 }
 
 .vocs_ui_size {

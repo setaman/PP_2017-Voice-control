@@ -1,5 +1,7 @@
 import {performUserAction, provideSystemStatus} from './controller';
 import {fuzzySearchForVocs} from './fuzzy_search';
+import {ui} from './useri';
+
 /**
  *  Setup Google Speech Recognition
  */
@@ -30,9 +32,10 @@ export default function setupWebSpeechRecognitionAPI(){
                 .map(result => result.transcript)
                 .join('');
 
-            provideSystemStatus('Listen', transcript);
+            ui.setInputText(transcript);
 
             if (recognitionResult) {
+                ui.setInputText(recognitionResult);
                 if (event.results[0].isFinal) {
                     provideSystemStatus('You Say', recognitionResult);
                     console.warn(fuzzySearchForVocs(recognitionResult));

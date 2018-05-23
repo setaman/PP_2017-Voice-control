@@ -68,12 +68,12 @@ console.log(strings);
 class UI {
     constructor() {
         this.isActive = false;
-        this.uiContainer = $('vocs_ui_container');
-        this.textPrimary = $('vocs_ui_primary_text');
-        this.textSecondary = $('vocs_ui_secondary_text');
-        this.textInput = $('vocs_ui_input_text');
-        this.logo = $('vocs_ui_logo');
-        this.icon = $('vocs_ui_icon');
+        this.uiContainer;
+        this.textPrimary;
+        this.textSecondary;
+        this.textInput;
+        this.logo;
+        this.icon;
     }
 
     showUI() {
@@ -90,6 +90,13 @@ class UI {
 
     drawUI() {
         $('body').append(uiTemplate);
+        this.isActive = false;
+        this.uiContainer = $('.vocs_ui_container');
+        this.textPrimary = $('.vocs_ui_primary_text');
+        this.textSecondary = $('.vocs_ui_secondary_text');
+        this.textInput = $('.vocs_ui_input_text');
+        this.logo = $('.vocs_ui_logo');
+        this.icon = $('.vocs_ui_icon');
     }
 
     showLoading() {
@@ -121,8 +128,13 @@ class UI {
 
     }
 
-    setInputText() {
-
+    setInputText(text) {
+        if (text.length > 35) {
+            let limitedRecognitionText = text.slice(text.length - 35, text.length);
+            this.textInput.text(limitedRecognitionText);
+        } else {
+            $(this.textInput).text(text);
+        }
     }
 }
 
