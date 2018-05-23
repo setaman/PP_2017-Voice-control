@@ -30926,6 +30926,36 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+var string_status_en = [{
+  status_noactive: {
+    primary: 'System is not active now',
+    secondary: 'Click play to start'
+  }
+}, {
+  status_active: {
+    primary: 'System is active',
+    secondary: 'Say Vocs to start'
+  }
+}, {
+  status_error: {
+    primary: 'Some error was occurred',
+    secondary: 'Please reload the site'
+  }
+}, {
+  status_nofound: {
+    primary: 'No Element was found',
+    secondary: 'Please try again'
+  }
+}, {
+  status_nosupport: {
+    primary: 'Your browser is no supported',
+    secondary: 'Please update your Browser'
+  }
+}];
+var strings = [];
+strings.push.apply(strings, string_status_en);
+console.log(strings);
+
 var UI =
 /*#__PURE__*/
 function () {
@@ -30942,7 +30972,8 @@ function () {
   }, {
     key: "drawUI",
     value: function drawUI() {
-      var ui = $("<div class=\"vocs_ui\">Hello motherfucker</div>"); //$('body').append(ui);
+      var ui = $("<div class=\"vocs_ui_container\">\n    <div class=\"vocs_ui\">\n        <div class=\"vocs_ui_control\">\n            <img class=\"vocs_ui_logo\" src=\"./public/images/vocs_ui_logo.svg\">\n            <img class=\"vocs_ui_icon\" src=\"./public/images/vocs_ui_start.svg\">\n        </div>\n        <div class=\"vocs_ui_info\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n        </div>\n        <div class=\"vocs_ui_display\">\n            <p class=\"vocs_ui_primary_text\">Your browser is not supported</p>\n            <p class=\"vocs_ui_secondary_text\">Please update your browser</p>\n        </div>\n    </div>\n    <div class=\"vocs_ui_input\">\n        <p class=\"vocs_ui_input_text\">Your browser is not supported</p>\n    </div>\n</div>");
+      $('body').append(ui);
     }
   }, {
     key: "showLoading",
@@ -30950,6 +30981,21 @@ function () {
   }, {
     key: "hideLoading",
     value: function hideLoading() {}
+  }, {
+    key: "statusNoActive",
+    value: function statusNoActive() {}
+  }, {
+    key: "statusActive",
+    value: function statusActive() {}
+  }, {
+    key: "statusError",
+    value: function statusError() {}
+  }, {
+    key: "statusNoFound",
+    value: function statusNoFound() {}
+  }, {
+    key: "statusNoSupport",
+    value: function statusNoSupport() {}
   }]);
 
   return UI;
@@ -30995,10 +31041,10 @@ if(false) {
 
 exports = module.exports = __webpack_require__(199)(false);
 // imports
-
+exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&subset=cyrillic);", ""]);
 
 // module
-exports.push([module.i, "/*   Full screen transparent overlay container for highlighting*/\r\n._3Un7tDSjz07M3890ABXm7r {\r\n    /*position: fixed;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;*/\r\n    background-color: transparent;\r\n    cursor: pointer;\r\n    z-index: 2000;\r\n}\r\n/*****************************************\r\n   highlighting for many selected Elements\r\n */\r\n._2VikNnKvE5wvO5Iab21XpY{\r\n    position: absolute;\r\n}\r\n._2vf9vtkXNvAd4vmLP8TpEk {\r\n    padding: 10px 0 10px 0;\r\n    position:relative !important;\r\n    box-shadow: 0 0 5px #2f2f2f !important;\r\n    min-width: 70px !important;\r\n    z-index: 2000;\r\n    border: 3px solid #48b1ff;\r\n    opacity: 0.7;\r\n}\r\n\r\n._2vf9vtkXNvAd4vmLP8TpEk[data-number]:after {\r\n    content:attr(data-number);\r\n    position:absolute;\r\n    top:-10px;\r\n    right:-10px;\r\n    font-size: 1.1em;\r\n    background: #474747;\r\n    color:white;\r\n    width:30px;\r\n    height:30px;\r\n    text-align:center;\r\n    line-height: 26px;\r\n    border: 2px solid white;\r\n    border-radius:50%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n}\r\n/*\r\n   highlighting for many selected Elements\r\n ***********************************************/\r\n\r\n/*****************************************\r\n   Custom select Container\r\n */\r\n._2Jbg0W8Hs2HD4RqOFLA_XI{\r\n    border: 3px solid #48b1ff;\r\n    position: absolute;\r\n   /* border: solid 2px #b8b8b8;*/\r\n    border-radius: 3px;\r\n    width: 200px;\r\n    max-height: 250px;\r\n    overflow: auto;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    -moz-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n}\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li{\r\n    height: 50px;\r\n    padding: 10px 0 10px 0;\r\n    list-style-type: none;\r\n    border-bottom: 1px solid #d5d5d5;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI span {\r\n    margin: 5px 10px 5px 5px;\r\n    font-size: 1.4em;\r\n    background: #1891ff;\r\n    color:white;\r\n    text-align:center;\r\n    border: 2px solid white;\r\n    border-radius: 20%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n    padding: 3px;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li:nth-child(even){\r\n    background: #efefef;\r\n}\r\n/*\r\n   Custom select Container\r\n ******************************************/\r\n\r\n/*****************************************\r\n   Container for Date/time\r\n */\r\n._1KQuv7_GDCVhZP8dlPcTUb {\r\n    position: absolute;\r\n    border: 3px solid #48b1ff;\r\n    border-radius: 3px;\r\n    max-height: 250px;\r\n    min-width: 200px;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    -moz-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n}\r\n\r\n._2I63HHT4PF4uabUCDHHmAZ {\r\n    font-weight: bold;\r\n    height: 40px;\r\n    padding: 10px;\r\n    border-bottom: 1px solid #d5d5d5;\r\n    background: #efefef\r\n\r\n}\r\n._2nU9o-f92x8MZTB48InUuf {\r\n    padding: 10px;\r\n    height: 40px;\r\n}\r\n/*\r\n   Container for Date/time\r\n ******************************************/\r\n#_29FErgvsvBnDbDAbZELC2- {\r\n    display: none;\r\n    height: 150px;\r\n    -webkit-animation: _3p5KjkzbiJAxChM7v6Rte0 1.5s infinite linear;\r\n}\r\n\r\n@-webkit-keyframes _3p5KjkzbiJAxChM7v6Rte0 {\r\n    from {\r\n        -webkit-transform: rotate(0deg);\r\n    }\r\n    to {\r\n        -webkit-transform: rotate(359deg);\r\n    }\r\n}", ""]);
+exports.push([module.i, "/*   Full screen transparent overlay container for highlighting*/\r\n._3Un7tDSjz07M3890ABXm7r {\r\n    /*position: fixed;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;*/\r\n    background-color: transparent;\r\n    cursor: pointer;\r\n    z-index: 2000;\r\n}\r\n/*****************************************\r\n   highlighting for many selected Elements\r\n */\r\n._2VikNnKvE5wvO5Iab21XpY{\r\n    position: absolute;\r\n}\r\n._2vf9vtkXNvAd4vmLP8TpEk {\r\n    padding: 10px 0 10px 0;\r\n    position:relative !important;\r\n    box-shadow: 0 0 5px #2f2f2f !important;\r\n    min-width: 70px !important;\r\n    z-index: 2000;\r\n    border: 3px solid #48b1ff;\r\n    opacity: 0.7;\r\n}\r\n\r\n._2vf9vtkXNvAd4vmLP8TpEk[data-number]:after {\r\n    content:attr(data-number);\r\n    position:absolute;\r\n    top:-10px;\r\n    right:-10px;\r\n    font-size: 1.1em;\r\n    background: #474747;\r\n    color:white;\r\n    width:30px;\r\n    height:30px;\r\n    text-align:center;\r\n    line-height: 26px;\r\n    border: 2px solid white;\r\n    border-radius:50%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n}\r\n/*\r\n   highlighting for many selected Elements\r\n ***********************************************/\r\n\r\n/*****************************************\r\n   Custom select Container\r\n */\r\n._2Jbg0W8Hs2HD4RqOFLA_XI{\r\n    border: 3px solid #48b1ff;\r\n    position: absolute;\r\n   /* border: solid 2px #b8b8b8;*/\r\n    border-radius: 3px;\r\n    width: 200px;\r\n    max-height: 250px;\r\n    overflow: auto;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    -moz-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n}\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li{\r\n    height: 50px;\r\n    padding: 10px 0 10px 0;\r\n    list-style-type: none;\r\n    border-bottom: 1px solid #d5d5d5;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI span {\r\n    margin: 5px 10px 5px 5px;\r\n    font-size: 1.4em;\r\n    background: #1891ff;\r\n    color:white;\r\n    text-align:center;\r\n    border: 2px solid white;\r\n    border-radius: 20%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n    padding: 3px;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li:nth-child(even){\r\n    background: #efefef;\r\n}\r\n/*\r\n   Custom select Container\r\n ******************************************/\r\n\r\n/*****************************************\r\n   Container for Date/time\r\n */\r\n._1KQuv7_GDCVhZP8dlPcTUb {\r\n    position: absolute;\r\n    border: 3px solid #48b1ff;\r\n    border-radius: 3px;\r\n    max-height: 250px;\r\n    min-width: 200px;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    -moz-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n}\r\n\r\n._2I63HHT4PF4uabUCDHHmAZ {\r\n    font-weight: bold;\r\n    height: 40px;\r\n    padding: 10px;\r\n    border-bottom: 1px solid #d5d5d5;\r\n    background: #efefef\r\n\r\n}\r\n._2nU9o-f92x8MZTB48InUuf {\r\n    padding: 10px;\r\n    height: 40px;\r\n}\r\n/*\r\n   Container for Date/time\r\n ******************************************/\r\n#_29FErgvsvBnDbDAbZELC2- {\r\n    display: none;\r\n    height: 150px;\r\n    -webkit-animation: _3p5KjkzbiJAxChM7v6Rte0 1.5s infinite linear;\r\n}\r\n\r\n@-webkit-keyframes _3p5KjkzbiJAxChM7v6Rte0 {\r\n    from {\r\n        -webkit-transform: rotate(0deg);\r\n    }\r\n    to {\r\n        -webkit-transform: rotate(359deg);\r\n    }\r\n}\r\n\r\n/**********************************************************\r\nVocs ui\r\n */\r\n.izsA5af-VK70pYnlyNUWS {\r\n    transition: all .5s;\r\n    position: fixed;\r\n    left: 20px;\r\n    bottom: 20px;\r\n    font-family: 'Montserrat', sans-serif;\r\n    color: white;\r\n    /*opacity: 0.2;*/\r\n    filter: alpha(opacity=20);\r\n}\r\n\r\n.izsA5af-VK70pYnlyNUWS:hover {\r\n    opacity: 1;\r\n    filter: alpha(opacity=100);\r\n\r\n}\r\n\r\n._1Prg3Gl_GF_vjQRS0Y7MYA {\r\n    padding: 7px;\r\n    width: 600px;\r\n    height: 71px;\r\n    background: #02131D;\r\n    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    border: #1891ff 2px solid;\r\n    border-radius: 50px 10px 10px 50px;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    align-items: center;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk {\r\n    transition: all 0.5s;\r\n    width: 90px;\r\n    border-radius: 37px;\r\n    height: 100%;\r\n    border: 2px solid #1891ff;\r\n    box-shadow: 0 0 10px rgba(0, 215, 254, .7);\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    /*background: #005763;*/\r\n    cursor: pointer;\r\n    position: relative;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk:hover {\r\n    border: 2px solid #00D7FE;\r\n    box-shadow: 0 0 20px rgba(0, 215, 254, 1);\r\n    background: #005763;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk ._2Uj5fDSRV3fuaE_BerwiXN {\r\n    height: 100%;\r\n    width: 1000%;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk ._3FOnSvqw76Fy772BECwJbs {\r\n    height: 70%;\r\n    width: 70%;\r\n    fill: #1891ff;\r\n    position: absolute;\r\n}\r\n\r\n._2c8qawjcDzRJybIjI1MIDd {\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    margin-left: 10px;\r\n    width: 50px;\r\n    height: 100%;\r\n}\r\n\r\n._2c8qawjcDzRJybIjI1MIDd img {\r\n    width: 100%;\r\n    height: 50%;\r\n}\r\n\r\n._1gLxdahFUn-VWTB2rRcWB0 {\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    border-radius: 5px;\r\n    margin-left: 10px;\r\n    border: 2px solid #00D7FE;\r\n    box-shadow: 0 0 10px rgba(0, 215, 254, .7);\r\n    width: 100%;\r\n    height: 100%;\r\n    background: #021e2a;\r\n}\r\n\r\n._2V8FAZp-XUg2Bsyi4Z7KWD, ._2VDB4pI95jjGOAr7UlwRMU {\r\n    margin: 5px 10px 5px 10px;\r\n    font-size: 1.2rem;\r\n}\r\n\r\n._2V8FAZp-XUg2Bsyi4Z7KWD:first-child {\r\n    font-weight: 500;\r\n}\r\n\r\n._20eTKhimOSamYE1Pn5M6pg {\r\n    padding: 0 10px;\r\n    background: #d5d5d5;\r\n    margin-top: 5px;\r\n    border-radius: 5px;\r\n    border: 2px solid gray;\r\n    height: 30px;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    align-items: center;\r\n    color: gray;\r\n    font-weight: bold;\r\n}\r\n/*\r\nVocs ui\r\n *********************************************************/", ""]);
 
 // exports
 exports.locals = {
@@ -31010,7 +31056,17 @@ exports.locals = {
 	"vocs_date_time_msg": "_2I63HHT4PF4uabUCDHHmAZ",
 	"vocs_date_time_current_value": "_2nU9o-f92x8MZTB48InUuf",
 	"vocs_logo": "_29FErgvsvBnDbDAbZELC2-",
-	"rotation": "_3p5KjkzbiJAxChM7v6Rte0"
+	"rotation": "_3p5KjkzbiJAxChM7v6Rte0",
+	"vocs_ui_container": "izsA5af-VK70pYnlyNUWS",
+	"vocs_ui": "_1Prg3Gl_GF_vjQRS0Y7MYA",
+	"vocs_ui_control": "_3IU3ZMyNDvI_zCRnU8Mbgk",
+	"vocs_ui_logo": "_2Uj5fDSRV3fuaE_BerwiXN",
+	"vocs_ui_icon": "_3FOnSvqw76Fy772BECwJbs",
+	"vocs_ui_info": "_2c8qawjcDzRJybIjI1MIDd",
+	"vocs_ui_display": "_1gLxdahFUn-VWTB2rRcWB0",
+	"vocs_ui_primary_text": "_2V8FAZp-XUg2Bsyi4Z7KWD",
+	"vocs_ui_secondary_text": "_2VDB4pI95jjGOAr7UlwRMU",
+	"vocs_ui_input": "_20eTKhimOSamYE1Pn5M6pg"
 };
 
 /***/ }),

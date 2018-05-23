@@ -2,21 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/public/images/vocs_ui_logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/vocs_ui_menu.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/vocs_ui_mic.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/vocs_ui_mic_dis.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/vocs_ui_start.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/index.js.map" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/vocs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/vocs.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/vocs_styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/vocs_styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/useri.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/useri.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -46,26 +36,35 @@
       <file leaf-file-name="useri.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/useri.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+            <state relative-caret-position="-440">
+              <caret line="37" column="9" lean-forward="true" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Test.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Test.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Test.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="115" column="8" lean-forward="true" selection-start-line="115" selection-start-column="8" selection-end-line="115" selection-end-column="8" />
+            <state relative-caret-position="3190">
+              <caret line="145" column="22" lean-forward="true" selection-start-line="145" selection-start-column="22" selection-end-line="145" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webspeech.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/webspeech.js">
+      <file leaf-file-name="helper.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/helper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="37" column="40" selection-start-line="37" selection-start-column="40" selection-end-line="37" selection-end-column="40" />
+            <state relative-caret-position="1650">
+              <caret line="76" column="24" lean-forward="true" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vocs_styles.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="320">
+              <caret line="256" lean-forward="true" selection-start-line="256" selection-end-line="256" />
             </state>
           </provider>
         </entry>
@@ -87,15 +86,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="198">
               <caret line="9" column="6" lean-forward="true" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test_script.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_script.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="2" column="29" lean-forward="true" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -201,7 +191,6 @@
         <option value="$PROJECT_DIR$/views/semanticui.ejs" />
         <option value="$PROJECT_DIR$/views/testsite.html" />
         <option value="$PROJECT_DIR$/routes/test.js" />
-        <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
         <option value="$PROJECT_DIR$/views/test.ejs" />
         <option value="$PROJECT_DIR$/vocs" />
         <option value="$PROJECT_DIR$/recognizers/houndify.js" />
@@ -227,8 +216,9 @@
         <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/test_script.js" />
         <option value="$PROJECT_DIR$/dist/index.js.map" />
-        <option value="$PROJECT_DIR$/public/js/useri.js" />
+        <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
         <option value="$PROJECT_DIR$/Test.html" />
+        <option value="$PROJECT_DIR$/public/js/useri.js" />
       </list>
     </option>
   </component>
@@ -289,6 +279,12 @@
               <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
               <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -308,6 +304,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="Git.Branch.Popup.ShowAllLocals" value="false" />
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -551,14 +548,7 @@
       <workItem from="1526056578431" duration="9669000" />
       <workItem from="1526117744203" duration="468000" />
       <workItem from="1526126570089" duration="12609000" />
-      <workItem from="1527072271805" duration="12815000" />
-    </task>
-    <task id="LOCAL-00064" summary="scrolling for nested custom select container, search for selects optimized">
-      <created>1516656124368</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1516656124369</updated>
+      <workItem from="1527072271805" duration="15125000" />
     </task>
     <task id="LOCAL-00065" summary="option selection simulate">
       <created>1516658766385</created>
@@ -896,11 +886,18 @@
       <option name="project" value="LOCAL" />
       <updated>1526140880017</updated>
     </task>
-    <option name="localTasksCounter" value="113" />
+    <task id="LOCAL-00113" summary="added vocs ui html and styling">
+      <created>1527088502921</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1527088502922</updated>
+    </task>
+    <option name="localTasksCounter" value="114" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="743933000" />
+    <option name="totallyTimeSpent" value="746243000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1013,7 +1010,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="feature/WSC-14-vocs-soll-ohne-pause-eingegeben-werden" />
+                        <option value="bugfix/WSC-18-entwicklung-des-ui" />
                       </list>
                     </value>
                   </entry>
@@ -1045,7 +1042,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="debugging for isolation" />
     <MESSAGE value="merge" />
     <MESSAGE value="search for labels optimized" />
     <MESSAGE value="search for labels optimized again" />
@@ -1070,7 +1066,8 @@
     <MESSAGE value="edit readme" />
     <MESSAGE value="fix readme" />
     <MESSAGE value="vocs now can still waiting for user command after saying vocs" />
-    <option name="LAST_COMMIT_MESSAGE" value="vocs now can still waiting for user command after saying vocs" />
+    <MESSAGE value="added vocs ui html and styling" />
+    <option name="LAST_COMMIT_MESSAGE" value="added vocs ui html and styling" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1105,13 +1102,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/testsite.html" />
-    <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1474">
-          <caret line="67" column="33" selection-start-line="67" selection-start-column="31" selection-end-line="67" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/recognizers/configs/houndify_config.json" />
     <entry file="file://$PROJECT_DIR$/recognizers/configs/google_config.json" />
     <entry file="file://$PROJECT_DIR$/recognizers/configs/bing_config.json" />
@@ -1295,24 +1285,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/helper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="48" column="7" selection-start-line="48" selection-start-column="7" selection-end-line="48" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/collector.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
           <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/webspeech.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="37" column="40" selection-start-line="37" selection-start-column="40" selection-end-line="37" selection-end-column="40" />
         </state>
       </provider>
     </entry>
@@ -1333,13 +1309,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" column="6" lean-forward="true" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dist/index.js.map">
       <provider selected="true" editor-type-id="text-editor" />
       <provider editor-type-id="sourcemapFileViewerProvider" />
@@ -1351,10 +1320,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/useri.js">
+    <entry file="file://$PROJECT_DIR$/webpack.config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+        <state relative-caret-position="198">
+          <caret line="9" column="6" lean-forward="true" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -1368,10 +1337,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/webspeech.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="37" column="40" selection-start-line="37" selection-start-column="40" selection-end-line="37" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/useri.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-440">
+          <caret line="37" column="9" lean-forward="true" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/helper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1650">
+          <caret line="76" column="24" lean-forward="true" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="115" column="8" lean-forward="true" selection-start-line="115" selection-start-column="8" selection-end-line="115" selection-end-column="8" />
+        <state relative-caret-position="3190">
+          <caret line="145" column="22" lean-forward="true" selection-start-line="145" selection-start-column="22" selection-end-line="145" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="256" lean-forward="true" selection-start-line="256" selection-end-line="256" />
         </state>
       </provider>
     </entry>
