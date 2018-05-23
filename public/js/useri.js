@@ -30,10 +30,18 @@ let string_status_en = [
             primary: 'Your browser is no supported',
             secondary: 'Please update your Browser'
         }
+    },
+    {
+        status_listening: {
+            primary: 'Listening...',
+            secondary: ''
+        }
     }
 ];
 
 let inputTextInterval = null;
+let logoRotationInterval = null;
+
 let uiTemplate = $(
     `<div class="vocs_ui_container">
     <div class="vocs_ui">
@@ -47,8 +55,8 @@ let uiTemplate = $(
             <img src="./public/images/vocs_ui_menu.svg">
         </div>
         <div class="vocs_ui_display">
-            <p class="vocs_ui_primary_text">Your browser is not supported</p>
-            <p class="vocs_ui_secondary_text">Please update your browser</p>
+            <p class="vocs_ui_primary_text"></p>
+            <p class="vocs_ui_secondary_text"></p>
         </div>
         <div class="vocs_ui_size">
             <img class="vocs_ui_min" src="./public/images/vocs_ui_min.svg">
@@ -56,7 +64,7 @@ let uiTemplate = $(
         </div>
     </div>
     <div class="vocs_ui_input">
-        <p class="vocs_ui_input_text">Your browser is not supported</p>
+        <p class="vocs_ui_input_text"></p>
     </div>
   
 </div>`);
@@ -70,6 +78,7 @@ console.log(strings.status[0].status_noactive.primary);
 class UI {
     constructor() {
         this.isActive = false;
+        this.isWaitingForVocs = true;
         this.startButton;
         this.startIcon;
         this.liveIcon;
@@ -114,6 +123,7 @@ class UI {
                 this.isActive = false;
                 this.liveIcon.hide(500);
                 this.startIcon.show(500);
+                this.statusNoActive();
             }else {
                 this.isActive = true;
                 this.statusActive();
@@ -132,32 +142,57 @@ class UI {
     }
 
     statusNoActive() {
+        this.hideStatusText();
         this.textPrimary.text(strings.status[0].status_noactive.primary);
         this.textSecondary.text(strings.status[0].status_noactive.secondary);
+        this.showStatusText();
     }
 
     statusActive() {
+        this.hideStatusText();
         this.textPrimary.text(strings.status[1].status_active.primary);
         this.textPrimary.css('color', 'green');
         this.textSecondary.text(strings.status[1].status_active.secondary);
+        this.showStatusText();
     }
 
     statusError() {
+        this.hideStatusText();
         this.textPrimary.text(strings.status[2].status_error.primary);
         this.textPrimary.css('color', 'red');
         this.textSecondary.text(strings.status[2].status_error.secondary);
+        this.showStatusText();
     }
 
     statusNoFound() {
+        this.hideStatusText();
         this.textPrimary.text(strings.status[3].status_nofound.primary);
         this.textPrimary.css('color', 'yellow');
         this.textSecondary.text(strings.status[3].status_nofound.secondary);
+        this.showStatusText();
     }
 
     statusNoSupport() {
-        this.textPrimary.text(strings.status[4].primary);
+        this.hideStatusText();
+        this.textPrimary.text(strings.status[4].status_nosupport.primary);
         this.textPrimary.css('color', 'red');
-        this.textSecondary.text(strings.status[4].secondary);
+        this.textSecondary.text(strings.status[4].status_nosupport.secondary);
+        this.showStatusText();
+    }
+
+    statusListening() {
+        this.textPrimary.text(strings.status[5].status_listening.primary);
+        this.textPrimary.css('color', 'white');
+        this.textSecondary.text(strings.status[5].status_listening.secondary);
+    }
+
+    hideStatusText() {
+        this.textPrimary.hide(250);
+        this.textSecondary.hide(250);
+    }
+    showStatusText() {
+        this.textPrimary.show(250);
+        this.textSecondary.show(250);
     }
 
     setInputText(text) {
