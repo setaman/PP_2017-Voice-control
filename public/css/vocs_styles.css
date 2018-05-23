@@ -125,21 +125,6 @@
 /*
    Container for Date/time
  ******************************************/
-#vocs_logo {
-    display: none;
-    height: 150px;
-    -webkit-animation: rotation 1.5s infinite linear;
-}
-
-@-webkit-keyframes rotation {
-    from {
-        -webkit-transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(359deg);
-    }
-}
-
 /**********************************************************
 Vocs ui
  */
@@ -183,8 +168,8 @@ Vocs ui
     width: 90px;
     border-radius: 37px;
     height: 100%;
-    border: 2px solid #1891ff;
-    box-shadow: 0 0 10px rgba(0, 215, 254, .7);
+    /*border: 2px solid #1891ff;*/
+    /*box-shadow: 0 0 10px rgba(24, 145, 255, .7);*/
     display: flex;
     align-items: center;
     justify-content: center;
@@ -194,15 +179,28 @@ Vocs ui
 }
 
 .vocs_ui_control:hover {
-    border: 2px solid #00D7FE;
-    box-shadow: 0 0 20px rgba(0, 215, 254, 1);
-    background: #005763;
+    /*border: 2px solid #00D7FE;*/
+    box-shadow: 0 0 20px rgba(24, 145, 255, .8);
+    /*background: rgba(0, 215, 254, .2);*/
 }
 
 .vocs_ui_control .vocs_ui_logo {
     height: 100%;
-    width: 1000%;
+    width: 100%;
 }
+
+.vocs_logo_rotation {
+    -webkit-animation: rotation 1.5s infinite linear;
+}
+@-webkit-keyframes rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
+}
+
 
 .vocs_ui_control .vocs_ui_icon {
     height: 70%;

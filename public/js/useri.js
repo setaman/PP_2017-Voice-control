@@ -33,22 +33,8 @@ let string_status_en = [
     }
 ];
 
-let strings = [];
-strings.push(...string_status_en);
-console.log(strings);
-
-class UI {
-
-    showUI() {
-    }
-
-    hideUI() {
-
-    }
-
-    drawUI() {
-        let ui = $(
-            `<div class="vocs_ui_container">
+let uiTemplate = $(
+    `<div class="vocs_ui_container">
     <div class="vocs_ui">
         <div class="vocs_ui_control">
             <img class="vocs_ui_logo" src="./public/images/vocs_ui_logo.svg">
@@ -67,19 +53,51 @@ class UI {
         <p class="vocs_ui_input_text">Your browser is not supported</p>
     </div>
 </div>`);
-        $('body').append(ui);
+
+let strings = {
+    status: []
+};
+strings.status.push(...string_status_en);
+console.log(strings);
+
+class UI {
+    constructor () {
+        this.isActive = false;
+        this.uiContainer = $('vocs_ui_container');
+        this.textPrimary = $('vocs_ui_primary_text');
+        this.textSecondary = $('vocs_ui_secondary_text');
+        this.textInput = $('vocs_ui_input_text');
+        this.logo = $('vocs_ui_logo');
+        this.icon = $('vocs_ui_icon');
+    }
+
+    showUI() {
+        $(this.uiContainer).show(500);
+    }
+
+    hideUI() {
+        $(this.uiContainer).hide(500);
+    }
+
+    minimizeUI() {
+
+    }
+
+    drawUI() {
+        $('body').append(uiTemplate);
     }
 
     showLoading() {
-
+        $(this.logo).addClass('rotation');
     }
 
     hideLoading() {
-
+        $(this.logo).removeClass('rotation');
     }
 
     statusNoActive(){
-
+        $(this.textPrimary).text(strings.status[0].primary);
+        $(this.textSecondary).text(strings.status[0].secondary);
     }
     statusActive(){
 
@@ -91,6 +109,10 @@ class UI {
 
     }
     statusNoSupport(){
+
+    }
+
+    setInputText() {
 
     }
 }

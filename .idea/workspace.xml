@@ -36,8 +36,8 @@
       <file leaf-file-name="useri.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/useri.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-440">
-              <caret line="37" column="9" lean-forward="true" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
+            <state relative-caret-position="1024">
+              <caret line="74" column="36" selection-start-line="74" selection-start-column="36" selection-end-line="74" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -45,8 +45,8 @@
       <file leaf-file-name="Test.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Test.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3190">
-              <caret line="145" column="22" lean-forward="true" selection-start-line="145" selection-start-column="22" selection-end-line="145" selection-end-column="22" />
+            <state relative-caret-position="220">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
@@ -54,7 +54,7 @@
       <file leaf-file-name="helper.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/helper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1650">
+            <state relative-caret-position="594">
               <caret line="76" column="24" lean-forward="true" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="24" />
             </state>
           </provider>
@@ -63,8 +63,8 @@
       <file leaf-file-name="vocs_styles.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="256" lean-forward="true" selection-start-line="256" selection-end-line="256" />
+            <state relative-caret-position="738">
+              <caret line="183" column="40" selection-start-line="183" selection-start-column="4" selection-end-line="183" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -216,9 +216,9 @@
         <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/test_script.js" />
         <option value="$PROJECT_DIR$/dist/index.js.map" />
-        <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
         <option value="$PROJECT_DIR$/Test.html" />
         <option value="$PROJECT_DIR$/public/js/useri.js" />
+        <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
       </list>
     </option>
   </component>
@@ -548,14 +548,7 @@
       <workItem from="1526056578431" duration="9669000" />
       <workItem from="1526117744203" duration="468000" />
       <workItem from="1526126570089" duration="12609000" />
-      <workItem from="1527072271805" duration="15125000" />
-    </task>
-    <task id="LOCAL-00065" summary="option selection simulate">
-      <created>1516658766385</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1516658766385</updated>
+      <workItem from="1527072271805" duration="18697000" />
     </task>
     <task id="LOCAL-00066" summary="merge with WSC2">
       <created>1517421254748</created>
@@ -893,11 +886,18 @@
       <option name="project" value="LOCAL" />
       <updated>1527088502922</updated>
     </task>
-    <option name="localTasksCounter" value="114" />
+    <task id="LOCAL-00114" summary="added vocs ui controller class">
+      <created>1527091025681</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1527091025681</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="746243000" />
+    <option name="totallyTimeSpent" value="749815000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -920,7 +920,7 @@
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" weight="0.2908497" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49789253" weight="0.2832244" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -929,48 +929,18 @@
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="2" />
+      <window_info id="Designer" order="3" />
       <window_info anchor="bottom" id="TypeScript" order="7" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="UI Designer" order="2" />
-      <window_info id="Capture Tool" order="2" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32826087" />
       <window_info anchor="right" id="Maven Projects" order="3" />
     </layout>
-    <layout-to-restore>
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" weight="0.28976035" />
-      <window_info anchor="right" id="Theme Preview" order="4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20442571" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="8" weight="0.32934782" />
-      <window_info anchor="bottom" id="TypeScript" order="7" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32826087" />
-      <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49789253" weight="0.2832244" />
-      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50421494" side_tool="true" weight="0.32717392" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="right" id="Database" order="7" />
-      <window_info anchor="right" id="Maven Projects" order="8" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -1042,7 +1012,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="merge" />
     <MESSAGE value="search for labels optimized" />
     <MESSAGE value="search for labels optimized again" />
     <MESSAGE value="Merge branch 'hotfix/WSC-9-code-optimization' into feature/WSC-4-all-new-features-branche&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;public/js/element.js" />
@@ -1067,7 +1036,8 @@
     <MESSAGE value="fix readme" />
     <MESSAGE value="vocs now can still waiting for user command after saying vocs" />
     <MESSAGE value="added vocs ui html and styling" />
-    <option name="LAST_COMMIT_MESSAGE" value="added vocs ui html and styling" />
+    <MESSAGE value="added vocs ui controller class" />
+    <option name="LAST_COMMIT_MESSAGE" value="added vocs ui controller class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1344,31 +1314,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/useri.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-440">
-          <caret line="37" column="9" lean-forward="true" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/helper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1650">
+        <state relative-caret-position="594">
           <caret line="76" column="24" lean-forward="true" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3190">
-          <caret line="145" column="22" lean-forward="true" selection-start-line="145" selection-start-column="22" selection-end-line="145" selection-end-column="22" />
+        <state relative-caret-position="220">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/useri.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1024">
+          <caret line="74" column="36" selection-start-line="74" selection-start-column="36" selection-end-line="74" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="256" lean-forward="true" selection-start-line="256" selection-end-line="256" />
+        <state relative-caret-position="738">
+          <caret line="183" column="40" selection-start-line="183" selection-start-column="4" selection-end-line="183" selection-end-column="42" />
         </state>
       </provider>
     </entry>
