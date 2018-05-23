@@ -5001,11 +5001,13 @@ var _wordsToNumbers = _interopRequireDefault(__webpack_require__(72));
 
 var _visualizer = _interopRequireDefault(__webpack_require__(195));
 
-__webpack_require__(196);
+var _useri = __webpack_require__(196);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+_useri.ui.drawUI();
 
 var currentElements = [],
     currentMultipleElements = [],
@@ -5024,8 +5026,7 @@ var day,
     minute,
     hour,
     number,
-    currentValue = '';
-(0, _visualizer.default)(); //Visualization
+    currentValue = ''; //visualize(); //Visualization
 
 var systemState = $('#vocs_text_status'); //UI Ausgabe
 
@@ -30817,12 +30818,12 @@ function visualize() {
         visualize();
         voiceMute();
         /*rec = new MediaRecorder(stream);
-         rec.ondataavailable = e => {
+          rec.ondataavailable = e => {
             audioChunks.push(e.data);
         };
         rec.onstop = function () {
-             isRecording = false;
-             if (audioChunks.length > 0) {
+              isRecording = false;
+              if (audioChunks.length > 0) {
                 let audio = new Blob(audioChunks, {type: 'audio/wave'});
                 recordedAudio.src = URL.createObjectURL(audio);
                 recordedAudio.controls = true;
@@ -30912,13 +30913,50 @@ function visualize() {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ui = void 0;
+
 __webpack_require__(197);
 
-var ui = function ui() {
-  return $("<div class=\"vocs_ui_container\"> </div>");
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-$('body').append(div);
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var UI =
+/*#__PURE__*/
+function () {
+  function UI() {
+    _classCallCheck(this, UI);
+  }
+
+  _createClass(UI, [{
+    key: "showUI",
+    value: function showUI() {}
+  }, {
+    key: "hideUI",
+    value: function hideUI() {}
+  }, {
+    key: "drawUI",
+    value: function drawUI() {
+      var ui = $("<div class=\"vocs_ui\">Hello motherfucker</div>"); //$('body').append(ui);
+    }
+  }, {
+    key: "showLoading",
+    value: function showLoading() {}
+  }, {
+    key: "hideLoading",
+    value: function hideLoading() {}
+  }]);
+
+  return UI;
+}();
+
+var ui = new UI();
+exports.ui = ui;
 
 /***/ }),
 /* 197 */
@@ -30960,19 +30998,19 @@ exports = module.exports = __webpack_require__(199)(false);
 
 
 // module
-exports.push([module.i, "/*   Full screen transparent overlay container for highlighting*/\n._1h43ihVoPVGJ0jx-99NSRC {\n    /*position: fixed;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;*/\n    background-color: transparent;\n    cursor: pointer;\n    z-index: 2000;\n}\n/*****************************************\n   highlighting for many selected Elements\n */\n.CLk1b-tcP-OXoZx-JnTuk{\n    position: absolute;\n}\n._2BbPmvPtcJ6NML5FmaEoLJ {\n    padding: 10px 0 10px 0;\n    position:relative !important;\n    box-shadow: 0 0 5px #2f2f2f !important;\n    min-width: 70px !important;\n    z-index: 2000;\n    border: 3px solid #48b1ff;\n    opacity: 0.7;\n}\n\n._2BbPmvPtcJ6NML5FmaEoLJ[data-number]:after {\n    content:attr(data-number);\n    position:absolute;\n    top:-10px;\n    right:-10px;\n    font-size: 1.1em;\n    background: #474747;\n    color:white;\n    width:30px;\n    height:30px;\n    text-align:center;\n    line-height: 26px;\n    border: 2px solid white;\n    border-radius:50%;\n    box-shadow:0 0 1px #333;\n    z-index: 2000;\n}\n/*\n   highlighting for many selected Elements\n ***********************************************/\n\n/*****************************************\n   Custom select Container\n */\n._3ufYKuasEK1my7tlNKgOwg{\n    border: 3px solid #48b1ff;\n    position: absolute;\n   /* border: solid 2px #b8b8b8;*/\n    border-radius: 3px;\n    width: 200px;\n    max-height: 250px;\n    overflow: auto;\n    z-index: 2000;\n    background-color: white;\n    -webkit-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\n    -moz-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\n    box-shadow: 0 0 49px 9px rgba(153,153,153,1);\n}\n._3ufYKuasEK1my7tlNKgOwg li{\n    height: 50px;\n    padding: 10px 0 10px 0;\n    list-style-type: none;\n    border-bottom: 1px solid #d5d5d5;\n}\n\n._3ufYKuasEK1my7tlNKgOwg span {\n    margin: 5px 10px 5px 5px;\n    font-size: 1.4em;\n    background: #1891ff;\n    color:white;\n    text-align:center;\n    border: 2px solid white;\n    border-radius: 20%;\n    box-shadow:0 0 1px #333;\n    z-index: 2000;\n    padding: 3px;\n}\n\n._3ufYKuasEK1my7tlNKgOwg li:nth-child(even){\n    background: #efefef;\n}\n/*\n   Custom select Container\n ******************************************/\n\n/*****************************************\n   Container for Date/time\n */\n._129Plh6Dwwd5fz91EJ4rTp {\n    position: absolute;\n    border: 3px solid #48b1ff;\n    border-radius: 3px;\n    max-height: 250px;\n    min-width: 200px;\n    z-index: 2000;\n    background-color: white;\n    -webkit-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\n    -moz-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\n    box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\n}\n\n.f7SeImsu3EPGzCEvYXWgh {\n    font-weight: bold;\n    height: 40px;\n    padding: 10px;\n    border-bottom: 1px solid #d5d5d5;\n    background: #efefef\n\n}\n._34vrdWB0ftxnKlrAIQm3tL {\n    padding: 10px;\n    height: 40px;\n}\n/*\n   Container for Date/time\n ******************************************/\n#_3Z1nVxyuE2MxDuoUa2Xa6x {\n    display: none;\n    height: 150px;\n    -webkit-animation: _2pLtwQhUUv0AUga-hmfcsm 1.5s infinite linear;\n}\n\n@-webkit-keyframes _2pLtwQhUUv0AUga-hmfcsm {\n    from {\n        -webkit-transform: rotate(0deg);\n    }\n    to {\n        -webkit-transform: rotate(359deg);\n    }\n}", ""]);
+exports.push([module.i, "/*   Full screen transparent overlay container for highlighting*/\r\n._3Un7tDSjz07M3890ABXm7r {\r\n    /*position: fixed;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;*/\r\n    background-color: transparent;\r\n    cursor: pointer;\r\n    z-index: 2000;\r\n}\r\n/*****************************************\r\n   highlighting for many selected Elements\r\n */\r\n._2VikNnKvE5wvO5Iab21XpY{\r\n    position: absolute;\r\n}\r\n._2vf9vtkXNvAd4vmLP8TpEk {\r\n    padding: 10px 0 10px 0;\r\n    position:relative !important;\r\n    box-shadow: 0 0 5px #2f2f2f !important;\r\n    min-width: 70px !important;\r\n    z-index: 2000;\r\n    border: 3px solid #48b1ff;\r\n    opacity: 0.7;\r\n}\r\n\r\n._2vf9vtkXNvAd4vmLP8TpEk[data-number]:after {\r\n    content:attr(data-number);\r\n    position:absolute;\r\n    top:-10px;\r\n    right:-10px;\r\n    font-size: 1.1em;\r\n    background: #474747;\r\n    color:white;\r\n    width:30px;\r\n    height:30px;\r\n    text-align:center;\r\n    line-height: 26px;\r\n    border: 2px solid white;\r\n    border-radius:50%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n}\r\n/*\r\n   highlighting for many selected Elements\r\n ***********************************************/\r\n\r\n/*****************************************\r\n   Custom select Container\r\n */\r\n._2Jbg0W8Hs2HD4RqOFLA_XI{\r\n    border: 3px solid #48b1ff;\r\n    position: absolute;\r\n   /* border: solid 2px #b8b8b8;*/\r\n    border-radius: 3px;\r\n    width: 200px;\r\n    max-height: 250px;\r\n    overflow: auto;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    -moz-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n}\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li{\r\n    height: 50px;\r\n    padding: 10px 0 10px 0;\r\n    list-style-type: none;\r\n    border-bottom: 1px solid #d5d5d5;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI span {\r\n    margin: 5px 10px 5px 5px;\r\n    font-size: 1.4em;\r\n    background: #1891ff;\r\n    color:white;\r\n    text-align:center;\r\n    border: 2px solid white;\r\n    border-radius: 20%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n    padding: 3px;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li:nth-child(even){\r\n    background: #efefef;\r\n}\r\n/*\r\n   Custom select Container\r\n ******************************************/\r\n\r\n/*****************************************\r\n   Container for Date/time\r\n */\r\n._1KQuv7_GDCVhZP8dlPcTUb {\r\n    position: absolute;\r\n    border: 3px solid #48b1ff;\r\n    border-radius: 3px;\r\n    max-height: 250px;\r\n    min-width: 200px;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    -moz-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n}\r\n\r\n._2I63HHT4PF4uabUCDHHmAZ {\r\n    font-weight: bold;\r\n    height: 40px;\r\n    padding: 10px;\r\n    border-bottom: 1px solid #d5d5d5;\r\n    background: #efefef\r\n\r\n}\r\n._2nU9o-f92x8MZTB48InUuf {\r\n    padding: 10px;\r\n    height: 40px;\r\n}\r\n/*\r\n   Container for Date/time\r\n ******************************************/\r\n#_29FErgvsvBnDbDAbZELC2- {\r\n    display: none;\r\n    height: 150px;\r\n    -webkit-animation: _3p5KjkzbiJAxChM7v6Rte0 1.5s infinite linear;\r\n}\r\n\r\n@-webkit-keyframes _3p5KjkzbiJAxChM7v6Rte0 {\r\n    from {\r\n        -webkit-transform: rotate(0deg);\r\n    }\r\n    to {\r\n        -webkit-transform: rotate(359deg);\r\n    }\r\n}", ""]);
 
 // exports
 exports.locals = {
-	"vocs_overlay": "_1h43ihVoPVGJ0jx-99NSRC",
-	"vocs_multiple_select_wrapper_container": "CLk1b-tcP-OXoZx-JnTuk",
-	"vocs_multiple_select_wrapper": "_2BbPmvPtcJ6NML5FmaEoLJ",
-	"vocs_select_options_container": "_3ufYKuasEK1my7tlNKgOwg",
-	"vocs_date_time_container": "_129Plh6Dwwd5fz91EJ4rTp",
-	"vocs_date_time_msg": "f7SeImsu3EPGzCEvYXWgh",
-	"vocs_date_time_current_value": "_34vrdWB0ftxnKlrAIQm3tL",
-	"vocs_logo": "_3Z1nVxyuE2MxDuoUa2Xa6x",
-	"rotation": "_2pLtwQhUUv0AUga-hmfcsm"
+	"vocs_overlay": "_3Un7tDSjz07M3890ABXm7r",
+	"vocs_multiple_select_wrapper_container": "_2VikNnKvE5wvO5Iab21XpY",
+	"vocs_multiple_select_wrapper": "_2vf9vtkXNvAd4vmLP8TpEk",
+	"vocs_select_options_container": "_2Jbg0W8Hs2HD4RqOFLA_XI",
+	"vocs_date_time_container": "_1KQuv7_GDCVhZP8dlPcTUb",
+	"vocs_date_time_msg": "_2I63HHT4PF4uabUCDHHmAZ",
+	"vocs_date_time_current_value": "_2nU9o-f92x8MZTB48InUuf",
+	"vocs_logo": "_29FErgvsvBnDbDAbZELC2-",
+	"rotation": "_3p5KjkzbiJAxChM7v6Rte0"
 };
 
 /***/ }),

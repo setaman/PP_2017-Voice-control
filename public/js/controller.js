@@ -40,7 +40,9 @@ import {
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 import visualize from './visualizer';
-import './useri';
+import {ui} from './useri';
+
+ui.drawUI();
 
 let currentElements = [],
     currentMultipleElements = [],
@@ -63,7 +65,7 @@ let day,
     currentValue = '';
 
 
-visualize(); //Visualization
+//visualize(); //Visualization
 
 let systemState = $('#vocs_text_status'); //UI Ausgabe
 let OnRecognition = $('#vocs_text_onrecognition');//UI Ausgabe

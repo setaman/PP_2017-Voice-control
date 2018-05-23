@@ -5,7 +5,8 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        vocs: './public/js/vocs.js'
+        vocs: './public/js/vocs.js',
+        test: './test_script.js'
     },
     output: {
         filename: '[name].js',
