@@ -1,5 +1,5 @@
 import '../css/vocs_styles.css';
-import visualize from './visualizer';
+import {startVisualization, stopVizualization} from './visualizer';
 
 let string_status_en = [
     {
@@ -106,7 +106,6 @@ class UI {
                 this.deactivateSystem();
             } else {
                 this.activateSystem();
-                visualize();
             }
         });
         this.startIcon = $('.vocs_ui_start_icon');
@@ -143,6 +142,7 @@ class UI {
         this.statusActive();
         this.startIcon.hide(500);
         this.liveIcon.show(500);
+        startVisualization();
         if (storageAvailable('sessionStorage')) {
             sessionStorage.setItem('vocsIsActive', 'true');
         }
@@ -153,6 +153,7 @@ class UI {
         this.liveIcon.hide(500);
         this.startIcon.show(500);
         this.statusNotActive();
+        stopVizualization();
         if (storageAvailable('sessionStorage')) {
             sessionStorage.setItem('vocsIsActive', 'false');
         }

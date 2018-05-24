@@ -4281,11 +4281,9 @@ exports.ui = void 0;
 
 __webpack_require__(197);
 
-var _visualizer = _interopRequireDefault(__webpack_require__(196));
+var _visualizer = __webpack_require__(196);
 
 var _strings$status;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4367,8 +4365,6 @@ function () {
           _this.deactivateSystem();
         } else {
           _this.activateSystem();
-
-          (0, _visualizer.default)();
         }
       });
       this.startIcon = $('.vocs_ui_start_icon');
@@ -4403,6 +4399,7 @@ function () {
       this.statusActive();
       this.startIcon.hide(500);
       this.liveIcon.show(500);
+      (0, _visualizer.startVisualization)();
 
       if (storageAvailable('sessionStorage')) {
         sessionStorage.setItem('vocsIsActive', 'true');
@@ -4415,6 +4412,7 @@ function () {
       this.liveIcon.hide(500);
       this.startIcon.show(500);
       this.statusNotActive();
+      (0, _visualizer.stopVizualization)();
 
       if (storageAvailable('sessionStorage')) {
         sessionStorage.setItem('vocsIsActive', 'false');
@@ -5371,8 +5369,6 @@ $('.ti').each(function () {
 });
 
 _useri.ui.drawUI();
-
-_useri.ui.statusNotActive();
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt
  * @param input - recognized User command
@@ -31062,131 +31058,131 @@ module.exports = ohm.makeRecipe(["grammar",{"source":"Ohm {\n\n  Grammars\n    =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = visualize;
+exports.startVisualization = startVisualization;
+exports.stopVizualization = stopVizualization;
+exports.runAudioContext = runAudioContext;
 
 /**
  * **********************************************
  * Nicht Projektrelevant                       **
  * **********************************************
  */
-function visualize() {
-  /**
-   * Setup Web Audio API
-   * */
-  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia; // set up forked web audio context, for multiple browsers
-  // window. is needed otherwise Safari explodes
 
-  var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  var source; //set up the different audio nodes we will use for the app
+/**
+ * Setup Web Audio API
+ * */
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia; // set up forked web audio context, for multiple browsers
+// window. is needed otherwise Safari explodes
 
-  var analyser = audioCtx.createAnalyser();
-  analyser.minDecibels = -90;
-  analyser.maxDecibels = -10;
-  analyser.smoothingTimeConstant = 0.85;
-  var distortion = audioCtx.createWaveShaper();
-  var gainNode = audioCtx.createGain();
-  var biquadFilter = audioCtx.createBiquadFilter();
-  var convolver = audioCtx.createConvolver(); // set up canvas context for visualizer
+var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+var source; //set up the different audio nodes we will use for the app
 
-  var canvas = document.querySelector('.vocs_visualizer');
-  var canvasCtx = canvas.getContext("2d");
-  var WIDTH = canvas.width;
-  var HEIGHT = canvas.height;
-  console.log(WIDTH);
-  var drawVisual;
+var analyser = audioCtx.createAnalyser();
+analyser.minDecibels = -90;
+analyser.maxDecibels = -10;
+analyser.smoothingTimeConstant = 0.85;
+var distortion = audioCtx.createWaveShaper();
+var gainNode = audioCtx.createGain();
+var biquadFilter = audioCtx.createBiquadFilter();
+var convolver = audioCtx.createConvolver(); // set up canvas context for visualizer
+
+var canvas;
+var canvasCtx;
+var WIDTH;
+var HEIGHT;
+var drawVisual; //main block for doing the audio visualization
+
+function startVisualization() {
   runAudioContext();
-  startAudioRecord(); //stopAudioContext();
-  //main block for doing the audio recording
 
-  function startAudioRecord() {
-    console.log('Start Audio Record');
+  if (navigator.getUserMedia) {
+    navigator.getUserMedia( // constraints - only audio needed for this app
+    {
+      audio: true
+    }, // Success callback
+    function (stream) {
+      source = audioCtx.createMediaStreamSource(stream);
+      source.connect(analyser);
+      analyser.connect(distortion);
+      distortion.connect(biquadFilter);
+      biquadFilter.connect(convolver);
+      convolver.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      drawVisualization();
+      voiceMute();
+    }, // Error callback
+    function (err) {
+      console.log('The following gUM error occured: ' + err);
+    });
+  } else {
+    console.log('getUserMedia not supported on your browser!');
+  }
 
-    if (navigator.getUserMedia) {
-      console.log('getUserMedia supported.');
-      navigator.getUserMedia( // constraints - only audio needed for this app
-      {
-        audio: true
-      }, // Success callback
-      function (stream) {
-        source = audioCtx.createMediaStreamSource(stream);
-        source.connect(analyser);
-        analyser.connect(distortion);
-        distortion.connect(biquadFilter);
-        biquadFilter.connect(convolver);
-        convolver.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        visualize();
-        voiceMute();
-      }, // Error callback
-      function (err) {
-        console.log('The following gUM error occured: ' + err);
-      });
-    } else {
-      console.log('getUserMedia not supported on your browser!');
-    }
+  function drawVisualization() {
+    // set up canvas context for visualizer
+    canvas = document.querySelector('.vocs_visualizer');
+    canvasCtx = canvas.getContext("2d");
+    WIDTH = canvas.width;
+    HEIGHT = canvas.height;
+    drawVisual;
+    analyser.fftSize = 512;
+    var bufferLength = analyser.fftSize;
+    console.log(bufferLength);
+    var dataArray = new Uint8Array(bufferLength);
+    canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
-    function visualize() {
-      analyser.fftSize = 512;
-      var bufferLength = analyser.fftSize;
-      console.log(bufferLength);
-      var dataArray = new Uint8Array(bufferLength);
+    var drawAlt = function drawAlt() {
+      drawVisual = requestAnimationFrame(drawAlt);
+      analyser.getByteTimeDomainData(dataArray);
       canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+      canvasCtx.fillStyle = 'transparent';
+      canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+      canvasCtx.lineWidth = 2;
+      canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+      canvasCtx.beginPath();
+      var sliceWidth = WIDTH * 1.0 / bufferLength;
+      var x = 0;
 
-      var drawAlt = function drawAlt() {
-        drawVisual = requestAnimationFrame(drawAlt);
-        analyser.getByteTimeDomainData(dataArray);
-        canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-        canvasCtx.fillStyle = 'transparent';
-        canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-        canvasCtx.lineWidth = 2;
-        canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-        canvasCtx.beginPath();
-        var sliceWidth = WIDTH * 1.0 / bufferLength;
-        var x = 0;
+      for (var i = 0; i < bufferLength; i++) {
+        var v = dataArray[i] / 128.0;
+        var y = v * HEIGHT / 2;
 
-        for (var i = 0; i < bufferLength; i++) {
-          var v = dataArray[i] / 128.0;
-          var y = v * HEIGHT / 2;
-
-          if (i === 0) {
-            canvasCtx.moveTo(x, y);
-          } else {
-            canvasCtx.lineTo(x, y);
-          }
-
-          x += sliceWidth + 1;
+        if (i === 0) {
+          canvasCtx.moveTo(x, y);
+        } else {
+          canvasCtx.lineTo(x, y);
         }
 
-        canvasCtx.lineTo(canvas.width, canvas.height / 2);
-        canvasCtx.stroke();
-      };
+        x += sliceWidth + 1;
+      }
 
-      drawAlt();
-    }
+      canvasCtx.lineTo(canvas.width, canvas.height / 2);
+      canvasCtx.stroke();
+    };
+
+    drawAlt();
   }
+}
 
-  function voiceMute() {
-    gainNode.gain.value = 0;
+function voiceMute() {
+  gainNode.gain.value = 0;
+}
+
+function stopVizualization() {
+  if (audioCtx.state === 'running') {
+    audioCtx.suspend().then(function () {
+      window.cancelAnimationFrame(drawVisual);
+      canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+      console.log('AudioContext state: ' + audioCtx.state);
+    });
   }
+}
 
-  function stopAudioContext() {
-    if (audioCtx.state === 'running') {
-      audioCtx.suspend().then(function () {
-        window.cancelAnimationFrame(drawVisual);
-        canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-        canvasCtx.fillStyle = "transparent";
-        canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-        console.log('AudioContext state: ' + audioCtx.state);
-      });
-    }
-  }
-
-  function runAudioContext() {
-    if (audioCtx.state === 'suspended' || audioCtx.state === 'closed') {
-      audioCtx.resume().then(function () {
-        console.log('AudioContext state: ' + audioCtx.state);
-      });
-    }
+function runAudioContext() {
+  if (audioCtx.state === 'suspended' || audioCtx.state === 'closed') {
+    audioCtx.resume().then(function () {
+      console.log('AudioContext state: ' + audioCtx.state);
+    });
   }
 }
 

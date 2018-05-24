@@ -84,7 +84,6 @@ $('.ti').each(function () {
 });
 
 ui.drawUI();
-ui.statusNotActive();
 
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt
