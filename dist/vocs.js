@@ -4281,7 +4281,11 @@ exports.ui = void 0;
 
 __webpack_require__(197);
 
+var _visualizer = _interopRequireDefault(__webpack_require__(196));
+
 var _strings$status;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4322,14 +4326,12 @@ var string_status_en = [{
 }];
 var inputTextInterval = null;
 var logoRotationInterval = null;
-var uiTemplate = $("<div class=\"vocs_ui_container\">\n    <div class=\"vocs_ui\">\n        <div class=\"vocs_ui_control\">\n            <img class=\"vocs_ui_logo\" src=\"./public/images/vocs_ui_logo.svg\">\n            <img class=\"vocs_ui_start_icon\" src=\"./public/images/vocs_ui_start.svg\">\n            <span class=\"vocs_ui_live_icon\"></span>\n        </div>\n        <div class=\"vocs_ui_info\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n        </div>\n        <div class=\"vocs_ui_display\">\n            <div id=\"vocs_canvas_container\">\n                <canvas class=\"vocs_visualizer\"></canvas>\n            </div>\n            <div id=\"vocs_status_container\">\n                <p class=\"vocs_ui_primary_text\"></p>\n                <p class=\"vocs_ui_secondary_text\"></p>\n            </div>\n        </div>\n        <div class=\"vocs_ui_size\">\n            <img class=\"vocs_ui_min\" src=\"./public/images/vocs_ui_min.svg\">\n            <img class=\"vocs_ui_resize\" src=\"./public/images/vocs_ui_resize.svg\">\n        </div>\n    </div>\n    <div class=\"vocs_ui_input\">\n        <p class=\"vocs_ui_input_text\"></p>\n    </div>\n  \n</div>");
+var uiTemplate = $("<div class=\"vocs_ui_container\">\n    <div class=\"vocs_ui\">\n        <div class=\"vocs_ui_control\">\n            <img class=\"vocs_ui_logo\" src=\"./public/images/vocs_ui_logo.svg\">\n            <img class=\"vocs_ui_start_icon\" src=\"./public/images/vocs_ui_start.svg\">\n            <span class=\"vocs_ui_live_icon\"></span>\n        </div>\n        <div class=\"vocs_ui_info\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n            <img src=\"./public/images/vocs_ui_menu.svg\">\n        </div>\n        <div class=\"vocs_ui_display\">\n            <div class=\"vocs_canvas_container\">\n                <canvas class=\"vocs_visualizer\"></canvas>\n            </div>\n            <div id=\"vocs_status_container\">\n                <p class=\"vocs_ui_primary_text\"></p>\n                <p class=\"vocs_ui_secondary_text\"></p>\n            </div>\n        </div>\n        <div class=\"vocs_ui_size\">\n            <img class=\"vocs_ui_min\" src=\"./public/images/vocs_ui_min.svg\">\n            <img class=\"vocs_ui_resize\" src=\"./public/images/vocs_ui_resize.svg\">\n        </div>\n    </div>\n    <div class=\"vocs_ui_input\">\n        <p class=\"vocs_ui_input_text\"></p>\n    </div>\n  \n</div>");
 var strings = {
   status: []
 };
 
 (_strings$status = strings.status).push.apply(_strings$status, string_status_en);
-
-console.log(strings.status[0].status_noactive.primary);
 
 var UI =
 /*#__PURE__*/
@@ -4365,6 +4367,8 @@ function () {
           _this.deactivateSystem();
         } else {
           _this.activateSystem();
+
+          (0, _visualizer.default)();
         }
       });
       this.startIcon = $('.vocs_ui_start_icon');
@@ -4508,8 +4512,8 @@ function () {
   }, {
     key: "hideStatusText",
     value: function hideStatusText() {
-      this.textPrimary.hide(250);
-      this.textSecondary.hide(250);
+      this.textPrimary.hide();
+      this.textSecondary.hide();
     }
   }, {
     key: "showStatusText",
@@ -5324,8 +5328,6 @@ var _wordsToNumbers = _interopRequireDefault(__webpack_require__(73));
 var _visualizer = _interopRequireDefault(__webpack_require__(196));
 
 var _useri = __webpack_require__(44);
-
-var _vocs = _interopRequireDefault(__webpack_require__(27));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31062,46 +31064,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = visualize;
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 /**
  * **********************************************
  * Nicht Projektrelevant                       **
  * **********************************************
  */
 function visualize() {
-  $('#startRecord').click(function () {
-    /*if (typeof (Storage) !== 'undefined') {
-     console.log('audio value : ' + localStorage.getItem('audio'));
-     if (localStorage.getItem('audio') == true) {
-         runAudioContext();
-         startAudioRecord();
-         $('#startRecord').textContent = 'Stop';
-         console.log('Audio settings stored');
-    } else {
-     console.log('Storage is undefined: ' + Storage);
-    }*/
-    if ($('#control-img').attr('src') === './images/play_icon.svg') {
-      if ((typeof Storage === "undefined" ? "undefined" : _typeof(Storage)) === undefined) {
-        if (localStorage.getItem('audio') !== true) {
-          localStorage.setItem('audio', true);
-          console.log('Save audio settings');
-        }
-      } //recognition.start();
-
-
-      runAudioContext();
-      startAudioRecord();
-      $('#control-img').attr('src', './images/stop_icon.svg');
-    } else {
-      stopAudioContext();
-      $('#control-img').attr('src', './images/play_icon.svg');
-    }
-  });
   /**
    * Setup Web Audio API
    * */
-
   navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia; // set up forked web audio context, for multiple browsers
   // window. is needed otherwise Safari explodes
 
@@ -31112,19 +31083,20 @@ function visualize() {
   analyser.minDecibels = -90;
   analyser.maxDecibels = -10;
   analyser.smoothingTimeConstant = 0.85;
-  var audioChunks = [];
-  var rec;
-  var isRecording = false;
   var distortion = audioCtx.createWaveShaper();
   var gainNode = audioCtx.createGain();
   var biquadFilter = audioCtx.createBiquadFilter();
   var convolver = audioCtx.createConvolver(); // set up canvas context for visualizer
 
-  var canvas = document.querySelector('.visualizer');
+  var canvas = document.querySelector('.vocs_visualizer');
   var canvasCtx = canvas.getContext("2d");
   var WIDTH = canvas.width;
   var HEIGHT = canvas.height;
-  var drawVisual; //main block for doing the audio recording
+  console.log(WIDTH);
+  var drawVisual;
+  runAudioContext();
+  startAudioRecord(); //stopAudioContext();
+  //main block for doing the audio recording
 
   function startAudioRecord() {
     console.log('Start Audio Record');
@@ -31145,22 +31117,6 @@ function visualize() {
         gainNode.connect(audioCtx.destination);
         visualize();
         voiceMute();
-        /*rec = new MediaRecorder(stream);
-          rec.ondataavailable = e => {
-            audioChunks.push(e.data);
-        };
-        rec.onstop = function () {
-              isRecording = false;
-              if (audioChunks.length > 0) {
-                let audio = new Blob(audioChunks, {type: 'audio/wave'});
-                recordedAudio.src = URL.createObjectURL(audio);
-                recordedAudio.controls = true;
-                audioDownload.href = recordedAudio.src;
-                audioDownload.download = 'wave';
-                audioDownload.innerHTML = 'download';
-                audioChunks = [];
-            }
-        }*/
       }, // Error callback
       function (err) {
         console.log('The following gUM error occured: ' + err);
@@ -31179,10 +31135,11 @@ function visualize() {
       var drawAlt = function drawAlt() {
         drawVisual = requestAnimationFrame(drawAlt);
         analyser.getByteTimeDomainData(dataArray);
-        canvasCtx.fillStyle = '#f5f5f5';
+        canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+        canvasCtx.fillStyle = 'transparent';
         canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
         canvasCtx.lineWidth = 2;
-        canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
+        canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
         canvasCtx.beginPath();
         var sliceWidth = WIDTH * 1.0 / bufferLength;
         var x = 0;
@@ -31213,7 +31170,6 @@ function visualize() {
   }
 
   function stopAudioContext() {
-    //sendRequest();
     if (audioCtx.state === 'running') {
       audioCtx.suspend().then(function () {
         window.cancelAnimationFrame(drawVisual);
@@ -31274,7 +31230,7 @@ exports = module.exports = __webpack_require__(199)(false);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&subset=cyrillic);", ""]);
 
 // module
-exports.push([module.i, "/*   Full screen transparent overlay container for highlighting*/\r\n._3Un7tDSjz07M3890ABXm7r {\r\n    /*position: fixed;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;*/\r\n    background-color: transparent;\r\n    cursor: pointer;\r\n    z-index: 2000;\r\n}\r\n/*****************************************\r\n   highlighting for many selected Elements\r\n */\r\n._2VikNnKvE5wvO5Iab21XpY{\r\n    position: absolute;\r\n}\r\n._2vf9vtkXNvAd4vmLP8TpEk {\r\n    padding: 10px 0 10px 0;\r\n    position:relative !important;\r\n    box-shadow: 0 0 5px #2f2f2f !important;\r\n    min-width: 70px !important;\r\n    z-index: 2000;\r\n    border: 3px solid #48b1ff;\r\n    opacity: 0.7;\r\n}\r\n\r\n._2vf9vtkXNvAd4vmLP8TpEk[data-number]:after {\r\n    content:attr(data-number);\r\n    position:absolute;\r\n    top:-10px;\r\n    right:-10px;\r\n    font-size: 1.1em;\r\n    background: #474747;\r\n    color:white;\r\n    width:30px;\r\n    height:30px;\r\n    text-align:center;\r\n    line-height: 26px;\r\n    border: 2px solid white;\r\n    border-radius:50%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n}\r\n/*\r\n   highlighting for many selected Elements\r\n ***********************************************/\r\n\r\n/*****************************************\r\n   Custom select Container\r\n */\r\n._2Jbg0W8Hs2HD4RqOFLA_XI{\r\n    border: 3px solid #48b1ff;\r\n    position: absolute;\r\n   /* border: solid 2px #b8b8b8;*/\r\n    border-radius: 3px;\r\n    width: 200px;\r\n    max-height: 250px;\r\n    overflow: auto;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    -moz-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n}\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li{\r\n    height: 50px;\r\n    padding: 10px 0 10px 0;\r\n    list-style-type: none;\r\n    border-bottom: 1px solid #d5d5d5;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI span {\r\n    margin: 5px 10px 5px 5px;\r\n    font-size: 1.4em;\r\n    background: #1891ff;\r\n    color:white;\r\n    text-align:center;\r\n    border: 2px solid white;\r\n    border-radius: 20%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n    padding: 3px;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li:nth-child(even){\r\n    background: #efefef;\r\n}\r\n/*\r\n   Custom select Container\r\n ******************************************/\r\n\r\n/*****************************************\r\n   Container for Date/time\r\n */\r\n._1KQuv7_GDCVhZP8dlPcTUb {\r\n    position: absolute;\r\n    border: 3px solid #48b1ff;\r\n    border-radius: 3px;\r\n    max-height: 250px;\r\n    min-width: 200px;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    -moz-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n}\r\n\r\n._2I63HHT4PF4uabUCDHHmAZ {\r\n    font-weight: bold;\r\n    height: 40px;\r\n    padding: 10px;\r\n    border-bottom: 1px solid #d5d5d5;\r\n    background: #efefef\r\n\r\n}\r\n._2nU9o-f92x8MZTB48InUuf {\r\n    padding: 10px;\r\n    height: 40px;\r\n}\r\n/*\r\n   Container for Date/time\r\n ******************************************/\r\n/**********************************************************\r\nVocs ui\r\n */\r\n.izsA5af-VK70pYnlyNUWS {\r\n    transition: all .5s;\r\n    position: fixed;\r\n    left: 20px;\r\n    bottom: 20px;\r\n    font-family: 'Montserrat', sans-serif;\r\n    color: white;\r\n    /*opacity: 0.2;*/\r\n    filter: alpha(opacity=20);\r\n}\r\n\r\n.izsA5af-VK70pYnlyNUWS:hover {\r\n    opacity: 1;\r\n    filter: alpha(opacity=100);\r\n\r\n}\r\n\r\n._1Prg3Gl_GF_vjQRS0Y7MYA {\r\n    padding: 7px;\r\n    width: auto;\r\n    height: 71px;\r\n    background: #02131D;\r\n    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    border: #1891ff 2px solid;\r\n    border-radius: 50px 10px 10px 50px;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    align-items: center;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk {\r\n    transition: all 0.5s;\r\n    width: 70px;\r\n    border-radius: 37px;\r\n    border: transparent 2px solid;\r\n    height: 100%;\r\n    /*border: 2px solid #1891ff;*/\r\n    /*box-shadow: 0 0 10px rgba(24, 145, 255, .7);*/\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    /*background: #005763;*/\r\n    cursor: pointer;\r\n    position: relative;\r\n    animation-name: _2xwEbWdeDQSdziMm0X21Xl;\r\n    animation-duration: 1.5s;\r\n    animation-iteration-count: 5;\r\n    animation-timing-function: linear;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk:hover {\r\n    /*border: 2px solid #00D7FE;*/\r\n    box-shadow: 0 0 20px rgba(24, 145, 255, .8);\r\n    /*background: rgba(0, 215, 254, .2);*/\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk ._2Uj5fDSRV3fuaE_BerwiXN {\r\n    height: 100%;\r\n    width: 100%;\r\n}\r\n\r\n._1gFGPQKJXHDOQJPohsL72X {\r\n    -webkit-animation: _1gFGPQKJXHDOQJPohsL72X 1.5s infinite linear;\r\n}\r\n@-webkit-keyframes _1gFGPQKJXHDOQJPohsL72X {\r\n    from {\r\n        -webkit-transform: rotate(0deg);\r\n    }\r\n    to {\r\n        -webkit-transform: rotate(359deg);\r\n    }\r\n}\r\n\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk .qQvTJ8ZNBhi4ivcao-f7p {\r\n    height: 70%;\r\n    width: 70%;\r\n    fill: #1891ff;\r\n    position: absolute;\r\n}\r\n\r\n._2c8qawjcDzRJybIjI1MIDd {\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    width: 50px;\r\n    height: 100%;\r\n}\r\n\r\n._2c8qawjcDzRJybIjI1MIDd img {\r\n    width: 100%;\r\n    height: 50%;\r\n}\r\n\r\n._1gLxdahFUn-VWTB2rRcWB0 {\r\n    position: relative;\r\n    border-radius: 5px;\r\n    margin-left: 10px;\r\n    border: 2px solid #00D7FE;\r\n    box-shadow: 0 0 10px rgba(0, 215, 254, .7);\r\n    width: 400px;\r\n    height: 100%;\r\n    background: #021e2a;\r\n}\r\n\r\n._3vHWzDye2gq0_7cSkBy3jh {\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    position: absolute;\r\n    height: 100%;\r\n    width: 100%;\r\n}\r\n\r\n._2V8FAZp-XUg2Bsyi4Z7KWD, ._2VDB4pI95jjGOAr7UlwRMU {\r\n    margin: 5px 10px 5px 10px;\r\n    font-size: 1.2rem;\r\n}\r\n\r\n._2V8FAZp-XUg2Bsyi4Z7KWD:first-child {\r\n    font-weight: 500;\r\n}\r\n\r\n.EshacX6Bpn4B6hDffpGjb {\r\n    position: absolute;\r\n    height: inherit;\r\n    height: inherit;\r\n    width: 100%;\r\n}\r\n\r\n._20eTKhimOSamYE1Pn5M6pg {\r\n    padding: 0 10px;\r\n    background: #d5d5d5;\r\n    margin-top: 5px;\r\n    border-radius: 5px;\r\n    border: 2px solid gray;\r\n    height: 30px;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    justify-content: flex-start;\r\n    align-items: center;\r\n    color: gray;\r\n    font-weight: bold;\r\n    position: relative;\r\n}\r\n\r\n._20eTKhimOSamYE1Pn5M6pg:after {\r\n    content: '';\r\n    position: absolute;\r\n    top: 0;\r\n    left: 5%;\r\n    width: 0;\r\n    height: 0;\r\n    border: 8px solid transparent;\r\n    border-bottom-color: gray;\r\n    border-top: 0;\r\n    margin-left: -8px;\r\n    margin-top: -8px;\r\n}\r\n\r\n._3lWCYfxuSeivMXAGYeuoNu {\r\n    cursor: pointer;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin-left: 5px;\r\n    width: 25px;\r\n    height: 100%;\r\n}\r\n\r\n.HoC36CvVb4GjzkNIfv2gY{\r\n    padding: 5px 0;\r\n    transition: all 0.5s;\r\n    top: 0;\r\n    height: 20%;\r\n}\r\n._3nx6G8-zJjBnKHMfV3XvtP {\r\n    transition: all 0.5s;\r\n    height: 70%;\r\n}\r\n\r\n.HoC36CvVb4GjzkNIfv2gY:hover, ._3nx6G8-zJjBnKHMfV3XvtP:hover {\r\n    background: rgba(0, 91, 122, 0.51);\r\n}\r\n\r\n.GX4WZ--x4Z7mEu7sQ3CxA {\r\n    position: absolute;\r\n    width: 25px;\r\n    height: 25px;\r\n    background: #bd3b3b;\r\n    animation-name: _1SVKOzUfNAFVfTVJtjY1bq;\r\n    animation-duration: 1.5s;\r\n    animation-iteration-count: infinite;\r\n    animation-timing-function: linear;\r\n    border-radius: 15px;\r\n    outline: none;\r\n    display: inline-block;\r\n    vertical-align: middle;\r\n    content: \"\";\r\n}\r\n\r\n@keyframes _1SVKOzUfNAFVfTVJtjY1bq {\r\n    0% {\r\n        box-shadow: 0 0 3px 0 rgba(234, 68, 68, 0.6);\r\n    }\r\n    65% {\r\n        box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0.3);\r\n    }\r\n    90% {\r\n        box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0);\r\n    }\r\n}\r\n/*\r\nVocs ui\r\n *********************************************************/", ""]);
+exports.push([module.i, "/*   Full screen transparent overlay container for highlighting*/\r\n._3Un7tDSjz07M3890ABXm7r {\r\n    /*position: fixed;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;*/\r\n    background-color: transparent;\r\n    cursor: pointer;\r\n    z-index: 2000;\r\n}\r\n/*****************************************\r\n   highlighting for many selected Elements\r\n */\r\n._2VikNnKvE5wvO5Iab21XpY{\r\n    position: absolute;\r\n}\r\n._2vf9vtkXNvAd4vmLP8TpEk {\r\n    padding: 10px 0 10px 0;\r\n    position:relative !important;\r\n    box-shadow: 0 0 5px #2f2f2f !important;\r\n    min-width: 70px !important;\r\n    z-index: 2000;\r\n    border: 3px solid #48b1ff;\r\n    opacity: 0.7;\r\n}\r\n\r\n._2vf9vtkXNvAd4vmLP8TpEk[data-number]:after {\r\n    content:attr(data-number);\r\n    position:absolute;\r\n    top:-10px;\r\n    right:-10px;\r\n    font-size: 1.1em;\r\n    background: #474747;\r\n    color:white;\r\n    width:30px;\r\n    height:30px;\r\n    text-align:center;\r\n    line-height: 26px;\r\n    border: 2px solid white;\r\n    border-radius:50%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n}\r\n/*\r\n   highlighting for many selected Elements\r\n ***********************************************/\r\n\r\n/*****************************************\r\n   Custom select Container\r\n */\r\n._2Jbg0W8Hs2HD4RqOFLA_XI{\r\n    border: 3px solid #48b1ff;\r\n    position: absolute;\r\n   /* border: solid 2px #b8b8b8;*/\r\n    border-radius: 3px;\r\n    width: 200px;\r\n    max-height: 250px;\r\n    overflow: auto;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    -moz-box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n    box-shadow: 0 0 49px 9px rgba(153,153,153,1);\r\n}\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li{\r\n    height: 50px;\r\n    padding: 10px 0 10px 0;\r\n    list-style-type: none;\r\n    border-bottom: 1px solid #d5d5d5;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI span {\r\n    margin: 5px 10px 5px 5px;\r\n    font-size: 1.4em;\r\n    background: #1891ff;\r\n    color:white;\r\n    text-align:center;\r\n    border: 2px solid white;\r\n    border-radius: 20%;\r\n    box-shadow:0 0 1px #333;\r\n    z-index: 2000;\r\n    padding: 3px;\r\n}\r\n\r\n._2Jbg0W8Hs2HD4RqOFLA_XI li:nth-child(even){\r\n    background: #efefef;\r\n}\r\n/*\r\n   Custom select Container\r\n ******************************************/\r\n\r\n/*****************************************\r\n   Container for Date/time\r\n */\r\n._1KQuv7_GDCVhZP8dlPcTUb {\r\n    position: absolute;\r\n    border: 3px solid #48b1ff;\r\n    border-radius: 3px;\r\n    max-height: 250px;\r\n    min-width: 200px;\r\n    z-index: 2000;\r\n    background-color: white;\r\n    -webkit-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    -moz-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n    box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);\r\n}\r\n\r\n._2I63HHT4PF4uabUCDHHmAZ {\r\n    font-weight: bold;\r\n    height: 40px;\r\n    padding: 10px;\r\n    border-bottom: 1px solid #d5d5d5;\r\n    background: #efefef\r\n\r\n}\r\n._2nU9o-f92x8MZTB48InUuf {\r\n    padding: 10px;\r\n    height: 40px;\r\n}\r\n/*\r\n   Container for Date/time\r\n ******************************************/\r\n/**********************************************************\r\nVocs ui\r\n */\r\n.izsA5af-VK70pYnlyNUWS {\r\n    transition: all .5s;\r\n    position: fixed;\r\n    left: 20px;\r\n    bottom: 20px;\r\n    font-family: 'Montserrat', sans-serif;\r\n    color: white;\r\n    /*opacity: 0.2;*/\r\n    filter: alpha(opacity=20);\r\n}\r\n\r\n.izsA5af-VK70pYnlyNUWS:hover {\r\n    opacity: 1;\r\n    filter: alpha(opacity=100);\r\n\r\n}\r\n\r\n._1Prg3Gl_GF_vjQRS0Y7MYA {\r\n    padding: 7px;\r\n    width: auto;\r\n    height: 71px;\r\n    background: #02131D;\r\n    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    box-shadow: 0 0 10px rgba(0, 0, 0, .5);\r\n    border: #1891ff 2px solid;\r\n    border-radius: 50px 10px 10px 50px;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    align-items: center;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk {\r\n    transition: all 0.5s;\r\n    width: 70px;\r\n    border-radius: 37px;\r\n    border: transparent 2px solid;\r\n    height: 100%;\r\n    /*border: 2px solid #1891ff;*/\r\n    /*box-shadow: 0 0 10px rgba(24, 145, 255, .7);*/\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    /*background: #005763;*/\r\n    cursor: pointer;\r\n    position: relative;\r\n    animation-name: _2xwEbWdeDQSdziMm0X21Xl;\r\n    animation-duration: 1.5s;\r\n    animation-iteration-count: 5;\r\n    animation-timing-function: linear;\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk:hover {\r\n    /*border: 2px solid #00D7FE;*/\r\n    box-shadow: 0 0 20px rgba(24, 145, 255, .8);\r\n    /*background: rgba(0, 215, 254, .2);*/\r\n}\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk ._2Uj5fDSRV3fuaE_BerwiXN {\r\n    height: 100%;\r\n    width: 100%;\r\n}\r\n\r\n._1gFGPQKJXHDOQJPohsL72X {\r\n    -webkit-animation: _1gFGPQKJXHDOQJPohsL72X 1.5s infinite linear;\r\n}\r\n@-webkit-keyframes _1gFGPQKJXHDOQJPohsL72X {\r\n    from {\r\n        -webkit-transform: rotate(0deg);\r\n    }\r\n    to {\r\n        -webkit-transform: rotate(359deg);\r\n    }\r\n}\r\n\r\n\r\n._3IU3ZMyNDvI_zCRnU8Mbgk .qQvTJ8ZNBhi4ivcao-f7p {\r\n    height: 70%;\r\n    width: 70%;\r\n    fill: #1891ff;\r\n    position: absolute;\r\n}\r\n\r\n._2c8qawjcDzRJybIjI1MIDd {\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    width: 50px;\r\n    height: 100%;\r\n}\r\n\r\n._2c8qawjcDzRJybIjI1MIDd img {\r\n    width: 100%;\r\n    height: 50%;\r\n}\r\n\r\n._1gLxdahFUn-VWTB2rRcWB0 {\r\n    position: relative;\r\n    border-radius: 5px;\r\n    margin-left: 10px;\r\n    border: 2px solid #00D7FE;\r\n    box-shadow: 0 0 10px rgba(0, 215, 254, .7);\r\n    width: 400px;\r\n    height: 100%;\r\n    background: #021e2a;\r\n}\r\n\r\n._3vHWzDye2gq0_7cSkBy3jh {\r\n    z-index: 10;\r\n    position: absolute;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    height: 100%;\r\n    width: 100%;\r\n}\r\n\r\n._2V8FAZp-XUg2Bsyi4Z7KWD, ._2VDB4pI95jjGOAr7UlwRMU {\r\n    margin: 5px 10px 5px 10px;\r\n    font-size: 1.2rem;\r\n}\r\n\r\n._2V8FAZp-XUg2Bsyi4Z7KWD:first-child {\r\n    font-weight: 500;\r\n}\r\n\r\n.EshacX6Bpn4B6hDffpGjb {\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n}\r\n\r\n._2WD67Hr5kMdhDMQRxPxuWA {\r\n    width: 100%;\r\n    height: 100%;\r\n    z-index: 1;\r\n    background: transparent;\r\n}\r\n\r\n._20eTKhimOSamYE1Pn5M6pg {\r\n    padding: 0 10px;\r\n    background: #d5d5d5;\r\n    margin-top: 5px;\r\n    border-radius: 5px;\r\n    border: 2px solid gray;\r\n    height: 30px;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    justify-content: flex-start;\r\n    align-items: center;\r\n    color: gray;\r\n    font-weight: bold;\r\n    position: relative;\r\n}\r\n\r\n._20eTKhimOSamYE1Pn5M6pg:after {\r\n    content: '';\r\n    position: absolute;\r\n    top: 0;\r\n    left: 5%;\r\n    width: 0;\r\n    height: 0;\r\n    border: 8px solid transparent;\r\n    border-bottom-color: gray;\r\n    border-top: 0;\r\n    margin-left: -8px;\r\n    margin-top: -8px;\r\n}\r\n\r\n._3lWCYfxuSeivMXAGYeuoNu {\r\n    cursor: pointer;\r\n    display: -webkit-box;\r\n    display: -moz-box;\r\n    display: -ms-flexbox;\r\n    display: -webkit-flex;\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin-left: 5px;\r\n    width: 25px;\r\n    height: 100%;\r\n}\r\n\r\n.HoC36CvVb4GjzkNIfv2gY{\r\n    padding: 5px 0;\r\n    transition: all 0.5s;\r\n    top: 0;\r\n    height: 20%;\r\n}\r\n._3nx6G8-zJjBnKHMfV3XvtP {\r\n    transition: all 0.5s;\r\n    height: 70%;\r\n}\r\n\r\n.HoC36CvVb4GjzkNIfv2gY:hover, ._3nx6G8-zJjBnKHMfV3XvtP:hover {\r\n    background: rgba(0, 91, 122, 0.51);\r\n}\r\n\r\n.GX4WZ--x4Z7mEu7sQ3CxA {\r\n    position: absolute;\r\n    width: 25px;\r\n    height: 25px;\r\n    background: #bd3b3b;\r\n    animation-name: _1SVKOzUfNAFVfTVJtjY1bq;\r\n    animation-duration: 1.5s;\r\n    animation-iteration-count: infinite;\r\n    animation-timing-function: linear;\r\n    border-radius: 15px;\r\n    outline: none;\r\n    display: inline-block;\r\n    vertical-align: middle;\r\n    content: \"\";\r\n}\r\n\r\n@keyframes _1SVKOzUfNAFVfTVJtjY1bq {\r\n    0% {\r\n        box-shadow: 0 0 3px 0 rgba(234, 68, 68, 0.6);\r\n    }\r\n    65% {\r\n        box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0.3);\r\n    }\r\n    90% {\r\n        box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0);\r\n    }\r\n}\r\n/*\r\nVocs ui\r\n *********************************************************/", ""]);
 
 // exports
 exports.locals = {
@@ -31298,6 +31254,7 @@ exports.locals = {
 	"vocs_ui_primary_text": "_2V8FAZp-XUg2Bsyi4Z7KWD",
 	"vocs_ui_secondary_text": "_2VDB4pI95jjGOAr7UlwRMU",
 	"vocs_canvas_container": "EshacX6Bpn4B6hDffpGjb",
+	"vocs_visualizer": "_2WD67Hr5kMdhDMQRxPxuWA",
 	"vocs_ui_input": "_20eTKhimOSamYE1Pn5M6pg",
 	"vocs_ui_size": "_3lWCYfxuSeivMXAGYeuoNu",
 	"vocs_ui_min": "HoC36CvVb4GjzkNIfv2gY",

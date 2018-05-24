@@ -4,36 +4,6 @@
  * **********************************************
  */
 export default function visualize() {
-
-    $('#startRecord').click(function () {
-        /*if (typeof (Storage) !== 'undefined') {
-         console.log('audio value : ' + localStorage.getItem('audio'));
-         if (localStorage.getItem('audio') == true) {
-             runAudioContext();
-             startAudioRecord();
-             $('#startRecord').textContent = 'Stop';
-             console.log('Audio settings stored');
-        } else {
-         console.log('Storage is undefined: ' + Storage);
-        }*/
-
-        if ($('#control-img').attr('src') === './images/play_icon.svg') {
-            if (typeof (Storage) === undefined) {
-                if (localStorage.getItem('audio') !== true) {
-                    localStorage.setItem('audio', true);
-                    console.log('Save audio settings');
-                }
-            }
-            //recognition.start();
-            runAudioContext();
-            startAudioRecord();
-            $('#control-img').attr('src', './images/stop_icon.svg');
-        } else {
-            stopAudioContext();
-            $('#control-img').attr('src', './images/play_icon.svg');
-        }
-    });
-
     /**
      * Setup Web Audio API
      * */
@@ -54,21 +24,22 @@ export default function visualize() {
     analyser.maxDecibels = -10;
     analyser.smoothingTimeConstant = 0.85;
 
-    let audioChunks = [];
-    let rec;
-    let isRecording = false;
-
     let distortion = audioCtx.createWaveShaper();
     let gainNode = audioCtx.createGain();
     let biquadFilter = audioCtx.createBiquadFilter();
     let convolver = audioCtx.createConvolver();
 
 // set up canvas context for visualizer
-    let canvas = document.querySelector('.visualizer');
+    let canvas = document.querySelector('.vocs_visualizer');
     let canvasCtx = canvas.getContext("2d");
     const WIDTH = canvas.width;
     const HEIGHT = canvas.height;
+    console.log(WIDTH);
     let drawVisual;
+
+    runAudioContext();
+    startAudioRecord();
+    //stopAudioContext();
 
 //main block for doing the audio recording
     function startAudioRecord() {
@@ -92,27 +63,7 @@ export default function visualize() {
                     gainNode.connect(audioCtx.destination);
                     visualize();
                     voiceMute();
-
-                    /*rec = new MediaRecorder(stream);
-
-                    rec.ondataavailable = e => {
-                        audioChunks.push(e.data);
-                    };
-                    rec.onstop = function () {
-
-                        isRecording = false;
-
-                        if (audioChunks.length > 0) {
-                            let audio = new Blob(audioChunks, {type: 'audio/wave'});
-                            recordedAudio.src = URL.createObjectURL(audio);
-                            recordedAudio.controls = true;
-                            audioDownload.href = recordedAudio.src;
-                            audioDownload.download = 'wave';
-                            audioDownload.innerHTML = 'download';
-                            audioChunks = [];
-                        }
-                    }*/
-                },
+                    },
                 // Error callback
                 function (err) {
                     console.log('The following gUM error occured: ' + err);
@@ -135,11 +86,13 @@ export default function visualize() {
 
                 analyser.getByteTimeDomainData(dataArray);
 
-                canvasCtx.fillStyle = '#f5f5f5';
+                canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+
+                canvasCtx.fillStyle = 'transparent';
                 canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
                 canvasCtx.lineWidth = 2;
-                canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
+                canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
 
                 canvasCtx.beginPath();
 
@@ -164,7 +117,6 @@ export default function visualize() {
             };
             drawAlt();
         }
-
     }
 
     function voiceMute() {
@@ -172,7 +124,6 @@ export default function visualize() {
     }
 
     function stopAudioContext() {
-        //sendRequest();
         if (audioCtx.state === 'running') {
             audioCtx.suspend().then(function () {
                 window.cancelAnimationFrame(drawVisual);

@@ -1,4 +1,5 @@
 import '../css/vocs_styles.css';
+import visualize from './visualizer';
 
 let string_status_en = [
     {
@@ -55,7 +56,7 @@ let uiTemplate = $(
             <img src="./public/images/vocs_ui_menu.svg">
         </div>
         <div class="vocs_ui_display">
-            <div id="vocs_canvas_container">
+            <div class="vocs_canvas_container">
                 <canvas class="vocs_visualizer"></canvas>
             </div>
             <div id="vocs_status_container">
@@ -78,7 +79,6 @@ let strings = {
     status: []
 };
 strings.status.push(...string_status_en);
-console.log(strings.status[0].status_noactive.primary);
 
 class UI {
     constructor() {
@@ -106,6 +106,7 @@ class UI {
                 this.deactivateSystem();
             } else {
                 this.activateSystem();
+                visualize();
             }
         });
         this.startIcon = $('.vocs_ui_start_icon');
@@ -235,8 +236,8 @@ class UI {
     }
 
     hideStatusText() {
-        this.textPrimary.hide(250);
-        this.textSecondary.hide(250);
+        this.textPrimary.hide();
+        this.textSecondary.hide();
     }
 
     showStatusText() {

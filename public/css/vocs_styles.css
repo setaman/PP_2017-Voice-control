@@ -243,6 +243,8 @@ Vocs ui
 }
 
 .vocs_status_container {
+    z-index: 10;
+    position: absolute;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -250,7 +252,6 @@ Vocs ui
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: absolute;
     height: 100%;
     width: 100%;
 }
@@ -266,9 +267,15 @@ Vocs ui
 
 .vocs_canvas_container {
     position: absolute;
-    height: inherit;
-    height: inherit;
     width: 100%;
+    height: 100%;
+}
+
+.vocs_visualizer {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: transparent;
 }
 
 .vocs_ui_input {
