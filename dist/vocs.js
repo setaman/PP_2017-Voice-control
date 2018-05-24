@@ -4340,6 +4340,10 @@ function () {
     this.isActive = false;
     this.isWaitingForVocs = true;
     this.isMinimized = false;
+    this.colorSuccess = '#5fa57a';
+    this.colorError = '#FF7469';
+    this.colorWarn = '#FFCC71';
+    this.colorNormal = 'white';
   }
 
   _createClass(UI, [{
@@ -4453,7 +4457,7 @@ function () {
     value: function statusNotActive() {
       this.hideStatusText();
       this.textPrimary.text(strings.status[0].status_noactive.primary);
-      this.textPrimary.css('color', 'white');
+      this.textPrimary.css('color', this.colorNormal);
       this.textSecondary.text(strings.status[0].status_noactive.secondary);
       this.showStatusText();
     }
@@ -4462,7 +4466,7 @@ function () {
     value: function statusActive() {
       this.hideStatusText();
       this.textPrimary.text(strings.status[1].status_active.primary);
-      this.textPrimary.css('color', 'green');
+      this.textPrimary.css('color', this.colorSuccess);
       this.textSecondary.text(strings.status[1].status_active.secondary);
       this.showStatusText();
     }
@@ -4471,7 +4475,7 @@ function () {
     value: function statusError() {
       this.hideStatusText();
       this.textPrimary.text(strings.status[2].status_error.primary);
-      this.textPrimary.css('color', 'red');
+      this.textPrimary.css('color', this.colorError);
       this.textSecondary.text(strings.status[2].status_error.secondary);
       this.showStatusText();
     }
@@ -4480,7 +4484,7 @@ function () {
     value: function statusNoFound() {
       this.hideStatusText();
       this.textPrimary.text(strings.status[3].status_nofound.primary);
-      this.textPrimary.css('color', 'yellow');
+      this.textPrimary.css('color', this.colorWarn);
       this.textSecondary.text(strings.status[3].status_nofound.secondary);
       this.showStatusText();
     }
@@ -4489,7 +4493,7 @@ function () {
     value: function statusNoSupport() {
       this.hideStatusText();
       this.textPrimary.text(strings.status[4].status_nosupport.primary);
-      this.textPrimary.css('color', 'red');
+      this.textPrimary.css('color', this.colorError);
       this.textSecondary.text(strings.status[4].status_nosupport.secondary);
       this.showStatusText();
     }
@@ -4497,7 +4501,7 @@ function () {
     key: "statusListening",
     value: function statusListening() {
       this.textPrimary.text(strings.status[5].status_listening.primary);
-      this.textPrimary.css('color', 'white');
+      this.textPrimary.css('color', this.colorNormal);
       this.textSecondary.text(strings.status[5].status_listening.secondary);
     }
   }, {
