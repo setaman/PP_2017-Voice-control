@@ -147,7 +147,7 @@ Vocs ui
 
 .vocs_ui {
     padding: 7px;
-    width: 600px;
+    width: auto;
     height: 71px;
     background: #02131D;
     -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
@@ -165,7 +165,7 @@ Vocs ui
 
 .vocs_ui_control {
     transition: all 0.5s;
-    width: 90px;
+    width: 70px;
     border-radius: 37px;
     border: transparent 2px solid;
     height: 100%;
@@ -222,7 +222,6 @@ Vocs ui
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 10px;
     width: 50px;
     height: 100%;
 }
@@ -238,7 +237,7 @@ Vocs ui
     margin-left: 10px;
     border: 2px solid #00D7FE;
     box-shadow: 0 0 10px rgba(0, 215, 254, .7);
-    width: 100%;
+    width: 400px;
     height: 100%;
     background: #021e2a;
 }
@@ -267,6 +266,7 @@ Vocs ui
 
 .vocs_canvas_container {
     position: absolute;
+    height: inherit;
     height: inherit;
     width: 100%;
 }

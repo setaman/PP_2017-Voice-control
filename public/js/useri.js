@@ -84,6 +84,7 @@ class UI {
     constructor() {
         this.isActive = false;
         this.isWaitingForVocs = true;
+        this.isMinimized = false;
         this.startButton;
         this.startIcon;
         this.liveIcon;
@@ -100,6 +101,13 @@ class UI {
         $('body').append(uiTemplate);
         this.uiContainer = $('.vocs_ui_container');
         this.startButton = $('.vocs_ui_control');
+        this.startButton.click(() => {
+            if (this.isActive) {
+                this.deactivateSystem();
+            } else {
+                this.activateSystem();
+            }
+        });
         this.startIcon = $('.vocs_ui_start_icon');
         this.liveIcon = $('.vocs_ui_live_icon');
         this.textPrimary = $('.vocs_ui_primary_text');
@@ -107,6 +115,13 @@ class UI {
         this.textInput = $('.vocs_ui_input_text');
         this.logo = $('.vocs_ui_logo');
         this.textInputContainer = $('.vocs_ui_input');
+        this.display = $('.vocs_ui_display');
+        this.info = $('.vocs_ui_info');
+        this.minButon = $('.vocs_ui_min');
+        this.minButon.click(() => {
+            this.minimizeUI();
+        });
+
 
         this.textInputContainer.hide();
         this.liveIcon.hide();
@@ -118,14 +133,6 @@ class UI {
                 this.activateSystem();
             }
         }
-
-        this.startButton.click(() => {
-            if (this.isActive) {
-                this.deactivateSystem();
-            } else {
-                this.activateSystem();
-            }
-        });
     }
 
     activateSystem() {
@@ -159,7 +166,15 @@ class UI {
     }
 
     minimizeUI() {
-
+        if (!this.isMinimized){
+            this.display.hide(200);
+            this.info.hide(200);
+            this.isMinimized = true;
+        } else {
+            this.display.show(200);
+            this.info.show(200);
+            this.isMinimized = false;
+        }
     }
 
     showLoading() {

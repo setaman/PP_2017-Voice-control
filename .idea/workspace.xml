@@ -35,8 +35,8 @@
       <file leaf-file-name="useri.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/useri.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="716">
-              <caret line="125" column="29" lean-forward="true" selection-start-line="125" selection-start-column="29" selection-end-line="125" selection-end-column="29" />
+            <state relative-caret-position="-797">
+              <caret line="170" column="18" lean-forward="true" selection-start-line="170" selection-start-column="18" selection-end-line="170" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -53,8 +53,8 @@
       <file leaf-file-name="vocs_styles.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5918">
-              <caret line="269" column="20" selection-start-line="269" selection-start-column="20" selection-end-line="269" selection-end-column="20" />
+            <state relative-caret-position="4928">
+              <caret line="224" selection-start-line="224" selection-end-line="224" />
             </state>
           </provider>
         </entry>
@@ -85,9 +85,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>fruit</find>
-      <find>hide</find>
-      <find>select lis</find>
+      <find />
       <find>bun</find>
       <find>email</find>
       <find>elem</find>
@@ -106,7 +104,7 @@
       <find>mangp</find>
       <find>set</find>
       <find>setcu</find>
-      <find>drop me</find>
+      <find />
       <find>search</find>
       <find>extractK</find>
       <find>extractKe</find>
@@ -115,6 +113,8 @@
       <find>rota</find>
       <find>control</find>
       <find>canvas</find>
+      <find>displa</find>
+      <find>_display</find>
     </findStrings>
     <dirStrings>
       <dir>G:\Projects\PP_2017-Voice-control</dir>
@@ -524,21 +524,7 @@
       <workItem from="1526117744203" duration="468000" />
       <workItem from="1526126570089" duration="12609000" />
       <workItem from="1527072271805" duration="31399000" />
-      <workItem from="1527148709227" duration="805000" />
-    </task>
-    <task id="LOCAL-00073" summary="bug fixes">
-      <created>1517603228813</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1517603228813</updated>
-    </task>
-    <task id="LOCAL-00074" summary="new selectors for date, time etc. inputs added">
-      <created>1517773930154</created>
-      <option name="number" value="00074" />
-      <option name="presentableId" value="LOCAL-00074" />
-      <option name="project" value="LOCAL" />
-      <updated>1517773930154</updated>
+      <workItem from="1527148709227" duration="3774000" />
     </task>
     <task id="LOCAL-00075" summary="some code clean up, now only elem object used as parameter">
       <created>1517780430529</created>
@@ -869,11 +855,25 @@
       <option name="project" value="LOCAL" />
       <updated>1527108920880</updated>
     </task>
-    <option name="localTasksCounter" value="122" />
+    <task id="LOCAL-00122" summary="ui api: activation/deactivation methods">
+      <created>1527149534781</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1527149534782</updated>
+    </task>
+    <task id="LOCAL-00123" summary="ui api: automatic start on page reload on session">
+      <created>1527156436630</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1527156436631</updated>
+    </task>
+    <option name="localTasksCounter" value="124" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="763322000" />
+    <option name="totallyTimeSpent" value="766291000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -917,6 +917,36 @@
       <window_info anchor="bottom" id="Find" order="1" weight="0.32826087" />
       <window_info anchor="right" id="Maven Projects" order="3" />
     </layout>
+    <layout-to-restore>
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17228661" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="8" weight="0.32934782" />
+      <window_info anchor="bottom" id="TypeScript" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" weight="0.2908497" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49789253" weight="0.2832244" />
+      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50421494" side_tool="true" weight="0.3267974" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32826087" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" id="Maven Projects" order="8" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -988,8 +1018,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="new selector for inputs without type added" />
-    <MESSAGE value="code cleanup" />
     <MESSAGE value="code cleanup and comments" />
     <MESSAGE value="options for fuzzy for vocs keyword" />
     <MESSAGE value="fuzzy search for vocs optimized" />
@@ -1013,7 +1041,9 @@
     <MESSAGE value="ui api: many methods implemented" />
     <MESSAGE value="ui api: new api control methods implemented" />
     <MESSAGE value="ui api: bug fix for status text change" />
-    <option name="LAST_COMMIT_MESSAGE" value="ui api: bug fix for status text change" />
+    <MESSAGE value="ui api: activation/deactivation methods" />
+    <MESSAGE value="ui api: automatic start on page reload on session" />
+    <option name="LAST_COMMIT_MESSAGE" value="ui api: automatic start on page reload on session" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1196,13 +1226,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5918">
-          <caret line="269" column="20" selection-start-line="269" selection-start-column="20" selection-end-line="269" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/webpack.config.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1217,13 +1240,6 @@
           <folding>
             <element signature="e#44#461#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -1248,10 +1264,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4928">
+          <caret line="224" selection-start-line="224" selection-end-line="224" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/useri.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="716">
-          <caret line="125" column="29" lean-forward="true" selection-start-line="125" selection-start-column="29" selection-end-line="125" selection-end-column="29" />
+        <state relative-caret-position="-797">
+          <caret line="170" column="18" lean-forward="true" selection-start-line="170" selection-start-column="18" selection-end-line="170" selection-end-column="18" />
         </state>
       </provider>
     </entry>
