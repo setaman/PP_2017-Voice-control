@@ -259,6 +259,8 @@ Vocs ui
 .vocs_ui_primary_text, .vocs_ui_secondary_text {
     margin: 5px 10px 5px 10px;
     font-size: 1.2rem;
+    min-height: 30%;
+    text-align: left;
 }
 
 .vocs_ui_primary_text:first-child {

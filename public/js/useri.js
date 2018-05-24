@@ -35,7 +35,7 @@ let string_status_en = [
     {
         status_listening: {
             primary: 'Listening...',
-            secondary: ''
+            secondary: ' '
         }
     }
 ];
@@ -93,6 +93,7 @@ class UI {
 
     drawUI() {
         $('body').append(uiTemplate);
+
         this.uiContainer = $('.vocs_ui_container');
         this.startButton = $('.vocs_ui_control');
         this.startButton.click(() => {
@@ -123,6 +124,11 @@ class UI {
         if (storageAvailable('sessionStorage')) {
             if (sessionStorage.getItem('vocsIsActive') === 'true') {
                 this.activateSystem();
+            }else {
+                this.statusNotActive();
+            }
+            if (sessionStorage.getItem('uiIsMinimized') === 'true') {
+                this.minimizeUI();
             }
         }
     }
@@ -152,26 +158,30 @@ class UI {
     }
 
     showUI() {
-        $(this.uiContainer).show(500);
+        $(this.uiContainer).show(0);
     }
 
     hideUI() {
-        $(this.uiContainer).hide(500);
+        $(this.uiContainer).hide(0);
     }
 
     minimizeUI() {
-        if (!this.isMinimized){
+        if (!this.isMinimized) {
             this.display.hide(200);
             this.info.hide(200);
             this.uiContainer.removeClass('vocs_ui_container_responsive');
-            //this.startButton.css('min-width','55px');
             this.isMinimized = true;
+            if (storageAvailable('sessionStorage')) {
+                sessionStorage.setItem('uiIsMinimized', 'true');
+            }
         } else {
             this.display.show(200);
             this.info.show(200);
             this.uiContainer.addClass('vocs_ui_container_responsive');
-            //this.startButton.css('min-width','');
             this.isMinimized = false;
+            if (storageAvailable('sessionStorage')) {
+                sessionStorage.setItem('uiIsMinimized', 'false');
+            }
         }
     }
 
