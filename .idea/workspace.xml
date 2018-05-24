@@ -23,8 +23,8 @@
       <file leaf-file-name="vocs_styles.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="394" column="26" selection-start-line="394" selection-start-column="26" selection-end-line="394" selection-end-column="26" />
+            <state relative-caret-position="405">
+              <caret line="394" column="21" selection-start-line="394" selection-start-column="21" selection-end-line="394" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -44,8 +44,8 @@
       <file leaf-file-name="useri.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/useri.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="52" column="14" lean-forward="true" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
+            <state relative-caret-position="-274">
+              <caret line="192" column="20" lean-forward="true" selection-start-line="192" selection-start-column="20" selection-end-line="192" selection-end-column="20" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -545,14 +545,7 @@
       <workItem from="1526117744203" duration="468000" />
       <workItem from="1526126570089" duration="12609000" />
       <workItem from="1527072271805" duration="31399000" />
-      <workItem from="1527148709227" duration="13521000" />
-    </task>
-    <task id="LOCAL-00079" summary="test logic implemented for set date/time">
-      <created>1518031783675</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1518031783676</updated>
+      <workItem from="1527148709227" duration="16421000" />
     </task>
     <task id="LOCAL-00080" summary="set date/time logic with validation implemented">
       <created>1518039323262</created>
@@ -890,11 +883,18 @@
       <option name="project" value="LOCAL" />
       <updated>1527169246902</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="ui api: fixed some responsive issues">
+      <created>1527171269291</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1527171269291</updated>
+    </task>
+    <option name="localTasksCounter" value="129" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="776038000" />
+    <option name="totallyTimeSpent" value="778938000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -909,13 +909,13 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17228661" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17228661" />
       <window_info anchor="bottom" id="TODO" order="8" weight="0.32934782" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50421494" side_tool="true" weight="0.3267974" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3278867" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" weight="0.2908497" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49578503" visible="true" weight="0.2908497" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49789253" weight="0.2832244" />
       <window_info id="Favorites" order="6" side_tool="true" />
@@ -1009,7 +1009,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="keyword extracting added for better search result" />
     <MESSAGE value="2 rounds search added (not optimized)" />
     <MESSAGE value="test site for video added" />
     <MESSAGE value="naturally searching optimized" />
@@ -1034,7 +1033,8 @@
     <MESSAGE value="ui api: added visualization for sounds" />
     <MESSAGE value="ui api: automatic start/stop visualization" />
     <MESSAGE value="ui api: now responsive" />
-    <option name="LAST_COMMIT_MESSAGE" value="ui api: now responsive" />
+    <MESSAGE value="ui api: fixed some responsive issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="ui api: fixed some responsive issues" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1264,8 +1264,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/useri.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="52" column="14" lean-forward="true" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
+        <state relative-caret-position="-274">
+          <caret line="192" column="20" lean-forward="true" selection-start-line="192" selection-start-column="20" selection-end-line="192" selection-end-column="20" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
@@ -1274,8 +1274,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="394" column="26" selection-start-line="394" selection-start-column="26" selection-end-line="394" selection-end-column="26" />
+        <state relative-caret-position="405">
+          <caret line="394" column="21" selection-start-line="394" selection-start-column="21" selection-end-line="394" selection-end-column="21" />
         </state>
       </provider>
     </entry>

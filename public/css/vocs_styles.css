@@ -369,6 +369,7 @@ Vocs ui
 
 @media only screen and (max-width: 630px) {
     .vocs_ui_container {
+        width: 100px;
         left: 0;
         bottom: 0;
     }
@@ -390,6 +391,11 @@ Vocs ui
     }
 
     .vocs_ui_control{
+        width: 55px;
+        height: auto;
+        border-radius: 50%;
+    }
+    .vocs_ui_container_responsive .vocs_ui_control {
         width: 15%;
         height: auto;
         border-radius: 50%;

@@ -85,16 +85,6 @@ class UI {
         this.isActive = false;
         this.isWaitingForVocs = true;
         this.isMinimized = false;
-        this.startButton;
-        this.startIcon;
-        this.liveIcon;
-        this.uiContainer;
-        this.textPrimary;
-        this.textSecondary;
-        this.textInput;
-        this.logo;
-        this.icon;
-        this.textInputContainer;
     }
 
     drawUI() {
@@ -125,8 +115,6 @@ class UI {
 
         this.textInputContainer.hide();
         this.liveIcon.hide();
-
-        console.warn(sessionStorage.vocsIsActive);
 
         if (storageAvailable('sessionStorage')) {
             if (sessionStorage.getItem('vocsIsActive') === 'true') {
@@ -172,13 +160,14 @@ class UI {
             this.display.hide(200);
             this.info.hide(200);
             this.uiContainer.removeClass('vocs_ui_container_responsive');
+            //this.startButton.css('min-width','55px');
             this.isMinimized = true;
         } else {
             this.display.show(200);
             this.info.show(200);
-            this.isMinimized = false;
             this.uiContainer.addClass('vocs_ui_container_responsive');
-
+            //this.startButton.css('min-width','');
+            this.isMinimized = false;
         }
     }
 
