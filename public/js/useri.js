@@ -52,8 +52,8 @@ let uiTemplate = $(
             <span class="vocs_ui_live_icon"></span>
         </div>
         <div class="vocs_ui_info">
-            <img class="vocs_ui_icons_hover" src="./public/images/vocs_ui_menu.svg">
-            <img class="vocs_ui_icons_hover" src="./public/images/vocs_ui_reload.svg">
+            <img class="vocs_ui_menu vocs_ui_icons_hover" src="./public/images/vocs_ui_menu.svg">
+            <img class="vocs_ui_reload vocs_ui_icons_hover" src="./public/images/vocs_ui_reload_inactive.svg">
         </div>
         <div class="vocs_ui_display">
             <div class="vocs_canvas_container">
@@ -71,8 +71,7 @@ let uiTemplate = $(
     </div>
     <div class="vocs_ui_input">
         <p class="vocs_ui_input_text"></p>
-    </div>
-  
+    </div>  
 </div>`);
 
 let strings = {
@@ -85,6 +84,7 @@ class UI {
         this.isActive = false;
         this.isWaitingForVocs = true;
         this.isMinimized = false;
+        this.startAlways = false;
         this.colorSuccess = '#5fa57a';
         this.colorError = '#FF7469';
         this.colorWarn = '#FFCC71';
@@ -105,30 +105,52 @@ class UI {
         });
         this.startIcon = $('.vocs_ui_start_icon');
         this.liveIcon = $('.vocs_ui_live_icon');
+        this.liveIcon.hide();
         this.textPrimary = $('.vocs_ui_primary_text');
         this.textSecondary = $('.vocs_ui_secondary_text');
         this.textInput = $('.vocs_ui_input_text');
         this.logo = $('.vocs_ui_logo');
         this.textInputContainer = $('.vocs_ui_input');
+        this.textInputContainer.hide();
         this.display = $('.vocs_ui_display');
         this.info = $('.vocs_ui_info');
-        this.minButon = $('.vocs_ui_min');
-        this.minButon.click(() => {
+        this.minButton = $('.vocs_ui_min');
+        this.minButton.click(() => {
             this.minimizeUI();
         });
+        this.reloadButton = $('.vocs_ui_reload')
 
-
-        this.textInputContainer.hide();
-        this.liveIcon.hide();
+        /*if (storageAvailable('localStorage')) {
+            if(localStorage.getItem('alwaysActive') === 'true') {this.startAlways = true;}
+        }*/
+        this.reloadButton.click(() => {
+            if (!this.startAlways) {
+                if (storageAvailable('localStorage')) {
+                    this.reloadButton.attr('src', './public/images/vocs_ui_reload.svg');
+                    localStorage.setItem('alwaysActive', 'true');
+                    this.startAlways = true;
+                }
+            } else {
+                if (storageAvailable('localStorage')) {
+                    this.reloadButton.attr('src', './public/images/vocs_ui_reload_inactive.svg');
+                    localStorage.setItem('alwaysActive', 'false');
+                    this.startAlways = false;
+                }
+            }
+        });
 
         if (storageAvailable('sessionStorage')) {
-            if (sessionStorage.getItem('vocsIsActive') === 'true') {
+            if (sessionStorage.getItem('vocsIsActive') === 'true' || localStorage.getItem('alwaysActive') === 'true') {
                 this.activateSystem();
-            }else {
+            } else {
                 this.statusNotActive();
             }
             if (sessionStorage.getItem('uiIsMinimized') === 'true') {
                 this.minimizeUI();
+            }
+            if (localStorage.getItem('alwaysActive') === 'true') {
+                this.startAlways = true;
+                this.reloadButton.attr('src', './public/images/vocs_ui_reload.svg');
             }
         }
     }
