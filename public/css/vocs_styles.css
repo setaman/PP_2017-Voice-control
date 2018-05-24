@@ -215,6 +215,7 @@ Vocs ui
 }
 
 .vocs_ui_info {
+    transition: all 0.5s;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -314,7 +315,6 @@ Vocs ui
 }
 
 .vocs_ui_size {
-    cursor: pointer;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -328,17 +328,11 @@ Vocs ui
 
 .vocs_ui_min{
     padding: 5px 0;
-    transition: all 0.5s;
     top: 0;
     height: 20%;
 }
 .vocs_ui_resize {
-    transition: all 0.5s;
     height: 70%;
-}
-
-.vocs_ui_min:hover, .vocs_ui_resize:hover {
-    background: rgba(0, 91, 122, 0.51);
 }
 
 .vocs_ui_live_icon {
@@ -369,6 +363,14 @@ Vocs ui
     }
 }
 
+.vocs_ui_icons_hover {
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.vocs_ui_icons_hover:hover {
+    border-radius: 5px;
+    background: rgba(0, 91, 122, 0.51);
+}
 @media only screen and (max-width: 630px) {
     .vocs_ui_container {
         width: 100px;

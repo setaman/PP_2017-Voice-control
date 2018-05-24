@@ -52,8 +52,8 @@ let uiTemplate = $(
             <span class="vocs_ui_live_icon"></span>
         </div>
         <div class="vocs_ui_info">
-            <img src="./public/images/vocs_ui_menu.svg">
-            <img src="./public/images/vocs_ui_menu.svg">
+            <img class="vocs_ui_icons_hover" src="./public/images/vocs_ui_menu.svg">
+            <img class="vocs_ui_icons_hover" src="./public/images/vocs_ui_reload.svg">
         </div>
         <div class="vocs_ui_display">
             <div class="vocs_canvas_container">
@@ -65,8 +65,8 @@ let uiTemplate = $(
             </div>
         </div>
         <div class="vocs_ui_size">
-            <img class="vocs_ui_min" src="./public/images/vocs_ui_min.svg">
-            <img class="vocs_ui_resize" src="./public/images/vocs_ui_resize.svg">
+            <img class="vocs_ui_min vocs_ui_icons_hover" src="./public/images/vocs_ui_min.svg">
+            <img class="vocs_ui_resize vocs_ui_icons_hover" src="./public/images/vocs_ui_resize.svg">
         </div>
     </div>
     <div class="vocs_ui_input">
