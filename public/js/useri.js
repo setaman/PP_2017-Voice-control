@@ -59,7 +59,7 @@ let uiTemplate = $(
             <div class="vocs_canvas_container">
                 <canvas class="vocs_visualizer"></canvas>
             </div>
-            <div id="vocs_status_container">
+            <div class="vocs_status_container">
                 <p class="vocs_ui_primary_text"></p>
                 <p class="vocs_ui_secondary_text"></p>
             </div>

@@ -78,7 +78,6 @@ export function startVisualization() {
 
         analyser.fftSize = 512;
         let bufferLength = analyser.fftSize;
-        console.log(bufferLength);
         let dataArray = new Uint8Array(bufferLength);
 
         canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);

@@ -366,6 +366,42 @@ Vocs ui
         box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0);
     }
 }
+
+@media only screen and (max-width: 630px) {
+    .vocs_ui_container {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        min-width: 350px;
+    }
+    .vocs_ui{
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0;
+    }
+
+    .vocs_ui_control{
+        width: 50px;
+        height: 40px;
+        border-radius: 25px;
+    }
+    .vocs_ui_display {
+        width: 100%;
+        height: 100%;
+    }
+    .vocs_ui_display p{
+                font-size: 1rem;
+    }
+    .vocs_ui_live_icon {
+        height: 30%;
+        width: 30%;
+    }
+}
+@media only screen and (max-width: 410px) {
+    .vocs_ui_info {
+        display: none;
+    }
+}
 /*
 Vocs ui
  *********************************************************/
