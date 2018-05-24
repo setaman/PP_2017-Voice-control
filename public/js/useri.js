@@ -111,29 +111,43 @@ class UI {
         this.textInputContainer.hide();
         this.liveIcon.hide();
 
+        console.warn(sessionStorage.vocsIsActive);
+
+        if (storageAvailable('sessionStorage')) {
+            if (sessionStorage.getItem('vocsIsActive') === 'true') {
+                this.activateSystem();
+            }
+        }
+
         this.startButton.click(() => {
             if (this.isActive) {
                 this.deactivateSystem();
-            }else {
+            } else {
                 this.activateSystem();
             }
         });
     }
 
-    activateSystem () {
+    activateSystem() {
         this.showLoading();
         this.hideLoading();
         this.isActive = true;
         this.statusActive();
         this.startIcon.hide(500);
         this.liveIcon.show(500);
+        if (storageAvailable('sessionStorage')) {
+            sessionStorage.setItem('vocsIsActive', 'true');
+        }
     }
 
-    deactivateSystem () {
+    deactivateSystem() {
         this.isActive = false;
         this.liveIcon.hide(500);
         this.startIcon.show(500);
         this.statusNotActive();
+        if (storageAvailable('sessionStorage')) {
+            sessionStorage.setItem('vocsIsActive', 'false');
+        }
     }
 
     showUI() {
@@ -209,6 +223,7 @@ class UI {
         this.textPrimary.hide(250);
         this.textSecondary.hide(250);
     }
+
     showStatusText() {
         this.textPrimary.show(250);
         this.textSecondary.show(250);
@@ -235,6 +250,31 @@ class UI {
                 this.textInputContainer.hide(500);
             }
         }, 500)
+    }
+}
+
+function storageAvailable(type) {
+    try {
+        let storage = window[type],
+            x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch (e) {
+        console.warn('Storage is not supported!!!')
+        return e instanceof DOMException && (
+                // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            storage.length !== 0;
     }
 }
 

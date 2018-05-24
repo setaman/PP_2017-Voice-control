@@ -4352,19 +4352,6 @@ function () {
   }
 
   _createClass(UI, [{
-    key: "showUI",
-    value: function showUI() {
-      $(this.uiContainer).show(500);
-    }
-  }, {
-    key: "hideUI",
-    value: function hideUI() {
-      $(this.uiContainer).hide(500);
-    }
-  }, {
-    key: "minimizeUI",
-    value: function minimizeUI() {}
-  }, {
     key: "drawUI",
     value: function drawUI() {
       var _this = this;
@@ -4381,30 +4368,61 @@ function () {
       this.textInputContainer = $('.vocs_ui_input');
       this.textInputContainer.hide();
       this.liveIcon.hide();
+      console.warn(sessionStorage.vocsIsActive);
+
+      if (storageAvailable('sessionStorage')) {
+        if (sessionStorage.getItem('vocsIsActive') === 'true') {
+          this.activateSystem();
+        }
+      }
+
       this.startButton.click(function () {
         if (_this.isActive) {
-          _this.isActive = false;
-
-          _this.liveIcon.hide(500);
-
-          _this.startIcon.show(500);
-
-          _this.statusNotActive();
+          _this.deactivateSystem();
         } else {
-          _this.showLoading();
-
-          _this.hideLoading();
-
-          _this.isActive = true;
-
-          _this.statusActive();
-
-          _this.startIcon.hide(500);
-
-          _this.liveIcon.show(500);
+          _this.activateSystem();
         }
       });
     }
+  }, {
+    key: "activateSystem",
+    value: function activateSystem() {
+      this.showLoading();
+      this.hideLoading();
+      this.isActive = true;
+      this.statusActive();
+      this.startIcon.hide(500);
+      this.liveIcon.show(500);
+
+      if (storageAvailable('sessionStorage')) {
+        sessionStorage.setItem('vocsIsActive', 'true');
+      }
+    }
+  }, {
+    key: "deactivateSystem",
+    value: function deactivateSystem() {
+      this.isActive = false;
+      this.liveIcon.hide(500);
+      this.startIcon.show(500);
+      this.statusNotActive();
+
+      if (storageAvailable('sessionStorage')) {
+        sessionStorage.setItem('vocsIsActive', 'false');
+      }
+    }
+  }, {
+    key: "showUI",
+    value: function showUI() {
+      $(this.uiContainer).show(500);
+    }
+  }, {
+    key: "hideUI",
+    value: function hideUI() {
+      $(this.uiContainer).hide(500);
+    }
+  }, {
+    key: "minimizeUI",
+    value: function minimizeUI() {}
   }, {
     key: "showLoading",
     value: function showLoading() {
@@ -4517,6 +4535,28 @@ function () {
 
   return UI;
 }();
+
+function storageAvailable(type) {
+  try {
+    var _storage = window[type],
+        x = '__storage_test__';
+
+    _storage.setItem(x, x);
+
+    _storage.removeItem(x);
+
+    return true;
+  } catch (e) {
+    console.warn('Storage is not supported!!!');
+    return e instanceof DOMException && ( // everything except Firefox
+    e.code === 22 || // Firefox
+    e.code === 1014 || // test name field too, because code might not be present
+    // everything except Firefox
+    e.name === 'QuotaExceededError' || // Firefox
+    e.name === 'NS_ERROR_DOM_QUOTA_REACHED') && // acknowledge QuotaExceededError only if there's something already stored
+    storage.length !== 0;
+  }
+}
 
 var ui = new UI();
 exports.ui = ui;
