@@ -44,7 +44,7 @@ let inputTextInterval = null;
 let logoRotationInterval = null;
 
 let uiTemplate = $(
-    `<div class="vocs_ui_container">
+    `<div class="vocs_ui_container vocs_ui_container_responsive">
     <div class="vocs_ui">
         <div class="vocs_ui_control">
             <img class="vocs_ui_logo" src="./public/images/vocs_ui_logo.svg">
@@ -171,11 +171,14 @@ class UI {
         if (!this.isMinimized){
             this.display.hide(200);
             this.info.hide(200);
+            this.uiContainer.removeClass('vocs_ui_container_responsive');
             this.isMinimized = true;
         } else {
             this.display.show(200);
             this.info.show(200);
             this.isMinimized = false;
+            this.uiContainer.addClass('vocs_ui_container_responsive');
+
         }
     }
 
