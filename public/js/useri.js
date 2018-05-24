@@ -55,8 +55,13 @@ let uiTemplate = $(
             <img src="./public/images/vocs_ui_menu.svg">
         </div>
         <div class="vocs_ui_display">
-            <p class="vocs_ui_primary_text"></p>
-            <p class="vocs_ui_secondary_text"></p>
+            <div id="vocs_canvas_container">
+                <canvas class="vocs_visualizer"></canvas>
+            </div>
+            <div id="vocs_status_container">
+                <p class="vocs_ui_primary_text"></p>
+                <p class="vocs_ui_secondary_text"></p>
+            </div>
         </div>
         <div class="vocs_ui_size">
             <img class="vocs_ui_min" src="./public/images/vocs_ui_min.svg">
@@ -91,18 +96,6 @@ class UI {
         this.textInputContainer;
     }
 
-    showUI() {
-        $(this.uiContainer).show(500);
-    }
-
-    hideUI() {
-        $(this.uiContainer).hide(500);
-    }
-
-    minimizeUI() {
-
-    }
-
     drawUI() {
         $('body').append(uiTemplate);
         this.uiContainer = $('.vocs_ui_container');
@@ -120,17 +113,39 @@ class UI {
 
         this.startButton.click(() => {
             if (this.isActive) {
-                this.isActive = false;
-                this.liveIcon.hide(500);
-                this.startIcon.show(500);
-                this.statusNotActive();
+                this.deactivateSystem();
             }else {
-                this.isActive = true;
-                this.statusActive();
-                this.startIcon.hide(500);
-                this.liveIcon.show(500);
+                this.activateSystem();
             }
         });
+    }
+
+    activateSystem () {
+        this.showLoading();
+        this.hideLoading();
+        this.isActive = true;
+        this.statusActive();
+        this.startIcon.hide(500);
+        this.liveIcon.show(500);
+    }
+
+    deactivateSystem () {
+        this.isActive = false;
+        this.liveIcon.hide(500);
+        this.startIcon.show(500);
+        this.statusNotActive();
+    }
+
+    showUI() {
+        $(this.uiContainer).show(500);
+    }
+
+    hideUI() {
+        $(this.uiContainer).hide(500);
+    }
+
+    minimizeUI() {
+
     }
 
     showLoading() {
@@ -138,7 +153,10 @@ class UI {
     }
 
     hideLoading() {
-        $(this.logo).removeClass('vocs_logo_rotation');
+        setTimeout(() => {
+            this.logo.removeClass('vocs_logo_rotation');
+        }, 1500);
+
     }
 
     statusNotActive() {

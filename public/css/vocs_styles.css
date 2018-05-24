@@ -233,13 +233,7 @@ Vocs ui
 }
 
 .vocs_ui_display {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    position: relative;
     border-radius: 5px;
     margin-left: 10px;
     border: 2px solid #00D7FE;
@@ -249,6 +243,19 @@ Vocs ui
     background: #021e2a;
 }
 
+.vocs_status_container {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
 .vocs_ui_primary_text, .vocs_ui_secondary_text {
     margin: 5px 10px 5px 10px;
     font-size: 1.2rem;
@@ -256,6 +263,12 @@ Vocs ui
 
 .vocs_ui_primary_text:first-child {
     font-weight: 500;
+}
+
+.vocs_canvas_container {
+    position: absolute;
+    height: inherit;
+    width: 100%;
 }
 
 .vocs_ui_input {
