@@ -129,7 +129,7 @@
 Vocs ui
  */
 .vocs_ui_container {
-    transition: all .5s;
+    transition: width .5s /*, left .5s, right .5s, top .5s, bottom .5s*/;
     position: fixed;
     left: 20px;
     bottom: 20px;
@@ -346,6 +346,7 @@ Vocs ui
     height: 20%;
 }
 .vocs_ui_resize {
+    cursor: move !important;
     height: 70%;
 }
 
@@ -388,8 +389,8 @@ Vocs ui
 @media only screen and (max-width: 630px) {
     .vocs_ui_container {
         width: 100px;
-        left: 0;
-        bottom: 0;
+        left: 0 !important;
+        bottom: 0 !important;
     }
     .vocs_ui_container_responsive {
         width: 100%;

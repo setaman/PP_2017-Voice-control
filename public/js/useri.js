@@ -95,10 +95,11 @@ class UI {
         this.colorNormal = 'white';
     }
 
-    get isReady (){
+    get isReady() {
         return this._isReady;
     }
-    set isReady (value) {
+
+    set isReady(value) {
         this._isReady = value;
     }
 
@@ -113,17 +114,19 @@ class UI {
         this.liveIcon.hide();
         this.textInputContainer = $('.vocs_ui_input');
         this.textInputContainer.hide();
+        this.startButton = $('.vocs_ui_control');
         //if browser not supported, stop initialization and provide system status
         if (!this.isReady) {
             this.statusNoSupport();
             this.startIcon.hide();
             this.logo.attr('src', './public/images/vocs_ui_mic_dis.svg');
-            $('.vocs_ui_control').addClass('vocs_ui_notready');
+            this.startButton.addClass('vocs_ui_notready');
             return;
         }
 
+        dragElement(document.getElementsByClassName('vocs_ui_resize')[0], document.getElementsByClassName('vocs_ui_container')[0]);
+
         this.uiContainer = $('.vocs_ui_container');
-        this.startButton = $('.vocs_ui_control');
         this.startButton.click(() => {
             if (this.isActive) {
                 this.deactivateSystem();
@@ -138,7 +141,7 @@ class UI {
         this.minButton.click(() => {
             this.minimizeUI();
         });
-        this.reloadButton = $('.vocs_ui_reload')
+        this.reloadButton = $('.vocs_ui_reload');
 
         /*if (storageAvailable('localStorage')) {
             if(localStorage.getItem('alwaysActive') === 'true') {this.startAlways = true;}
@@ -355,3 +358,39 @@ function storageAvailable(type) {
 }
 
 export let ui = new UI();
+
+function dragElement(elmnt, container) {
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        elmnt.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        elmnt.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        container.style.top = (container.offsetTop - pos2) + "px";
+        container.style.left = (container.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        /* stop moving when mouse button is released:*/
+        elmnt.onmouseup = null;
+        elmnt.onmousemove = null;
+    }
+}
