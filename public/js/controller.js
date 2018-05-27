@@ -83,7 +83,7 @@ $('.ti').each(function () {
     })
 });
 
-ui.drawUI();
+//ui.drawUI();
 
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt

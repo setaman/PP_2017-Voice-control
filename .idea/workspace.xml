@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/public/images/vocs_ui_reload.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/vocs_ui_reload_inactive.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/vocs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/vocs.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/vocs.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/vocs_styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/vocs_styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/vocs_ui_mic_dis.svg" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/vocs_ui_mic_dis.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/useri.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/useri.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/webspeech.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/webspeech.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,20 +28,8 @@
       <file leaf-file-name="vocs_styles.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8096">
-              <caret line="368" column="1" selection-start-line="368" selection-start-column="1" selection-end-line="368" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webspeech.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/webspeech.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
-              <folding>
-                <element signature="e#0#68#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="413">
+              <caret line="198" column="45" selection-start-line="198" selection-start-column="45" selection-end-line="198" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -43,29 +37,12 @@
       <file leaf-file-name="useri.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/useri.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="511">
-              <caret line="124" column="11" selection-start-line="122" selection-start-column="8" selection-end-line="124" selection-end-column="11" />
+            <state relative-caret-position="345">
+              <caret line="284" selection-start-line="284" selection-end-line="284" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
+                <element signature="e#125#953#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test_script.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_script.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="3" column="28" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Test.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Test.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -73,8 +50,8 @@
       <file leaf-file-name="controller.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
-              <caret line="86" selection-start-line="86" selection-end-line="86" />
+            <state relative-caret-position="638">
+              <caret line="85" column="2" selection-start-line="85" selection-start-column="2" selection-end-line="85" selection-end-column="2" />
               <folding>
                 <element signature="e#44#461#0" expanded="true" />
               </folding>
@@ -82,11 +59,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vocs.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/vocs.js">
+      <file leaf-file-name="Test.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Test.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+            <state relative-caret-position="66">
+              <caret line="3" column="26" lean-forward="true" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -105,8 +82,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>elem</find>
-      <find>emailm1</find>
       <find>DATE_TIME_SELE</find>
       <find>textarea</find>
       <find>avocad</find>
@@ -135,6 +110,8 @@
       <find>hover</find>
       <find>resi</find>
       <find>activate</find>
+      <find>ui_input</find>
+      <find>Lis</find>
     </findStrings>
     <dirStrings>
       <dir>G:\Projects\PP_2017-Voice-control</dir>
@@ -213,11 +190,11 @@
         <option value="$PROJECT_DIR$/public/js/collector.js" />
         <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/dist/index.js.map" />
-        <option value="$PROJECT_DIR$/public/js/webspeech.js" />
         <option value="$PROJECT_DIR$/public/js/visualizer.js" />
         <option value="$PROJECT_DIR$/Test.html" />
         <option value="$PROJECT_DIR$/test_script.js" />
         <option value="$PROJECT_DIR$/public/js/controller.js" />
+        <option value="$PROJECT_DIR$/public/js/webspeech.js" />
         <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
         <option value="$PROJECT_DIR$/public/js/useri.js" />
       </list>
@@ -281,6 +258,12 @@
               <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
@@ -545,14 +528,8 @@
       <workItem from="1526126570089" duration="12609000" />
       <workItem from="1527072271805" duration="31399000" />
       <workItem from="1527148709227" duration="21735000" />
-      <workItem from="1527179489013" duration="3675000" />
-    </task>
-    <task id="LOCAL-00084" summary="Merge branch 'feature/WSC-5-vocs-object' into feature/WSC-4-all-new-features-branche&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;dist/bundle.js&#10;#&#9;dist/bundle.js.map&#10;#&#9;public/js/controller.js&#10;#&#9;views/index.ejs">
-      <created>1518125862093</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1518125862093</updated>
+      <workItem from="1527179489013" duration="3831000" />
+      <workItem from="1527429011762" duration="7621000" />
     </task>
     <task id="LOCAL-00085" summary="export main function">
       <created>1518282513068</created>
@@ -890,11 +867,18 @@
       <option name="project" value="LOCAL" />
       <updated>1527178307773</updated>
     </task>
-    <option name="localTasksCounter" value="133" />
+    <task id="LOCAL-00133" summary="ui api: reload option saved in local storage">
+      <created>1527190971397</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1527190971397</updated>
+    </task>
+    <option name="localTasksCounter" value="134" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="787927000" />
+    <option name="totallyTimeSpent" value="795704000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -913,7 +897,6 @@
       <window_info anchor="bottom" id="TODO" order="8" weight="0.32897604" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50421494" side_tool="true" weight="0.3267974" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3278867" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" weight="0.2908497" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
@@ -936,6 +919,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3278867" />
       <window_info anchor="right" id="Maven Projects" order="3" />
     </layout>
   </component>
@@ -1009,7 +993,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="code restructure" />
     <MESSAGE value="search for elements optimized" />
     <MESSAGE value="edit readme" />
     <MESSAGE value="fix readme" />
@@ -1034,11 +1017,12 @@
     <MESSAGE value="ui api: added text colors" />
     <MESSAGE value="ui api: minimization option in storage" />
     <MESSAGE value="ui api: reload icon added" />
-    <option name="LAST_COMMIT_MESSAGE" value="ui api: reload icon added" />
+    <MESSAGE value="ui api: reload option saved in local storage" />
+    <option name="LAST_COMMIT_MESSAGE" value="ui api: reload option saved in local storage" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="14" />
+      <option name="time" value="15" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -1214,23 +1198,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/webspeech.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#68#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/vocs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/visualizer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
@@ -1245,36 +1212,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/vocs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="86" selection-start-line="86" selection-end-line="86" />
+        <state relative-caret-position="638">
+          <caret line="85" column="2" selection-start-line="85" selection-start-column="2" selection-end-line="85" selection-end-column="2" />
           <folding>
             <element signature="e#44#461#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/webspeech.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="35" lean-forward="true" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/vocs_styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8096">
-          <caret line="368" column="1" selection-start-line="368" selection-start-column="1" selection-end-line="368" selection-end-column="1" />
+        <state relative-caret-position="413">
+          <caret line="198" column="45" selection-start-line="198" selection-start-column="45" selection-end-line="198" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+        <state relative-caret-position="66">
+          <caret line="3" column="26" lean-forward="true" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/useri.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="124" column="11" selection-start-line="122" selection-start-column="8" selection-end-line="124" selection-end-column="11" />
+        <state relative-caret-position="345">
+          <caret line="284" selection-start-line="284" selection-end-line="284" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
+            <element signature="e#125#953#0" />
           </folding>
         </state>
       </provider>

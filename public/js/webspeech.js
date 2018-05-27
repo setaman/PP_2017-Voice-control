@@ -9,13 +9,14 @@ export default function setupWebSpeechRecognitionAPI(){
     try {
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
+        ui.drawUI();
 
-        let words = ['vocs'];
+        /*let words = ['vocs'];
         let grammar = '#JSGF V1.0; grammar actions; public <actions> = ' + words.join(' | ') + ';';
 
         let speechRecognitionList = new webkitSpeechGrammarList();
         speechRecognitionList.addFromString(grammar, 1);
-        recognition.grammars = speechRecognitionList;
+        recognition.grammars = speechRecognitionList;*/
 
         recognition.lang = 'en-US';
         recognition.interimResults = true;
@@ -54,7 +55,9 @@ export default function setupWebSpeechRecognitionAPI(){
         };
     }
     catch (e) {
-        ui.statusError();
+        ui.isReady = false;
+        ui.drawUI();
+        console.log(ui.isReady);
         console.error('Web Speech error: ' + e);
     }
 }

@@ -28,7 +28,7 @@ let string_status_en = [
     },
     {
         status_nosupport: {
-            primary: 'Your browser is no supported',
+            primary: 'Your browser is not supported',
             secondary: 'Please update your Browser'
         }
     },
@@ -41,6 +41,7 @@ let string_status_en = [
 ];
 
 let inputTextInterval = null;
+let listeningInterval = null;
 let logoRotationInterval = null;
 
 let uiTemplate = $(
@@ -81,18 +82,45 @@ strings.status.push(...string_status_en);
 
 class UI {
     constructor() {
+        this.isReady = true; //is true if the system is browser compatible
         this.isActive = false;
         this.isWaitingForVocs = true;
         this.isMinimized = false;
         this.startAlways = false;
+
+        /*Move to const*/
         this.colorSuccess = '#5fa57a';
         this.colorError = '#FF7469';
         this.colorWarn = '#FFCC71';
         this.colorNormal = 'white';
     }
 
+    get isReady (){
+        return this._isReady;
+    }
+    set isReady (value) {
+        this._isReady = value;
+    }
+
     drawUI() {
         $('body').append(uiTemplate);
+
+        this.textPrimary = $('.vocs_ui_primary_text');
+        this.textSecondary = $('.vocs_ui_secondary_text');
+        this.logo = $('.vocs_ui_logo');
+        this.startIcon = $('.vocs_ui_start_icon');
+        this.liveIcon = $('.vocs_ui_live_icon');
+        this.liveIcon.hide();
+        this.textInputContainer = $('.vocs_ui_input');
+        this.textInputContainer.hide();
+        //if browser not supported, stop initialization and provide system status
+        if (!this.isReady) {
+            this.statusNoSupport();
+            this.startIcon.hide();
+            this.logo.attr('src', './public/images/vocs_ui_mic_dis.svg');
+            $('.vocs_ui_control').addClass('vocs_ui_notready');
+            return;
+        }
 
         this.uiContainer = $('.vocs_ui_container');
         this.startButton = $('.vocs_ui_control');
@@ -103,15 +131,7 @@ class UI {
                 this.activateSystem();
             }
         });
-        this.startIcon = $('.vocs_ui_start_icon');
-        this.liveIcon = $('.vocs_ui_live_icon');
-        this.liveIcon.hide();
-        this.textPrimary = $('.vocs_ui_primary_text');
-        this.textSecondary = $('.vocs_ui_secondary_text');
         this.textInput = $('.vocs_ui_input_text');
-        this.logo = $('.vocs_ui_logo');
-        this.textInputContainer = $('.vocs_ui_input');
-        this.textInputContainer.hide();
         this.display = $('.vocs_ui_display');
         this.info = $('.vocs_ui_info');
         this.minButton = $('.vocs_ui_min');
@@ -262,6 +282,17 @@ class UI {
         this.textPrimary.text(strings.status[5].status_listening.primary);
         this.textPrimary.css('color', this.colorNormal);
         this.textSecondary.text(strings.status[5].status_listening.secondary);
+        let i = 0;
+        if (listeningInterval) {
+            clearInterval(listeningInterval);
+        }
+        listeningInterval = setInterval(() => {
+            i += 1;
+            if (i === 2) {
+                listeningInterval = undefined;
+                this.statusActive();
+            }
+        }, 500)
     }
 
     hideStatusText() {
@@ -307,7 +338,7 @@ function storageAvailable(type) {
         return true;
     }
     catch (e) {
-        console.warn('Storage is not supported!!!')
+        console.warn('Storage is not supported!!!');
         return e instanceof DOMException && (
                 // everything except Firefox
             e.code === 22 ||
