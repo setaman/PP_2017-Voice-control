@@ -1,9 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="">
+    <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="test-site">
+      <change beforePath="" afterPath="$PROJECT_DIR$/test-site/public/js/controller.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/test-site/public/js/useri.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/test-site/public/js/visualizer.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/test-site/public/js/webspeech.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/test-site/webpack.config.js" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/test-site" afterPath="$PROJECT_DIR$/test-site" />
+      <change beforePath="$PROJECT_DIR$/test-site/package-lock.json" afterPath="$PROJECT_DIR$/test-site/package-lock.json" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/AUTHORS.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/LICENSE.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/README.md" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/external/jquery/jquery.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/images/ui-icons_444444_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/images/ui-icons_555555_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/images/ui-icons_777620_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/images/ui-icons_777777_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/images/ui-icons_cc0000_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/images/ui-icons_ffffff_256x240.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/index.html" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/jquery-ui.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/jquery-ui.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/jquery-ui.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/jquery-ui.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/jquery-ui.structure.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/jquery-ui.structure.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/jquery-ui.theme.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/jquery-ui.theme.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/components/jquery-ui-dist/package.json" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/css/index_css/foundation/bootstrap.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/css/index_css/index/bootstrap.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/css/index_css/index/materialize.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/css/index_css/semantic/bootstrap.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/css/index_css/semantic/semantic.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/css/index_css/style_index.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/css/vocs_styles.css" afterPath="$PROJECT_DIR$/test-site/public/css/vocs_styles.css" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/images/vocs_logo.svg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/js/index-scripts/external/jquery/jquery.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/js/index-scripts/index.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/js/index-scripts/jquery-ui.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/js/index-scripts/jquery-ui.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/js/index-scripts/materialize.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/public/js/index-scripts/semantic.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/routes/foundation.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/routes/index.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/routes/semanticui.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/routes/test.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/routes/video.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/views/error.ejs" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/views/foundation.ejs" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/views/index.ejs" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/views/semanticui.ejs" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/views/test.ejs" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/test-site/views/video.ejs" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -14,6 +66,41 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="useri.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/useri.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#32#0" expanded="true" />
+                <marker date="1527595652894" expanded="true" signature="1135:2395" ph="..." />
+                <marker date="1527595652894" expanded="true" signature="1161:2300" ph="..." />
+                <marker date="1527595652894" expanded="true" signature="1199:1429" ph="..." />
+                <marker date="1527595652894" expanded="true" signature="1464:1688" ph="..." />
+                <marker date="1527595652894" expanded="true" signature="1726:2041" ph="..." />
+                <marker date="1527595652894" expanded="true" signature="1774:1851" ph="..." />
+                <marker date="1527595652894" expanded="true" signature="1899:2026" ph="..." />
+                <marker date="1527595652894" expanded="true" signature="2076:2289" ph="..." />
+                <marker date="1527595652894" expanded="true" signature="2332:2386" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="webpack.config.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/webpack.config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="17" column="29" lean-forward="true" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -63,6 +150,7 @@
     </dirStrings>
   </component>
   <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -148,6 +236,7 @@
     <option name="width" value="1920" />
     <option name="height" value="1116" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -188,6 +277,28 @@
               <item name="web-speech-control" type="b2602c69:ProjectViewProjectNode" />
               <item name="web-speech-control" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="web-speech-control" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-speech-control" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-speech-control" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-speech-control" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-speech-control" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-speech-control" type="462c0819:PsiDirectoryNode" />
+              <item name="test-site" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="web-speech-control" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web-speech-control" type="462c0819:PsiDirectoryNode" />
+              <item name="test-site" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -223,6 +334,135 @@
       <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css\semantic" />
       <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css" />
     </key>
+  </component>
+  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Updated from server" />
+        <option name="myStatusName" value="Changed on server" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated" />
+          <option name="myStatusName" value="Changed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/dist/vocs.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/dist/vocs.js.map</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/package-lock.json</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/css/vocs_styles.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/js/controller.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/js/useri.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/js/visualizer.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/js/webspeech.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/webpack.config.js</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created" />
+          <option name="myStatusName" value="Created" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/images/vocs_ui_logo.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/images/vocs_ui_menu.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/images/vocs_ui_mic.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/images/vocs_ui_mic_dis.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/images/vocs_ui_min.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/images/vocs_ui_reload.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/images/vocs_ui_reload_inactive.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/images/vocs_ui_resize.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/images/vocs_ui_start.svg</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Deleted" />
+          <option name="myStatusName" value="Deleted" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/dist/index.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/dist/index.js.map</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Restored" />
+          <option name="myStatusName" value="Will be restored" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Modified" />
+        <option name="myStatusName" value="Modified" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Skipped" />
+        <option name="myStatusName" value="Skipped" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with conflicts" />
+        <option name="myStatusName" value="Will be merged with conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with tree conflicts" />
+        <option name="myStatusName" value="Merged with tree conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with property conflicts" />
+        <option name="myStatusName" value="Will be merged with property conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged" />
+        <option name="myStatusName" value="Will be merged" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Not in repository" />
+        <option name="myStatusName" value="Not in repository" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally added" />
+        <option name="myStatusName" value="Locally added" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally removed" />
+        <option name="myStatusName" value="Locally removed" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Switched" />
+        <option name="myStatusName" value="Switched" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -442,14 +682,7 @@
       <workItem from="1526968145019" duration="8629000" />
       <workItem from="1527486237828" duration="2204000" />
       <workItem from="1527499857678" duration="394000" />
-      <workItem from="1527595544773" duration="91000" />
-    </task>
-    <task id="LOCAL-00065" summary="option selection simulate">
-      <created>1516658766385</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1516658766385</updated>
+      <workItem from="1527595544773" duration="2268000" />
     </task>
     <task id="LOCAL-00066" summary="merge with WSC2">
       <created>1517421254748</created>
@@ -787,11 +1020,18 @@
       <option name="project" value="LOCAL" />
       <updated>1526990259094</updated>
     </task>
-    <option name="localTasksCounter" value="114" />
+    <task id="LOCAL-00114" summary="test-site">
+      <created>1527596120644</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1527596120693</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="721147000" />
+    <option name="totallyTimeSpent" value="723324000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -810,14 +1050,14 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328934" sideWeight="0.50426894" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2822335" sideWeight="0.50533617" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.54213196" sideWeight="0.49578503" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44771573" sideWeight="0.49573106" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2822335" sideWeight="0.49789253" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2822335" sideWeight="0.49466383" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23959444" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23959444" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973656" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -907,7 +1147,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="keywords now can be used only isolated" />
     <MESSAGE value="debugging for isolation" />
     <MESSAGE value="merge" />
     <MESSAGE value="search for labels optimized" />
@@ -932,12 +1171,42 @@
     <MESSAGE value="edit webpack config" />
     <MESSAGE value="added ui template" />
     <MESSAGE value="little bug fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="little bug fixed" />
+    <MESSAGE value="test-site" />
+    <option name="LAST_COMMIT_MESSAGE" value="test-site" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/public/js/useri.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+            <marker date="1527595652894" expanded="true" signature="1135:2395" ph="..." />
+            <marker date="1527595652894" expanded="true" signature="1161:2300" ph="..." />
+            <marker date="1527595652894" expanded="true" signature="1199:1429" ph="..." />
+            <marker date="1527595652894" expanded="true" signature="1464:1688" ph="..." />
+            <marker date="1527595652894" expanded="true" signature="1726:2041" ph="..." />
+            <marker date="1527595652894" expanded="true" signature="1774:1851" ph="..." />
+            <marker date="1527595652894" expanded="true" signature="1899:2026" ph="..." />
+            <marker date="1527595652894" expanded="true" signature="2076:2289" ph="..." />
+            <marker date="1527595652894" expanded="true" signature="2332:2386" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="29" lean-forward="true" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
