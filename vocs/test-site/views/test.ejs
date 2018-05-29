@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>
+        Test display of HTML elements
+    </title>
+    <link rel="stylesheet" href="/css/vocs_styles.css" type="text/css">
+    <style>
+        .limited { width: 15.5em; }
+        .hyphens {
+            -moz-hyphens: auto;
+            -webkit-hyphens: auto;
+            -ms-hyphens: auto;
+            hyphens: auto;
+        }
+    </style>
+    <link rel="alternate stylesheet" type="text/css" title=
+    "A cool style sheet" href="../styles/cool.css">
+    <link rel="alternate stylesheet" type="text/css" title=
+    "Yucca's basic style sheet" href="../basic.css">
+    <link rel="alternate stylesheet" type="text/css" title=
+    "Style sheet for fixing some IE oddities" href="test-ie.css">
+    <script src="../js/hyphenator.js"></script>
+    <script>
+        //Hyphenator.run();
+    </script>
+
+</head>
+
+<body>
+<h2>Links</h2>
+<ul>
+    <li> <a href="../index.html">main page</a>
+    <li> <a href=
+            "http://www.unicode.org/versions/Unicode4.0.0/ch06.pdf"
+            title="Writing Systems and Punctuation"
+            type="application/pdf"
+        >Unicode Standard, chapter&nbsp;6</a>
+</ul>
+
+<p>This is a text paragraph that contains some
+    inline links. Generally, inline links (as opposite to e.g. links
+    lists) are problematic
+    from the
+    <a href="http://www.useit.com">usability</a> perspective,
+    but they may have use as
+    &#8220;incidental&#8221;, less relevant links. See the document
+    <cite><a href="links.html">Links Want To Be Links</a></cite>.</p>
+
+<h2>Forms</h2>
+
+<form action="http://jkorpela.fi/cgi-bin/echo.cgi">
+    <div>
+        <input type="hidden" name="hidden field" value="42">
+        This is a form containing various fields (with some initial
+        values (defaults) set, so that you can see how input text looks
+        like without actually typing it):</div>
+    <div><label for="but">Button:
+            <button id="but" type="submit" name="foo" value="bar">A cool<br>button</button></label></div>
+    <div><label for="f0">Reset button:
+            <input id="f0" type="reset" name="reset" value="Reset"></label></div>
+    <div><label for="f1">Single-line text input field: <input id="f1" name="text" size="20" value="Default text."></label></div>
+    <div><label for="f2">Multi-line text input field (textarea):</label><br>
+        <textarea id="f2" name="textarea" rows="2" cols="20">
+Default text.
+</textarea></div>
+    <div>The following two radio buttons are inside
+        a <code>fieldset</code> element with a <code>legend</code>:</div>
+    <fieldset>
+        <legend>Legend</legend>
+        <div><label for="f3"><input id="f3" type="radio" name="radio" value="1"> Radio button 1</label></div>
+        <div><label for="f4"><input id="f4" type="radio" name="radio" value="2" checked> Radio button 2 (initially checked)</label></div>
+    </fieldset>
+    <fieldset>
+        <legend>Check those that apply</legend>
+        <div><label for="f5"><input id="f5" type="checkbox" name="checkbox"> Checkbox 1</label></div>
+        <div><label for="f6"><input id="f6" type="checkbox" name="checkbox2" checked> Checkbox 2 (initially checked)</label></div>
+    </fieldset>
+    <div><label for="f10">A <code>select</code> element with <code>size="1"</code>
+            (dropdown box):
+            <select id="f10" name="select1" size="1">
+                <option>one
+                <option selected>two (default)
+                <option>three
+            </select></label></div>
+    <div><label for="f11">A <code>select</code> element with <code>size="3"</code>
+            (listbox):</label><br>
+        <select id="f11" name="select2" size="3">
+            <option>one
+            <option selected>two (default)
+            <option>three
+        </select></div>
+    <div><label for="f99">Submit button:
+            <input id="f99" type="submit" name="submit" value="Just a test"></label></div>
+</form>
+<script src="/index.js" type="text/javascript"></script>
+</BODY>
+
+</HTML>
