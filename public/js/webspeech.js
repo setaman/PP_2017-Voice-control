@@ -1,5 +1,7 @@
 import {performUserAction, provideSystemStatus} from './controller';
 import {fuzzySearchForVocs} from './fuzzy_search';
+import {ui} from './useri';
+
 /**
  *  Setup Google Speech Recognition
  */
@@ -7,13 +9,14 @@ export default function setupWebSpeechRecognitionAPI(){
     try {
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
+        ui.drawUI();
 
-        let words = ['vocs'];
+        /*let words = ['vocs'];
         let grammar = '#JSGF V1.0; grammar actions; public <actions> = ' + words.join(' | ') + ';';
 
         let speechRecognitionList = new webkitSpeechGrammarList();
         speechRecognitionList.addFromString(grammar, 1);
-        recognition.grammars = speechRecognitionList;
+        recognition.grammars = speechRecognitionList;*/
 
         recognition.lang = 'en-US';
         recognition.interimResults = true;
@@ -22,7 +25,9 @@ export default function setupWebSpeechRecognitionAPI(){
         recognition.start();
 
         recognition.onresult = event => {
+            ui.statusListening();
 
+            if (!ui.isActive) {return;}
             let recognitionResult = event.results[0][0].transcript;
 
             const transcript = Array.from(event.results)
@@ -30,11 +35,11 @@ export default function setupWebSpeechRecognitionAPI(){
                 .map(result => result.transcript)
                 .join('');
 
-            provideSystemStatus('Listen', transcript);
+            ui.setInputText(transcript);
 
             if (recognitionResult) {
+                ui.setInputText(recognitionResult);
                 if (event.results[0].isFinal) {
-                    provideSystemStatus('You Say', recognitionResult);
                     console.warn(fuzzySearchForVocs(recognitionResult));
                     console.warn(recognitionResult);
                     performUserAction(recognitionResult);
@@ -50,6 +55,9 @@ export default function setupWebSpeechRecognitionAPI(){
         };
     }
     catch (e) {
+        ui.isReady = false;
+        ui.drawUI();
+        console.log(ui.isReady);
         console.error('Web Speech error: ' + e);
     }
 }

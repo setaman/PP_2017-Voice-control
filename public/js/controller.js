@@ -40,7 +40,7 @@ import {
 import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
 import visualize from './visualizer';
-import './useri';
+import {ui} from './useri';
 
 let currentElements = [],
     currentMultipleElements = [],
@@ -63,7 +63,7 @@ let day,
     currentValue = '';
 
 
-visualize(); //Visualization
+//visualize(); //Visualization
 
 let systemState = $('#vocs_text_status'); //UI Ausgabe
 let OnRecognition = $('#vocs_text_onrecognition');//UI Ausgabe
@@ -82,6 +82,8 @@ $('.ti').each(function () {
         performUserAction($(this).text());
     })
 });
+
+//ui.drawUI();
 
 /*******************************************************************************************************************
  * Main function, hier wird die wichtigste Funktionalität abgewickelt
@@ -229,7 +231,7 @@ function chooseAction(keyword, userCommand) {
         if (currentElements.length === 1) {
             handleElement(currentElements[0]); //entscheide, was mit dem Element gemacht wird
         } else if (currentElements.length === 0) {
-            provideSystemStatus(STATE_NO_MATCH, 'Please try again');
+            ui.statusNoFound();
             console.error('-------------No element found------------------');
 
         }
@@ -679,9 +681,9 @@ function clearDateTimeValues() {
 function deactivationInterval() {
     showLogo();
     let i = 0;
-    let interval = setInterval( () => {
+    let interval = setInterval(() => {
         i += 1;
-        if (i === 20 && vocsIsActivated){
+        if (i === 20 && vocsIsActivated) {
             vocsIsActivated = !vocsIsActivated;
             console.error('!!!VOCS deactivated!!!');
             showLogo();
@@ -695,9 +697,9 @@ function deactivationInterval() {
 
 function showLogo() {
     let logo = $('#vocs_logo');
-    if (vocsIsActivated){
+    if (vocsIsActivated) {
         logo.show();
-    }else {
+    } else {
         logo.hide();
     }
 }
