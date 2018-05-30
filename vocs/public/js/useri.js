@@ -1,4 +1,4 @@
-import '../css/vocs_styles.css';
+//import '../css/vocs_styles.css';
 import {startVisualization, stopVizualization} from './visualizer';
 
 let string_status_en = [

@@ -1,4 +1,4 @@
-import {performUserAction, provideSystemStatus} from './controller';
+import {performUserAction} from './controller';
 import {fuzzySearchForVocs} from './fuzzy_search';
 import {ui} from './useri';
 

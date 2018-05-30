@@ -1,64 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="test-site as external project added">
-      <change beforePath="$PROJECT_DIR$/.babelrc" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.babelrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/PP_2017-Voice-control.iml" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.idea/PP_2017-Voice-control.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/vocs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.idea/runConfigurations/vocs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.idea/watcherTasks.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test.html" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/Test.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/test.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/vocs.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/vocs.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/vocs_styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/css/vocs_styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/man.png" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/man.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/mic_on_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/mic_on_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/play_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/play_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/stop_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/stop_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/the_witcher_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/the_witcher_3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/uiTabsArrow.png" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/uiTabsArrow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/vocs_logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/vocs_logo.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/vocs_ui_logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/vocs_ui_logo.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/vocs_ui_menu.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/vocs_ui_menu.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/vocs_ui_mic.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/vocs_ui_mic.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/vocs_ui_mic_dis.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/vocs_ui_mic_dis.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/vocs_ui_min.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/vocs_ui_min.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/vocs_ui_reload.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/vocs_ui_reload.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/vocs_ui_reload_inactive.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/vocs_ui_reload_inactive.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/vocs_ui_resize.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/vocs_ui_resize.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/vocs_ui_start.svg" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/images/vocs_ui_start.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/_recorder.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/_recorder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/collector.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/collector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/const.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/const.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/element.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/element.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/fuzzy_search.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/fuzzy_search.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/helper.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/helper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/recorder.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/recorder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/useri.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/useri.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/visualizer.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/visualizer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/vocs.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/vocs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/webspeech.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/webspeech.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recognizers/bing.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/recognizers/bing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recognizers/houndify.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/recognizers/houndify.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/routes/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/recognizer.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/routes/recognizer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_script.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/test_script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vocs.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/vocs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/webpack.config.js" afterDir="false" />
+    <list default="true" id="2d5e2526-8fc7-4f5b-9108-3394a5152ea8" name="Default" comment="project restructure">
+      <change beforePath="$PROJECT_DIR$/vocs/.idea/PP_2017-Voice-control.iml" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.idea/PP_2017-Voice-control.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/public/js/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/public/js/useri.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/useri.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/public/js/webspeech.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/public/js/webspeech.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/.babelrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/bin/www" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/public/css/index/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/public/css/index/materialize.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/public/css/style_index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/public/js/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/public/js/materialize.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/routes/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/routes/semanticui.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/routes/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/test-app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/views/error.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/views/index.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/views/semanticui.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/views/test.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test-site/webpack.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/test_script.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/test_script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/vocs.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/vocs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vocs/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vocs/webpack.config.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -72,82 +45,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="vocs_styles.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vocs/public/css/vocs_styles.css">
+      <file leaf-file-name="webpack.config.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vocs/webpack.config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="392" column="28" selection-start-line="392" selection-start-column="28" selection-end-line="392" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="useri.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vocs/public/js/useri.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-387">
-              <caret line="273" column="5" selection-start-line="273" selection-start-column="5" selection-end-line="273" selection-end-column="5" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webpack.config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test-site/webpack.config.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".babelrc" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vocs/.babelrc">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="1" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test-site/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
-              <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="www" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test-site/bin/www">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="test-app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test-site/test-app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vocs/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="38" column="24" selection-start-line="10" selection-start-column="4" selection-end-line="38" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Test.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vocs/Test.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+            <state relative-caret-position="133">
+              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -158,9 +60,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="tsconfig.json" />
-        <option value="CSS File" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -231,13 +133,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/public/js/index-scripts/materialize.js" />
-        <option value="$PROJECT_DIR$/routes/semanticui.js" />
-        <option value="$PROJECT_DIR$/public/css/index_css/foundation/bootstrap.css" />
-        <option value="$PROJECT_DIR$/public/css/index_css/semantic/bootstrap.css" />
-        <option value="$PROJECT_DIR$/public/css/index_css/style_index.css" />
-        <option value="$PROJECT_DIR$/public/js/requestTransmitter.js" />
-        <option value="$PROJECT_DIR$/config.json" />
         <option value="$PROJECT_DIR$/recognizers/configs/houndify_config.json" />
         <option value="$PROJECT_DIR$/recognizers/configs/bing_config.json" />
         <option value="$PROJECT_DIR$/recognizers/configs/google_config.json" />
@@ -260,7 +155,6 @@
         <option value="$PROJECT_DIR$/public/js/actions.js" />
         <option value="$PROJECT_DIR$/public/js/fuzzy_search.js" />
         <option value="$PROJECT_DIR$/routes/video.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/views/video.ejs" />
         <option value="$PROJECT_DIR$/public/js/helper.js" />
         <option value="$PROJECT_DIR$/public/js/const.js" />
@@ -270,18 +164,26 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/public/js/element.js" />
         <option value="$PROJECT_DIR$/public/js/collector.js" />
-        <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/dist/index.js.map" />
         <option value="$PROJECT_DIR$/public/js/visualizer.js" />
         <option value="$PROJECT_DIR$/Test.html" />
         <option value="$PROJECT_DIR$/test_script.js" />
-        <option value="$PROJECT_DIR$/public/js/controller.js" />
-        <option value="$PROJECT_DIR$/public/js/webspeech.js" />
         <option value="$PROJECT_DIR$/public/css/vocs_styles.css" />
-        <option value="$PROJECT_DIR$/public/js/useri.js" />
-        <option value="$PROJECT_DIR$/test-site/webpack.config.js" />
         <option value="$PROJECT_DIR$/test-site/app.js" />
         <option value="$PROJECT_DIR$/test-site/package.json" />
+        <option value="$PROJECT_DIR$/test-site/routes/index.js" />
+        <option value="$PROJECT_DIR$/vocs/test-site/kek.html" />
+        <option value="$PROJECT_DIR$/public/js/webspeech.js" />
+        <option value="$PROJECT_DIR$/public/js/controller.js" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/webpack.config.js" />
+        <option value="$PROJECT_DIR$/test-site/webpack.config.js" />
+        <option value="$PROJECT_DIR$/test-site/public/js/index.js" />
+        <option value="$PROJECT_DIR$/test-site/views/index.ejs" />
+        <option value="$PROJECT_DIR$/test-site/public/css/vocs_styles.css" />
+        <option value="$PROJECT_DIR$/test-site/public/css/style_index.css" />
+        <option value="$PROJECT_DIR$/vocs.js" />
+        <option value="$PROJECT_DIR$/public/js/useri.js" />
       </list>
     </option>
   </component>
@@ -315,7 +217,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -326,13 +227,7 @@
             <path>
               <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
               <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
-              <item name="test-site" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
-              <item name="test-site" type="462c0819:PsiDirectoryNode" />
-              <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="vocs" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -354,6 +249,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -365,7 +261,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="javascript.nodejs.core.library.configured.version" value="8.8.1" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/vocs/package.json" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/vocs/test-site/package.json" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.prettier" value="true" />
     <property name="node.js.path.for.package.prettier" value="project" />
@@ -376,22 +272,22 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="G:\Projects\PP_2017-Voice-control\vocs" />
-      <recent name="G:\Projects\PP_2017-Voice-control\" />
-      <recent name="G:\Projects\PP_2017-Voice-control\recognizers\configs" />
-      <recent name="G:\Projects\PP_2017-Voice-control\recognizers" />
-      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css\semantic" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\Projects\PP_2017-Voice-control\test-site\public\css" />
+      <recent name="G:\Projects\PP_2017-Voice-control\vocs\test-site" />
       <recent name="$PROJECT_DIR$/routes" />
       <recent name="$PROJECT_DIR$/views" />
       <recent name="G:\Projects\PP_2017-Voice-control\views" />
-      <recent name="G:\Projects\PP_2017-Voice-control\routes" />
-      <recent name="G:\Projects\PP_2017-Voice-control\public\js" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\Projects\PP_2017-Voice-control\vocs" />
+      <recent name="G:\Projects\PP_2017-Voice-control" />
+      <recent name="G:\Projects\PP_2017-Voice-control\" />
+      <recent name="G:\Projects\PP_2017-Voice-control\recognizers\configs" />
+      <recent name="G:\Projects\PP_2017-Voice-control\recognizers" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -451,18 +347,18 @@
       <properties />
       <listeners />
     </configuration>
-    <configuration name="tes-site-watch" type="js.build_tools.npm" factoryName="npm">
+    <configuration name="test-site-server" type="js.build_tools.npm" factoryName="npm">
+      <package-json value="$PROJECT_DIR$/test-site/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <envs />
+    </configuration>
+    <configuration name="test-site-watch" type="js.build_tools.npm" factoryName="npm">
       <package-json value="$PROJECT_DIR$/test-site/package.json" />
       <command value="run" />
       <scripts>
         <script value="watch" />
       </scripts>
-      <node-interpreter value="project" />
-      <envs />
-    </configuration>
-    <configuration name="test-site-server" type="js.build_tools.npm" factoryName="npm">
-      <package-json value="$PROJECT_DIR$/test-site/package.json" />
-      <command value="start" />
       <node-interpreter value="project" />
       <envs />
     </configuration>
@@ -486,7 +382,7 @@
       <item itemvalue="npm.vocs-server" />
       <item itemvalue="npm.test-site-server" />
       <item itemvalue="npm.watch" />
-      <item itemvalue="npm.tes-site-watch" />
+      <item itemvalue="npm.test-site-watch" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -592,21 +488,8 @@
       <workItem from="1527179489013" duration="3831000" />
       <workItem from="1527429011762" duration="13781000" />
       <workItem from="1527614160280" duration="3084000" />
-      <workItem from="1527617628120" duration="1834000" />
-    </task>
-    <task id="LOCAL-00088" summary="merge">
-      <created>1518291164395</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1518291164395</updated>
-    </task>
-    <task id="LOCAL-00089" summary="search for labels optimized">
-      <created>1518294240694</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1518294240694</updated>
+      <workItem from="1527617628120" duration="5239000" />
+      <workItem from="1527623166963" duration="2243000" />
     </task>
     <task id="LOCAL-00090" summary="search for labels optimized again">
       <created>1518295455269</created>
@@ -937,11 +820,25 @@
       <option name="project" value="LOCAL" />
       <updated>1527455087813</updated>
     </task>
-    <option name="localTasksCounter" value="137" />
+    <task id="LOCAL-00137" summary="project restructure">
+      <created>1527619708825</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1527619708826</updated>
+    </task>
+    <task id="LOCAL-00138" summary="project restructure">
+      <created>1527621179163</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1527621179163</updated>
+    </task>
+    <option name="localTasksCounter" value="139" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="806782000" />
+    <option name="totallyTimeSpent" value="812430000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -954,50 +851,37 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="8" weight="0.32897604" />
-      <window_info anchor="right" id="Palette&#9;" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50364584" side_tool="true" weight="0.282678" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" visible="true" weight="0.2890542" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49635416" weight="0.282678" />
-      <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.159375" />
-      <window_info anchor="right" id="Database" order="3" />
-      <window_info id="Learn" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="14" weight="0.32897604" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50421494" side_tool="true" weight="0.3267974" />
+      <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="18" weight="0.7200436" />
+      <window_info anchor="bottom" id="Run" order="5" sideWeight="0.49578503" weight="0.2890542" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="16" sideWeight="0.49789253" visible="true" weight="0.282678" />
+      <window_info id="Designer" order="6" />
+      <window_info content_ui="combo" id="Project" order="3" visible="true" weight="0.22760417" />
+      <window_info anchor="right" id="Database" order="8" />
+      <window_info id="Learn" order="0" />
+      <window_info id="Structure" order="4" side_tool="true" weight="0.24973656" />
+      <window_info id="Favorites" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
+      <window_info id="Image Layers" order="5" />
+      <window_info anchor="bottom" id="TypeScript" order="12" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="8" weight="0.32897604" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49578503" visible="true" weight="0.28976035" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info anchor="bottom" id="TypeScript" order="7" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3278867" />
-      <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="right" id="Palette&#9;" order="3" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49789253" weight="0.2832244" />
-      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50421494" side_tool="true" weight="0.3267974" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22760801" />
+      <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="Capture Tool" order="10" />
+      <window_info id="UI Designer" order="9" />
+      <window_info anchor="bottom" id="Docker" order="17" show_stripe_button="false" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven Projects" order="9" />
+      <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="Message" order="1" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="bottom" id="Find" order="2" weight="0.3278867" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1072,8 +956,8 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <ignored-roots>
       <path value="$PROJECT_DIR$/test-site" />
+      <path value="$PROJECT_DIR$/vocs" />
     </ignored-roots>
-    <MESSAGE value="fix readme" />
     <MESSAGE value="vocs now can still waiting for user command after saying vocs" />
     <MESSAGE value="added vocs ui html and styling" />
     <MESSAGE value="added vocs ui controller class" />
@@ -1098,51 +982,21 @@
     <MESSAGE value="ui api: reload option saved in local storage" />
     <MESSAGE value="ui api: handle not supported browsers" />
     <MESSAGE value="ui api: draggable ui" />
-    <option name="LAST_COMMIT_MESSAGE" value="ui api: draggable ui" />
+    <MESSAGE value="project restructure" />
+    <option name="LAST_COMMIT_MESSAGE" value="project restructure" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="15" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/vocs/public/js/webspeech.js</url>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="16" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vocs/node_modules/express/lib/response.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2824">
-          <caret line="729" column="9" selection-start-line="729" selection-start-column="9" selection-end-line="729" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vocs/node_modules/request/request.js" />
-    <entry file="file://$PROJECT_DIR$/public/css/index_css/style_index.css" />
-    <entry file="file://$PROJECT_DIR$/public/js/ui.js" />
-    <entry file="file://$PROJECT_DIR$/routes/foundation.js" />
-    <entry file="file://$PROJECT_DIR$/views/testsite.html" />
-    <entry file="file://$PROJECT_DIR$/recognizers/configs/houndify_config.json" />
-    <entry file="file://$PROJECT_DIR$/recognizers/configs/google_config.json" />
-    <entry file="file://$PROJECT_DIR$/recognizers/configs/bing_config.json" />
-    <entry file="file://$PROJECT_DIR$/vocs/recognizers/houndify.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vocs/recognizers/bing.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="46" lean-forward="true" selection-start-line="3" selection-start-column="46" selection-end-line="3" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vocs/routes/recognizer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js" />
     <entry file="file://$PROJECT_DIR$/vocs/public/js/recorder.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="851">
@@ -1152,13 +1006,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/search_for_elements.js" />
     <entry file="file://$PROJECT_DIR$/views/test.ejs" />
-    <entry file="file://$PROJECT_DIR$/vocs/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/test.js" />
     <entry file="file://$PROJECT_DIR$/routes/video.js" />
     <entry file="file://$PROJECT_DIR$/routes/semanticui.js" />
@@ -1227,30 +1074,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vocs/public/js/vocs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vocs/public/js/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="85" column="2" selection-start-line="85" selection-start-column="2" selection-end-line="85" selection-end-column="2" />
-          <folding>
-            <element signature="e#44#461#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vocs/public/js/webspeech.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="5" column="35" lean-forward="true" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vocs/public/js/helper.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="563">
@@ -1265,45 +1088,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vocs/Test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vocs/public/css/vocs_styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="392" column="28" selection-start-line="392" selection-start-column="28" selection-end-line="392" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vocs/public/js/useri.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-387">
-          <caret line="273" column="5" selection-start-line="273" selection-start-column="5" selection-end-line="273" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test-site/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vocs/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test-site/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/bin/www">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/.idea/modules.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/test-site/kek.html" />
+    <entry file="file://$PROJECT_DIR$/test-site/.babelrc">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/views/test.ejs">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/vocs/.babelrc">
@@ -1313,30 +1125,139 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test-site/test-app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test-site/bin/www">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/vocs/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="38" column="24" selection-start-line="10" selection-start-column="4" selection-end-line="38" selection-end-column="24" />
+        <state relative-caret-position="437">
+          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
+    <entry file="file://$PROJECT_DIR$/vocs/public/js/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/public/js/vocs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/public/js/webspeech.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="25" selection-start-column="25" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/views/semanticui.ejs">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/test-site/package.json">
+    <entry file="file://$PROJECT_DIR$/test-site/dist/test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+        <state relative-caret-position="-113254">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/vocs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/public/js/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/public/css/vocs_styles.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/test-app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" selection-start-line="16" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/public/js/useri.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="56" column="8" selection-start-line="56" selection-start-column="8" selection-end-line="56" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/views/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/public/css/vocs_styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="392" column="28" selection-end-line="440" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-site/public/css/style_index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17347">
+          <caret line="913" column="59" selection-start-line="913" selection-start-column="59" selection-end-line="913" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/Test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/recognizers/bing.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="33" selection-start-column="33" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/vocs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="50" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vocs/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
         </state>
       </provider>
     </entry>

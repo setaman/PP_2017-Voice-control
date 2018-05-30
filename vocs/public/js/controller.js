@@ -37,9 +37,7 @@ import {
     getRecognizedKeyword
 } from "./helper";
 
-import 'jquery-ui-dist/jquery-ui.min'
 import wordsToNumbers from 'words-to-numbers';
-import visualize from './visualizer';
 import {ui} from './useri';
 
 let currentElements = [],
