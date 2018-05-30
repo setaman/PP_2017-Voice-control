@@ -5,13 +5,10 @@
   "scripts": {
     "start": "node vocs",
     "build": "webpack -p",
-    "watch": "webpack --watch"
+    "watch": "webpack --mode=development --watch",
+    "dev": "webpack --mode=development --open"
   },
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.32",
-    "@babel/preset-env": "^7.0.0-beta.32",
-    "babel": "^6.23.0",
-    "babel-preset-es2016": "^6.24.1",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "^2.6.9",
@@ -27,12 +24,15 @@
     "words-to-numbers": "^1.4.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^8.0.0-beta.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1",
     "css-loader": "^0.28.11",
-    "extract-text-webpack-plugin": "^3.0.2",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "style-loader": "^0.19.1",
-    "webpack": "^3.11.0"
+    "webpack": "^4.10.2",
+    "webpack-cli": "^2.1.4",
+    "webpack-dev-server": "^3.1.4"
   }
 }

@@ -5,11 +5,14 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        vocs: './public/js/vocs.js',
+        vocs: './src/vocs.js',
     },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
+    },
+    devServer: {
+        overlay: true
     },
 
     watch: NODE_ENV === 'development',
@@ -34,22 +37,22 @@ module.exports = {
                 exclude: /(node_modules)/,
                 use: {
                     loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
                 }
             },
             {
                 test: /\.css$/,
-                use: [
-                    {loader: 'style-loader'},
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                minimize: true,
+                                sourceMap: true
+                            }
                         }
-                    }
-                ]
+                    ]
+                })
             }
         ],
 
