@@ -7,10 +7,12 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 module.exports = {
     entry: {
         vocs: './src/vocs.js',
+        index: './index.js',
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        //publicPath: 'dist/'
     },
     devServer: {
         overlay: true
@@ -18,6 +20,7 @@ module.exports = {
 
     watch: NODE_ENV === 'development',
     watchOptions: {
+        ignored: /node_modules/,
         aggregateTimeout: 100
     },
 
@@ -30,7 +33,7 @@ module.exports = {
         }),
         new ExtractTextPlugin('[name].css'),
         new HtmlWebPackPlugin({
-            template: './src/index.html',
+            template: './index.html',
             filename: './index.html'
         })
     ],
