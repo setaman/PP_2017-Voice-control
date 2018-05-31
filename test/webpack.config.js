@@ -1,12 +1,10 @@
 const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        vocs: './public/js/vocs.js',
-        test: './test_script.js'
+        test: './public/js/index.js'
     },
     output: {
         filename: '[name].js',
@@ -25,9 +23,7 @@ module.exports = {
         new webpack.DefinePlugin({
             NODE_ENV: JSON.stringify(NODE_ENV)
         }),
-        new ExtractTextPlugin('[name].css')
     ],
-
     module: {
         rules: [
             {
@@ -42,18 +38,8 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    {loader: 'style-loader'},
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true
-                        }
-                    }
-                ]
+                use: ['style-loader', 'css-loader']
             }
         ],
-
     }
-
 };
