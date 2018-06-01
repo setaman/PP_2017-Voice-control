@@ -1,14 +1,15 @@
 const path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        test: './public/js/index.js'
+        test: './public/js/index/index.js'
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, '/dist')
     },
 
     watch: NODE_ENV === 'development',
@@ -23,6 +24,7 @@ module.exports = {
         new webpack.DefinePlugin({
             NODE_ENV: JSON.stringify(NODE_ENV)
         }),
+        new ExtractTextPlugin('[name].css')
     ],
     module: {
         rules: [
@@ -38,7 +40,18 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                minimize: true,
+                                sourceMap: true
+                            }
+                        }
+                    ]
+                })
             }
         ],
     }

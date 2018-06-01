@@ -16,6 +16,8 @@ app.use(helmet());
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(path.join(__dirname + '/dist')));
+var route = express.static(path.join(__dirname + '/dist'));
+console.warn(__dirname);
 //Test sites
 app.use('/', index);
 //app.use('/test', test);
