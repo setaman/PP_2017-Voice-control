@@ -1,5 +1,6 @@
 import '../public/css/vocs_styles.css';
-import {startVisualization, stopVizualization} from './visualizer';
+import {startVisualization, stopVizualization} from './visualizer'
+import {speaker} from './speechsynthesis';
 
 let string_status_en = [
     {
@@ -143,9 +144,6 @@ class UI {
         });
         this.reloadButton = $('.vocs_ui_reload');
 
-        /*if (storageAvailable('localStorage')) {
-            if(localStorage.getItem('alwaysActive') === 'true') {this.startAlways = true;}
-        }*/
         this.reloadButton.click(() => {
             if (!this.startAlways) {
                 if (storageAvailable('localStorage')) {
@@ -161,6 +159,9 @@ class UI {
                 }
             }
         });
+
+        //Init speechSynthesis
+        speaker.initSpeaker();
 
         if (storageAvailable('sessionStorage')) {
             if (sessionStorage.getItem('vocsIsActive') === 'true' || localStorage.getItem('alwaysActive') === 'true') {
@@ -255,6 +256,7 @@ class UI {
         this.textPrimary.css('color', this.colorSuccess);
         this.textSecondary.text(strings.status[1].status_active.secondary);
         this.showStatusText();
+        speaker.speak(`${strings.status[1].status_active.primary}, ${strings.status[1].status_active.secondary}`);
     }
 
     statusError() {
@@ -271,6 +273,8 @@ class UI {
         this.textPrimary.css('color', this.colorWarn);
         this.textSecondary.text(strings.status[3].status_nofound.secondary);
         this.showStatusText();
+        speaker.speak(`${strings.status[3].status_nofound.primary}, ${strings.status[3].status_nofound.secondary}`);
+
     }
 
     statusNoSupport() {
@@ -279,6 +283,7 @@ class UI {
         this.textPrimary.css('color', this.colorError);
         this.textSecondary.text(strings.status[4].status_nosupport.secondary);
         this.showStatusText();
+        speaker.speak(`${strings.status[4].status_nosupport.primary}, ${strings.status[4].status_nosupport.secondary}`);
     }
 
     statusListening() {
