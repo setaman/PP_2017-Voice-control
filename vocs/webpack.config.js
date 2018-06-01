@@ -17,6 +17,9 @@ module.exports = {
     devServer: {
         overlay: true
     },
+    optimization: {
+        noEmitOnErrors: true
+    },
 
     watch: NODE_ENV === 'development',
     watchOptions: {
@@ -71,21 +74,12 @@ module.exports = {
                     }
                 ]
             },
-            /*{
-                test: /\.(png|svg)$/i,
-                use: [
-                    'url-loader?limit=10000',
-                    'img-loader'
-                ]
-            },*/
             {
                 test: /\.(png|jpg|svg)$/,
                 use: [
                     {
                         loader: 'file-loader',
-                        options: {
-                            name: '[path][name].[ext]',
-                        }
+                        options: {}
                     }
                 ]
             }

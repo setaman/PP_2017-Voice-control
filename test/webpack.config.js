@@ -1,33 +1,18 @@
-const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const NODE_ENV = process.env.NODE_ENV || 'development';
-const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+let debug = process.env.NODE_ENV !== "production";
+let webpack = require('webpack');
 
 module.exports = {
-    entry: {
-        index: './public/js/index/index.js'
-    },
+    context: __dirname,
+    devtool: debug ? "inline-sourcemap" : null,
+    entry: "./public/js/index/index.js",
     output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, '/dist')
+        path: __dirname + "/dist",
+        filename: "[name].js"
     },
-
-    watch: NODE_ENV === 'development',
+    watch: debug === 'development',
     watchOptions: {
         aggregateTimeout: 100
     },
-
-    devtool: NODE_ENV === 'development' ? 'source-map' : null,
-
-    plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.DefinePlugin({
-            NODE_ENV: JSON.stringify(NODE_ENV)
-        }),
-        new ExtractTextPlugin('[name].css'),
-        new CleanWebpackPlugin(__dirname + '/dist/')
-    ],
     module: {
         rules: [
             {
@@ -42,30 +27,18 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                minimize: true,
-                                sourceMap: true
-                            }
-                        }
-                    ]
-                })
+                use: ['style-loader', 'css-loader']
             },
             {
                 test: /\.(png|jpg|svg)$/,
                 use: [
                     {
                         loader: 'file-loader',
-                        options: {
-                            name: '[path][name].[ext]',
-                        }
+                        options: {}
                     }
                 ]
             }
         ],
-    }
+    },
+    plugins: [],
 };

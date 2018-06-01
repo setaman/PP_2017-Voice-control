@@ -328,55 +328,6 @@ fieldset {
     border: 2px #dcdb00 solid !important;
 }
 
-/*System UI//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-.vocs_ui_container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    margin: 2rem 2rem;
-    z-index: 10;
-}
-
-.vocs_ui_content {
-    line-height: 5rem;
-    height: 5rem;
-    width: 40rem;
-    background-color: #6d6e70;
-    border-radius: 35px;
-    position: relative;
-}
-
-.vocs_ui_content p {
-    line-height: 5rem;
-    font-family: Calibri, sans-serif;
-    font-size: x-large;
-    display: table-cell;
-    padding: 0 0.5rem 0 1rem;
-}
-
-#vocs_text_status {
-    color: #e2e2e2;
-}
-
-#vocs_text_onrecognition {
-    color: white;
-    font-weight: bold;
-    max-lines: 1;
-    max-width: inherit;
-}
-
-#vocs_state_icon {
-    width: 5rem;
-    height: 5rem;
-    padding: 10px 16px;
-    border-radius: 35px;
-    user-select: none;
-    transform-origin: top left;
-    background-color: #1db14b;
-}
-
-/*System UI//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-
 .funkyradio label {
     /*min-width: 400px;*/
     width: 100%;

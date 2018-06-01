@@ -4,6 +4,5 @@
 import Vocs from '../../../../vocs/src/vocs';
 
 window.onload = function () {
-    let hui = 'hui';
     Vocs.initRecognizer({});
 };

@@ -1,7 +1,14 @@
 import '../public/css/vocs_styles.css';
 import {startVisualization, stopVizualization} from './visualizer'
-import {speaker} from './speechsynthesis';
+import {speaker} from './speaker';
 import img_logo from '../public/images/vocs_ui_logo.svg';
+import img_start from '../public/images/vocs_ui_start.svg';
+import img_menu from '../public/images/vocs_ui_menu.svg';
+import img_reload from '../public/images/vocs_ui_reload.svg';
+import img_reload_dis from '../public/images/vocs_ui_reload_inactive.svg';
+import img_drag from '../public/images/vocs_ui_resize.svg';
+import img_min from'../public/images/vocs_ui_min.svg';
+import img_mic_off from'../public/images/vocs_ui_mic_dis.svg';
 
 let string_status_en = [
     {
@@ -51,12 +58,12 @@ let uiTemplate = $(
     <div class="vocs_ui">
         <div class="vocs_ui_control">
             <img class="vocs_ui_logo" src="${img_logo}">
-            <img class="vocs_ui_start_icon" src="./public/images/vocs_ui_start.svg">
+            <img class="vocs_ui_start_icon" src="${img_start}">
             <span class="vocs_ui_live_icon"></span>
         </div>
         <div class="vocs_ui_info">
-            <img class="vocs_ui_menu vocs_ui_icons_hover" src="./public/images/vocs_ui_menu.svg">
-            <img class="vocs_ui_reload vocs_ui_icons_hover" src="./public/images/vocs_ui_reload_inactive.svg">
+            <img class="vocs_ui_menu vocs_ui_icons_hover" src="${img_menu}">
+            <img class="vocs_ui_reload vocs_ui_icons_hover" src="${img_reload_dis}">
         </div>
         <div class="vocs_ui_display">
             <div class="vocs_canvas_container">
@@ -68,8 +75,8 @@ let uiTemplate = $(
             </div>
         </div>
         <div class="vocs_ui_size">
-            <img class="vocs_ui_min vocs_ui_icons_hover" src="./public/images/vocs_ui_min.svg">
-            <img class="vocs_ui_resize vocs_ui_icons_hover" src="./public/images/vocs_ui_resize.svg">
+            <img class="vocs_ui_min vocs_ui_icons_hover" src="${img_min}">
+            <img class="vocs_ui_resize vocs_ui_icons_hover" src="${img_drag}">
         </div>
     </div>
     <div class="vocs_ui_input">
@@ -122,7 +129,7 @@ class UI {
         if (!this.isReady) {
             this.statusNoSupport();
             this.startIcon.hide();
-            this.logo.attr('src', './public/images/vocs_ui_mic_dis.svg');
+            this.logo.attr('src', `src="${img_mic_off}"`);
             this.startButton.addClass('vocs_ui_notready');
             return;
         }
@@ -149,13 +156,13 @@ class UI {
         this.reloadButton.click(() => {
             if (!this.startAlways) {
                 if (storageAvailable('localStorage')) {
-                    this.reloadButton.attr('src', './public/images/vocs_ui_reload.svg');
+                    this.reloadButton.attr('src', `src="${img_reload}"`);
                     setLocalStorageItem('alwaysActive', 'true');
                     this.startAlways = true;
                 }
             } else {
                 if (storageAvailable('localStorage')) {
-                    this.reloadButton.attr('src', './public/images/vocs_ui_reload_inactive.svg');
+                    this.reloadButton.attr('src', `src="${img_reload_dis}"`);
                     setLocalStorageItem('alwaysActive', 'false');
                     this.startAlways = false;
                 }
@@ -176,7 +183,7 @@ class UI {
             }
             if (getLocalStorageItem('alwaysActive') === 'true') {
                 this.startAlways = true;
-                this.reloadButton.attr('src', './public/images/vocs_ui_reload.svg');
+                this.reloadButton.attr('src', `src="${img_reload}"`);
             }
         }
     }
