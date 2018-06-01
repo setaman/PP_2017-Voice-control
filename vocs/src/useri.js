@@ -148,13 +148,13 @@ class UI {
             if (!this.startAlways) {
                 if (storageAvailable('localStorage')) {
                     this.reloadButton.attr('src', './public/images/vocs_ui_reload.svg');
-                    localStorage.setItem('alwaysActive', 'true');
+                    setLocalStorageItem('alwaysActive', 'true');
                     this.startAlways = true;
                 }
             } else {
                 if (storageAvailable('localStorage')) {
                     this.reloadButton.attr('src', './public/images/vocs_ui_reload_inactive.svg');
-                    localStorage.setItem('alwaysActive', 'false');
+                    setLocalStorageItem('alwaysActive', 'false');
                     this.startAlways = false;
                 }
             }
@@ -164,15 +164,15 @@ class UI {
         speaker.initSpeaker();
 
         if (storageAvailable('sessionStorage')) {
-            if (sessionStorage.getItem('vocsIsActive') === 'true' || localStorage.getItem('alwaysActive') === 'true') {
+            if (getSessionsStorageItem('vocsIsActive') === 'true' || getLocalStorageItem('alwaysActive') === 'true') {
                 this.activateSystem();
             } else {
                 this.statusNotActive();
             }
-            if (sessionStorage.getItem('uiIsMinimized') === 'true') {
+            if (getSessionsStorageItem('uiIsMinimized') === 'true') {
                 this.minimizeUI();
             }
-            if (localStorage.getItem('alwaysActive') === 'true') {
+            if (getLocalStorageItem('alwaysActive') === 'true') {
                 this.startAlways = true;
                 this.reloadButton.attr('src', './public/images/vocs_ui_reload.svg');
             }
@@ -188,7 +188,7 @@ class UI {
         this.liveIcon.show(500);
         startVisualization();
         if (storageAvailable('sessionStorage')) {
-            sessionStorage.setItem('vocsIsActive', 'true');
+            setSessionStorageItem('vocsIsActive', 'true');
         }
     }
 
@@ -199,7 +199,7 @@ class UI {
         this.statusNotActive();
         stopVizualization();
         if (storageAvailable('sessionStorage')) {
-            sessionStorage.setItem('vocsIsActive', 'false');
+            setSessionStorageItem('vocsIsActive', 'false');
         }
     }
 
@@ -218,7 +218,7 @@ class UI {
             this.uiContainer.removeClass('vocs_ui_container_responsive');
             this.isMinimized = true;
             if (storageAvailable('sessionStorage')) {
-                sessionStorage.setItem('uiIsMinimized', 'true');
+                setSessionStorageItem('uiIsMinimized', 'true');
             }
         } else {
             this.display.show(200);
@@ -226,7 +226,7 @@ class UI {
             this.uiContainer.addClass('vocs_ui_container_responsive');
             this.isMinimized = false;
             if (storageAvailable('sessionStorage')) {
-                sessionStorage.setItem('uiIsMinimized', 'false');
+                setSessionStorageItem('uiIsMinimized', 'false');
             }
         }
     }
@@ -336,7 +336,6 @@ class UI {
         }, 500)
     }
 }
-
 function storageAvailable(type) {
     try {
         let storage = window[type],
@@ -361,6 +360,20 @@ function storageAvailable(type) {
             storage.length !== 0;
     }
 }
+
+function setLocalStorageItem(key, value) {
+    localStorage.setItem(key, value);
+}
+function getLocalStorageItem(key) {
+    return localStorage.getItem(key);
+}
+function setSessionStorageItem(key, value) {
+    sessionStorage.setItem(key, value);
+}
+function getSessionsStorageItem(key) {
+    return sessionStorage.getItem(key);
+}
+
 
 export let ui = new UI();
 
