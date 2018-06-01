@@ -1,6 +1,7 @@
 import '../public/css/vocs_styles.css';
 import {startVisualization, stopVizualization} from './visualizer'
 import {speaker} from './speechsynthesis';
+import img_logo from '../public/images/vocs_ui_logo.svg';
 
 let string_status_en = [
     {
@@ -49,7 +50,7 @@ let uiTemplate = $(
     `<div class="vocs_ui_container vocs_ui_container_responsive">
     <div class="vocs_ui">
         <div class="vocs_ui_control">
-            <img class="vocs_ui_logo" src="./public/images/vocs_ui_logo.svg">
+            <img class="vocs_ui_logo" src="${img_logo}">
             <img class="vocs_ui_start_icon" src="./public/images/vocs_ui_start.svg">
             <span class="vocs_ui_live_icon"></span>
         </div>
@@ -105,6 +106,7 @@ class UI {
     }
 
     drawUI() {
+        console.log(img_logo);
         $('body').append(uiTemplate);
 
         this.textPrimary = $('.vocs_ui_primary_text');

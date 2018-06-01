@@ -70,6 +70,24 @@ module.exports = {
                         options: { minimize: true }
                     }
                 ]
+            },
+            /*{
+                test: /\.(png|svg)$/i,
+                use: [
+                    'url-loader?limit=10000',
+                    'img-loader'
+                ]
+            },*/
+            {
+                test: /\.(png|jpg|svg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[path][name].[ext]',
+                        }
+                    }
+                ]
             }
         ],
 
