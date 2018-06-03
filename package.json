@@ -4,39 +4,40 @@
   "private": true,
   "scripts": {
     "start": "node vocs",
-    "build": "webpack -p",
-    "watch": "webpack --watch"
+    "build": "webpack -p --mode production",
+    "watch": "webpack --mode development --watch",
+    "dev": "webpack-dev-server --watch --mode development"
   },
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.32",
-    "@babel/preset-env": "^7.0.0-beta.32",
-    "babel": "^6.23.0",
-    "babel-preset-es2016": "^6.24.1",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
+    "debug": "^2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.15.5",
     "express-watcher": "^1.0.3",
     "fuse.js": "^3.2.0",
     "helmet": "^3.9.0",
-    "houndify": "^2.1.0",
-    "jquery": "^3.2.1",
-    "jquery-ui": "^1.12.1",
-    "jquery-ui-dist": "^1.12.1",
     "keyword-extractor": "0.0.15",
     "morgan": "~1.9.0",
+    "request": "^2.87.0",
     "serve-favicon": "~2.4.5",
-    "stopword": "^0.1.10",
-    "words-to-numbers": "^1.3.1"
+    "words-to-numbers": "^1.4.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^8.0.0-beta.0",
-    "babel-preset-env": "^1.6.1",
-    "css-loader": "^0.28.7",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "style-loader": "^0.19.0",
-    "webpack": "^3.11.0"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "img-loader": "^3.0.0",
+    "style-loader": "^0.19.1",
+    "url-loader": "^1.0.0-beta.0",
+    "webpack": "^4.10.2",
+    "webpack-cli": "^2.1.4",
+    "webpack-dev-server": "^3.1.4",
+    "file-loader": "^1.1.11"
   }
 }
