@@ -16,14 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="analyzer.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/js/analyzer.js">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="566">
-              <caret line="72" column="73" selection-start-line="72" selection-start-column="73" selection-end-line="72" selection-end-column="73" />
-              <folding>
-                <element signature="e#0#98#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="478">
+              <caret line="43" selection-start-line="43" selection-end-line="43" />
             </state>
           </provider>
         </entry>
@@ -81,7 +78,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/WSC-13-werbe-video" />
+        <entry key="$PROJECT_DIR$" value="feature/WSC-14-vocs-soll-ohne-pause-eingegeben-werden" />
       </map>
     </option>
     <favorite-branches>
@@ -91,6 +88,7 @@
             <value>
               <list>
                 <branch-info repo="$PROJECT_DIR$" source="feature/WSC-13-werbe-video" />
+                <branch-info repo="$PROJECT_DIR$" source="feature/WSC-14-vocs-soll-ohne-pause-eingegeben-werden" />
               </list>
             </value>
           </entry>
@@ -166,6 +164,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
       <path value="$PROJECT_DIR$/package.json" />
@@ -184,23 +185,23 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <expand>
             <path>
               <item name="Root" type="cbb8eebc:String" user="Root" />
               <item name="PP_2017-Voice-control" type="cbb8eebc:String" user="PP_2017-Voice-control" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="PP_2017-Voice-control" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PP_2017-Voice-control" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -363,7 +364,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="df9946ca-ab9f-4a7d-98b4-308ec120fa71" name="Default" comment="" />
+      <changelist id="45c05fb8-15ce-40ea-9d82-a8734125a9e0" name="Default" comment="" />
       <created>1509277549032</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -457,13 +458,7 @@
       <workItem from="1526117744203" duration="468000" />
       <workItem from="1526126570089" duration="11761000" />
       <workItem from="1528054217127" duration="687000" />
-    </task>
-    <task id="LOCAL-00065" summary="option selection simulate">
-      <created>1516658766385</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1516658766385</updated>
+      <workItem from="1528055518798" duration="260000" />
     </task>
     <task id="LOCAL-00066" summary="merge with WSC2">
       <created>1517421254748</created>
@@ -801,11 +796,18 @@
       <option name="project" value="LOCAL" />
       <updated>1528054683626</updated>
     </task>
-    <option name="localTasksCounter" value="114" />
+    <task id="LOCAL-00114" summary="big merge with branch 18">
+      <created>1528055663536</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1528055663537</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="730463000" />
+    <option name="totallyTimeSpent" value="730488000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -818,16 +820,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17228661" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17228661" />
       <window_info anchor="bottom" id="TODO" order="8" weight="0.32934782" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50421494" side_tool="true" weight="0.32717392" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" weight="0.2908497" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49789253" visible="true" weight="0.2832244" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49789253" visible="true" weight="0.2832244" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" id="Palette" order="3" />
@@ -864,15 +865,15 @@
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" weight="0.28976035" />
       <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20442571" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="8" weight="0.32934782" />
       <window_info anchor="bottom" id="TypeScript" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" weight="0.28976035" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -883,7 +884,7 @@
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49789253" weight="0.2832244" />
       <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50421494" side_tool="true" weight="0.32717392" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
       <window_info id="Capture Tool" order="5" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" id="Database" order="7" />
@@ -961,7 +962,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="merge" />
     <MESSAGE value="search for labels optimized" />
     <MESSAGE value="search for labels optimized again" />
     <MESSAGE value="Merge branch 'hotfix/WSC-9-code-optimization' into feature/WSC-4-all-new-features-branche&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;public/js/element.js" />
@@ -986,7 +986,8 @@
     <MESSAGE value="fix readme" />
     <MESSAGE value="merged with branch 14" />
     <MESSAGE value="gitignore updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="gitignore updated" />
+    <MESSAGE value="big merge with branch 18" />
+    <option name="LAST_COMMIT_MESSAGE" value="big merge with branch 18" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1089,9 +1090,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="566">
           <caret line="72" column="73" selection-start-line="72" selection-start-column="73" selection-end-line="72" selection-end-column="73" />
-          <folding>
-            <element signature="e#0#98#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1107,7 +1105,7 @@
     <entry file="file://$PROJECT_DIR$/public/js/webspeech.js" />
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="946">
+        <state relative-caret-position="478">
           <caret line="43" selection-start-line="43" selection-end-line="43" />
         </state>
       </provider>
