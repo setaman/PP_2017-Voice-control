@@ -60,3 +60,5 @@ typings/
 # Project files
 .idea
 
+dist
+

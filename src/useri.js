@@ -7,8 +7,8 @@ import img_menu from '../public/images/vocs_ui_menu.svg';
 import img_reload from '../public/images/vocs_ui_reload.svg';
 import img_reload_dis from '../public/images/vocs_ui_reload_inactive.svg';
 import img_drag from '../public/images/vocs_ui_resize.svg';
-import img_min from'../public/images/vocs_ui_min.svg';
-import img_mic_off from'../public/images/vocs_ui_mic_dis.svg';
+import img_min from '../public/images/vocs_ui_min.svg';
+import img_mic_off from '../public/images/vocs_ui_mic_dis.svg';
 
 let string_status_en = [
     {
