@@ -15,7 +15,6 @@
     "ejs": "~2.5.7",
     "express": "~4.15.5",
     "express-watcher": "^1.0.3",
-    "file-loader": "^1.1.11",
     "fuse.js": "^3.2.0",
     "helmet": "^3.9.0",
     "keyword-extractor": "0.0.15",
@@ -38,6 +37,7 @@
     "url-loader": "^1.0.0-beta.0",
     "webpack": "^4.10.2",
     "webpack-cli": "^2.1.4",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.4",
+    "file-loader": "^1.1.11"
   }
 }

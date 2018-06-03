@@ -58,7 +58,5 @@ typings/
 .env
 
 # Project files
-.idea
-
-dist
+.idea/
 
