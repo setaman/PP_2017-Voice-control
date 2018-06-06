@@ -21,6 +21,7 @@
     "morgan": "~1.9.0",
     "request": "^2.87.0",
     "serve-favicon": "~2.4.5",
+    "stopword": "^0.1.10",
     "words-to-numbers": "^1.4.1"
   },
   "devDependencies": {

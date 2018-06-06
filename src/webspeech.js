@@ -27,7 +27,7 @@ export default function setupWebSpeechRecognitionAPI(){
         recognition.onresult = event => {
             ui.statusListening();
 
-            if (!ui.isActive) {return;}
+            if (!ui.isON) {return;}
             let recognitionResult = event.results[0][0].transcript;
 
             const transcript = Array.from(event.results)

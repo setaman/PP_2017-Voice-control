@@ -46,6 +46,12 @@ let string_status_en = [
             primary: 'Listening...',
             secondary: ' '
         }
+    },
+    {
+        status_vocsactivated: {
+            primary: 'What can i do?',
+            secondary: ''
+        }
     }
 ];
 
@@ -92,10 +98,9 @@ strings.status.push(...string_status_en);
 class UI {
     constructor() {
         this.isReady = true; //is true if the system is browser compatible
-        this.isActive = false;
-        this.isWaitingForVocs = true;
-        this.isMinimized = false;
-        this.startAlways = false;
+        this.isON = false; // true if system was activated by user or by automatic start
+        this.isMinimized = false; // true if ui was minimized by user
+        this.startAlways = false; // true if user activate this option
 
         /*Move to const*/
         this.colorSuccess = '#5fa57a';
@@ -138,7 +143,7 @@ class UI {
 
         this.uiContainer = $('.vocs_ui_container');
         this.startButton.click(() => {
-            if (this.isActive) {
+            if (this.isON) {
                 this.deactivateSystem();
             } else {
                 this.activateSystem();
@@ -191,7 +196,7 @@ class UI {
     activateSystem() {
         this.showLoading();
         this.hideLoading();
-        this.isActive = true;
+        this.isON = true;
         this.statusActive();
         this.startIcon.hide(500);
         this.liveIcon.show(500);
@@ -202,7 +207,7 @@ class UI {
     }
 
     deactivateSystem() {
-        this.isActive = false;
+        this.isON = false;
         this.liveIcon.hide(500);
         this.startIcon.show(500);
         this.statusNotActive();
@@ -308,6 +313,25 @@ class UI {
             if (i === 2) {
                 listeningInterval = undefined;
                 this.statusActive();
+            }
+        }, 500)
+    }
+
+    statusVocsActivated() {
+        this.textPrimary.text(strings.status[5].status_vocsactivated.primary);
+        this.textPrimary.css('color', this.colorNormal);
+        this.textSecondary.text(strings.status[5].status_vocsactivated.secondary);
+        this.showLoading();
+        let i = 0;
+        if (listeningInterval) {
+            clearInterval(listeningInterval);
+        }
+        listeningInterval = setInterval(() => {
+            i += 1;
+            if (i === 2) {
+                listeningInterval = undefined;
+                this.statusActive();
+                this.hideLoading();
             }
         }, 500)
     }

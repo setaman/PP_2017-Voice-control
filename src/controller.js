@@ -252,7 +252,7 @@ function chooseAction(keyword, elementName) {
         switch (true) {
             case REG_EXP_VOCS.test(keyword):
                 vocsIsActivated = !vocsIsActivated;
-                provideSystemStatus('', 'Vocs ist active');
+                ui.statusVocsActivated();
                 break;
             case REG_EXP_DOWN.test(keyword):
                 if (currentSelect) {
@@ -694,29 +694,16 @@ function deactivationInterval() {
             if (vocsIswaiting) {vocsIswaiting = !vocsIswaiting;}
             vocsIsActivated = !vocsIsActivated;
             console.error('!!!VOCS deactivated!!!');
-            showIndicator();
         } else if (!vocsIsActivated) {
             i = 0;
-            showIndicator();
             clearInterval(interval);
         }
     }, 500)
 }
 
 function stop() {
-    showIndicator();
     changeInputMode(MODE_NO_MODE);
     clearCurrentElements();
     currentMultipleElements = [];
     console.log('------Current MODE------: ' + currentMode);
-}
-function showIndicator() {
-    let logo = $('#vocs_logo');
-    if (vocsIsActivated){
-        logo.show();
-    }else {
-        setTimeout(() => {
-            logo.hide();
-        }, 500);
-    }
 }

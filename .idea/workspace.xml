@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="45c05fb8-15ce-40ea-9d82-a8734125a9e0" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/analyzer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/vocs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/vocs.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/useri.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/useri.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webspeech.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/webspeech.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -13,19 +25,6 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="478">
-              <caret line="43" selection-start-line="43" selection-end-line="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -104,10 +103,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/public/javascripts/const.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/controller.js" />
-        <option value="$PROJECT_DIR$/public/stylesheets/style_controller.css" />
-        <option value="$PROJECT_DIR$/public/stylesheets/vocs_styles.css" />
         <option value="$PROJECT_DIR$/public/stylesheets/style_index.css" />
         <option value="$PROJECT_DIR$/public/components/jquery-ui-dist/jquery-ui.min.css" />
         <option value="$PROJECT_DIR$/public/stylesheets/materialize.css" />
@@ -155,6 +150,10 @@
         <option value="$PROJECT_DIR$/public/js/element.js" />
         <option value="$PROJECT_DIR$/public/js/collector.js" />
         <option value="$PROJECT_DIR$/public/js/controller.js" />
+        <option value="$PROJECT_DIR$/src/analyzer.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/src/useri.js" />
+        <option value="$PROJECT_DIR$/src/controller.js" />
       </list>
     </option>
   </component>
@@ -230,19 +229,19 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="G:\Projects\PP_2017-Voice-control\" />
-      <recent name="G:\Projects\PP_2017-Voice-control\recognizers\configs" />
-      <recent name="G:\Projects\PP_2017-Voice-control\recognizers" />
-      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css\semantic" />
-      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/routes" />
       <recent name="$PROJECT_DIR$/views" />
       <recent name="G:\Projects\PP_2017-Voice-control\views" />
       <recent name="G:\Projects\PP_2017-Voice-control\routes" />
       <recent name="G:\Projects\PP_2017-Voice-control\public\js" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\Projects\PP_2017-Voice-control\" />
+      <recent name="G:\Projects\PP_2017-Voice-control\recognizers\configs" />
+      <recent name="G:\Projects\PP_2017-Voice-control\recognizers" />
+      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css\semantic" />
+      <recent name="G:\Projects\PP_2017-Voice-control\public\css\index_css" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -458,14 +457,10 @@
       <workItem from="1526117744203" duration="468000" />
       <workItem from="1526126570089" duration="11761000" />
       <workItem from="1528054217127" duration="687000" />
-      <workItem from="1528055518798" duration="260000" />
-    </task>
-    <task id="LOCAL-00066" summary="merge with WSC2">
-      <created>1517421254748</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1517421254748</updated>
+      <workItem from="1528055518798" duration="2373000" />
+      <workItem from="1528291735487" duration="1043000" />
+      <workItem from="1528292801091" duration="45000" />
+      <workItem from="1528292850488" duration="44000" />
     </task>
     <task id="LOCAL-00067" summary="vocs class added">
       <created>1517435140393</created>
@@ -803,11 +798,18 @@
       <option name="project" value="LOCAL" />
       <updated>1528055663537</updated>
     </task>
-    <option name="localTasksCounter" value="115" />
+    <task id="LOCAL-00115" summary="big merge with branch 14">
+      <created>1528055789688</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1528055789688</updated>
+    </task>
+    <option name="localTasksCounter" value="116" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="730488000" />
+    <option name="totallyTimeSpent" value="733733000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -821,45 +823,35 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17228661" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17228661" />
       <window_info anchor="bottom" id="TODO" order="8" weight="0.32934782" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50421494" side_tool="true" weight="0.32717392" />
+      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50421494" side_tool="true" visible="true" weight="0.2832244" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" weight="0.2908497" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49789253" visible="true" weight="0.2832244" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49578503" visible="true" weight="0.2832244" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17228661" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.24973656" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="8" weight="0.32934782" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.7200436" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49578503" weight="0.2908497" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="2" />
       <window_info anchor="bottom" id="TypeScript" order="7" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50421494" side_tool="true" weight="0.32717392" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Capture Tool" order="2" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32826087" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49789253" visible="true" weight="0.2832244" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info id="Favorites" order="2" side_tool="true" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" id="Palette" order="3" />
@@ -962,7 +954,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="search for labels optimized" />
     <MESSAGE value="search for labels optimized again" />
     <MESSAGE value="Merge branch 'hotfix/WSC-9-code-optimization' into feature/WSC-4-all-new-features-branche&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;public/js/element.js" />
     <MESSAGE value="'delete' for simple inputs implemented, also now with 'stop stop' 'stop' can be typed" />
@@ -987,7 +978,8 @@
     <MESSAGE value="merged with branch 14" />
     <MESSAGE value="gitignore updated" />
     <MESSAGE value="big merge with branch 18" />
-    <option name="LAST_COMMIT_MESSAGE" value="big merge with branch 18" />
+    <MESSAGE value="big merge with branch 14" />
+    <option name="LAST_COMMIT_MESSAGE" value="big merge with branch 14" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -995,11 +987,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/index.ejs" />
-    <entry file="file://$PROJECT_DIR$/views/video.ejs" />
-    <entry file="file://$PROJECT_DIR$/public/js/controller.js" />
-    <entry file="file://$PROJECT_DIR$/node_modules/words-to-numbers/dist/index.js" />
-    <entry file="file://$PROJECT_DIR$/node_modules/words-to-numbers/dist/index.1.js" />
     <entry file="file://$PROJECT_DIR$/dist/index.js" />
     <entry file="file://$PROJECT_DIR$/public/js/index-scripts/vocs.js" />
     <entry file="file://$PROJECT_DIR$/public/js/requestTransmitter.js" />
@@ -1105,8 +1092,8 @@
     <entry file="file://$PROJECT_DIR$/public/js/webspeech.js" />
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
+        <state relative-caret-position="968">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
         </state>
       </provider>
     </entry>
@@ -1114,6 +1101,45 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="413">
           <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="60" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/analyzer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webspeech.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="946">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/useri.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5698">
+          <caret line="333" column="35" selection-start-line="333" selection-start-column="35" selection-end-line="333" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <element signature="n#!!block;n#drawUI#0;n#UI#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4730">
+          <caret line="254" column="41" selection-start-line="254" selection-start-column="41" selection-end-line="254" selection-end-column="41" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#44#467#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
