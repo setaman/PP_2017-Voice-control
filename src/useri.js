@@ -161,13 +161,13 @@ class UI {
         this.reloadButton.click(() => {
             if (!this.startAlways) {
                 if (storageAvailable('localStorage')) {
-                    this.reloadButton.attr('src', `src="${img_reload}"`);
+                    this.reloadButton.attr('src', `${img_reload}`);
                     setLocalStorageItem('alwaysActive', 'true');
                     this.startAlways = true;
                 }
             } else {
                 if (storageAvailable('localStorage')) {
-                    this.reloadButton.attr('src', `src="${img_reload_dis}"`);
+                    this.reloadButton.attr('src', `${img_reload_dis}`);
                     setLocalStorageItem('alwaysActive', 'false');
                     this.startAlways = false;
                 }
