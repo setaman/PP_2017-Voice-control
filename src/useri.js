@@ -118,7 +118,6 @@ class UI {
     }
 
     drawUI() {
-        console.log(img_logo);
         $('body').append(uiTemplate);
 
         this.textPrimary = $('.vocs_ui_primary_text');
@@ -134,7 +133,7 @@ class UI {
         if (!this.isReady) {
             this.statusNoSupport();
             this.startIcon.hide();
-            this.logo.attr('src', `src="${img_mic_off}"`);
+            this.logo.attr('src', `${img_mic_off}`);
             this.startButton.addClass('vocs_ui_notready');
             return;
         }
@@ -188,7 +187,7 @@ class UI {
             }
             if (getLocalStorageItem('alwaysActive') === 'true') {
                 this.startAlways = true;
-                this.reloadButton.attr('src', `src="${img_reload}"`);
+                this.reloadButton.attr('src', `${img_reload}`);
             }
         }
     }
@@ -300,6 +299,15 @@ class UI {
         speaker.speak(`${strings.status[4].status_nosupport.primary}, ${strings.status[4].status_nosupport.secondary}`);
     }
 
+    customMessage(primary, secondary) {
+        this.hideStatusText();
+        this.textPrimary.text(primary);
+        this.textPrimary.css('color', this.colorNormal);
+        this.textSecondary.text(secondary);
+        this.showStatusText();
+        speaker.speak(`${primary}, ${secondary}`);
+    }
+
     statusListening() {
         this.textPrimary.text(strings.status[5].status_listening.primary);
         this.textPrimary.css('color', this.colorNormal);
@@ -367,6 +375,10 @@ class UI {
                 this.textInputContainer.hide(500);
             }
         }, 500)
+    }
+    fatalErrorOccured () {
+        this.isReady = false;
+        this.drawUI();
     }
 }
 function storageAvailable(type) {

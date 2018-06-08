@@ -5,11 +5,10 @@ import {ui} from './useri';
 /**
  *  Setup Google Speech Recognition
  */
-export default function setupWebSpeechRecognitionAPI(){
+export default function setupWebSpeechRecognitionAPI() {
     try {
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
-        ui.drawUI();
 
         /*let words = ['vocs'];
         let grammar = '#JSGF V1.0; grammar actions; public <actions> = ' + words.join(' | ') + ';';
@@ -27,7 +26,9 @@ export default function setupWebSpeechRecognitionAPI(){
         recognition.onresult = event => {
             ui.statusListening();
 
-            if (!ui.isON) {return;}
+            if (!ui.isON) {
+                return;
+            }
             let recognitionResult = event.results[0][0].transcript;
 
             const transcript = Array.from(event.results)
@@ -49,15 +50,26 @@ export default function setupWebSpeechRecognitionAPI(){
         };
         recognition.addEventListener('end', recognition.start);
         recognition.onerror = e => {
-            if(e.error === 'no-speech' || e.error === 'network'){return;}
-            console.error('Error on recognition: ');
-            console.error(e);
+            switch (e.error) {
+                case 'not-allowed':
+                    console.error(e);
+                    ui.fatalErrorOccured();
+                    ui.customMessage('Error on recognition', 'not-allowed');
+                    break;
+                case 'no-speech':
+                    break;
+                case 'network':
+                    break;
+                default:
+                    console.error(e);
+                    ui.fatalErrorOccured();
+                    break;
+            }
         };
+        ui.drawUI();
     }
     catch (e) {
-        ui.isReady = false;
-        ui.drawUI();
-        console.log(ui.isReady);
+        ui.fatalErrorOccured();
         console.error('Web Speech error: ' + e);
     }
 }
