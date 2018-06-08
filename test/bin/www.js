@@ -6,7 +6,9 @@
 
 var app = require('../test-app');
 var debug = require('debug')('test-site:server');
-var http = require('http');
+var http = require('https');
+var fs = require('fs');
+var path = require('path');
 
 /**
  * Get port from environment and store in Express.
@@ -16,10 +18,18 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
+ * add SSL Certificate, is required for testing the system on remote devices
+ * @type {{key: *, cert: *}}
+ */
+var sslOptions = {
+    key: fs.readFileSync(path.resolve('ssl/server.key')),
+    cert: fs.readFileSync(path.resolve('ssl/server.crt'))
+};
+
+/**
  * Create HTTP server.
  */
-
-var server = http.createServer(app);
+var server = http.createServer(sslOptions, app);
 
 /**
  * Listen on provided port, on all network interfaces.
