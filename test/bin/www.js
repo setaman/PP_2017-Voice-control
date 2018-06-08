@@ -16,10 +16,18 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
+ * add SSL Certificate, is required for testing the system on remote devices
+ * @type {{key: *, cert: *}}
+ */
+var sslOptions = {
+    key: fs.readFileSync('../ssl/server.key'),
+    cert: fs.readFileSync('../ssl/server.crt')
+};
+
+/**
  * Create HTTP server.
  */
-
-var server = http.createServer(app);
+var server = http.createServer(sslOptions, app);
 
 /**
  * Listen on provided port, on all network interfaces.
