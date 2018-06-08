@@ -6,7 +6,9 @@
 
 var app = require('../test-app');
 var debug = require('debug')('test-site:server');
-var http = require('http');
+var http = require('https');
+var fs = require('fs');
+var path = require('path');
 
 /**
  * Get port from environment and store in Express.
@@ -20,8 +22,8 @@ app.set('port', port);
  * @type {{key: *, cert: *}}
  */
 var sslOptions = {
-    key: fs.readFileSync('../ssl/server.key'),
-    cert: fs.readFileSync('../ssl/server.crt')
+    key: fs.readFileSync(path.resolve('ssl/server.key')),
+    cert: fs.readFileSync(path.resolve('ssl/server.crt'))
 };
 
 /**
