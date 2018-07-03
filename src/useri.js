@@ -9,56 +9,13 @@ import img_reload_dis from '../public/images/vocs_ui_reload_inactive.svg';
 import img_drag from '../public/images/vocs_ui_resize.svg';
 import img_min from '../public/images/vocs_ui_min.svg';
 import img_mic_off from '../public/images/vocs_ui_mic_dis.svg';
-
-let string_status_en = [
-    {
-        status_noactive: {
-            primary: 'System is not active now',
-            secondary: 'Click play to start'
-        }
-    },
-    {
-        status_active: {
-            primary: 'System is active',
-            secondary: 'Say Vocs to start'
-        }
-    },
-    {
-        status_error: {
-            primary: 'Some error was occurred',
-            secondary: 'Please reload the site'
-        }
-    },
-    {
-        status_nofound: {
-            primary: 'No Element was found',
-            secondary: 'Please try again'
-        }
-    },
-    {
-        status_nosupport: {
-            primary: 'Your browser is not supported',
-            secondary: 'Please update your Browser'
-        }
-    },
-    {
-        status_listening: {
-            primary: 'Listening...',
-            secondary: ' '
-        }
-    },
-    {
-        status_vocsactivated: {
-            primary: 'What can i do?',
-            secondary: ''
-        }
-    }
-];
+import {strings_status} from './lang/en';
 
 let inputTextInterval = null;
 let listeningInterval = null;
 let logoRotationInterval = null;
 
+//TODO: replace classes with id's to set higher priority for styling
 let uiTemplate = $(
     `<div class="vocs_ui_container vocs_ui_container_responsive">
     <div class="vocs_ui">
@@ -85,15 +42,18 @@ let uiTemplate = $(
             <img class="vocs_ui_resize vocs_ui_icons_hover" src="${img_drag}">
         </div>
     </div>
-    <div class="vocs_ui_input">
+    <div id="vocs_ui_recognized_output" class="vocs_ui_input">
         <p class="vocs_ui_input_text"></p>
     </div>  
 </div>`);
 
 let strings = {
-    status: []
+    status: [...strings_status]
 };
-strings.status.push(...string_status_en);
+//strings.status.push(...strings_status);
+
+//FIXME: why is this called twice
+console.error(strings.status);
 
 class UI {
     constructor() {
@@ -376,7 +336,7 @@ class UI {
             }
         }, 500)
     }
-    fatalErrorOccured () {
+    fatalErrorOccurred () {
         this.isReady = false;
         this.drawUI();
     }
@@ -424,33 +384,33 @@ export let ui = new UI();
 
 function dragElement(elmnt, container) {
     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    /* otherwise, move the DIV from anywhere inside the DIV*/
     elmnt.onmousedown = dragMouseDown;
 
     function dragMouseDown(e) {
         e = e || window.event;
-        // get the mouse cursor position at startup:
+        // get the mouse cursor position at startup
         pos3 = e.clientX;
         pos4 = e.clientY;
         elmnt.onmouseup = closeDragElement;
-        // call a function whenever the cursor moves:
+        // call a function whenever the cursor moves
         elmnt.onmousemove = elementDrag;
     }
 
     function elementDrag(e) {
         e = e || window.event;
-        // calculate the new cursor position:
+        // calculate the new cursor position
         pos1 = pos3 - e.clientX;
         pos2 = pos4 - e.clientY;
         pos3 = e.clientX;
         pos4 = e.clientY;
-        // set the element's new position:
+        // set the element's new position
         container.style.top = (container.offsetTop - pos2) + "px";
         container.style.left = (container.offsetLeft - pos1) + "px";
     }
 
     function closeDragElement() {
-        /* stop moving when mouse button is released:*/
+        /* stop moving when mouse button is released*/
         elmnt.onmouseup = null;
         elmnt.onmousemove = null;
     }

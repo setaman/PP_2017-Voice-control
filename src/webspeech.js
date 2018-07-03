@@ -31,7 +31,7 @@ export default function setupWebSpeechRecognitionAPI() {
 
             let recognitionResult = event.results[0][0].transcript;
 
-            const transcript = Array.from(event.results)
+            let transcript = Array.from(event.results)
                 .map(result => result[0])
                 .map(result => result.transcript)
                 .join('');
@@ -53,7 +53,7 @@ export default function setupWebSpeechRecognitionAPI() {
             switch (e.error) {
                 case 'not-allowed':
                     console.error(e);
-                    ui.fatalErrorOccured();
+                    ui.fatalErrorOccurred();
                     ui.customMessage('Error on recognition', 'not-allowed');
                     break;
                 case 'no-speech':
@@ -62,14 +62,14 @@ export default function setupWebSpeechRecognitionAPI() {
                     break;
                 default:
                     console.error(e);
-                    ui.fatalErrorOccured();
+                    ui.fatalErrorOccurred();
                     break;
             }
         };
         ui.drawUI();
     }
     catch (e) {
-        ui.fatalErrorOccured();
+        ui.fatalErrorOccurred();
         console.error('Web Speech error: ' + e);
     }
 }

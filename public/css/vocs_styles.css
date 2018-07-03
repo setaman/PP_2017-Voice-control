@@ -128,6 +128,12 @@
 /**********************************************************
 Vocs ui
  */
+.vocs_ui_container *, .vocs_ui_container {
+    -webkit-box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+}
+
 .vocs_ui_container {
     transition: width .5s /*, left .5s, right .5s, top .5s, bottom .5s*/;
     position: fixed;
@@ -137,6 +143,7 @@ Vocs ui
     color: white;
     /*opacity: 0.2;*/
     filter: alpha(opacity=20);
+    min-height: 124px;
 }
 
 .vocs_ui_container:hover {
@@ -152,6 +159,7 @@ Vocs ui
     background: #02131D;
     -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
     -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    -o-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
     box-shadow: 0 0 10px rgba(0, 0, 0, .5);
     border: #1891ff 2px solid;
     border-radius: 50px 10px 10px 50px;
@@ -159,6 +167,7 @@ Vocs ui
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
+    display: -o-flex;
     display: flex;
     align-items: center;
 }
@@ -189,7 +198,7 @@ Vocs ui
 }
 .vocs_ui_notready {
     cursor: auto;
-    background: rgba(232, 76, 61, .2);
+    background: rgba(189, 59, 59, 0.7);
     -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
     -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
     -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
@@ -273,8 +282,7 @@ Vocs ui
 
 .vocs_ui_primary_text, .vocs_ui_secondary_text {
     margin: 5px 10px 5px 10px;
-    font-size: 1.2rem;
-    min-height: 30%;
+    font-size: 16px !important;
     text-align: left;
 }
 
@@ -295,12 +303,12 @@ Vocs ui
     background: transparent;
 }
 
-.vocs_ui_input {
+#vocs_ui_recognized_output, .vocs_ui_input {
     padding: 0 10px;
     background: #d5d5d5;
-    margin-top: 5px;
+    margin: 5px 0 0 0;
     border-radius: 5px;
-    border: 2px solid gray;
+    /*border: 2px solid gray;*/
     height: 30px;
     display: -webkit-box;
     display: -moz-box;
@@ -309,9 +317,16 @@ Vocs ui
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    color: gray;
-    font-weight: bold;
     position: relative;
+    box-shadow: 0 0 50px rgba(55, 55, 55, 0.93), 0 0 10px rgba(0, 0, 0, 0.84);
+}
+
+#vocs_ui_recognized_output > p {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    color: gray;
+    font-size: 14px;
 }
 
 .vocs_ui_input:after {
@@ -322,7 +337,7 @@ Vocs ui
     width: 0;
     height: 0;
     border: 8px solid transparent;
-    border-bottom-color: gray;
+    border-bottom-color: #d5d5d5;
     border-top: 0;
     margin-left: -8px;
     margin-top: -8px;
@@ -354,7 +369,7 @@ Vocs ui
     position: absolute;
     width: 25px;
     height: 25px;
-    background: #bd3b3b;
+    background: #5fa57a;
     animation-name: pulse;
     animation-duration: 1.5s;
     animation-iteration-count: infinite;
@@ -368,10 +383,10 @@ Vocs ui
 
 @keyframes pulse {
     0% {
-        box-shadow: 0 0 3px 0 rgba(234, 68, 68, 0.6);
+        box-shadow: 0 0 3px 0 rgba(95, 165, 122, 0.6);
     }
     65% {
-        box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0.3);
+        box-shadow: 0 0 3px 6px rgba(95, 165, 122, 0.3);
     }
     90% {
         box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0);
@@ -386,6 +401,7 @@ Vocs ui
     border-radius: 5px;
     background: rgba(0, 91, 122, 0.51);
 }
+
 @media only screen and (max-width: 630px) {
     .vocs_ui_container {
         width: 100px;
@@ -424,7 +440,7 @@ Vocs ui
         height: 100%;
     }
     .vocs_ui_display p{
-                font-size: 1rem;
+        font-size: 12px;
     }
     .vocs_ui_live_icon {
         height: 30%;
