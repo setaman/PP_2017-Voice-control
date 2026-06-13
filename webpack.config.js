@@ -2,16 +2,28 @@ const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const webpack = require('webpack');
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-    entry: './public/js/controller.js',
+    entry: {
+        vocs: './src/vocs.js',
+        index: './index.js',
+    },
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: '[name].js',
+        path: path.resolve(__dirname, 'dist'),
+        //publicPath: 'dist/'
+    },
+    devServer: {
+        overlay: true
+    },
+    optimization: {
+        noEmitOnErrors: true
     },
 
     watch: NODE_ENV === 'development',
     watchOptions: {
+        ignored: /node_modules/,
         aggregateTimeout: 100
     },
 
@@ -22,11 +34,11 @@ module.exports = {
         new webpack.DefinePlugin({
             NODE_ENV: JSON.stringify(NODE_ENV)
         }),
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery'
-        }),
-        new ExtractTextPlugin('[name].css')
+        new ExtractTextPlugin('[name].css'),
+        new HtmlWebPackPlugin({
+            template: './index.html',
+            filename: './index.html'
+        })
     ],
 
     module: {
@@ -36,19 +48,43 @@ module.exports = {
                 exclude: /(node_modules)/,
                 use: {
                     loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
                 }
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                minimize: true,
+                                sourceMap: true
+                            }
+                        }
+                    ]
+                })
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: "html-loader",
+                        options: { minimize: true }
+                    }
+                ]
+            },
+            {
+                test: /\.(png|jpg|svg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {}
+                    }
+                ]
             }
         ],
 
-        loaders: [
-            {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
-            }
-        ]
     }
 
 };
