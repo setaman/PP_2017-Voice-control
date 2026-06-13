@@ -3,36 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "build": "webpack -p",
-    "watch": "webpack --watch"
-  },
-  "dependencies": {
-    "body-parser": "~1.18.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "ejs": "~2.5.7",
-    "express": "~4.15.5",
-    "express-watcher": "^1.0.3",
-    "helmet": "^3.9.0",
-    "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.32",
-    "@babel/preset-env": "^7.0.0-beta.32",
-    "babel": "^6.23.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^8.0.0-beta.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2016": "^6.24.1",
-    "clean-webpack-plugin": "^0.1.19",
-    "css-loader": "^0.28.11",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "file-loader": "^1.1.11",
-    "img-loader": "^3.0.0",
-    "style-loader": "^0.21.0",
-    "url-loader": "^1.0.1",
-    "webpack": "^3.11.0"
+    "vite": "^6.0.0"
   }
 }
