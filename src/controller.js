@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import {
-    REG_EXP_VOCS,
+    REG_EXP_CLICK,
     REG_EXP_OFF,
     REG_EXP_CLEAR,
     REG_EXP_DOWN,
@@ -15,7 +15,7 @@ import {
     STATE_MULTIPLE_MATCH,
     MODE_MULTIPLE,
     TYPE_FOCUSABLE, REG_EXP_SHOW, REG_EXP_NUMBER, TYPE_SELECTABLE, TYPE_DATE_TIME, MODE_DATE_TIME, REG_EXP_INFO,
-    REG_EXP_DELETE, VOCS,
+    REG_EXP_DELETE, CLICK,
 } from './const';
 import {getElements, searchForElements} from './collector';
 import {
@@ -97,11 +97,11 @@ export function performUserAction(input) {
 
     if(vocsIswaiting){
         currentElementName = userCommand;
-        currentKeyword = VOCS;
+        currentKeyword = CLICK;
         vocsIswaiting = !vocsIswaiting;
     }
 
-    if (REG_EXP_VOCS.test(currentKeyword) && !currentElementName && !vocsIswaiting) {
+    if (REG_EXP_CLICK.test(currentKeyword) && !currentElementName && !vocsIswaiting) {
         vocsIswaiting = !vocsIswaiting;
         deactivationInterval();
         return;
@@ -235,7 +235,7 @@ export function performUserAction(input) {
  */
 function chooseAction(keyword, elementName) {
     if (keyword && currentElementName) {
-        if (REG_EXP_VOCS.test(keyword)) {
+        if (REG_EXP_CLICK.test(keyword)) {
             currentElements.push(...searchForElements(elementName));
             if (currentElements.length === 1) {
                 handleElement(currentElements[0]);
@@ -248,9 +248,9 @@ function chooseAction(keyword, elementName) {
         }
     }else if (keyword && !elementName) { // Keyword isoliert als einzelnes Wort eingegeben
         switch (true) {
-            case REG_EXP_VOCS.test(keyword):
+            case REG_EXP_CLICK.test(keyword):
                 vocsIsActivated = !vocsIsActivated;
-                ui.statusVocsActivated();
+                ui.statusClickActivated();
                 break;
             case REG_EXP_DOWN.test(keyword):
                 if (currentSelect) {

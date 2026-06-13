@@ -284,10 +284,10 @@ class UI {
         }, 500)
     }
 
-    statusVocsActivated() {
-        this.textPrimary.text(strings.status[5].status_vocsactivated.primary);
+    statusClickActivated() {
+        this.textPrimary.text(strings.status[5].status_clickactivated.primary);
         this.textPrimary.css('color', this.colorNormal);
-        this.textSecondary.text(strings.status[5].status_vocsactivated.secondary);
+        this.textSecondary.text(strings.status[5].status_clickactivated.secondary);
         this.showLoading();
         let i = 0;
         if (listeningInterval) {
