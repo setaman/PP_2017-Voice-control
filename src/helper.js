@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 function generateId(i) {
     return 'vocs_multiple_select_wrapper_' + i;
 }

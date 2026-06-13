@@ -2,7 +2,7 @@ import {elementBuilder} from './element';
 import {ALL_SELECTOR} from './const';
 import {fuzzySearch} from './fuzzy_search';
 //import keywordExtractor from 'keyword-extractor';
-import sw from 'stopword';
+import { removeStopwords, eng } from 'stopword';
 
 /*let keywordsExtractorOptions = {
     language:"english",
@@ -140,7 +140,7 @@ function computeScore(text, userInput, second) {
 
 function normalizeStringFoSearch(string) {
     string = string.split(/[ ,]+/);
-    string = sw.removeStopwords(string, sw.en);
+    string = removeStopwords(string, eng);
     if (string.length > 0) {
         return string;
     }

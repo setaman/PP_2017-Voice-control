@@ -1,6 +1,4 @@
-/**
- * Created by Pastuh on 19.10.2017.
- */
+import $ from 'jquery';
 import {
     REG_EXP_VOCS,
     REG_EXP_OFF,

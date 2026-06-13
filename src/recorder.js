@@ -1,7 +1,8 @@
 let analyser;
 let recorder;
 let isRecording = false;
-import Recorder from './_recorder';
+import './_recorder.js';
+const Recorder = window.Recorder;
 //import performUserAction from './controller';
 
 export default function startRecord() {

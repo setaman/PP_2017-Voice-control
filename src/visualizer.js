@@ -74,7 +74,7 @@ export function startVisualization() {
         canvasCtx = canvas.getContext("2d");
         WIDTH = canvas.width;
         HEIGHT = canvas.height;
-        drawVisual;
+
 
         analyser.fftSize = 512;
         let bufferLength = analyser.fftSize;

@@ -64,3 +64,6 @@ typings/
 
 # SSL Certificates
 **/ssl
+
+.omc
+dist
