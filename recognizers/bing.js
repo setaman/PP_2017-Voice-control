@@ -17,7 +17,7 @@ module.exports.doRequest = function (req, res) {
                 Accept: 'application/json;text/xml',
                 'Transfer-Encoding': 'chunked',
                 Host: 'speech.platform.bing.com',
-                'Ocp-Apim-Subscription-Key': 'd3982e6ce0c54fef8e0fd89d4b9c0584',
+                'Ocp-Apim-Subscription-Key': 'xxx',
                 'Content-Type': 'audio/wav; codec=audio/pcm; samplerate=16000'
             },
         body: audio

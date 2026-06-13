@@ -1,5 +1,4 @@
 export let keywords = [
-    {vocs: ['vocs']},
     {click: ['click', 'press', 'navigate', 'go to']},
     {off: ['shut', 'system', 'vocs', 'off', 'down', 'deactivate']},
     {up: ['scroll', 'page', 'site','up']},
@@ -18,7 +17,7 @@ export let strings_status = [
     {
         status_active: {
             primary: 'System is active',
-            secondary: 'Say Vocs to start'
+            secondary: 'Say Click to start'
         }
     },
     {
@@ -46,7 +45,7 @@ export let strings_status = [
         }
     },
     {
-        status_vocsactivated: {
+        status_clickactivated: {
             primary: 'What can i do?',
             secondary: ''
         }

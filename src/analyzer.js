@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import {fuzzySearchForElements, fuzzySearchForKeywords, fuzzySearchForVocs} from "./fuzzy_search";
+import {fuzzySearchForElements, fuzzySearchForKeywords, fuzzySearchForClick} from "./fuzzy_search";
 import {KEYWORDS_OBJECTS} from "./const";
 
 /**
@@ -42,7 +42,7 @@ export function getCommandLength(userCommand) {
  */
 export function getRecognizedKeyword(userCommand) {
     let keyword = extractKeyword(userCommand); //extract Keyword
-    let vocsKeyword = fuzzySearchForVocs(keyword);
+    let vocsKeyword = fuzzySearchForClick(keyword);
 
 
     $.each(KEYWORDS_OBJECTS, (index, value) => {
@@ -71,10 +71,7 @@ export function getRecognizedKeyword(userCommand) {
  */
 function extractKeyword(userCommand) {
     let result = userCommand.split(/[ ,]+/); // String bei Leerzeichen splitten, erzeugt [vocs, click, select];
-    if(result[0] === 'box' || result[0] === 'fox' || result[0] === 'books') {
-        return 'vocs';
-    }
-    return result[0]; //vocs
+    return result[0];
 }
 
 /**

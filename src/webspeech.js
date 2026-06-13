@@ -1,5 +1,5 @@
 import {performUserAction} from './controller';
-import {fuzzySearchForVocs} from './fuzzy_search';
+import {fuzzySearchForClick} from './fuzzy_search';
 import {ui} from './useri';
 
 /**
@@ -41,7 +41,7 @@ export default function setupWebSpeechRecognitionAPI() {
             if (recognitionResult) {
                 ui.setInputText(recognitionResult);
                 if (event.results[0].isFinal) {
-                    console.warn(fuzzySearchForVocs(recognitionResult));
+                    console.warn(fuzzySearchForClick(recognitionResult));
                     console.warn(recognitionResult);
                     performUserAction(recognitionResult);
                 }

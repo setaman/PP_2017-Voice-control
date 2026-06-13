@@ -18,12 +18,12 @@ let optionsForKeywords = {
     keys: ['keyword']
 };
 
-let optionsForVocs = {
+let optionsForClick = {
     threshold: 0.75,
     location: 0,
     distance: 100,
     minMatchCharLength: 3,
-    keys: ['vocs']
+    keys: ['keyword']
 };
 
 export function fuzzySearchForElements(list, searchString) {
@@ -36,9 +36,9 @@ export function fuzzySearchForKeywords(list, searchString) {
     return fuse.search(searchString).map(r => r.item.keyword);
 }
 
-export function fuzzySearchForVocs(searchString) {
-    let fuse = new Fuse([{vocs:'vocs'}], optionsForVocs);
-    return fuse.search(searchString).map(r => r.item.vocs);
+export function fuzzySearchForClick(searchString) {
+    let fuse = new Fuse([{keyword:'click'}], optionsForClick);
+    return fuse.search(searchString).map(r => r.item.keyword);
 }
 
 export function fuzzySearch(elementString, userInput) {
