@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VOCS Test Site</title>
+    <link rel="stylesheet" href="/css/style_index.css" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/css/index/materialize.css" media="screen"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/materialize.js"></script>
+    <script
+            src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div id="main">
+    <div id="content" class="container">
+        <div id="canvas">
+            <canvas class="visualizer"></canvas>
+        </div>
+
+        <div class="row row-margin">
+            <div class="col-xs-12">
+                <div id="controll-button">
+                    <button id="startRecord" type="button" class=" btn btn-default btn-circle btn-xl"><img
+                                id="control-img" src="./images/play_icon.svg"></button>
+                </div>
+            </div>
+        </div>
+
+        <!--Input field for testing -->
+        <div class="row row-margin">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+                <div class="form-group">
+                    <input class="form-control" type="text" id="search-input" placeholder="search" value="click fruit">
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <button id="search" type="button" class="btn btn-primary btn-block">Search</button>
+                    </div>
+                    <div class="col-xs-4">
+                        <button id="hide" type="button" class="btn btn-default btn-block">hide</button>
+                    </div>
+                    <div class="col-xs-4">
+                        <button id="unwrap" type="button" class="btn btn-danger btn-block">Unwrap</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <audio id=recordedAudio>Record</audio>
+                <br>
+                <a class="btn button-default" id=audioDownload>SAVE</a>
+            </div>
+        </div>
+
+        <div class="row row-margin">
+            <div class="col-xs-12">
+                <!--MAIN NAV-->
+                <div id="main-nav">
+                    <div class="card">
+                        <ul class="main-tabs">
+                            <li><a href="#tabs-1">HOME</a></li>
+                            <li><a href="#tabs-2">BUTTONS</a></li>
+                            <li><a href="#tabs-3">CHECKBOXES</a></li>
+                            <li><a href="#tabs-4">INPUTFIELDS</a></li>
+                            <li><a href="#tabs-5">DROPDOWNS</a></li>
+                            <li><a href="#tabs-6">NAVS</a></li>
+                            <li><a href="#tabs-7">SCROLL</a></li>
+                        </ul>
+                    </div>
+
+                    <!--HOME TAB -->
+                    <div id="tabs-1" class="row-margin">
+                        <div class="card">
+                            home
+                        </div>
+                    </div>
+
+                    <!--Buttons TAB -->
+                    <div id="tabs-2" class="row-margin">
+                        <h4 class="tab-header">Buttons and Links</h4>
+                        <div class="card">
+                            <div class="row" style="margin-bottom: 10px">
+                                <div class="col-sm-6">
+                                    <button id="set" type="button" class="btn btn-block btn-primary">Button</button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-primary btn-block" onclick="alert('Hello')">Click</button>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 10px">
+                                <div class="col-sm-6">
+                                    <a href="https://www.w3schools.com/jsref/event_onclick.asp" class="btn btn-success btn-block" role="button">Test link</a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a href="#" id="click1" class="btn btn-success btn-block" role="button" onclick="alert('Test')">Link</a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 10px">
+                                <div class="col-sm-6">
+                                    <input class="btn btn-danger btn-block" type="button" data-placement="top" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover" value="Over">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="btn btn-danger btn-block" type="button" value="Test Input">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 10px">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-block btn-secondary"><a onclick="alert(this.textContent + ' says hello')">Button with link</a></button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-primary btn-block" onclick="alert('Hello')">Hello</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--CHECKBOXES TAB -->
+                    <div id="tabs-3" class="row-margin">
+                        <h4 class="tab-header">Checkboxes and Radios</h4>
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="checkbox">
+                                                <div class="checkbox-success">
+                                                    <input type="checkbox" id="remember" value="option1">
+                                                    <label for="remember">Remember</label>
+                                                </div>
+                                                <div class="checkbox-success">
+                                                    <input type="checkbox" id="male" value="option1">
+                                                    <label for="male">Male</label>
+                                                </div>
+                                                <div class="checkbox-success">
+                                                    <input type="checkbox" id="female" value="option1">
+                                                    <label for="female">female</label>
+                                                </div>
+                                                <div class="checkbox-success">
+                                                    <input type="checkbox" id="female2" value="option1">
+                                                    <label for="female2">Jon</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-8 m-b-10">
+                                            <input type="checkbox" value=""><label>Car</label>
+                                            <label>Bike</label><input type="checkbox">
+                                            <label><input type="checkbox">Bike</label>
+                                        </div>
+                                        <div class="col-xs-8 m-b-10">
+                                            <label for="r1" class="radio-inline"><input id="r1" type="radio" name="optradio">Apple</label>
+                                            <label for="r2" class="radio-inline"><input id="r2" type="radio" name="optradio">banana</label>
+                                            <label for="r3" class="radio-inline"><input id="r3" type="radio" name="optradio">orange</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="checkbox" name="fancy-checkbox-default" id="fancy-checkbox-default" autocomplete="off"/>
+                                                <div class="btn-group">
+                                                    <label for="fancy-checkbox-default" class="btn btn-default">
+                                                        <span class="glyphicon glyphicon-ok"></span>
+                                                    </label>
+                                                    <label for="fancy-checkbox-default" class="btn btn-default active">White</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary" autocomplete="off"/>
+                                                <div class="btn-group">
+                                                    <label for="fancy-checkbox-primary" class="btn btn-primary">
+                                                        <span class="glyphicon glyphicon-ok"></span>
+                                                    </label>
+                                                    <label for="fancy-checkbox-primary" class="btn btn-default active">Blue</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="funkyradio">
+                                                <div class="funkyradio-default">
+                                                    <input type="radio" name="radio" id="radio1"/>
+                                                    <label for="radio1">First Option default</label>
+                                                </div>
+                                                <div class="funkyradio-primary">
+                                                    <input type="radio" name="radio" id="radio2" checked/>
+                                                    <label for="radio2">Second Option primary</label>
+                                                </div>
+                                                <div class="funkyradio-success">
+                                                    <input type="radio" name="radio" id="radio3"/>
+                                                    <label for="radio3">Third Option success</label>
+                                                </div>
+                                                <div class="funkyradio-danger">
+                                                    <input type="radio" name="radio" id="radio4"/>
+                                                    <label for="radio4">orange Option danger</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--INPUTFIELDS TAB -->
+                    <div id="tabs-4" class="row-margin">
+                        <h4 class="tab-header">Inputfields</h4>
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="email">Email address:</label>
+                                            <input type="email" class="form-control" id="email">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" id="pwd" placeholder="pass">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="comment">Comments extra long name</label>
+                                            <textarea class="form-control" rows="5" cols="15" maxlength="10" id="comment"></textarea>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="text" class="form-control" placeholder="price" aria-label="Amount (to the nearest dollar)">
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+                                        <button type="submit" style="margin-top: 10px" class="btn btn-default">Submit</button>
+                                        <button type="reset" style="margin-top: 10px" class="btn btn-default">reset</button>
+                                    </form>
+                                    <div class="row row-margin">
+                                        <div class="col-sm-6">
+                                            <div class="form-group has-success has-feedback">
+                                                <label class="col-sm-12 control-label" for="inputSuccess">Success</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" id="inputSuccess">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group has-warning has-feedback">
+                                                <label class="col-sm-12 control-label" for="inputWarning">Test</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" id="inputWarning">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-sm-6 row-margin">
+                                                <label for="date">Type Date</label>
+                                                <input class="form-control" id="date" type="date">
+                                            </div>
+                                            <div class="col-sm-6 row-margin">
+                                                <label for="datetime">Date Time Local</label>
+                                                <input class="form-control" id="datetime" type="datetime-local">
+                                            </div>
+                                            <div class="col-sm-6 row-margin">
+                                                <label for="month">Month</label>
+                                                <input class="form-control" id="month" type="month">
+                                            </div>
+                                            <div class="col-sm-6 row-margin">
+                                                <label for="time">Time</label>
+                                                <input class="form-control" id="time" type="time" name="usr_time">
+                                            </div>
+                                            <div class="col-sm-6 row-margin">
+                                                <label for="week">Week</label>
+                                                <input class="form-control" id="week" type="week">
+                                            </div>
+                                            <div class="col-sm-6 row-margin">
+                                                <label for="number">number</label>
+                                                <input class="form-control" id="number" type="number" name="quantity" min="1" max="5">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--DROPDOWNS TAB -->
+                    <div id="tabs-5" class="row-margin">
+                        <h4 class="tab-header">Dropdown menus and Selections</h4>
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <fieldset>
+                                                <label for="fruit">Select a Fruit</label>
+                                                <select name="fruit" id="fruit">
+                                                    <option value="a">Apple</option>
+                                                    <option value="b">Banana</option>
+                                                    <option value="1">Orange</option>
+                                                    <option value="2">pineapple</option>
+                                                    <option value="apricot hui">apricot</option>
+                                                    <option value="4">avocado</option>
+                                                    <option value="5">mango</option>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <fieldset>
+                                                <label for="fc">Choice best FC</label>
+                                                <select name="fc" id="fc">
+                                                    <optgroup label="FC">
+                                                        <option value="man">Manchester United</option>
+                                                        <option value="che">Fc Chelsea</option>
+                                                    </optgroup>
+                                                    <optgroup label="Other FC">
+                                                        <option value="ars">Arsenal</option>
+                                                        <option value="liver">Liverpool FC</option>
+                                                    </optgroup>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <fieldset>
+                                                <label for="fruit2">Select a Fruit</label>
+                                                <select name="fruit2" id="fruit2">
+                                                    <option>Apple</option>
+                                                    <option selected="selected">Banana</option>
+                                                    <option>Orange</option>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <fieldset>
+                                                <label for="speed">Choice Speed</label>
+                                                <select name="speed" id="speed">
+                                                    <optgroup label="Fast">
+                                                        <option value="jquery">Fast</option>
+                                                        <option value="jqueryui">Super fast</option>
+                                                    </optgroup>
+                                                    <optgroup label="Slow">
+                                                        <option value="somefile">Slow</option>
+                                                        <option value="someotherfile">Super slow</option>
+                                                    </optgroup>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="sel1">Select list:</label>
+                                                <select class="form-control" id="sel1">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label for="monster">Monster
+                                                <select id="monster" name="top5" size="5">
+                                                    <option value="1">Heino</option>
+                                                    <option value="2">Michael Jackson</option>
+                                                    <option value="3">Tom Waits</option>
+                                                    <option value="4">Nina Hagen</option>
+                                                    <option value="5">Marianne Rosenberg</option>
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="c">Car</label>
+                                            <select id="c" name="cars" multiple>
+                                                <option value="volvo">Volvo</option>
+                                                <option value="saab">Saab</option>
+                                                <option value="opel">Opel</option>
+                                                <option value="audi">Audi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--NAVS TAB -->
+                    <div id="tabs-6" class="row-margin">
+                        <h4 class="tab-header">Navigation</h4>
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <nav class="navbar navbar-default">
+                                        <div class="container-fluid">
+                                            <div class="navbar-header">
+                                                <a class="navbar-brand">Website</a>
+                                            </div>
+                                            <ul class="nav navbar-nav">
+                                                <li><a>Home</a></li>
+                                                <li class="dropdown">
+                                                    <a class="dropdown-toggle" data-toggle="dropdown">Menu <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a onclick="alert(this.textContent + ' says hello')">Apple</a></li>
+                                                        <li><a onclick="alert(this.textContent + ' says hello')">Orange</a></li>
+                                                        <li><a onclick="alert(this.textContent + ' says hello')">Banana</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <form class="navbar-form navbar-left">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="Search">
+                                                </div>
+                                                <button type="submit" class="btn btn-default">Submit</button>
+                                            </form>
+                                            <ul class="nav navbar-nav navbar-right">
+                                                <li><a onclick="alert('Sign Up')"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                                                <li><a onclick="alert('Login')"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+                                        <li><a data-toggle="tab" href="#menu1">Jobs</a></li>
+                                        <li><a data-toggle="tab" href="#menu2">Blog</a></li>
+                                        <li><a data-toggle="tab" href="#menu3">Contact</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="home" class="tab-pane fade in active">
+                                            <h3>HOME</h3>
+                                            <p>Lorem ipsum dolor sit amet.</p>
+                                        </div>
+                                        <div id="menu1" class="tab-pane fade">
+                                            <h3>Jobs</h3>
+                                            <p>Ut enim ad minim veniam.</p>
+                                        </div>
+                                        <div id="menu2" class="tab-pane fade">
+                                            <h3>Blog</h3>
+                                            <p>Sed ut perspiciatis unde omnis.</p>
+                                        </div>
+                                        <div id="menu3" class="tab-pane fade">
+                                            <h3>Contact</h3>
+                                            <p>Eaque ipsa quae ab illo inventore.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb">
+                                        <li><a onclick="alert('Home')">Home</a></li>
+                                        <li><a onclick="alert('Library')">Library</a></li>
+                                        <li><a onclick="alert('Contact')">Contact</a></li>
+                                        <li class="active">Data</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--SCROLL TAB -->
+                    <div id="tabs-7" class="row-margin">
+                        <h4 class="tab-header">Test Scrolling</h4>
+                        <div class="card">
+                            <div class="row">
+                                <div class="scroll-test-container">
+                                    Test scroll Test scroll Test scroll Test scroll
+                                    Test scroll Test scroll Test scroll Test scroll
+                                    Test scroll Test scroll Test scroll Test scroll
+                                    Test scroll Test scroll Test scroll Test scroll
+                                    Test scroll Test scroll Test scroll Test scroll
+                                    Test scroll Test scroll Test scroll Test scroll
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $("#main-nav").tabs();
+        });
+        let tabAnim = {
+            show: {effect: "fade", duration: "fast"}
+        };
+        $('#main-nav').tabs(tabAnim);
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
+<script type="module" src="/main.js"></script>
+</body>
+</html>
