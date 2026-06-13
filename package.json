@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node vocs",
-    "build": "webpack -p --mode production",
-    "watch": "webpack --mode development --watch",
-    "dev": "webpack-dev-server --watch --mode development"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -15,30 +15,17 @@
     "ejs": "~2.5.7",
     "express": "~4.15.5",
     "express-watcher": "^1.0.3",
-    "fuse.js": "^3.2.0",
+    "fuse.js": "^7.0.0",
     "helmet": "^3.9.0",
+    "jquery": "^3.7.1",
     "keyword-extractor": "0.0.15",
     "morgan": "~1.9.0",
     "request": "^2.87.0",
     "serve-favicon": "~2.4.5",
-    "stopword": "^0.1.10",
+    "stopword": "^3.0.1",
     "words-to-numbers": "^1.4.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "css-loader": "^0.28.11",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "img-loader": "^3.0.0",
-    "style-loader": "^0.19.1",
-    "url-loader": "^1.0.0-beta.0",
-    "webpack": "^4.10.2",
-    "webpack-cli": "^2.1.4",
-    "webpack-dev-server": "^3.1.4",
-    "file-loader": "^1.1.11"
+    "vite": "^6.0.0"
   }
 }

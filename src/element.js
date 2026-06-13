@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import {
     CHECK_SELECTORS,
     CLICK_SELECTORS,

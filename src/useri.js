@@ -1,14 +1,15 @@
-import '../public/css/vocs_styles.css';
+import $ from 'jquery';
+import './css/vocs_styles.css';
 import {startVisualization, stopVizualization} from './visualizer'
 import {speaker} from './speaker';
-import img_logo from '../public/images/vocs_ui_logo.svg';
-import img_start from '../public/images/vocs_ui_start.svg';
-import img_menu from '../public/images/vocs_ui_menu.svg';
-import img_reload from '../public/images/vocs_ui_reload.svg';
-import img_reload_dis from '../public/images/vocs_ui_reload_inactive.svg';
-import img_drag from '../public/images/vocs_ui_resize.svg';
-import img_min from '../public/images/vocs_ui_min.svg';
-import img_mic_off from '../public/images/vocs_ui_mic_dis.svg';
+import img_logo from './images/vocs_ui_logo.svg';
+import img_start from './images/vocs_ui_start.svg';
+import img_menu from './images/vocs_ui_menu.svg';
+import img_reload from './images/vocs_ui_reload.svg';
+import img_reload_dis from './images/vocs_ui_reload_inactive.svg';
+import img_drag from './images/vocs_ui_resize.svg';
+import img_min from './images/vocs_ui_min.svg';
+import img_mic_off from './images/vocs_ui_mic_dis.svg';
 import {strings_status} from './lang/en';
 
 let inputTextInterval = null;
@@ -52,8 +53,6 @@ let strings = {
 };
 //strings.status.push(...strings_status);
 
-//FIXME: why is this called twice
-console.error(strings.status);
 
 class UI {
     constructor() {

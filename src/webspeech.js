@@ -48,7 +48,7 @@ export default function setupWebSpeechRecognitionAPI() {
             }
 
         };
-        recognition.addEventListener('end', recognition.start);
+        recognition.addEventListener('end', () => recognition.start());
         recognition.onerror = e => {
             switch (e.error) {
                 case 'not-allowed':

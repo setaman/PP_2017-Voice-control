@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import {TYPE_FOCUSABLE, TYPE_SELECTABLE, TYPE_CLICKABLE} from "./const";
 
 

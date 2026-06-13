@@ -1,0 +1,457 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&subset=cyrillic');
+
+/*   Full screen transparent overlay container for highlighting*/
+.vocs_overlay {
+    /*position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;*/
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 2000;
+}
+/*****************************************
+   highlighting for many selected Elements
+ */
+.vocs_multiple_select_wrapper_container{
+    position: absolute;
+}
+.vocs_multiple_select_wrapper {
+    padding: 10px 0 10px 0;
+    position:relative !important;
+    box-shadow: 0 0 5px #2f2f2f !important;
+    min-width: 70px !important;
+    z-index: 2000;
+    border: 3px solid #48b1ff;
+    opacity: 0.7;
+}
+
+.vocs_multiple_select_wrapper[data-number]:after {
+    content:attr(data-number);
+    position:absolute;
+    top:-10px;
+    right:-10px;
+    font-size: 1.1em;
+    background: #474747;
+    color:white;
+    width:30px;
+    height:30px;
+    text-align:center;
+    line-height: 26px;
+    border: 2px solid white;
+    border-radius:50%;
+    box-shadow:0 0 1px #333;
+    z-index: 2000;
+}
+/*
+   highlighting for many selected Elements
+ ***********************************************/
+
+/*****************************************
+   Custom select Container
+ */
+.vocs_select_options_container{
+    border: 3px solid #48b1ff;
+    position: absolute;
+   /* border: solid 2px #b8b8b8;*/
+    border-radius: 3px;
+    width: 200px;
+    max-height: 250px;
+    overflow: auto;
+    z-index: 2000;
+    background-color: white;
+    -webkit-box-shadow: 0 0 49px 9px rgba(153,153,153,1);
+    -moz-box-shadow: 0 0 49px 9px rgba(153,153,153,1);
+    box-shadow: 0 0 49px 9px rgba(153,153,153,1);
+}
+.vocs_select_options_container li{
+    height: 50px;
+    padding: 10px 0 10px 0;
+    list-style-type: none;
+    border-bottom: 1px solid #d5d5d5;
+}
+
+.vocs_select_options_container span {
+    margin: 5px 10px 5px 5px;
+    font-size: 1.4em;
+    background: #1891ff;
+    color:white;
+    text-align:center;
+    border: 2px solid white;
+    border-radius: 20%;
+    box-shadow:0 0 1px #333;
+    z-index: 2000;
+    padding: 3px;
+}
+
+.vocs_select_options_container li:nth-child(even){
+    background: #efefef;
+}
+/*
+   Custom select Container
+ ******************************************/
+
+/*****************************************
+   Container for Date/time
+ */
+.vocs_date_time_container {
+    position: absolute;
+    border: 3px solid #48b1ff;
+    border-radius: 3px;
+    max-height: 250px;
+    min-width: 200px;
+    z-index: 2000;
+    background-color: white;
+    -webkit-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);
+    -moz-box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);
+    box-shadow: 0 0 49px 2px rgba(153, 153, 153, 1);
+}
+
+.vocs_date_time_msg {
+    font-weight: bold;
+    height: 40px;
+    padding: 10px;
+    border-bottom: 1px solid #d5d5d5;
+    background: #efefef
+
+}
+.vocs_date_time_current_value {
+    padding: 10px;
+    height: 40px;
+}
+/*
+   Container for Date/time
+ ******************************************/
+/**********************************************************
+Vocs ui
+ */
+.vocs_ui_container *, .vocs_ui_container {
+    -webkit-box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+}
+
+.vocs_ui_container {
+    transition: width .5s /*, left .5s, right .5s, top .5s, bottom .5s*/;
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    /*opacity: 0.2;*/
+    filter: alpha(opacity=20);
+    min-height: 124px;
+}
+
+.vocs_ui_container:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+
+}
+
+.vocs_ui {
+    padding: 7px;
+    width: auto;
+    height: 71px;
+    background: #02131D;
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    -o-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    border: #1891ff 2px solid;
+    border-radius: 50px 10px 10px 50px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -o-flex;
+    display: flex;
+    align-items: center;
+}
+
+.vocs_ui_control {
+    transition: all 0.5s;
+    width: 70px;
+    border-radius: 37px;
+    border: transparent 2px solid;
+    height: 100%;
+    /*border: 2px solid #1891ff;*/
+    /*box-shadow: 0 0 10px rgba(24, 145, 255, .7);*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*background: #005763;*/
+    cursor: pointer;
+    position: relative;
+    animation-name: vocs_ui_pulse;
+    animation-duration: 1.5s;
+    animation-iteration-count: 5;
+    animation-timing-function: linear;
+}
+.vocs_ui_control:hover {
+    /*border: 2px solid #00D7FE;*/
+    box-shadow: 0 0 20px rgba(24, 145, 255, .8);
+    /*background: rgba(0, 215, 254, .2);*/
+}
+.vocs_ui_notready {
+    cursor: auto;
+    background: rgba(189, 59, 59, 0.7);
+    -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+.vocs_ui_notready:hover{
+    box-shadow: 0 0 20px rgba(232, 76, 61, 0);
+}
+@-webkit-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+@-moz-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+@-ms-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+@keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+
+.vocs_ui_control .vocs_ui_logo {
+    height: 100%;
+    width: 100%;
+}
+
+.vocs_logo_rotation {
+    -webkit-animation: vocs_logo_rotation 1.5s infinite linear;
+}
+@-webkit-keyframes vocs_logo_rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
+}
+
+
+.vocs_ui_control .vocs_ui_start_icon {
+    height: 70%;
+    width: 70%;
+    fill: #1891ff;
+    position: absolute;
+}
+
+.vocs_ui_info {
+    transition: all 0.5s;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50px;
+    height: 100%;
+}
+
+.vocs_ui_info img {
+    width: 100%;
+    height: 50%;
+}
+
+.vocs_ui_display {
+    position: relative;
+    border-radius: 5px;
+    margin-left: 10px;
+    border: 2px solid #00D7FE;
+    box-shadow: 0 0 10px rgba(0, 215, 254, .7);
+    width: 400px;
+    height: 100%;
+    background: #021e2a;
+}
+
+.vocs_status_container {
+    z-index: 10;
+    position: absolute;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.vocs_ui_primary_text, .vocs_ui_secondary_text {
+    margin: 5px 10px 5px 10px;
+    font-size: 16px !important;
+    text-align: left;
+}
+
+.vocs_ui_primary_text:first-child {
+    font-weight: 500;
+}
+
+.vocs_canvas_container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.vocs_visualizer {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: transparent;
+}
+
+#vocs_ui_recognized_output, .vocs_ui_input {
+    padding: 0 10px;
+    background: #d5d5d5;
+    margin: 5px 0 0 0;
+    border-radius: 5px;
+    /*border: 2px solid gray;*/
+    height: 30px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 0 50px rgba(55, 55, 55, 0.93), 0 0 10px rgba(0, 0, 0, 0.84);
+}
+
+#vocs_ui_recognized_output > p {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    color: gray;
+    font-size: 14px;
+}
+
+.vocs_ui_input:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-bottom-color: #d5d5d5;
+    border-top: 0;
+    margin-left: -8px;
+    margin-top: -8px;
+}
+
+.vocs_ui_size {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+    width: 25px;
+    height: 100%;
+}
+
+.vocs_ui_min{
+    padding: 5px 0;
+    top: 0;
+    height: 20%;
+}
+.vocs_ui_resize {
+    cursor: move !important;
+    height: 70%;
+}
+
+.vocs_ui_live_icon {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: #5fa57a;
+    animation-name: pulse;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    border-radius: 15px;
+    outline: none;
+    display: inline-block;
+    vertical-align: middle;
+    content: "";
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 3px 0 rgba(95, 165, 122, 0.6);
+    }
+    65% {
+        box-shadow: 0 0 3px 6px rgba(95, 165, 122, 0.3);
+    }
+    90% {
+        box-shadow: 0 0 3px 6px rgba(234, 68, 68, 0);
+    }
+}
+
+.vocs_ui_icons_hover {
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.vocs_ui_icons_hover:hover {
+    border-radius: 5px;
+    background: rgba(0, 91, 122, 0.51);
+}
+
+@media only screen and (max-width: 630px) {
+    .vocs_ui_container {
+        width: 100px;
+        left: 0 !important;
+        bottom: 0 !important;
+    }
+    .vocs_ui_container_responsive {
+        width: 100%;
+        min-width: 350px;
+    }
+
+    .vocs_ui_container_responsive .vocs_ui {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        border-right: 0;
+    }
+
+    .vocs_ui{
+        border-left: 0;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+    }
+
+    .vocs_ui_control{
+        width: 55px;
+        height: auto;
+        border-radius: 50%;
+    }
+    .vocs_ui_container_responsive .vocs_ui_control {
+        width: 15%;
+        height: auto;
+        border-radius: 50%;
+    }
+    .vocs_ui_display {
+        width: 100%;
+        height: 100%;
+    }
+    .vocs_ui_display p{
+        font-size: 12px;
+    }
+    .vocs_ui_live_icon {
+        height: 30%;
+        width: 30%;
+    }
+}
+@media only screen and (max-width: 410px) {
+    .vocs_ui_info {
+        display: none;
+    }
+}
+/*
+Vocs ui
+ *********************************************************/

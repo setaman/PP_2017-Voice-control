@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import {fuzzySearchForElements, fuzzySearchForKeywords, fuzzySearchForVocs} from "./fuzzy_search";
 import {KEYWORDS_OBJECTS} from "./const";
 
